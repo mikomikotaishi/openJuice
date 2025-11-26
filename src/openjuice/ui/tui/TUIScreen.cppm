@@ -1,0 +1,110 @@
+/**
+ * @file TUIScreen.cppm
+ * @module openjuice.ui.tui.TUIScreen
+ * @brief Base class for all TUI screens
+ */
+
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.ui.tui.TUIScreen;
+
+export import :ScreenType;
+
+import std;
+
+import openjuice.engine.game.Game;
+import openjuice.engine.managers.TextManager;
+import openjuice.engine.util.Interfaces;
+
+import ftxui.component;
+
+using std::mem::SharedPointer;
+
+using openjuice::engine::game::Game;
+using openjuice::engine::managers::TextManager;
+using openjuice::engine::managers::TextManagerError;
+
+using namespace openjuice::engine::util::interfaces;
+
+using namespace ftxui;
+
+BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
+
+/**
+ * @class TUIScreen
+ * @brief Abstract base class for all TUI screens
+ *
+ * @implements IFinalOnly
+ */
+export class TUIScreen: public IFinalOnly {
+protected:
+    SharedPointer<Game> game;
+    Component component;
+    Function<void(ScreenType)> screenSwitchCallback;
+
+    /**
+     * @brief Creates the screen component
+     */
+    virtual void createComponent() = 0;
+
+    /**
+     * @brief Constructor for the TUIScreen class
+     *
+     * @param game Shared pointer to the game
+     * @param callback Function to call when switching screens
+     */
+    TUIScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
+        game{game}, screenSwitchCallback{callback} {}
+
+    virtual ~TUIScreen() = default;
+
+    /**
+     * @brief Get the menu screen text associated with the key or a default text if unsuccessful.
+     * 
+     * @param key The key to query in the TextManager.
+     * @param defaultText The default text, if the key is not valid.
+     * @return The text or its default.
+     */
+    static String getTextOrDefault(StringView key, StringView defaultText = "Error") noexcept {
+        Expected<StringView, TextManagerError> result = TextManager::getInstance().getMenuScreenText(key);
+        return String(result ? *result : defaultText);
+    }
+public:
+    /**
+     * @brief Get the FTXUI component for this screen
+     *
+     * @return The component
+     */
+    virtual Component getComponent() const {
+        return component;
+    }
+
+    /**
+     * @brief Called when the screen becomes active
+     */
+    virtual void onActivate() = 0;
+
+    /**
+     * @brief Called when the screen becomes inactive
+     */
+    virtual void onDeactivate() = 0;
+
+    /**
+     * @brief Update screen logic
+     */
+    virtual void update() = 0;
+
+    /**
+     * @brief Check if the screen requested exit
+     *
+     * @return True if exit was requested, else false
+     */
+    [[nodiscard]]
+    virtual bool shouldExit() const {
+        return false;
+    }
+};
+
+END_MODULE_NAMESPACE();

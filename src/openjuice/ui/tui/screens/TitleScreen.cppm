@@ -1,0 +1,154 @@
+/**
+ * @file TitleScreen.cppm
+ * @brief Definition of the TitleScreen class.
+ *
+ * This file contains the definition of the TitleScreen class.
+ */
+
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.ui.tui.Screens:TitleScreen;
+
+import std;
+
+import openjuice.engine.game.Game;
+import openjuice.engine.managers.ProfileManager;
+import openjuice.engine.managers.TextManager;
+import openjuice.ui.tui.TUIScreen;
+
+import ftxui;
+
+using std::collections::Vector;
+using std::mem::SharedPointer;
+
+namespace sys = std::sys;
+namespace util = std::util;
+
+using openjuice::engine::game::Game;
+using openjuice::engine::managers::ProfileManager;
+using openjuice::engine::managers::TextManager;
+using openjuice::engine::managers::TextManagerError;
+using openjuice::ui::tui::ScreenType;
+using openjuice::ui::tui::TUIScreen;
+
+using namespace ftxui;
+
+BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
+
+/**
+ * @class TitleScreen
+ * @brief Title screen implementation
+ *
+ * @extends TUIScreen
+ */
+export class TitleScreen final: public TUIScreen {
+private:
+    bool exitSelected = false; ///< Whether the entire application should exit
+    bool initialised = false; ///< Whether the screen has been initialised
+    i32 selectedOption = 0; ///< The current option selected
+    Vector<String> menuOptions = {
+        getTextOrDefault("MAINMENU_NEWGAME", "New game"), // New game
+        getTextOrDefault("MAINMENU_LOADGAME", "Continue"), // Continue
+        getTextOrDefault("MAINMENU_CONFIGURATION", "Config"), // Config
+        getTextOrDefault("MAINMENU_EXIT", "Exit") // Exit game
+    }; ///< The list of menu options
+
+    Component menu; ///< The menu UI component
+
+    /**
+     * @brief Creates the screen component
+     */
+    void createComponent() final {
+        if (initialised) {
+            return;
+        }
+
+        menu = Menu(&menuOptions, &selectedOption);
+
+        Component componentWithEvents = CatchEvent(menu, [this](Event event) -> bool {
+            if ((event.is_mouse() && event.mouse().button == Mouse::Left) || (event == Event::Return)) {
+                switch (selectedOption) {
+                    case 0: // New Game
+                        ProfileManager::getInstance().resetProfile();
+                        screenSwitchCallback(ScreenType::MAIN_MENU);
+                        return true;
+                    case 1: // Continue
+                        ProfileManager::getInstance().loadProfile();
+                        screenSwitchCallback(ScreenType::MAIN_MENU);
+                        return true;
+                    case 2: // Configuration
+                        screenSwitchCallback(ScreenType::CONFIG);
+                        return true;
+                    case 3: // Exit
+                        exitSelected = true;
+                        screenSwitchCallback(ScreenType::EXIT);
+                        return true;
+                    default:
+                        sys::unreachable();
+                }
+            }
+            return false;
+        });
+
+        component = Renderer(componentWithEvents, [this]() -> Element {
+            return vbox({
+                text("openJuice") | bold | center,
+                separator(),
+                menu->Render() | center,
+                separator(),
+                text("Version 0.0.1") | center,
+            }) | border | flex;
+        }) | bgcolor(Color::Orange1);;
+
+        initialised = true;
+    }
+
+    IMPLEMENT_NOOP();
+public:
+    /**
+     * @brief Constructor for the TitleScreen class
+     *
+     * @param game Shared pointer to the game
+     * @param callback Function to call when switching screens
+     */
+    TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
+        TUIScreen(util::move(game), util::move(callback)) {
+        createComponent();
+    }
+
+    /**
+     * @brief Called when screen becomes active
+     */
+    void onActivate() noexcept final {
+        exitSelected = false;
+        selectedOption = 0;
+    }
+
+    /**
+     * @brief Called when screen becomes inactive
+     */
+    void onDeactivate() final {
+
+    }
+
+    /**
+     * @brief Update screen
+     */
+    void update() final {
+
+    }
+
+    /**
+     * @brief Check if the user requested to exit
+     *
+     * @return True if exit was selected
+     */
+    [[nodiscard]]
+    bool shouldExit() const final {
+        return exitSelected;
+    }
+};
+
+END_MODULE_NAMESPACE();

@@ -1,0 +1,257 @@
+name = "Practice Field"
+id = 1
+width = 9
+height = 9
+homePanels = [[2, 2], [2, 6], [6, 2], [6, 6]]
+
+[[panels]]
+row = 0
+column = 3
+type = 2
+enters = "0010"
+exits = "0001"
+
+[[panels]]
+row = 0
+column = 4
+type = 8
+enters = "0100"
+exits = "0010"
+
+[[panels]]
+row = 0
+column = 5
+type = 4
+enters = "0001"
+exits = "0100"
+
+[[panels]]
+row = 1
+column = 3
+type = 6
+enters = "1000"
+exits = "0001"
+
+[[panels]]
+row = 1
+column = 5
+type = 6
+enters = "0001"
+exits = "1000"
+
+[[panels]]
+row = 2
+column = 2
+type = 0
+enters = "0010"
+exits = "0001"
+
+[[panels]]
+row = 2
+column = 3
+type = 11
+enters = "1010"
+exits = "0100"
+
+[[panels]]
+row = 2
+column = 4
+type = 6
+enters = "0010"
+exits = "0100"
+
+[[panels]]
+row = 2
+column = 5
+type = 2
+enters = "0010"
+exits = "1100"
+
+[[panels]]
+row = 2
+column = 6
+type = 0
+enters = "0001"
+exits = "0100"
+
+[[panels]]
+row = 3
+column = 0
+type = 11
+enters = "0010"
+exits = "0001"
+
+[[panels]]
+row = 3
+column = 1
+type = 2
+enters = "0010"
+exits = "0100"
+
+[[panels]]
+row = 3
+column = 2
+type = 6
+enters = "1000"
+exits = "0101"
+
+[[panels]]
+row = 3
+column = 6
+type = 11
+enters = "0011"
+exits = "1000"
+
+[[panels]]
+row = 3
+column = 7
+type = 6
+enters = "0010"
+exits = "0100"
+
+[[panels]]
+row = 3
+column = 8
+type = 2
+enters = "0001"
+exits = "0100"
+
+[[panels]]
+row = 4
+column = 0
+type = 8
+enters = "1000"
+exits = "0001"
+
+[[panels]]
+row = 4
+column = 2
+type = 2
+enters = "1000"
+exits = "0001"
+
+[[panels]]
+row = 4
+column = 6
+type = 2
+enters = "0001"
+exits = "1000"
+
+[[panels]]
+row = 4
+column = 8
+type = 8
+enters = "0001"
+exits = "1000"
+
+[[panels]]
+row = 5
+column = 0
+type = 2
+enters = "1000"
+exits = "0010"
+
+[[panels]]
+row = 5
+column = 1
+type = 6
+enters = "0100"
+exits = "0010"
+
+[[panels]]
+row = 5
+column = 2
+type = 4
+enters = "1100"
+exits = "0001"
+
+[[panels]]
+row = 5
+column = 6
+type = 6
+enters = "0001"
+exits = "1010"
+
+[[panels]]
+row = 5
+column = 7
+type = 2
+enters = "0100"
+exits = "0010"
+
+[[panels]]
+row = 5
+column = 8
+type = 4
+enters = "0100"
+exits = "1000"
+
+[[panels]]
+row = 6
+column = 2
+type = 0
+enters = "1000"
+exits = "0010"
+
+[[panels]]
+row = 6
+column = 3
+type = 2
+enters = "0100"
+exits = "0011"
+
+[[panels]]
+row = 6
+column = 4
+type = 6
+enters = "0100"
+exits = "0010"
+
+[[panels]]
+row = 6
+column = 5
+type = 11
+enters = "0101"
+exits = "0010"
+
+[[panels]]
+row = 6
+column = 6
+type = 0
+enters = "0100"
+exits = "1000"
+
+[[panels]]
+row = 7
+column = 3
+type = 6
+enters = "1000"
+exits = "0001"
+
+[[panels]]
+row = 7
+column = 5
+type = 6
+enters = "0001"
+exits = "1000"
+
+[[panels]]
+row = 8
+column = 3
+type = 4
+enters = "1000"
+exits = "0010"
+
+[[panels]]
+row = 8
+column = 4
+type = 8
+enters = "0100"
+exits = "0010"
+
+[[panels]]
+row = 8
+column = 5
+type = 2
+enters = "0100"
+exits = "1000"

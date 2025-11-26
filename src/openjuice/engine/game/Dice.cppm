@@ -1,0 +1,150 @@
+/**
+ * @file Dice.cppm
+ * @module openjuice.engine.game.Dice
+ * @brief Thread-safe singleton dice system with roll history using RAII.
+ */
+
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.engine.game.Dice;
+
+import std;
+
+import openjuice.engine.util.RandomNumberGenerator;
+
+using std::collections::Deque;
+using std::collections::Vector;
+using std::sync::LockGuard;
+using std::sync::Mutex;
+
+using openjuice::engine::util::RandomNumberGenerator;
+
+BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
+
+/**
+ * @class Dice
+ * @brief Thread-safe singleton class for dice rolling with history tracking
+ */
+export class Dice {
+public:
+    static constexpr usize DICEROLL_HISTORY_CAPACITY = 100; ///< Maximum number of dice rolls stored.
+private:
+    /**
+     * @struct RollRecord
+     * @brief Contains information on the number of sides rolled by the dice and the result.
+     */
+    struct RollRecord {
+        u8 sides; ///< The number of sides on the die
+        u8 result; ///< The result of the roll
+
+        /**
+         * @brief Constructor to initialise a RollRecord object.
+         *
+         * @param sides The number of sides on the die.
+         * @param result The result of the roll.
+         */
+        RollRecord(u8 sides, u8 result):
+            sides{sides}, result{result} {}
+    };
+
+    Deque<RollRecord> rollHistory; ///< The history of all dice rolls
+    mutable Mutex historyMutex; /// A mutex for the dice roll history
+
+    NON_COPYABLE_NON_MOVABLE(Dice);
+
+    void recordRoll(u8 sides, u8 result) {
+        LockGuard<Mutex> lock(historyMutex);
+        rollHistory.emplace_back(sides, result);
+        if (rollHistory.size() > DICEROLL_HISTORY_CAPACITY) {
+            rollHistory.pop_front();
+        }
+    }
+
+public:
+    /**
+     * @brief Get the singleton instance (thread-safe using Meyer's singleton)
+     *
+     * @return Reference to the singleton Dice instance
+     */
+    [[nodiscard]]
+    static Dice& getInstance() noexcept {
+        static Dice instance;
+        return instance;
+    }
+
+    /**
+     * @brief Roll a 6-sided die
+     *
+     * @return A random number between 1 and 6
+     */
+    [[nodiscard]]
+    u8 rollD6() {
+        u8 result = static_cast<u8>(RandomNumberGenerator::getRandomInteger(1, 6));
+        recordRoll(6, result);
+        return result;
+    }
+
+    /**
+     * @brief Roll an 8-sided die
+     *
+     * @return A random number between 0 and 7
+     */
+    [[nodiscard]]
+    u8 rollD8() {
+        u8 result = static_cast<u8>(RandomNumberGenerator::getRandomInteger(0, 7));
+        recordRoll(8, result);
+        return result;
+    }
+
+    /**
+     * @brief Get the roll history (thread-safe)
+     *
+     * @return Vector of roll records (sides, result)
+     */
+    [[nodiscard]]
+    Vector<Pair<u8, u8>> getHistory() const {
+        LockGuard<Mutex> lock(historyMutex);
+        Vector<Pair<u8, u8>> history;
+        history.reserve(rollHistory.size());
+
+        for (const RollRecord& record: rollHistory) {
+            history.emplace_back(record.sides, record.result);
+        }
+
+        return history;
+    }
+
+    /**
+     * @brief Get statistics for a specific die
+     *
+     * @param sides Number of sides on the die
+     * @return Pair of (total rolls, average result)
+     */
+    [[nodiscard]]
+    Pair<usize, f32> getStats(u8 sides) const noexcept {
+        LockGuard<Mutex> lock(historyMutex);
+        usize count = 0;
+        f32 sum = 0.0f;
+
+        for (const RollRecord& record: rollHistory) {
+            if (record.sides == sides) {
+                ++count;
+                sum += static_cast<f32>(record.result);
+            }
+        }
+
+        return {count, count > 0 ? sum / static_cast<f32>(count) : 0.0f};
+    }
+
+    /**
+     * @brief Clear the roll history
+     */
+    void clearHistory() noexcept {
+        LockGuard<Mutex> lock(historyMutex);
+        rollHistory.clear();
+    }
+};
+
+END_MODULE_NAMESPACE();

@@ -1,0 +1,1 @@
+For a custom list of blocked words, create a "custom.txt" text file in this folder. Add 1 word on each new line in the file.

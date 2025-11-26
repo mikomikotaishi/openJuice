@@ -1,0 +1,8 @@
+add_subdirectory(boost.asio)
+add_subdirectory(boost.regex)
+add_subdirectory(boost.system)
+add_subdirectory(discordpp)
+add_subdirectory(nlohmann.json)
+add_subdirectory(sfml)
+add_subdirectory(sqlitecpp)
+add_subdirectory(tomlpp)

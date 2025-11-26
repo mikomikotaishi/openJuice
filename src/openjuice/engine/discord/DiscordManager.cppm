@@ -1,0 +1,191 @@
+/**
+ * @file DiscordManager.cppm
+ * @module openjuice.engine.discord.DiscordManager
+ * @brief Implementation of the DiscordManager class.
+ *
+ * This file contains the implementation of the DiscordManager class, which manages interactions with Discord for the application.
+ */
+
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.engine.discord.DiscordManager;
+
+export import :DiscordActivityType;
+
+import std;
+
+import openjuice.engine.util.Logging;
+
+import discordpp;
+
+using std::mem::UniquePointer;
+using std::sync::Mutex;
+using std::sync::ScopedLock;
+using std::time::SystemClock;
+using std::time::temporal::Milliseconds;
+
+namespace fmt = std::fmt;
+namespace mem = std::mem;
+namespace time = std::time;
+
+using namespace openjuice::engine::util::logging;
+
+using discordpp::Activity;
+using discordpp::ActivityAssets;
+using discordpp::ActivityTimestamps;
+using discordpp::Client;
+using discordpp::ClientResult;
+
+BEGIN_MODULE_NAMESPACE(openjuice::engine::discord);
+
+/**
+ * @class DiscordManager
+ * @brief Manages Discord Rich Presence integration for the engine.
+ * 
+ * Owned by Engine, handles all Discord Partner SDK interactions.
+ */
+export class DiscordManager {
+public:
+    static constexpr u64 APPLICATION_ID = 1374097529788039318; ///< Application ID
+    static constexpr StringView APPLICATION_NAME = "openJuice"; ///< The name of the application on Discord
+    static constexpr StringView LARGE_IMAGE_KEY = ""; ///< The large image key on Discord
+    static constexpr StringView SMALL_IMAGE_KEY = ""; ///< The small image key on Discord
+private:
+    mutable Mutex discordMutex; ///< Mutex for thread-safe operations on Discord
+    UniquePointer<Client> client; ///< Discord SDK client
+    bool isConnected = false; ///< Connection status
+    bool isInitialised = false; ///< Initialisation status
+    String currentActivity; ///< Current activity
+    DiscordActivityType currentActivityType; ///< Current activity type
+    u64 sessionStartTime; ///< Session start timestamp
+
+    /**
+     * @brief Create base activity with common properties
+     * 
+     * @return Activity object with base configuration
+     */
+    Activity createBaseActivity() const {
+        Activity activity;
+        ActivityAssets assets;
+
+        assets.SetLargeImage(String(LARGE_IMAGE_KEY));
+        assets.SetSmallImage(String(SMALL_IMAGE_KEY));
+        assets.SetLargeText(String(APPLICATION_NAME));
+        activity.SetAssets(assets);
+
+        ActivityTimestamps timestamps;
+        timestamps.SetStart(sessionStartTime);
+        activity.SetTimestamps(timestamps);
+
+        return activity;
+    }
+
+    void updateActivity(const Activity& activity, StringView description) {
+        if (!isConnected || !client) {
+            Logger::getInstance().log(LogLevel::WARNING, "Discord not connected, skipping activity update: {}", description);
+            return;
+        }
+
+        client->UpdateRichPresence(activity, [description](const ClientResult& result) -> void {
+            if (result.Successful()) {
+                #ifndef NDEBUG
+                Logger::getInstance().log(LogLevel::INFO, "Discord activity updated: {}", description);
+                #endif
+            } else {
+                #ifndef NDEBUG
+                Logger::getInstance().log(LogLevel::INFO, "Failed to update Discord activity: {}", description);
+                #endif
+            }
+        });
+    }
+public:
+    /**
+     * @brief Constructor of the DiscordManager
+     */
+    DiscordManager():
+        currentActivityType{DiscordActivityType::IN_MENU},
+        sessionStartTime{static_cast<u64>(
+            time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
+        )} {}
+
+    /**
+     * @brief Destructor of the DiscordManager
+     */
+    ~DiscordManager() {
+
+    }
+        
+    /**
+     * @brief Initialise Discord integration
+     *
+     * @return True if successful
+     */
+    [[nodiscard]]
+    bool initialise() {
+        ScopedLock<Mutex> lock(discordMutex);
+
+        try {
+
+            client = mem::make_unique<Client>();
+            client->SetApplicationId(APPLICATION_ID);
+            client->SetStatusChangedCallback([this](Client::Status status, Client::Error error, i32 details) -> void {
+                switch (status) {
+                    case Client::Status::Ready:
+                        isConnected = true;
+                        Logger::getInstance().log(LogLevel::INFO, "Discord integration ready.");
+                        break;
+                    case Client::Status::Disconnected:
+                        isConnected = false;
+                        Logger::getInstance().log(LogLevel::INFO, "Discord disconnected.");
+                        break;
+                    default:
+                        Logger::getInstance().log(LogLevel::WARNING, "Unknown Discord connectivity status!");
+                }
+
+                if (error != Client::Error::None) {
+                    Logger::getInstance().log(LogLevel::ERROR, "Discord client error: {}", static_cast<i32>(error));
+                }
+            });
+
+            isInitialised = true;
+
+            Logger::getInstance().log(LogLevel::INFO, "Discord integration initialised!");
+        } catch (const Exception& e) {
+            Logger::getInstance().log(LogLevel::ERROR, "Failed to initialise Discord: {}", e.what());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @brief Set menu activity on Discord activity
+     */
+    void setMenuActivity() {
+        ScopedLock<Mutex> lock(discordMutex);
+        if (!isConnected || !client) {
+            return;
+        }
+
+        Activity activity;
+        activity.SetState("In Menu");
+        activity.SetDetails("Browsing options");
+
+        ActivityTimestamps timestamps{};
+        activity.SetTimestamps(timestamps);
+
+        client->UpdateRichPresence(activity, [](const ClientResult& result) -> void {
+            if (result.Successful()) {
+
+            } else {
+
+            }
+        });
+
+        currentActivity = "In Menu";
+        currentActivityType = DiscordActivityType::IN_MENU;
+    }
+};
+
+END_MODULE_NAMESPACE();

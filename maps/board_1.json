@@ -1,0 +1,278 @@
+{
+    "height": 9,
+    "homePanels": [
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        6
+      ]
+    ],
+    "id": 1,
+    "name": "Practice Field",
+    "width": 9,
+    "panels": [
+      {
+        "column": 3,
+        "enters": "0010",
+        "exits": "0001",
+        "row": 0,
+        "type": 2
+      },
+      {
+        "column": 4,
+        "enters": "0100",
+        "exits": "0010",
+        "row": 0,
+        "type": 8
+      },
+      {
+        "column": 5,
+        "enters": "0001",
+        "exits": "0100",
+        "row": 0,
+        "type": 4
+      },
+      {
+        "column": 3,
+        "enters": "1000",
+        "exits": "0001",
+        "row": 1,
+        "type": 6
+      },
+      {
+        "column": 5,
+        "enters": "0001",
+        "exits": "1000",
+        "row": 1,
+        "type": 6
+      },
+      {
+        "column": 2,
+        "enters": "0010",
+        "exits": "0001",
+        "row": 2,
+        "type": 0
+      },
+      {
+        "column": 3,
+        "enters": "1010",
+        "exits": "0100",
+        "row": 2,
+        "type": 11
+      },
+      {
+        "column": 4,
+        "enters": "0010",
+        "exits": "0100",
+        "row": 2,
+        "type": 6
+      },
+      {
+        "column": 5,
+        "enters": "0010",
+        "exits": "1100",
+        "row": 2,
+        "type": 2
+      },
+      {
+        "column": 6,
+        "enters": "0001",
+        "exits": "0100",
+        "row": 2,
+        "type": 0
+      },
+      {
+        "column": 0,
+        "enters": "0010",
+        "exits": "0001",
+        "row": 3,
+        "type": 11
+      },
+      {
+        "column": 1,
+        "enters": "0010",
+        "exits": "0100",
+        "row": 3,
+        "type": 2
+      },
+      {
+        "column": 2,
+        "enters": "1000",
+        "exits": "0101",
+        "row": 3,
+        "type": 6
+      },
+      {
+        "column": 6,
+        "enters": "0011",
+        "exits": "1000",
+        "row": 3,
+        "type": 11
+      },
+      {
+        "column": 7,
+        "enters": "0010",
+        "exits": "0100",
+        "row": 3,
+        "type": 6
+      },
+      {
+        "column": 8,
+        "enters": "0001",
+        "exits": "0100",
+        "row": 3,
+        "type": 2
+      },
+      {
+        "column": 0,
+        "enters": "1000",
+        "exits": "0001",
+        "row": 4,
+        "type": 8
+      },
+      {
+        "column": 2,
+        "enters": "1000",
+        "exits": "0001",
+        "row": 4,
+        "type": 2
+      },
+      {
+        "column": 6,
+        "enters": "0001",
+        "exits": "1000",
+        "row": 4,
+        "type": 2
+      },
+      {
+        "column": 8,
+        "enters": "0001",
+        "exits": "1000",
+        "row": 4,
+        "type": 8
+      },
+      {
+        "column": 0,
+        "enters": "1000",
+        "exits": "0010",
+        "row": 5,
+        "type": 2
+      },
+      {
+        "column": 1,
+        "enters": "0100",
+        "exits": "0010",
+        "row": 5,
+        "type": 6
+      },
+      {
+        "column": 2,
+        "enters": "1100",
+        "exits": "0001",
+        "row": 5,
+        "type": 4
+      },
+      {
+        "column": 6,
+        "enters": "0001",
+        "exits": "1010",
+        "row": 5,
+        "type": 6
+      },
+      {
+        "column": 7,
+        "enters": "0100",
+        "exits": "0010",
+        "row": 5,
+        "type": 2
+      },
+      {
+        "column": 8,
+        "enters": "0100",
+        "exits": "1000",
+        "row": 5,
+        "type": 4
+      },
+      {
+        "column": 2,
+        "enters": "1000",
+        "exits": "0010",
+        "row": 6,
+        "type": 0
+      },
+      {
+        "column": 3,
+        "enters": "0100",
+        "exits": "0011",
+        "row": 6,
+        "type": 2
+      },
+      {
+        "column": 4,
+        "enters": "0100",
+        "exits": "0010",
+        "row": 6,
+        "type": 6
+      },
+      {
+        "column": 5,
+        "enters": "0101",
+        "exits": "0010",
+        "row": 6,
+        "type": 11
+      },
+      {
+        "column": 6,
+        "enters": "0100",
+        "exits": "1000",
+        "row": 6,
+        "type": 0
+      },
+      {
+        "column": 3,
+        "enters": "1000",
+        "exits": "0001",
+        "row": 7,
+        "type": 6
+      },
+      {
+        "column": 5,
+        "enters": "0001",
+        "exits": "1000",
+        "row": 7,
+        "type": 6
+      },
+      {
+        "column": 3,
+        "enters": "1000",
+        "exits": "0010",
+        "row": 8,
+        "type": 4
+      },
+      {
+        "column": 4,
+        "enters": "0100",
+        "exits": "0010",
+        "row": 8,
+        "type": 8
+      },
+      {
+        "column": 5,
+        "enters": "0100",
+        "exits": "1000",
+        "row": 8,
+        "type": 2
+      }
+    ]
+  }

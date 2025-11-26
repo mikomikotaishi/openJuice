@@ -1,0 +1,15 @@
+/**
+ * @file card.cppm
+ * @module openjuice.engine.game.ecs
+ * @brief Import of ECS modules.
+ *
+ * This file imports the modules for the ECS system.
+ */
+
+export module openjuice.engine.game.ecs;
+
+export import openjuice.engine.game.ecs.Components;
+export import openjuice.engine.game.ecs.IComponent;
+export import openjuice.engine.game.ecs.Meta;
+export import openjuice.engine.game.ecs.PolymorphicStorage;
+export import openjuice.engine.game.ecs.Registry;

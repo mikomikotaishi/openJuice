@@ -1,0 +1,14 @@
+[requires]
+boost/1.87.0
+ftxui/6.0.2
+sqlitecpp/3.3.2
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[options]
+boost:shared=False
+boost:header_only=False
+boost:without_regex=False
+boost:without_asio=False

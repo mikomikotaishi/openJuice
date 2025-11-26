@@ -1,0 +1,115 @@
+# Tools
+/.direnv/
+/venv/
+compile_commands.json
+/.envrc
+
+# IDEs
+/.vs/
+/.vscode/
+/.idea/
+/.ropeproject/
+
+# Doxygen (temporary)
+/docs
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+!/lib/*.so
+!/lib/*.dylib
+!/lib/*.dll
+!/lib/*.lib
+!/lib/**/*.so
+!/lib/**/*.dylib
+!/lib/**/*.dll
+!/lib/**/*.lib
+
+# Fortran module files
+*.mod
+*.smod
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Program specific
+bin/
+build/
+userdata/
+modules_cache/
+.build_cache/
+gcm.cache/
+openJuice
+debug.txt
+run-clang-tidy.py
+
+# Temporary
+/assets-testing
+/blacklist/blacklist*
+libSDL3_*.so
+libSDL3*.so*
+
+# Build systems
+/.xmake
+/.cache
+CMakeCache.txt
+
+# Added by cargo
+
+/target
+
+
+# bdep
+
+.bdep/
+
+# Local default options files.
+#
+.build2/local/
+
+# Compiler/linker output.
+#
+*.t
+*.i
+*.i.*
+*.ii
+*.ii.*
+*.o
+*.obj
+*.gcm
+*.pcm
+*.ifc
+# *.so
+# *.dylib
+# *.dll
+*.a
+# *.lib
+*.exp
+*.pdb
+*.ilk
+*.exe
+*.exe.dlls/
+*.exe.manifest
+*.pc
+
+# vcpkg
+vcpkg_installed/

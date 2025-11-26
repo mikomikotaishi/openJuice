@@ -1,0 +1,466 @@
+/**
+ * @file StorageManager.cppm
+ * @module openjuice.engine.game.ecs.Registry:StorageManager
+ * @brief Module of the ECS registry.
+ *
+ * This file contains the definitions for the ECS registry.
+ * Based on kawa_ecs (https://github.com/superPuero/kawa_ecs)
+ */
+
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.engine.game.ecs.Registry:StorageManager;
+
+import std;
+import stdx;
+
+import openjuice.engine.game.ThreadPool;
+import openjuice.engine.game.ecs.Meta;
+import openjuice.engine.game.ecs.PolymorphicStorage;
+
+using std::mem::UniquePointer;
+using std::meta::RemoveConstVolatileReferenceType;
+using std::ranges::IotaView;
+
+namespace mem = std::mem;
+namespace ranges = std::ranges;
+namespace util = std::util;
+
+using openjuice::engine::game::ThreadPool;
+
+BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
+
+/**
+ * @class StorageManager
+ * @brief Manages component storage for an Entity Component System (ECS).
+ * 
+ * The StorageManager is responsible for storing and managing all component types
+ * in the ECS. It uses a sparse set architecture with polymorphic storage containers
+ * to handle different component types efficiently. Each component type is assigned
+ * a unique ID, and components are stored in type-erased storage arrays.
+ * 
+ * The manager maintains:
+ * - A dense array of active entity IDs (entries)
+ * - A sparse array mapping entity IDs to dense indices (indices)
+ * - A mask tracking which component types are registered
+ * - Polymorphic storage containers for each component type
+ * 
+ * @note This class uses a global static counter for component type IDs that is
+ *       shared across all StorageManager instances.
+ */
+export class StorageManager {
+private:
+    u32 capacity = 512; ///< The maximum number of component types that can be registered.
+    UniquePointer<PolymorphicStorage[]> storages; ///< Array of polymorphic storage containers, one per component type.
+    u32 storageCapacity = 0; ///< The highest component type ID ever allocated.
+    UniquePointer<bool[]> mask; ///< Boolean mask tracking which component types are registered/active.
+    UniquePointer<StorageId[]> entries; ///< Dense array of active component type IDs.
+    UniquePointer<u32[]> indices; ///< Sparse array mapping component type IDs to dense array indices.
+    u32 entryCount = 0; ///< The number of registered component types currently active.
+    static inline u32 idCount = 0; ///< Global counter for assigning unique IDs to component types (shared across all instances).
+
+    /**
+     * @brief Retrieves a unique global ID for a component type.
+     * 
+     * Uses a static local variable to ensure each component type T gets a unique,
+     * persistent ID that remains the same across calls. The ID is assigned on first
+     * access and cached for subsequent calls.
+     * 
+     * @tparam T The component type to get an ID for.
+     * @return StorageId The unique ID for component type T.
+     */
+    template <typename T>
+    StorageId getIdInternal() noexcept {
+        static StorageId id = idCount++;
+        return id;
+    }
+
+    /**
+     * @brief Updates the bidirectional mapping between storage ID and dense array index.
+     * 
+     * Maintains the sparse-set invariant by updating both the dense array (entries)
+     * and the sparse array (indices) to create a bidirectional mapping.
+     * 
+     * @param id The component type ID (sparse array index).
+     * @param index The position in the dense array (entries).
+     */
+    void setEntriesTableId(StorageId id, u32 index) noexcept {
+        entries[index] = id;
+        indices[id] = index;
+    }
+public:
+    /**
+     * @brief Constructs a new StorageManager instance.
+     * 
+     * Allocates arrays for storing component types, tracking active types,
+     * and maintaining the sparse-set data structure.
+     * 
+     * @param capacity The maximum number of component types that can be registered.
+     *                 Defaults to 512 if not specified.
+     */
+    explicit StorageManager(u32 capacity):
+        capacity{capacity},
+        storages{mem::make_unique<PolymorphicStorage[]>(capacity)},
+        mask{mem::make_unique<bool[]>(capacity)},
+        entries{mem::make_unique<StorageId[]>(capacity)},
+        indices{mem::make_unique<u32[]>(capacity)} {}
+
+    /**
+     * @brief Destroys the StorageManager instance.
+     * 
+     * Releases all allocated storage arrays and component data.
+     * Automatically called when the StorageManager goes out of scope.
+     */
+    ~StorageManager() {
+        storages.reset();
+        mask.reset();
+        entries.reset();
+        indices.reset();
+    }
+
+    /**
+     * @brief Copy constructor for StorageManager.
+     * 
+     * Performs a deep copy of all storage arrays and component data from another
+     * StorageManager instance.
+     * 
+     * @param other The StorageManager instance to copy from.
+     */
+    StorageManager(const StorageManager& other):
+        capacity{other.capacity}, storages{mem::make_unique<PolymorphicStorage[]>(other.storageCapacity)},
+        storageCapacity{other.storageCapacity}, mask{mem::make_unique<bool[]>(other.storageCapacity)},
+        entries{mem::make_unique<StorageId[]>(other.storageCapacity)}, indices{mem::make_unique<u32[]>(other.storageCapacity)},
+        entryCount{other.entryCount} {
+        ranges::copy(Span<PolymorphicStorage>(other.storages.get(), storageCapacity), storages.get());
+        ranges::copy(Span<bool>(other.mask.get(), storageCapacity), mask.get());
+        ranges::copy(Span<StorageId>(other.entries.get(), storageCapacity), entries.get());
+        ranges::copy(Span<u32>(other.indices.get(), storageCapacity), indices.get());
+    }
+
+    /**
+     * @brief Move constructor for StorageManager.
+     * 
+     * Transfers ownership of all storage arrays and component data from another
+     * StorageManager instance, leaving the source in a valid but unspecified state.
+     * 
+     * @param other The StorageManager instance to move from.
+     */
+    StorageManager(StorageManager&& other):
+        capacity{other.capacity}, storages{util::move(other.storages)},
+        storageCapacity{other.storageCapacity}, mask{util::move(other.mask)},
+        entries{util::move(other.entries)}, indices{util::move(other.indices)},
+        entryCount{other.entryCount} {}
+
+    /**
+     * @brief Copy assignment operator for StorageManager.
+     * 
+     * Releases current resources and performs a deep copy of all storage arrays
+     * and component data from another StorageManager instance.
+     * 
+     * @param other The StorageManager instance to copy from.
+     * @return StorageManager& Reference to this instance.
+     */
+    StorageManager& operator=(const StorageManager& other) noexcept {
+        if (this != &other) {
+            storages.reset();
+            mask.reset();
+            entries.reset();
+            indices.reset();
+
+            capacity = other.capacity;
+            storageCapacity = other.storageCapacity;
+            entryCount = other.entryCount;
+
+            storages = mem::make_unique<PolymorphicStorage[]>(storageCapacity);
+            ranges::copy(Span<PolymorphicStorage>(other.storages.get(), storageCapacity), storages.get());
+
+            mask = mem::make_unique<bool[]>(storageCapacity);
+            ranges::copy(Span<bool>(other.mask.get(), storageCapacity), mask.get());
+
+            entries = mem::make_unique<StorageId[]>(storageCapacity);
+            ranges::copy(Span<StorageId>(other.entries.get(), storageCapacity), entries.get());
+
+            indices = mem::make_unique<u32[]>(storageCapacity);
+            ranges::copy(Span<u32>(other.indices.get(), storageCapacity), indices.get());
+        }
+        return *this;
+    }
+
+    /**
+     * @brief Move assignment operator for StorageManager.
+     * 
+     * Releases current resources and transfers ownership of all storage arrays
+     * and component data from another StorageManager instance.
+     * 
+     * @param other The StorageManager instance to move from.
+     * @return StorageManager& Reference to this instance.
+     */
+    StorageManager& operator=(StorageManager&& other) noexcept {
+        if (this != &other) {
+            storages.reset();
+            mask.reset();
+            entries.reset();
+            indices.reset();
+
+            capacity = other.capacity;
+            storages = util::move(other.storages);
+            storageCapacity = other.storageCapacity;
+            mask = util::move(other.mask);
+            entries = util::move(other.entries);
+            indices = util::move(other.indices);
+            entryCount = other.entryCount;
+        }
+        return *this;
+    }
+
+    GETTER(u32, Capacity, capacity);
+    GETTER(u32, EntryCount, entryCount);
+
+    /**
+     * @brief Returns an iterator to the beginning of active component type IDs.
+     * 
+     * @return StorageId* Pointer to the first element in the dense entries array.
+     */
+    StorageId* begin() noexcept {
+        return entries.get();
+    }
+
+    /**
+     * @brief Returns an iterator to the end of active component type IDs.
+     * 
+     * @return StorageId* Pointer to one past the last element in the dense entries array.
+     */
+    StorageId* end() noexcept {
+        return entries.get() + entryCount;
+    }
+
+    /**
+     * @brief Clears all component data and resets the StorageManager.
+     * 
+     * Removes all components from all storages and resets the active component
+     * type tracking, but does not deallocate the underlying storage capacity.
+     */
+    void clear() noexcept {
+        ranges::fill(Span<bool>(mask.get(), capacity), false);
+        for (u32 i: IotaView(0u, entryCount)) {
+            storages[entries[i]].clear();
+        }
+        entryCount = 0;
+    }
+
+    /**
+     * @brief Retrieves the unique ID for a component type.
+     * 
+     * Strips const, volatile, and reference qualifiers from T before retrieving
+     * the ID to ensure consistent IDs for equivalent types.
+     * 
+     * @tparam T The component type to get an ID for.
+     * @return StorageId The unique ID for the component type.
+     */
+    template <typename T>
+    StorageId getId() noexcept {
+        return getIdInternal<RemoveConstVolatileReferenceType<T>>();
+    }
+
+    /**
+     * @brief Pre-registers multiple component types.
+     * 
+     * Ensures that IDs are assigned for all specified component types without
+     * necessarily allocating storage. Useful for batch registration.
+     * 
+     * @tparam Args The component types to ensure are registered.
+     */
+    template <typename... Args>
+    void ensure() noexcept {
+        (getId<Args>(), ...);
+    }
+
+    /**
+     * @brief Constructs and emplaces a component in-place.
+     * 
+     * Creates a component of type T at the specified entity index using the
+     * provided constructor arguments. If storage for T does not exist, it is
+     * created automatically.
+     * 
+     * @tparam T The component type to emplace.
+     * @tparam Args The types of constructor arguments.
+     * @param index The entity index where the component should be stored.
+     * @param args Constructor arguments forwarded to T's constructor.
+     * @return T& Reference to the newly constructed component.
+     */
+    template <typename T, typename... Args>
+    T& emplace(u32 index, Args... args) noexcept {
+        PolymorphicStorage& storage = getStorage<T>();
+        return storage.emplace<T>(index, util::forward<Args>(args)...);
+    }
+
+    /**
+     * @brief Removes components from an entity.
+     * 
+     * Erases all specified component types from the entity at the given index.
+     * If a component does not exist, it is silently ignored.
+     * 
+     * @tparam Args The component types to remove.
+     * @param index The entity index to remove components from.
+     */
+    template <typename... Args>
+    void erase(u32 index) noexcept {
+        (getStorage<Args>().erase(index), ...);
+    }
+
+    /**
+     * @brief Checks if an entity has all specified components.
+     * 
+     * Returns true only if the entity at the given index has all component
+     * types specified in Args.
+     * 
+     * @tparam Args The component types to check for.
+     * @param index The entity index to check.
+     * @return bool True if the entity has all specified components, false otherwise.
+     */
+    template <typename... Args>
+    [[nodiscard]]
+    bool has(u32 index) noexcept {
+        return (getStorage<Args>().has(index) && ...);
+    }
+
+    /**
+     * @brief Retrieves a reference to a component.
+     * 
+     * Returns a reference to the component of type T stored at the specified
+     * entity index.
+     * 
+     * @tparam T The component type to retrieve.
+     * @param index The entity index to get the component from.
+     * @return T& Reference to the component.
+     * 
+     * @warning Undefined behaviour if the component does not exist. Use has() or getIf().
+     */
+    template <typename T>
+    [[nodiscard]]
+    T& get(u32 index) noexcept {
+        return getStorage<T>().template get<T>(index);
+    }
+
+    /**
+     * @brief Safely retrieves a pointer to a component.
+     * 
+     * Returns a pointer to the component of type T if it exists at the specified
+     * entity index, or nullptr if it doesn't exist.
+     * 
+     * @tparam T The component type to retrieve.
+     * @param index The entity index to get the component from.
+     * @return T* Pointer to the component, or nullptr if not present.
+     */
+    template <typename T>
+    [[nodiscard]]
+    T* getIf(u32 index) noexcept {
+        return getStorage<T>().template getIf<T>(index);
+    }
+
+    /**
+     * @brief Copies components from one entity to another.
+     * 
+     * Creates copies of all specified component types from the source entity
+     * to the destination entity. If components do not exist on the source,
+     * behaviour is undefined.
+     * 
+     * @tparam Args The component types to copy.
+     * @param from The source entity index.
+     * @param to The destination entity index.
+     * 
+     * @note If from == to, no operation is performed.
+     */
+    template <typename... Args>
+    void copy(u32 from, u32 to) noexcept {
+        if (from != to) {
+            (getStorage<Args>().copy(from, to), ...);
+        }
+    }
+
+    /**
+     * @brief Moves components from one entity to another.
+     * 
+     * Transfers ownership of all specified component types from the source entity
+     * to the destination entity, leaving the source in a valid but unspecified state.
+     * 
+     * @tparam Args The component types to move.
+     * @param from The source entity index.
+     * @param to The destination entity index.
+     * 
+     * @note If from == to, no operation is performed.
+     */
+    template <typename... Args>
+    void move(u32 from, u32 to) noexcept {
+        if (from != to) {
+            (getStorage<Args>().move(from, to), ...);
+        }
+    }
+
+    /**
+     * @brief Checks if a component type is registered/active.
+     * 
+     * Determines whether storage has been allocated for the component type
+     * with the given ID.
+     * 
+     * @param id The component type ID to check.
+     * @return bool True if the component type is registered, false otherwise.
+     */
+    [[nodiscard]]
+    bool alive(StorageId id) noexcept {
+        return mask[id];
+    }
+
+    /**
+     * @brief Retrieves or creates storage for a component type.
+     * 
+     * Gets the polymorphic storage container for component type T. If storage
+     * does not exist, it is created and registered automatically.
+     * 
+     * @tparam T The component type to get storage for.
+     * @return PolymorphicStorage& Reference to the storage container for type T.
+     */
+    template <typename T>
+    PolymorphicStorage& getStorage() noexcept {
+        StorageId id = getId<T>();
+        PolymorphicStorage& storage = storages[id];
+        bool& cell = mask[id];
+        if (!cell) {
+            storage.populate<T>(capacity);
+            cell = true;
+            u32 next = entryCount++;
+            setEntriesTableId(next, id);
+        }
+        return storage;
+    }
+
+    /**
+     * @brief Retrieves storage by component type ID.
+     * 
+     * Gets the polymorphic storage container for the given component type ID.
+     * 
+     * @param id The component type ID.
+     * @return PolymorphicStorage& Reference to the storage container.
+     */
+    [[nodiscard]]
+    PolymorphicStorage& getStorage(StorageId id) noexcept {
+        return storages[id];
+    }
+
+    /**
+     * @brief Returns the number of registered component types.
+     * 
+     * Provides the count of component types that have been registered and
+     * have allocated storage.
+     * 
+     * @return u32 The number of active component types.
+     */
+    [[nodiscard]]
+    u32 occupied() noexcept {
+        return getEntryCount();
+    }
+};
+
+END_MODULE_NAMESPACE();
