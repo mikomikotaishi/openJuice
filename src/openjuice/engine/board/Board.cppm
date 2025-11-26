@@ -139,14 +139,16 @@ private:
             #endif
 
             while (!q.empty()) {
-                auto [current /* SharedPointer<Panel> */, distance /* i8 */] = q.front();
+                auto [current, distance] = q.front();
                 q.pop();
 
                 if (distance == n) {
                     result.push_back(current);
                 }
 
-                const Vector<SharedPointer<Panel>> neighbours = (n > 0) ? adjList.at(current) : reverseAdjList.at(current);
+                const Vector<SharedPointer<Panel>> neighbours = n > 0
+                    ? adjList.at(current)
+                    : reverseAdjList.at(current);
 
                 for (const SharedPointer<Panel>& neighbour: neighbours) {
                     #ifndef NDEBUG
@@ -179,13 +181,13 @@ public:
      */
     explicit Board(u32 id) {
         SharedPointer<BoardInfo> boardData = BoardLibrary::getInstance()[id];
-        
+
         if (boardData) {
             // need to initialise gameBoard...
             boardWidth = boardData->boardWidth;
             boardHeight = boardData->boardHeight;
             homePanels = boardData->homePanels;
-            
+
             // Initialise the graph after the game board is set up
             graph = mem::make_unique<Graph>(gameBoard);
         } else {

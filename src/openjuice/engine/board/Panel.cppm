@@ -36,7 +36,7 @@ export class Panel {
 private:
     u16 panelID; ///< The ID of the panel.
     PanelType type; ///< The type of the panel.
-    PanelType alternativeType; ///< The alternative type of the panel.
+    PanelType alternativeType = PanelType::NEUTRAL; ///< The alternative type of the panel.
     BitSet<4> enters; ///< The directions from which the panel can be entered.
     BitSet<4> exits; ///< The directions from which the panel can be exited.
     Array<WeakPointer<Panel>, 4> neighbours; ///< The neighbouring panels.
@@ -50,7 +50,7 @@ public:
      * @param exits The directions from which the panel can be exited.
      * @param alternativeType The alternative type of the panel (if any).
      */
-    Panel(u16 id, PanelType type, const BitSet<4>& enters, const BitSet<4>& exits, PanelType alternativeType = PanelType::NEUTRAL):
+    Panel(u16 id, PanelType type, PanelType alternativeType, const BitSet<4>& enters, const BitSet<4>& exits):
         panelID{id}, type{type}, alternativeType{alternativeType}, enters{enters}, exits{exits} {}
 
     /**

@@ -55,6 +55,7 @@ private:
 public:
     /**
      * @brief Constructor to initialise a Player object.
+     *
      * @param reg Reference to the ECS registry
      * @param character The character associated with the player.
      */
@@ -68,19 +69,21 @@ public:
 
     /**
      * @brief Get the number of wins the player has.
+     *
      * @return The number of wins.
      */
     [[nodiscard]]
-    u8 getWins() const {
+    u8 getWins() const noexcept {
         PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId());
         return playerComp ? playerComp->wins : 0;
     }
 
     /**
      * @brief Set the number of wins the player has.
+     *
      * @param wins The number of wins to set.
      */
-    void setWins(u8 wins) {
+    void setWins(u8 wins) noexcept {
         if (PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId())) {
             playerComp->wins = wins;
         }
@@ -88,19 +91,21 @@ public:
 
     /**
      * @brief Get the norma level of the player.
+     *
      * @return The norma level.
      */
     [[nodiscard]]
-    u8 getNorma() const {
+    u8 getNorma() const noexcept {
         PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId());
         return playerComp ? playerComp->norma : 1;
     }
 
     /**
      * @brief Set the norma level of the player.
+     *
      * @param norma The norma level to set.
      */
-    void setNorma(u8 norma) {
+    void setNorma(u8 norma) noexcept {
         if (PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId())) {
             playerComp->norma = norma;
         }
@@ -108,6 +113,7 @@ public:
 
     /**
      * @brief Add a card to the player's hand.
+     *
      * @param card The card to add.
      */
     void addCard(const SharedPointer<Card>& card) {
@@ -118,6 +124,7 @@ public:
 
     /**
      * @brief Get all cards in the player's hand.
+     *
      * @return Vector of cards in hand.
      */
     [[nodiscard]]
@@ -128,6 +135,7 @@ public:
 
     /**
      * @brief Get the recovery value of the player's character.
+     *
      * @return The recovery value, or 0 if no character is assigned or it's not a Playable.
      */
     [[nodiscard]]
@@ -139,6 +147,7 @@ public:
 
     /**
      * @brief Get the used mushrooms BitSet.
+     *
      * @return BitSet representing used mushrooms.
      */
     [[nodiscard]]
@@ -159,11 +168,12 @@ public:
 
     /**
      * @brief Check if a specific mushroom has been used.
+     *
      * @param index The index of the mushroom to check.
      * @return True if the mushroom has been used, false otherwise.
      */
     [[nodiscard]]
-    bool hasMushroom(usize index) const {
+    bool hasMushroom(usize index) const noexcept {
         MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId());
         if (mushrooms && index < MushroomCard::NUM_MUSHROOMS) { 
             #ifndef NDEBUG
@@ -178,11 +188,12 @@ public:
 
     /**
      * @brief Check if a specific legendary mushroom has been used.
+     *
      * @param index The index of the legendary mushroom to check.
      * @return True if the legendary mushroom has been used, false otherwise.
      */
     [[nodiscard]]
-    bool hasLegendaryMushroom(usize index) const {
+    bool hasLegendaryMushroom(usize index) const noexcept {
         MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId());
         if (mushrooms && index < MushroomCard::NUM_LEGENDARY_MUSHROOMS) { 
             #ifndef NDEBUG
@@ -197,9 +208,10 @@ public:
 
     /**
      * @brief Use a mushroom at the specified index.
+     *
      * @param index The index of the mushroom to use.
      */
-    void useMushroom(usize index) {
+    void useMushroom(usize index) noexcept {
         if (MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId()); mushrooms && index < MushroomCard::NUM_MUSHROOMS) {
             #ifndef NDEBUG
             mushrooms->usedMushrooms.set(index);
@@ -211,9 +223,10 @@ public:
 
     /**
      * @brief Use a legendary mushroom at the specified index.
+     *
      * @param index The index of the legendary mushroom to use.
      */
-    void useLegendaryMushroom(usize index) {
+    void useLegendaryMushroom(usize index) noexcept {
         if (MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId()); mushrooms && index < MushroomCard::NUM_LEGENDARY_MUSHROOMS) {
             #ifndef NDEBUG
             mushrooms->usedLegendaryMushrooms.set(index);
@@ -226,7 +239,7 @@ public:
     /**
      * @brief Reset all mushrooms.
      */
-    void resetMushrooms() {
+    void resetMushrooms() noexcept {
         if (MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId())) {
             mushrooms->reset();
         }

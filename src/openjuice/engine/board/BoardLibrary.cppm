@@ -187,14 +187,13 @@ public:
         LOGGER.log(LogLevel::DEBUG, "Returning board ID: {}", id);
         #endif 
 
-        if (id == 0) {
-            return nullptr;
-        }
-        #ifndef NDEBUG
-        return boardList.at(id - 1);
-        #else
-        return boardList[id - 1];
-        #endif
+        return id > 0
+            #ifndef NDEBUG
+            ? boardList.at(id - 1)
+            #else
+            ? boardList[id - 1]
+            #endif
+            : nullptr;
     }
 
     /**
