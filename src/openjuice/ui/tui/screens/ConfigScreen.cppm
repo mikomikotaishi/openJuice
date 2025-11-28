@@ -45,12 +45,145 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
 export class ConfigScreen final: public TUIScreen {
 private:
     bool initialised = false; ///< Whether the screen has been initialised
+    i32 selectedTab = 0; ///< The currently selected tab
+    Vector<String> tabNames = {
+        getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
+            .transform([](StringView sv) -> String { return String(sv); })
+            .value_or("System"),
+        getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
+            .transform([](StringView sv) -> String { return String(sv); })
+            .value_or("Screen"),
+        getTextManager().getConfigText("CONFIG_LABEL_SOUND")
+            .transform([](StringView sv) -> String { return String(sv); })
+            .value_or("Sound"),
+        getTextManager().getConfigText("CONFIG_LABEL_VOICE")
+            .transform([](StringView sv) -> String { return String(sv); })
+            .value_or("Voice")
+    }; ///< The list of tab names
+
+    Component tabContainer; ///< Container for tab content
+    Component tabToggle; ///< Tab toggle component
+    Component okButton; ///< Save button component
+    Component backButton; ///< Back button component
 
     /**
      * @brief Creates the screen component
      */
     void createComponent() final {
+        if (initialised) {
+            return;
+        }
 
+        tabToggle = Toggle(&tabNames, &selectedTab);
+
+        okButton = Button(
+            getTextManager().getMenuScreenText("MENU_BUTTON_OK")
+                .transform([](StringView sv) -> String { return String(sv); })
+                .value_or("OK"),
+            [this]() -> void {
+                // TODO: Implement save settings logic
+            }
+        );
+
+        backButton = Button(
+            getTextManager().getMenuScreenText("MENU_BUTTON_BACK")
+                .transform([](StringView sv) -> String { return String(sv); })
+                .value_or("Back"),
+            [this]() -> void {
+                screenSwitchCallback(ScreenType::MAIN_MENU);
+            }
+        );
+
+        tabContainer = Container::Tab(
+            {
+                Renderer([this]() -> Element {
+                    return vbox({
+                        text(
+                            getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
+                                .transform([](StringView sv) -> String { return String(sv); })
+                                .value_or("System")
+                        ) | bold | center,
+                        separator(),
+                        text("System settings will be added here") | center | dim,
+                    }) | border | flex;
+                }),
+                Renderer([this]() -> Element {
+                    return vbox({
+                        text(
+                            getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
+                                .transform([](StringView sv) -> String { return String(sv); })
+                                .value_or("Screen")
+                        ) | bold | center,
+                        separator(),
+                        text("Screen settings will be added here") | center | dim,
+                    }) | border | flex;
+                }),
+                Renderer([this]() -> Element {
+                    return vbox({
+                        text(
+                            getTextManager().getConfigText("CONFIG_LABEL_SOUND")
+                                .transform([](StringView sv) -> String { return String(sv); })
+                                .value_or("Sound")
+                        ) | bold | center,
+                        separator(),
+                        text("Sound settings will be added here") | center | dim,
+                    }) | border | flex;
+                }),
+                Renderer([this]() -> Element {
+                    return vbox({
+                        text(
+                            getTextManager().getConfigText("CONFIG_LABEL_VOICE")
+                                .transform([](StringView sv) -> String { return String(sv); })
+                                .value_or("Voice")
+                        ) | bold | center,
+                        separator(),
+                        text("Voice settings will be added here") | center | dim,
+                    }) | border | flex;
+                }),
+            },
+            &selectedTab
+        );
+
+        Component mainContainer = Container::Vertical({
+            tabToggle,
+            tabContainer,
+            okButton,
+            backButton,
+        });
+
+        Component componentWithEvents = CatchEvent(mainContainer, [this](Event event) -> bool {
+            if (event == Event::Escape || (event == Event::Character('q'))) {
+                screenSwitchCallback(ScreenType::MAIN_MENU);
+                return true;
+            }
+            return false;
+        });
+
+        component = Renderer(componentWithEvents, [this]() -> Element {
+            return vbox({
+                hbox({
+                    text(
+                        getTextManager().getMenuScreenText("MENU_BUTTON_GAME_CONFIG")
+                            .transform([](StringView sv) -> String { return String(sv); })
+                            .value_or("Config")
+                    ) | bold | center | flex,
+                    separator(),
+                    okButton->Render(),
+                    text(" "),
+                    backButton->Render(),
+                }),
+                separator(),
+                hbox({
+                    text(" "),
+                    tabToggle->Render() | center,
+                    text(" ")
+                }),
+                separator(),
+                tabContainer->Render() | flex,
+            }) | border | flex;
+        });
+
+        initialised = true;
     }
 
     IMPLEMENT_NOOP();
@@ -70,7 +203,7 @@ public:
      * @brief Called when screen becomes active
      */
     void onActivate() final {
-
+        selectedTab = 0;
     }
 
     /**

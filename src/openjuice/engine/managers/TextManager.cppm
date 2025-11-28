@@ -97,6 +97,7 @@ private:
     HashMap<String, String> cardFlavours; ///< A dictionary of all card flavour texts.
     HashMap<String, String> cardArtistNames; ///< A dictionary of all card artist names.
     HashMap<String, String> commentTexts; ///< A dictionary of all comment texts.
+    HashMap<String, String> configTexts; ///< A dictionary of all config menu texts.
     HashMap<String, String> fieldNames; ///< A dictionary of all field names.
     HashMap<String, String> gameMessages; ///< A dictionary of all game messages.
     HashMap<String, String> gameNormaTexts; ///< A dictionary of all messages issued during norma.
@@ -266,6 +267,22 @@ private:
         #endif
 
         return parseSimpleFormatFile(filePath, commentTexts);
+    }
+
+    /**
+     * @brief Parses the card artist names file and populates the configTexts map.
+     * @note It is NOT used for parsing user config files.
+     *
+     * @param filePath Path to the config texts file.
+     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     */
+    [[nodiscard]]
+    Expected<void, Error<TextManagerError>> parseConfigFile(const Path& filePath) noexcept {
+        #ifndef NDEBUG
+        LOGGER.log(LogLevel::DEBUG, "Parsing config texts file: {}", filePath.native());
+        #endif
+
+        return parseSimpleFormatFile(filePath, configTexts);
     }
 
     /**
@@ -448,6 +465,7 @@ private:
         Path cards2File(fmt::format(PATH_CARDS_2_FILE, gameLanguageCode));
         Path cardArtistsFile(fmt::format(PATH_CARDARTISTS_FILE, gameLanguageCode));
         Path commentsFile(fmt::format(PATH_COMMENT_FILE, gameLanguageCode));
+        Path configFile(fmt::format(PATH_CONFIG_FILE, gameLanguageCode));
         Path fieldNamesFile(fmt::format(PATH_FIELDNAMES_FILE, gameLanguageCode));
         Path gameMessagesFile(fmt::format(PATH_GAME_MESSAGE_FILE, gameLanguageCode));
         Path gameNormaFile(fmt::format(PATH_GAME_NORMA_FILE, gameLanguageCode));
@@ -462,6 +480,7 @@ private:
             parseCardsFile(cards2File),
             parseCardArtistNamesFile(cardArtistsFile),
             parseCommentsFile(commentsFile),
+            parseConfigFile(configFile),
             parseFieldNamesFile(fieldNamesFile),
             parseGameMessagesFile(gameMessagesFile),
             parseGameNormaFile(gameNormaFile),
@@ -502,6 +521,8 @@ private:
         cardDescriptions.clear();
         cardFlavours.clear();
         cardArtistNames.clear();
+        commentTexts.clear();
+        configTexts.clear();
         fieldNames.clear();
         gameMessages.clear();
         gameNormaTexts.clear();
@@ -633,6 +654,25 @@ public:
         }
 
         if (auto it = commentTexts.find(String(key)); it != commentTexts.end()) {
+            return it->second;
+        } else {
+            return Unexpected(TextManagerError::INVALID_KEY);
+        }
+    }
+
+    /**
+     * @brief Gets a config text by key.
+     *
+     * @param key The lookup key.
+     * @return The config text, otherwise the error representing the key failure.
+     */
+    [[nodiscard]]
+    Expected<StringView, TextManagerError> getConfigText(StringView key) const noexcept {
+        if (key.empty()) {
+            return Unexpected(TextManagerError::EMPTY_KEY);
+        }
+
+        if (auto it = configTexts.find(String(key)); it != configTexts.end()) {
             return it->second;
         } else {
             return Unexpected(TextManagerError::INVALID_KEY);

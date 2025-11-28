@@ -52,7 +52,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
  */
 export class TextUserInterface: public UserInterface {
 private:
-    static inline const Logger& LOGGER = Logger::getInstance();  ///< The logger instance.
+    static inline const Logger& LOGGER = Logger::getInstance(); ///< The logger instance.
 
     ScreenInteractive screen = ScreenInteractive::Fullscreen(); ///< Main screen
     ScreenType currentScreen = ScreenType::TITLE; ///< The current active screen type

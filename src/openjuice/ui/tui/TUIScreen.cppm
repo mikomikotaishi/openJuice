@@ -40,9 +40,19 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
  */
 export class TUIScreen: public IFinalOnly {
 protected:
-    SharedPointer<Game> game;
-    Component component;
-    Function<void(ScreenType)> screenSwitchCallback;
+    SharedPointer<Game> game; ///< A shared pointer to the game.
+    Component component; ///< An abstract component
+    Function<void(ScreenType)> screenSwitchCallback; ///< An callback for screen switching
+
+    /**
+     * @brief Get the TextManager instance safely.
+     * 
+     * @return Reference to the TextManager singleton.
+     */
+    [[nodiscard]]
+    static const TextManager& getTextManager() noexcept {
+        return TextManager::getInstance();
+    }
 
     /**
      * @brief Creates the screen component
@@ -59,18 +69,6 @@ protected:
         game{game}, screenSwitchCallback{callback} {}
 
     virtual ~TUIScreen() = default;
-
-    /**
-     * @brief Get the menu screen text associated with the key or a default text if unsuccessful.
-     * 
-     * @param key The key to query in the TextManager.
-     * @param defaultText The default text, if the key is not valid.
-     * @return The text or its default.
-     */
-    static String getTextOrDefault(StringView key, StringView defaultText = "Error") noexcept {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getMenuScreenText(key);
-        return String(result ? *result : defaultText);
-    }
 public:
     /**
      * @brief Get the FTXUI component for this screen
