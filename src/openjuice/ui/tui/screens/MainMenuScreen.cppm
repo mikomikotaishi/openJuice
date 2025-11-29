@@ -94,7 +94,53 @@ private:
         menu = Menu(&menuOptions, &selectedOption);
 
         Component componentWithEvents = CatchEvent(menu, [this](Event event) -> bool {
-            if ((event.is_mouse() && event.mouse().button == Mouse::Left) || (event == Event::Return)) {
+            if (event.is_mouse() && event.mouse().button == Mouse::Left && event.mouse().motion == Mouse::Pressed) {
+                switch (selectedOption) {
+                    case 0: // Multiplayer
+                        screenSwitchCallback(ScreenType::MULTIPLAYER_LOBBY_SELECT);
+                        return true;
+                    case 1: // Singleplayer
+                        screenSwitchCallback(ScreenType::SINGLEPLAYER_LOBBY_SELECT);
+                        return true;
+                    case 2: // Shop
+                        screenSwitchCallback(ScreenType::SHOP);
+                        return true;
+                    case 3: // Profile
+                        screenSwitchCallback(ScreenType::PROFILE);
+                        return true;
+                    case 4: // OJDex
+                        screenSwitchCallback(ScreenType::OJDEX);
+                        return true;
+                    case 5: // Guide
+                        screenSwitchCallback(ScreenType::GUIDE);
+                        return true;
+                    case 6: // Wiki
+                        if (Expected<void, UrlOpenError> result = misc::openUrl(TextManager::ORANGE_JUICE_WIKI_URL); !result) {
+                            switch (result.error()) {
+                                case UrlOpenError::UNSUPPORTED_PLATFORM:
+                                    break;
+                                case UrlOpenError::SYSTEM_CALL_FAILED:
+                                    break;
+                                case UrlOpenError::INVALID_URL:
+                                    break;
+                                default:
+                                    sys::unreachable();
+                            }
+                        }
+                        return true;
+                    case 7: // Config
+                        screenSwitchCallback(ScreenType::CONFIG);
+                        return true;
+                    case 8: // Credits
+                        screenSwitchCallback(ScreenType::CREDITS);
+                        return true;
+                    case 9: // Exit to title
+                        screenSwitchCallback(ScreenType::TITLE);
+                        return true;
+                    default:
+                        sys::unreachable();
+                }
+            } else if (event == Event::Return) {
                 switch (selectedOption) {
                     case 0: // Multiplayer
                         screenSwitchCallback(ScreenType::MULTIPLAYER_LOBBY_SELECT);

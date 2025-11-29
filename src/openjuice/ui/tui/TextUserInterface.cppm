@@ -127,6 +127,12 @@ private:
 
             activeComponent = handlingScreen->getComponent();
             
+            #ifndef NDEBUG
+            if (!activeComponent) {
+                LOGGER.log(LogLevel::ERROR, "TextUserInterface: activeComponent is null after switching to screen {}", type);
+            }
+            #endif
+            
             if (isLoopRunning) {
                 screen.PostEvent(Event::Custom);
             }

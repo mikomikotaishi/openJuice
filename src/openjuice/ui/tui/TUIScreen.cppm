@@ -18,7 +18,7 @@ import openjuice.engine.game.Game;
 import openjuice.engine.managers.TextManager;
 import openjuice.engine.util.Interfaces;
 
-import ftxui.component;
+import ftxui;
 
 using std::mem::SharedPointer;
 

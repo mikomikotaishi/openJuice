@@ -81,7 +81,9 @@ private:
                 .transform([](StringView sv) -> String { return String(sv); })
                 .value_or("OK"),
             [this]() -> void {
-                // TODO: Implement save settings logic
+                // TODO: Implement saving logic
+
+                screenSwitchCallback(ScreenType::MAIN_MENU);
             }
         );
 
