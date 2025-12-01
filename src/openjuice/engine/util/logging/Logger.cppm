@@ -56,6 +56,7 @@ private:
     UniquePointer<OutputFileStream> debugFile; ///< File stream for the debug log file.
     mutable Mutex logMutex; ///< Mutex for logger
 
+    [[nodiscard]]
     static String getCurrentTimeAsString() {
         return misc::getCurrentTimeAsString();
     }

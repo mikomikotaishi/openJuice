@@ -271,7 +271,8 @@ export namespace misc {
      * @param url The URL to open
      * @return Expected<void, UrlOpenError> 
      */
-    Expected<void, UrlOpenError> openUrl(StringView url) {
+    [[nodiscard]]
+    Expected<void, UrlOpenError> openUrl(StringView url) noexcept {
         if (url.empty()) {
             return Unexpected(UrlOpenError::INVALID_URL);
         }

@@ -117,6 +117,9 @@ protected:
     LegendaryMushroomCard(LegendaryMushroomColour colour, LegendaryMushroomType type):
         Card(static_cast<u16>(type), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), mushroomType{type}, mushroomColour{colour} {}
 public:
+    GETTER(LegendaryMushroomType, MushroomType, mushroomType);
+    GETTER(LegendaryMushroomColour, MushroomColour, mushroomColour);
+
     /**
      * @brief Get the name of the card.
      *
@@ -125,7 +128,7 @@ public:
     [[nodiscard]]
     String getName() const override {
         Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardName(colourToKey(mushroomColour));
-        return result ? String(*result) : String();
+        return String(result ? *result : "");
     }
 
     /**
@@ -136,27 +139,7 @@ public:
     [[nodiscard]]
     String getDescription() const override {
         Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardDescription(typeToKey(mushroomType));
-        return result ? String(*result) : String();
-    }
-
-    /**
-     * @brief Get the mushroom type of the card.
-     *
-     * @return The mushroom type of the card.
-     */
-    [[nodiscard]]
-    LegendaryMushroomType getMushroomType() const noexcept {
-        return mushroomType;
-    }
-
-    /**
-     * @brief Get the mushroom colour of the card.
-     *
-     * @return The mushroom colour of the card.
-     */
-    [[nodiscard]]
-    LegendaryMushroomColour getMushroomColour() const noexcept {
-        return mushroomColour;
+        return String(result ? *result : "");
     }
 
     /**
@@ -167,7 +150,7 @@ public:
     [[nodiscard]]
     String getArtistName() const override {
         Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardArtistName(colourToArtistKey(mushroomColour));
-        return result ? String(*result) : String();
+        return String(result ? *result : "");
     }
 };
 

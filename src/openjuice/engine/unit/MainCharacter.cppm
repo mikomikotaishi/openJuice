@@ -61,14 +61,7 @@ public:
     MainCharacter(u16 id, CharacterDifficulty difficulty, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
         Playable(id, health, attack, defence, evade, recovery), difficulty{difficulty} {}
 
-    /**
-     * @brief Get the difficulty value of the playable.
-     * @return The difficulty value of the playable.
-     */
-    [[nodiscard]]
-    CharacterDifficulty getDifficulty() const noexcept {
-        return difficulty;
-    }
+    GETTER(CharacterDifficulty, Difficulty, difficulty);
 };
 
 /**

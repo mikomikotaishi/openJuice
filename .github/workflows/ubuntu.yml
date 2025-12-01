@@ -17,23 +17,33 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake libx11-dev libxrandr-dev libxcursor-dev libxi-dev ninja-build
+        sudo apt-get install -y build-essential libx11-dev libxrandr-dev libxcursor-dev libxi-dev ninja-build \
+          libgl1-mesa-dev libglu1-mesa-dev libopenal-dev libvorbis-dev libflac-dev \
+          libudev-dev libfreetype6-dev libharfbuzz-dev
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
         sudo apt-get update
-        sudo apt-get install -y gcc-15 g++-15 libstdc++-15-dev
+        sudo apt-get install -y gcc-14 g++-14 libstdc++-14-dev
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         sudo ./llvm.sh 21
         sudo apt-get install -y clang-21
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-21 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-21 100
+
+    - name: Install CMake 3.30+
+      run: |
+        wget https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5-linux-x86_64.sh
+        sudo sh cmake-3.30.5-linux-x86_64.sh --prefix=/usr/local --skip-license
+        cmake --version
 
     - name: Create build directory
       run: mkdir build
 
     - name: Configure with CMake
       run: |
-        export CC=clang-21
-        export CXX=clang++-21
-        cmake -S . -B build -G Ninja -DCMAKE_C_COMPILER=clang-21 -DCMAKE_CXX_COMPILER=clang++-21
+        export CC=clang
+        export CXX=clang++
+        cmake -S . -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 
     - name: Build with CMake
       run: cmake --build build

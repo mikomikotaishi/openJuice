@@ -58,14 +58,7 @@ public:
     Enemy(EnemyType enemyType, u16 id, u8 health, i8 attack, i8 defence, i8 evade):
         Unit(id, health, attack, defence, evade), type{enemyType} {}
 
-    /**
-     * @brief Get the type of the enemy.
-     * @return The type of the enemy.
-     */
-    [[nodiscard]]
-    EnemyType getType() const noexcept {
-        return type;
-    }
+    GETTER(EnemyType, Type, type);
 };
 
 /**

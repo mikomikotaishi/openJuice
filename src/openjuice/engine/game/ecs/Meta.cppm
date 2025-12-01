@@ -67,12 +67,14 @@ export namespace meta {
         
         /**
          * @brief Default copy constructor.
+         *
          * @param other The ComponentTypeInfo to copy from.
          */
         constexpr ComponentTypeInfo(const ComponentTypeInfo& other) = default;
 
         /**
          * @brief Constructs ComponentTypeInfo with specified size and alignment.
+         *
          * @param size The size of the component type in bytes.
          * @param alignment The alignment requirement of the component type.
          */

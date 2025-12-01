@@ -45,14 +45,7 @@ public:
     Playable(u16 id, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
         Unit(id, health, attack, defence, evade), recovery{recovery} {}
 
-    /**
-     * @brief Get the recovery value of the playable.
-     * @return The recovery value of the playable.
-     */
-    [[nodiscard]]
-    u8 getRecovery() const noexcept {
-        return recovery;
-    }
+    GETTER(u8, Recovery, recovery);
 };
 
 /**

@@ -82,78 +82,13 @@ public:
     Card(u16 id, CardType cardType, SpawnType spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
         id{id}, cardType{cardType}, spawnType{spawnType}, rarity{rarity}, cost{cost}, level{level}, limitPerDeck{limit}, deckPoints{std::util::move(deckPoints)} {}
 
-    /**
-     * @brief Get the ID of the card.
-     * @return The ID of the card.
-     */
-    [[nodiscard]]
-    u16 getId() const noexcept {
-        return id;
-    }
-
-    /**
-     * @brief Get the card type of the card.
-     * @return The card type of the card.
-     */
-    [[nodiscard]]
-    CardType getCardType() const noexcept {
-        return cardType;
-    }
-
-    /**
-     * @brief Get the spawn type of the card.
-     * @return The spawn type of the card.
-     */
-    [[nodiscard]]
-    SpawnType getSpawnType() const noexcept {
-        return spawnType;
-    }
-
-    /**
-     * @brief Get the rarity of the card.
-     * @return The rarity of the card.
-     * 
-     * The rarity of the card.
-     * Only Standard cards have rarities.
-     */
-    [[nodiscard]]
-    Optional<Rarity> getRarity() const noexcept {
-        return rarity;
-    }
-
-    /**
-     * @brief Get the cost of the card.
-     * @return The cost of the card.
-     * 
-     * The cost of the card is the number of stars required for a player to play the card.
-     * Returns nullopt if the value is not fixed.
-     */
-    [[nodiscard]]
-    Optional<u16> getCost() const noexcept {
-        return cost;
-    }
-
-    /**
-     * @brief Get the level of the card.
-     * @return The level of the card.
-     *
-     * The level of the card is used to determine the card's power and cost.
-     */
-    [[nodiscard]]
-    u8 getLevel() const noexcept {
-        return level;
-    }
-
-    /**
-     * @brief Get the limit of the card per deck.
-     * @return The limit of the card per deck.
-     *
-     * Returns an unsigned integer - returns nullopt if the card is not a Standard card, positive otherwise.
-     */
-    [[nodiscard]]
-    Optional<u8> getLimit() const noexcept {
-        return limitPerDeck;
-    }
+    GETTER(u16, Id, id);
+    GETTER(CardType, CardType, cardType);
+    GETTER(SpawnType, SpawnType, spawnType);
+    GETTER(Optional<Rarity>, Rarity, rarity);
+    GETTER(Optional<u16>, Cost, cost);
+    GETTER(u8, Level, level);
+    GETTER(Optional<u8>, LimitPerDeck, limitPerDeck);
 
     /**
      * @brief Get the deck points of the card.

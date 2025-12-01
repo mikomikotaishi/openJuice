@@ -102,7 +102,7 @@ public:
      * @param directory (Optional) The directory to load maps from.
      */
     [[nodiscard]]
-    Expected<void, Error<BoardLibraryError>> loadBoards(StringView directory = MAPS_DIR) throws(FileSystemException, RuntimeException) {
+    Expected<void, Error<BoardLibraryError>> loadBoards(StringView directory = MAPS_DIR) {
         #ifndef NDEBUG
         LOGGER.log(LogLevel::DEBUG, "Loading boards from directory: {}", directory);
         #endif

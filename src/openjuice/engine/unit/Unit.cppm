@@ -60,55 +60,11 @@ protected:
         id{id}, health{health}, attack{attack}, defence{defence}, evade{evade} {}
 
 public:
-    /**
-     * @brief Get the ID of the unit.
-     *
-     * @return The ID of the unit.
-     */
-    [[nodiscard]]
-    u16 getID() const noexcept {
-        return id;
-    }
-
-    /**
-     * @brief Get the health of the unit.
-     *
-     * @return The health of the unit.
-     */
-    [[nodiscard]]
-    u8 getHealth() const noexcept {
-        return health;
-    }
-
-    /**
-     * @brief Get the attack value of the unit.
-     *
-     * @return The attack value of the unit.
-     */
-    [[nodiscard]]
-    i8 getAttack() const noexcept {
-        return attack;
-    }
-
-    /**
-     * @brief Get the defence value of the unit.
-     *
-     * @return The defence value of the unit.
-     */
-    [[nodiscard]]
-    i8 getDefence() const noexcept {
-        return defence;
-    }
-
-    /**
-     * @brief Get the evade value of the unit.
-     *
-     * @return The evade value of the unit.
-     */
-    [[nodiscard]]
-    i8 getEvade() const noexcept {
-        return evade;
-    }
+    GETTER(u16, Id, id);
+    GETTER(u8, Health, health);
+    GETTER(i8, Attack, attack);
+    GETTER(i8, Defence, defence);
+    GETTER(i8, Evade, evade);
 
     /**
      * @brief Gets the name of the character.

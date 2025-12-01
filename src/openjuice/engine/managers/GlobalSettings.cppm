@@ -68,13 +68,18 @@ public:
         return instance;
     }
 
+    GETTER(String, ProgramName, programName);
+    GETTER(Vector<String>, ProgramArgs, programArgs);
+    GETTER(Language, Language, language);
+    GETTER(f32, DeltaTime, deltaTime);
+
     /**
      * @brief Get the singleton instance of GlobalSettings.
      *
      * @return The singleton instance.
      */
     [[nodiscard]]
-    static String languageToString(Language lang) noexcept {
+    static String languageToCode(Language lang) noexcept {
         switch (lang) {
             case Language::ENGLISH:
                 return "en";
@@ -111,16 +116,6 @@ public:
     }
 
     /**
-     * @brief Get the program name.
-     *
-     * @return The program name.
-     */
-    [[nodiscard]]
-    String getProgramName() const noexcept {
-        return programName;
-    }
-
-    /**
      * @brief Set the program arguments.
      *
      * @param args The arguments of the program to set.
@@ -129,16 +124,6 @@ public:
     GlobalSettings& setProgramArgs(const Vector<String>& args) noexcept {
         programArgs = args;
         return *this;
-    }
-
-    /**
-     * @brief Get the program arguments.
-     *
-     * @return The program arguments.
-     */
-    [[nodiscard]]
-    Vector<String> getProgramArgs() const noexcept {
-        return programArgs;
     }
 
     /**
@@ -153,16 +138,6 @@ public:
     }
 
     /**
-     * @brief Get the current language.
-     *
-     * @return The current language.
-     */
-    [[nodiscard]]
-    Language getLanguage() const noexcept {
-        return language;
-    }
-
-    /**
      * @brief Set the frame rate.
      *
      * @param lang The frame rate to set. If frameRate is 0, it sets deltaTime to 0.0f
@@ -171,15 +146,6 @@ public:
     GlobalSettings& setFrameRate(u16 frameRate) noexcept {
         deltaTime = (frameRate == 0) ? 0.0f : 1.0f / static_cast<f32>(frameRate);
         return *this;
-    }
-
-    /**
-     * @brief Get the current deltaTime (1/frame rate).
-     * @return The current deltaTime.
-     */
-    [[nodiscard]]
-    f32 getDeltaTime() const noexcept {
-        return deltaTime;
     }
 };
 

@@ -112,7 +112,7 @@ private:
      * @brief Default constructor.
      */
     TextManager():
-        gameLanguageCode{GlobalSettings::languageToString(GlobalSettings::getInstance().getLanguage())} {
+        gameLanguageCode{GlobalSettings::languageToCode(GlobalSettings::getInstance().getLanguage())} {
         if (initialiseContents()) {
             LOGGER.log(LogLevel::INFO, "Successfully loaded all text assets!");
         } else {
@@ -123,7 +123,7 @@ private:
     /**
      * @brief Destroy the TextManager object
      */
-    ~TextManager() noexcept(noexcept(cleanup())) {
+    ~TextManager() {
         cleanup();
     }
 
@@ -512,7 +512,7 @@ private:
     /**
      * @brief Clears all localisation dictionaries, to be performed at cleanup.
      */
-    void cleanup() RELEASE_NOEXCEPT {
+    void cleanup() noexcept {
         #ifndef NDEBUG
         LOGGER.log(LogLevel::DEBUG, "Now cleaning localisation contents");
         #endif

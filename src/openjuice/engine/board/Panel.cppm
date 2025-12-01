@@ -33,13 +33,15 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  * The Panel class represents a panel on the game board with attributes such as type, neighbours, and entry/exit directions.
  */
 export class Panel {
+public:
+    using Neighbours = Array<WeakPointer<Panel>, 4>;
 private:
-    u16 panelID; ///< The ID of the panel.
+    u16 id; ///< The ID of the panel.
     PanelType type; ///< The type of the panel.
     PanelType alternativeType = PanelType::NEUTRAL; ///< The alternative type of the panel.
     BitSet<4> enters; ///< The directions from which the panel can be entered.
     BitSet<4> exits; ///< The directions from which the panel can be exited.
-    Array<WeakPointer<Panel>, 4> neighbours; ///< The neighbouring panels.
+    Neighbours neighbours; ///< The neighbouring panels.
 public:
     /**
      * @brief Constructor to initialise a Panel object.
@@ -51,26 +53,14 @@ public:
      * @param alternativeType The alternative type of the panel (if any).
      */
     Panel(u16 id, PanelType type, PanelType alternativeType, const BitSet<4>& enters, const BitSet<4>& exits):
-        panelID{id}, type{type}, alternativeType{alternativeType}, enters{enters}, exits{exits} {}
+        id{id}, type{type}, alternativeType{alternativeType}, enters{enters}, exits{exits} {}
 
-    /**
-     * @brief Get the type of the panel.
-     *
-     * @return The type of the panel.
-     */
-    [[nodiscard]]
-    PanelType getType() const noexcept {
-        return type;
-    }
-
-    /**
-     * @brief Set the type of the panel.
-     *
-     * @param newType The new type of the panel.
-     */
-    void setType(PanelType newType) noexcept {
-        type = newType;
-    }
+    GETTER(u16, Id, id);
+    PROPERTY(PanelType, Type, type);
+    PROPERTY(PanelType, AlternativeType, alternativeType);
+    GETTER(BitSet<4>, Enters, enters);
+    GETTER(BitSet<4>, Exits, exits);
+    GETTER(Neighbours, Neighbours, neighbours);
 
     /**
      * @brief Set the neighbour of the panel in a specific direction.

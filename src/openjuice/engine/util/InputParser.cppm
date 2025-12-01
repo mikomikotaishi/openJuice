@@ -37,7 +37,15 @@ export enum class GameExecuteMode: u8 {
     CLI_MODE
 };
 
-namespace {
+/**
+ * @class InputParserBase
+ * @brief Class for parsing command line input.
+ */
+class [[deprecated(INPUTPARSER_DEPRECATION_MESSAGE)]] InputParserBase {
+private:
+    Vector<String> args; ///< Vector of command line arguments.
+    Vector<String> envs; ///< Vector of environment variables.
+
     /**
      * @brief Convert a string to an integer, if possible.
      *
@@ -52,16 +60,6 @@ namespace {
             return nullopt;
         }
     }
-}
-
-/**
- * @class InputParserBase
- * @brief Class for parsing command line input.
- */
-class [[deprecated(INPUTPARSER_DEPRECATION_MESSAGE)]] InputParserBase {
-private:
-    Vector<String> args; ///< Vector of command line arguments.
-    Vector<String> envs; ///< Vector of environment variables.
 public:
     /**
      * @brief Constructor that initialises the parser with command line arguments.

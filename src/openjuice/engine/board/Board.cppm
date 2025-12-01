@@ -169,7 +169,7 @@ private:
     };
 
     GameBoard gameBoard; ///< The game board represented as a 2D array of panels.
-    Array<Pair<u8, u8>, MAX_PLAYERS> homePanels; ///< The home panels for each player.
+    BoardInfo::HomePanels homePanels; ///< The home panels for each player.
     u8 boardWidth; ///< The width of the board.
     u8 boardHeight; ///< The height of the board.
     UniquePointer<Graph> graph; ///< Internal graph representation for pathfinding.
@@ -184,9 +184,9 @@ public:
 
         if (boardData) {
             // need to initialise gameBoard...
-            boardWidth = boardData->boardWidth;
-            boardHeight = boardData->boardHeight;
-            homePanels = boardData->homePanels;
+            boardWidth = boardData->getWidth();
+            boardHeight = boardData->getHeight();
+            homePanels = boardData->getHomePanels();
 
             // Initialise the graph after the game board is set up
             graph = mem::make_unique<Graph>(gameBoard);
@@ -220,7 +220,7 @@ public:
     /**
      * @brief Print the board to the terminal.
      */
-    void printBoardASCII() const {
+    void printBoardAscii() const {
         io::println("█");
     }
 };
