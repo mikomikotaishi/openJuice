@@ -23,7 +23,6 @@ using stdx::os::unix::STDOUT_FILENO;
 using stdx::os::unix::sys::TIOCGWINSZ;
 using stdx::os::unix::sys::WindowSize;
 #endif
-using std::time::Duration;
 using std::time::LocalTime;
 using std::time::SystemClock;
 using std::time::TimePoint;

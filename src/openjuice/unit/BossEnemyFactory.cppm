@@ -13,19 +13,20 @@ module;
 export module openjuice.unit.BossEnemyFactory;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
 import openjuice.engine.unit.BossEnemy;
-import openjuice.engine.util.Logging;
 import openjuice.unit.bosses;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
 
 using namespace openjuice::engine::unit;
-using namespace openjuice::engine::util::logging;
 using namespace openjuice::unit::bosses;
 
 BEGIN_MODULE_NAMESPACE(openjuice::unit);
@@ -39,6 +40,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
 export class BossEnemyFactory final {
 private:
     UTILITY_CLASS(BossEnemyFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 public:
     /**
      * @brief Create a BossEnemy object with the given ID.
@@ -49,7 +52,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<BossEnemy>> create(u8 id) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating BossEnemy of ID: {}", id);
+        LOGGER->debug("Creating BossEnemy of ID: {}", id);
         #endif
 
         switch (id) {

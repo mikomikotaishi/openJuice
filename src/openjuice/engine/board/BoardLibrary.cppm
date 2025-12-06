@@ -18,10 +18,10 @@ export module openjuice.engine.board.BoardLibrary;
 export import :BoardLibraryError;
 
 import std;
+import stdx;
 
 import openjuice.engine.board.BoardInfo;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 
 import tomlpp;
 
@@ -29,11 +29,11 @@ using std::collections::Vector;
 using std::fs::DirectoryEntry;
 using std::fs::DirectoryIterator;
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fs = std::fs;
 namespace mem = std::mem;
-
-using namespace openjuice::engine::util::logging;
 
 using toml::TomlArray;
 using toml::TomlTable;
@@ -50,7 +50,7 @@ export class BoardLibrary {
 public:
     static constexpr StringView MAPS_DIR = "./maps"; ///< The maps directory path.
 private:
-    static inline const Logger& LOGGER = Logger::getInstance(); ///< The logger instance.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BoardLibrary"); ///< The logger instance.
 
     Vector<SharedPointer<BoardInfo>> boardList; ///< List of loaded boards.
     
@@ -59,10 +59,9 @@ private:
      */
     BoardLibrary() {
         if (Expected<void, Error<BoardLibraryError>> r = loadBoards(); r) {
-            LOGGER.log(LogLevel::INFO, "Successfully loaded {} boards!", boardList.size());
+            LOGGER->info("Successfully loaded {} boards!", boardList.size());
         } else {
-            LOGGER.log(
-                LogLevel::WARNING,
+            LOGGER->warn(
                 "Board libraries were not successfully initialised! Error: {}, {} boards successfully loaded",
                 r.error().message(),
                 boardList.size()
@@ -104,7 +103,7 @@ public:
     [[nodiscard]]
     Expected<void, Error<BoardLibraryError>> loadBoards(StringView directory = MAPS_DIR) {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Loading boards from directory: {}", directory);
+        LOGGER->debug("Loading boards from directory: {}", directory);
         #endif
         
         if (!fs::exists(directory)) {
@@ -169,7 +168,7 @@ public:
         }
 
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Loading board library complete!");
+        LOGGER->debug("Loading board library complete!");
         #endif
 
         return {};
@@ -184,7 +183,7 @@ public:
     [[nodiscard]]
     SharedPointer<BoardInfo> getBoard(u32 id) const RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Returning board ID: {}", id);
+        LOGGER->debug("Returning board ID: {}", id);
         #endif 
 
         return id > 0

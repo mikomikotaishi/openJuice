@@ -6,15 +6,15 @@
  */
 
 import std;
+import stdx;
 
 import openjuice;
 
 using std::collections::Vector;
+using stdx::util::logging::LoggerFactory;
 
 using openjuice::Main;
 using openjuice::engine::managers::GlobalSettings;
-
-using namespace openjuice::engine::util::logging;
 
 /**
  * @brief The main function of the openJuice application.
@@ -29,12 +29,14 @@ int main(int argc, char* argv[]) {
         GlobalSettings::getInstance()
             .setProgramName(argv[0])
             .setProgramArgs(args);
+        LoggerFactory::instance()
+            .init(GlobalSettings::PATH_DEBUGFILE);
         Main::main(args);
     } catch (const Exception& e) {
-        Logger::getInstance().log(LogLevel::ERROR, "An error occured: {}", e.what());
+        LoggerFactory::instance().of("main()")->error("An error occured: {}", e.what());
         return EXIT_FAILURE;
     } catch (...) {
-        Logger::getInstance().log(LogLevel::ERROR, "An unknown error occured.");
+        LoggerFactory::instance().of("main()")->error("An unknown error occured.");
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

@@ -13,14 +13,16 @@ module;
 export module openjuice.card.HyperCardFactory;
 
 import std;
+import stdx;
 
 import openjuice.engine.card.Card;
 import openjuice.engine.card.SpawnTypes;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 import openjuice.card.hyper;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
@@ -28,7 +30,6 @@ namespace mem = std::mem;
 using openjuice::engine::card::spawntypes::HyperCard;
 
 using namespace openjuice::card::hyper;
-using namespace openjuice::engine::util::logging;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card);
 
@@ -41,6 +42,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
 export class HyperCardFactory final {
 private:
     UTILITY_CLASS(HyperCardFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("HyperCardFactory"); ///< The logger instance.
 public:
     /**
      * @brief Create a HyperCard object with the given ID.
@@ -51,7 +54,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<HyperCard>> create(u16 id) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating HyperCard of ID: {}", id);
+        LOGGER->debug("Creating HyperCard of ID: {}", id);
         #endif
 
         switch (id) {

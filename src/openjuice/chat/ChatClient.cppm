@@ -13,25 +13,24 @@ module;
 export module openjuice.chat.ChatClient;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 
 import boost.asio;
 import boost.system;
 
 #if 0
-
 using std::concurrent::JoiningThread;
 using std::io::Cin;
 using std::io::Cout;
 using std::io::InputStream;
 using std::io::Stderr;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace io = std::io;
 namespace string = std::text::string;
-
-using namespace openjuice::engine::util::logging;
 
 using IOContext = boost::asio::io_context;
 using Resolver = boost::asio::ip::tcp::resolver;
@@ -51,6 +50,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatClient {
 private:
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatClient"); ///< The logger instance.
     Socket clientSocket; ///< Socket for the chat client.
     JoiningThread listenerThread; ///< Listener thread for the chat client.
 
@@ -58,7 +58,7 @@ private:
      * @brief Start the chat client.
      */
     void startChat() {
-        Logger::getInstance().log(LogLevel::INFO, "Starting chat");
+        LOGGER->info("Starting chat");
         String message;
         while (io::getline(Cin, message)) {
             message += "\n";

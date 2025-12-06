@@ -15,22 +15,22 @@ export module openjuice.engine.discord.DiscordManager;
 export import :DiscordActivityType;
 
 import std;
-
-import openjuice.engine.util.Logging;
+import stdx;
 
 import discordpp;
 
+using std::mem::SharedPointer;
 using std::mem::UniquePointer;
 using std::sync::Mutex;
 using std::sync::ScopedLock;
 using std::time::SystemClock;
 using std::time::temporal::Milliseconds;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
 namespace time = std::time;
-
-using namespace openjuice::engine::util::logging;
 
 using discordpp::Activity;
 using discordpp::ActivityAssets;
@@ -53,6 +53,8 @@ public:
     static constexpr StringView LARGE_IMAGE_KEY = ""; ///< The large image key on Discord
     static constexpr StringView SMALL_IMAGE_KEY = ""; ///< The small image key on Discord
 private:
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("DiscordManager"); ///< The logger instance.
+
     mutable Mutex discordMutex; ///< Mutex for thread-safe operations on Discord
     UniquePointer<Client> client; ///< Discord SDK client
     bool isConnected = false; ///< Connection status
@@ -84,18 +86,18 @@ private:
 
     void updateActivity(const Activity& activity, StringView description) {
         if (!isConnected || !client) {
-            Logger::getInstance().log(LogLevel::WARNING, "Discord not connected, skipping activity update: {}", description);
+            LOGGER->warn("Discord not connected, skipping activity update: {}", description);
             return;
         }
 
         client->UpdateRichPresence(activity, [description](const ClientResult& result) -> void {
             if (result.Successful()) {
                 #ifndef NDEBUG
-                Logger::getInstance().log(LogLevel::INFO, "Discord activity updated: {}", description);
+                LOGGER->info("Discord activity updated: {}", description);
                 #endif
             } else {
                 #ifndef NDEBUG
-                Logger::getInstance().log(LogLevel::INFO, "Failed to update Discord activity: {}", description);
+                LOGGER->info("Failed to update Discord activity: {}", description);
                 #endif
             }
         });
@@ -134,26 +136,26 @@ public:
                 switch (status) {
                     case Client::Status::Ready:
                         isConnected = true;
-                        Logger::getInstance().log(LogLevel::INFO, "Discord integration ready.");
+                        LOGGER->info("Discord integration ready.");
                         break;
                     case Client::Status::Disconnected:
                         isConnected = false;
-                        Logger::getInstance().log(LogLevel::INFO, "Discord disconnected.");
+                        LOGGER->info("Discord disconnected.");
                         break;
                     default:
-                        Logger::getInstance().log(LogLevel::WARNING, "Unknown Discord connectivity status!");
+                        LOGGER->warn("Unknown Discord connectivity status!");
                 }
 
                 if (error != Client::Error::None) {
-                    Logger::getInstance().log(LogLevel::ERROR, "Discord client error: {}", static_cast<i32>(error));
+                    LOGGER->error("Discord client error: {}", static_cast<i32>(error));
                 }
             });
 
             isInitialised = true;
 
-            Logger::getInstance().log(LogLevel::INFO, "Discord integration initialised!");
+            LOGGER->info("Discord integration initialised!");
         } catch (const Exception& e) {
-            Logger::getInstance().log(LogLevel::ERROR, "Failed to initialise Discord: {}", e.what());
+            LOGGER->error("Failed to initialise Discord: {}", e.what());
             return false;
         }
         return true;

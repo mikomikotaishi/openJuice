@@ -13,9 +13,9 @@ module;
 export module openjuice.engine.managers.ProfileManager;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 
 import tomlpp;
 
@@ -25,10 +25,11 @@ using std::io::IOException;
 using std::io::IOS;
 using std::io::IOState;
 using std::io::OutputFileStream;
+using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fs = std::fs;
-
-using namespace openjuice::engine::util::logging;
 
 using toml::TomlTable;
 
@@ -51,10 +52,10 @@ struct ProfileData {
  */
 export class ProfileManager {
 public:
-    static constexpr StringView USERDATA_DIR = Logger::USERDATA_DIR; ///< The user data directory path.
+    static constexpr StringView USERDATA_DIR = GlobalSettings::USERDATA_DIR; ///< The user data directory path.
     static constexpr StringView PATH_SAVEFILE = "./userdata/savedata.toml"; ///< The save file path.
 private:
-    static inline const Logger& LOGGER = Logger::getInstance();
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ProfileManager"); ///< The logger instance.
 
     ProfileData currentProfile; ///< The information of the current save file.
     bool profileLoaded = false; ///< Whether the profile has been loaded by the game yet.
@@ -67,7 +68,7 @@ private:
             fs::create_directories(USERDATA_DIR);
             loadProfile();
         } catch (const FileSystemException& e) {
-            LOGGER.log(LogLevel::WARNING, "Failed to create directory {}: {}", USERDATA_DIR, e.what());
+            LOGGER->warn("Failed to create directory {}: {}", USERDATA_DIR, e.what());
         }
     }
 
@@ -102,12 +103,12 @@ public:
      */
     bool loadProfile() noexcept {
         if (!fs::exists(PATH_SAVEFILE)) {
-            LOGGER.log(LogLevel::INFO, "Save file not found, creating new profile");
+            LOGGER->info("Save file not found, creating new profile");
             return saveProfile();
         }
 
         profileLoaded = true;
-        LOGGER.log(LogLevel::INFO, "Profile loaded successfully for {}", currentProfile.playerName);
+        LOGGER->info("Profile loaded successfully for {}", currentProfile.playerName);
         return true;
     }
 
@@ -125,17 +126,17 @@ public:
             file << data;
             file.close();
 
-            LOGGER.log(LogLevel::INFO, "Profile saved successfully for {}", currentProfile.playerName);
+            LOGGER->info("Profile saved successfully for {}", currentProfile.playerName);
             return true;
         } catch (const IOException& e) {
             if (!fs::exists(PATH_SAVEFILE)) {
-                LOGGER.log(LogLevel::WARNING, "Failed to save profile, file/directory does not exist: {}", e.what());
+                LOGGER->warn("Failed to save profile, file/directory does not exist: {}", e.what());
             } else {
-                LOGGER.log(LogLevel::WARNING, "Failed to save profile, write operation failed: {}", e.what());
+                LOGGER->warn("Failed to save profile, write operation failed: {}", e.what());
             }
             return false;
         } catch (const Exception& e) {
-            LOGGER.log(LogLevel::WARNING, "Error saving profile: {}", e.what());
+            LOGGER->warn("Error saving profile: {}", e.what());
             return false;
         }
     }
@@ -145,7 +146,7 @@ public:
      * @return True if successfully reset, false otherwise.
      */
     bool resetProfile() noexcept {
-        LOGGER.log(LogLevel::INFO, "Attempting to reset profile for {}", currentProfile.playerName);
+        LOGGER->info("Attempting to reset profile for {}", currentProfile.playerName);
         return saveProfile();
     }
 };

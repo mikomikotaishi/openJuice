@@ -17,18 +17,18 @@ import stdx;
 
 import openjuice.engine.game.Game;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 import openjuice.ui.tui.Screens;
 import openjuice.ui.tui.TUIScreen;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace mem = std::mem;
 namespace sys = std::sys;
 
 using openjuice::engine::game::Game;
 
-using namespace openjuice::engine::util::logging;
 using namespace openjuice::ui::tui::screens;
 
 BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
@@ -42,6 +42,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
 export class TUIScreenFactory final {
 private:
     UTILITY_CLASS(TUIScreenFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TUIScreenFactory"); ///< The logger instance.
 public:
     /**
      * @brief Create a TUIScreen object with the given type and game pointer and callback.
@@ -54,7 +56,7 @@ public:
     [[nodiscard]]
     static SharedPointer<TUIScreen> create(ScreenType type, SharedPointer<Game> game, Function<void(ScreenType)> callback) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating TUIScreen of type {}", type);
+        LOGGER->debug("Creating TUIScreen of type {}", type);
         #endif
 
         switch (type) {

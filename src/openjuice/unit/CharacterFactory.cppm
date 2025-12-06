@@ -13,19 +13,20 @@ module;
 export module openjuice.unit.CharacterFactory;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
 import openjuice.engine.unit.Playable;
-import openjuice.engine.util.Logging;
 import openjuice.unit.characters;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
 
 using namespace openjuice::engine::unit;
-using namespace openjuice::engine::util::logging;
 using namespace openjuice::unit::characters::maincharacters;
 
 BEGIN_MODULE_NAMESPACE(openjuice::unit);
@@ -39,6 +40,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
 export class CharacterFactory final {
 private:
     UTILITY_CLASS(CharacterFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CharacterFactory"); ///< The logger instance.
 public:
     /**
      * @brief Create a Playable object with the given ID.
@@ -49,7 +52,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<Playable>> create(u8 id) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating Playable of ID: {}", id);
+        LOGGER->debug("Creating Playable of ID: {}", id);
         #endif
 
         switch (id) {

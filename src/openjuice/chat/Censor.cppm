@@ -13,11 +13,11 @@ module;
 export module openjuice.chat.Censor;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
 import openjuice.engine.util.Exceptions;
 import openjuice.engine.util.Language;
-import openjuice.engine.util.Logging;
 
 import boost.regex;
 
@@ -25,6 +25,8 @@ import boost.regex;
 
 using std::collections::Vector;
 using std::io::InputFileStream;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace io = std::io;
 namespace fmt = std::fmt;
@@ -32,8 +34,6 @@ namespace fmt = std::fmt;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::util::Language;
 using openjuice::engine::util::exceptions::InvalidLanguageException;
-
-using namespace openjuice::engine::util::logging;
 
 using boost::regex::Regex;
 
@@ -49,6 +49,7 @@ export class Censor {
 public:
     static constexpr StringView PATH_BLACKLIST_FILE = "./blacklist/blacklist_{}.txt"; ///< The blacklist file path.
 private:
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Censor"); ///< The logger instance.
     Vector<String> blacklist; ///< List of inappropriate words to censor.
     const String gameLanguageCode; ///< The language code currently being used by the game.
     char censorChar; ///< Character used for censoring.
@@ -85,7 +86,7 @@ private:
      * @throws InvalidLanguageException if no valid language is found
      */
     void loadBlacklist(Language language) {
-        Logger::getInstance().log(LogLevel::INFO, "Loading blacklist for language of value {}", static_cast<u8>(language));
+        LOGGER->info("Loading blacklist for language of value {}", static_cast<u8>(language));
         String filename = fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
         blacklist.clear();
         String word;

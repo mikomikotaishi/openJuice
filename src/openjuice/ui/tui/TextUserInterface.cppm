@@ -11,10 +11,10 @@ module;
 export module openjuice.ui.tui.TextUserInterface;
 
 import std;
+import stdx;
 
 import openjuice.engine.game.Game;
 import openjuice.engine.managers.TextManager;
-import openjuice.engine.util.Logging;
 import openjuice.ui.UserInterface;
 import openjuice.ui.tui.Screens;
 import openjuice.ui.tui.TUIScreen;
@@ -27,6 +27,8 @@ using std::mem::SharedPointer;
 using std::sync::Mutex;
 using std::sync::ScopedLock;
 using std::sys::Signal;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
@@ -37,7 +39,6 @@ using namespace std::collections;
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::TextManager;
 
-using namespace openjuice::engine::util::logging;
 using namespace openjuice::ui::tui::screens;
 
 using namespace ftxui;
@@ -52,7 +53,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
  */
 export class TextUserInterface: public UserInterface {
 private:
-    static inline const Logger& LOGGER = Logger::getInstance(); ///< The logger instance.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 
     ScreenInteractive screen = ScreenInteractive::Fullscreen(); ///< Main screen
     ScreenType currentScreen = ScreenType::TITLE; ///< The current active screen type
@@ -90,12 +91,12 @@ private:
      */
     void switchScreen(ScreenType type) {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "TextUserInterface: switching to screen type {}", type);
+        LOGGER->debug("TextUserInterface: switching to screen type {}", type);
         #endif
 
         if (type == ScreenType::EXIT) {
             #ifndef NDEBUG
-            LOGGER.log(LogLevel::DEBUG, "Exiting TUI");
+            LOGGER->debug("Exiting TUI");
             #endif
 
             requestExit();
@@ -106,7 +107,7 @@ private:
         try {
             if (screens.contains(currentScreen) && currentScreen != type) {
                 #ifndef NDEBUG
-                LOGGER.log(LogLevel::DEBUG, "TextUserInterface: deactivating current screen {}", currentScreen);
+                LOGGER->debug("TextUserInterface: deactivating current screen {}", currentScreen);
                 #endif
 
                 screens[currentScreen]->onDeactivate();
@@ -115,21 +116,21 @@ private:
             currentScreen = type;
 
             #ifndef NDEBUG
-            LOGGER.log(LogLevel::DEBUG, "TextUserInterface: getting new screen {}", currentScreen);
+            LOGGER->debug("TextUserInterface: getting new screen {}", currentScreen);
             #endif
 
             SharedPointer<TUIScreen> handlingScreen = getScreen(type);
             handlingScreen->onActivate();
 
             #ifndef NDEBUG
-            LOGGER.log(LogLevel::DEBUG, "TextUserInterface: screen switch complete");
+            LOGGER->debug("TextUserInterface: screen switch complete");
             #endif
 
             activeComponent = handlingScreen->getComponent();
             
             #ifndef NDEBUG
             if (!activeComponent) {
-                LOGGER.log(LogLevel::ERROR, "TextUserInterface: activeComponent is null after switching to screen {}", type);
+                LOGGER->error("TextUserInterface: activeComponent is null after switching to screen {}", type);
             }
             #endif
             
@@ -137,7 +138,7 @@ private:
                 screen.PostEvent(Event::Custom);
             }
         } catch (const Exception& e) {
-            LOGGER.log(LogLevel::ERROR, "Error switching screens: {}", e.what());
+            LOGGER->error("Error switching screens: {}", e.what());
         }
     }
 

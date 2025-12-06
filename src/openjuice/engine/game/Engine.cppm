@@ -15,12 +15,12 @@ module;
 export module openjuice.engine.game.Engine;
 
 import std;
+import stdx;
 
 import openjuice.engine.discord.DiscordManager;
 import openjuice.engine.game.Game;
 import openjuice.engine.game.ecs.Registry;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 import openjuice.ui.UserInterface;
 import openjuice.ui.cli.CommandLineInterface;
 import openjuice.ui.tui.TextUserInterface;
@@ -36,6 +36,8 @@ using std::sync::ScopedLock;
 using std::sync::UniqueLock;
 using std::time::Duration;
 using std::time::SystemClock;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace concurrent = std::concurrent;
 namespace fmt = std::fmt;
@@ -48,8 +50,6 @@ using openjuice::engine::managers::GlobalSettings;
 using openjuice::ui::cli::CommandLineInterface;
 using openjuice::ui::tui::TextUserInterface;
 using openjuice::ui::UserInterface;
-
-using namespace openjuice::engine::util::logging;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 
@@ -74,7 +74,7 @@ export enum class LaunchMode: u8 {
  */
 export class Engine {
 private:
-    static inline const Logger& LOGGER = Logger::getInstance(); ///< The logger instance.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Engine"); ///< The logger instance.
 
     LaunchMode launchMode; ///< The selected user interface mode
     SharedPointer<Game> game; ///< The main game instance containing game state
@@ -182,7 +182,7 @@ public:
         launchMode{mode}, game{mem::make_shared<Game>()},
         discordManager{mem::make_unique<DiscordManager>()} {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Creating Engine object");
+        LOGGER->debug("Creating Engine object");
         #endif
     }
 
@@ -193,13 +193,13 @@ public:
      */
     ~Engine() {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Destroying Engine object");
+        LOGGER->debug("Destroying Engine object");
         #endif
 
         stop();
 
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Engine shutdown complete!");
+        LOGGER->debug("Engine shutdown complete!");
         #endif
     }
 
@@ -214,14 +214,14 @@ public:
      */
     void init() {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Initialising Engine");
+        LOGGER->debug("Initialising Engine");
         #endif
 
         if (discordManager->initialise()) {
-            LOGGER.log(LogLevel::INFO, "Discord integration successfully initialised!");
+            LOGGER->info("Discord integration successfully initialised!");
             discordManager->setMenuActivity();
         } else {
-            LOGGER.log(LogLevel::WARNING, "Discord integration unsuccessful!");
+            LOGGER->warn("Discord integration unsuccessful!");
         }
 
         if (Expected<void, RegistryError> r = game->init(); !r) {
@@ -270,7 +270,7 @@ public:
      */
     void stop() {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Stopping Engine");
+        LOGGER->debug("Stopping Engine");
         #endif
         
         gameThread.request_stop();

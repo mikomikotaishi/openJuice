@@ -13,14 +13,16 @@ module;
 export module openjuice.card.StandardCardFactory;
 
 import std;
+import stdx;
 
 import openjuice.engine.card.Card;
 import openjuice.engine.card.SpawnTypes;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 import openjuice.card.standard;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
@@ -37,7 +39,6 @@ using namespace openjuice::card::standard::expansion;
 // using namespace openjuice::card::standard::extracurricular;
 using namespace openjuice::card::standard::mixedbooster;
 // using namespace openjuice::card::standard::pudding;
-using namespace openjuice::engine::util::logging;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card);
 
@@ -50,6 +51,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
 export class StandardCardFactory final {
 private:
     UTILITY_CLASS(StandardCardFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("StandardCardFactory"); ///< The logger instance.
 public:
     /**
      * @brief Create a StandardCard object with the given ID.
@@ -60,7 +63,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<StandardCard>> create(u16 id) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating StandardCard of ID: {}", id);
+        LOGGER->debug("Creating StandardCard of ID: {}", id);
         #endif
 
         switch (id) {

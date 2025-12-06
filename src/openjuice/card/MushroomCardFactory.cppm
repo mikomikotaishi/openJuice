@@ -19,10 +19,11 @@ import openjuice.engine.card.Card;
 import openjuice.engine.card.SpawnTypes;
 import openjuice.engine.card.mushroom.LegendaryMushroomCard;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Logging;
 import openjuice.card.mushroom;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
@@ -35,7 +36,6 @@ using openjuice::engine::card::spawntypes::MushroomCard;
 using namespace openjuice::card::mushroom::legendary;
 using namespace openjuice::card::mushroom::regular::battle;
 using namespace openjuice::card::mushroom::regular::boost;
-using namespace openjuice::engine::util::logging;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card);
 
@@ -48,6 +48,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
 export class MushroomCardFactory final {
 private:
     UTILITY_CLASS(MushroomCardFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("MushroomCardFactory"); ///< The logger instance.
 public:
     /**
      * @brief Create a MushroomCard object with the given ID.
@@ -59,7 +61,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<MushroomCard>> create(u8 id, MushroomColour colour) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating MushroomCard of ID: {}", id);
+        LOGGER->debug("Creating MushroomCard of ID: {}", id);
         #endif
 
         switch (id) {
@@ -129,7 +131,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<LegendaryMushroomCard>> create(u8 id, LegendaryMushroomColour colour) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating LegendaryMushroomCard of ID: {}", id);
+        LOGGER->debug("Creating LegendaryMushroomCard of ID: {}", id);
         #endif
 
         switch (id) {

@@ -31,6 +31,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
  * The GlobalSettings class is a singleton class that manages global settings for the application.
  */
 export class GlobalSettings {
+public:
+    static constexpr StringView PATH_DEBUGFILE = "./userdata/debug.txt"; ///< The debug file path.
+    static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
 private:
     String programName; ///< The name of the executable.
     Vector<String> programArgs; ///< The program command line arguments.

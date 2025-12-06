@@ -13,19 +13,20 @@ module;
 export module openjuice.unit.BasicEnemyFactory;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
 import openjuice.engine.unit.BasicEnemy;
-import openjuice.engine.util.Logging;
 import openjuice.unit.enemies;
 
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
 
 using namespace openjuice::engine::unit;
-using namespace openjuice::engine::util::logging;
 using namespace openjuice::unit::enemies;
 
 BEGIN_MODULE_NAMESPACE(openjuice::unit);
@@ -39,6 +40,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
 export class BasicEnemyFactory final {
 private:
     UTILITY_CLASS(BasicEnemyFactory);
+
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 public:
     /**
      * @brief Create a BasicEnemy object with the given ID.
@@ -49,7 +52,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<BasicEnemy>> create(u8 id) noexcept {
         #ifndef NDEBUG
-        Logger::getInstance().log(LogLevel::DEBUG, "Creating BasicEnemy of ID: {}", id);
+        LOGGER->debug("Creating BasicEnemy of ID: {}", id);
         #endif
 
         switch (id) {

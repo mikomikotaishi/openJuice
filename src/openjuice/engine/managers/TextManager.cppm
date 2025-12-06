@@ -18,23 +18,24 @@ export module openjuice.engine.managers.TextManager;
 export import :TextManagerError;
 
 import std;
+import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
 import openjuice.engine.util.Misc;
-import openjuice.engine.util.Logging;
 
 using std::collections::HashMap;
 using std::collections::Vector;
 using std::fs::Path;
 using std::io::IOException;
 using std::io::InputFileStream;
+using std::mem::SharedPointer;
 using std::util::InPlaceTag;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace io = std::io;
 namespace fmt = std::fmt;
 namespace fs = std::fs;
-
-using namespace openjuice::engine::util::logging;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
 
@@ -84,7 +85,7 @@ public:
 
     static constexpr StringView ORANGE_JUICE_WIKI_URL = "https://100orangejuice.fandom.com"; ///< The URL for the 100% Orange Juice! wiki
 private:
-    static inline const Logger& LOGGER = Logger::getInstance(); ///< The logger instance.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextManager"); ///< The logger instance.
 
     static constexpr StringView EMPTY_STRING = ""; ///< The empty string.
     static constexpr StringView COMMENT_PREFIX = "//"; ///< A comment prefix used in the localisation files.
@@ -114,9 +115,9 @@ private:
     TextManager():
         gameLanguageCode{GlobalSettings::languageToCode(GlobalSettings::getInstance().getLanguage())} {
         if (initialiseContents()) {
-            LOGGER.log(LogLevel::INFO, "Successfully loaded all text assets!");
+            LOGGER->info("Successfully loaded all text assets!");
         } else {
-            LOGGER.log(LogLevel::WARNING, "Text assets were not successfully initialised!");
+            LOGGER->warn("Text assets were not successfully initialised!");
         }
     }
 
@@ -140,7 +141,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_NOT_FOUND, 
-                fmt::format("Failed to find file {}", filePath.native())
+                fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
@@ -148,7 +149,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_OPEN_FAILURE,
-                fmt::format("Failed to open file {}", filePath.native())
+                fmt::format("Failed to open file {}", filePath.string())
             );
         }
 
@@ -182,14 +183,14 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseCardsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing cards file: {}", filePath.native());
+        LOGGER->debug("Parsing cards file: {}", filePath.string());
         #endif
 
         if (!fs::exists(filePath)) {
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_NOT_FOUND, 
-                fmt::format("Failed to find file {}", filePath.native())
+                fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
@@ -197,7 +198,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_OPEN_FAILURE,
-                fmt::format("Failed to open file {}", filePath.native())
+                fmt::format("Failed to open file {}", filePath.string())
             );
         }
 
@@ -248,7 +249,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseCardArtistNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing card artist names file: {}", filePath.native());
+        LOGGER->debug("Parsing card artist names file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, cardArtistNames);
@@ -263,7 +264,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseCommentsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing comments file: {}", filePath.native());
+        LOGGER->debug("Parsing comments file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, commentTexts);
@@ -279,7 +280,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseConfigFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing config texts file: {}", filePath.native());
+        LOGGER->debug("Parsing config texts file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, configTexts);
@@ -294,7 +295,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseFieldNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing field names file: {}", filePath.native());
+        LOGGER->debug("Parsing field names file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, fieldNames);
@@ -309,7 +310,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseGameMessagesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing game messages file: {}", filePath.native());
+        LOGGER->debug("Parsing game messages file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, gameMessages);
@@ -324,7 +325,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseGameNormaFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing game norma texts file: {}", filePath.native());
+        LOGGER->debug("Parsing game norma texts file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, gameNormaTexts);
@@ -339,7 +340,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseGameSystemFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing game system texts file: {}", filePath.native());
+        LOGGER->debug("Parsing game system texts file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, gameSystemTexts);
@@ -354,7 +355,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseMenuScreensFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing menu screens texts file: {}", filePath.native());
+        LOGGER->debug("Parsing menu screens texts file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, menuScreenTexts);
@@ -369,7 +370,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseResultFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing result texts file: {}", filePath.native());
+        LOGGER->debug("Parsing result texts file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, resultTexts);
@@ -384,14 +385,14 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseUnitsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing units file: {}", filePath.native());
+        LOGGER->debug("Parsing units file: {}", filePath.string());
         #endif
 
         if (!fs::exists(filePath)) {
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_NOT_FOUND, 
-                fmt::format("Failed to find file {}", filePath.native())
+                fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
@@ -399,7 +400,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_OPEN_FAILURE,
-                fmt::format("Failed to open file {}", filePath.native())
+                fmt::format("Failed to open file {}", filePath.string())
             );
         }
 
@@ -444,7 +445,7 @@ private:
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseVoiceActorNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Parsing voice actor names file: {}", filePath.native());
+        LOGGER->debug("Parsing voice actor names file: {}", filePath.string());
         #endif
 
         return parseSimpleFormatFile(filePath, voiceActorNames);
@@ -456,7 +457,7 @@ private:
     [[nodiscard]]
     bool initialiseContents() noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Now loading localisation contents");
+        LOGGER->debug("Now loading localisation contents");
         #endif
 
         bool successful = true;
@@ -493,8 +494,7 @@ private:
 
         for (const Expected<void, Error<TextManagerError>>& result: results) {
             if (!result.has_value()) {
-                LOGGER.log(
-                    LogLevel::WARNING,
+                LOGGER->warn(
                     "Failed to load file, error {}",
                     result.error().message()
                 );
@@ -503,7 +503,7 @@ private:
         }
 
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Loading localisation complete!");
+        LOGGER->debug("Loading localisation complete!");
         #endif
 
         return successful;
@@ -514,7 +514,7 @@ private:
      */
     void cleanup() noexcept {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Now cleaning localisation contents");
+        LOGGER->debug("Now cleaning localisation contents");
         #endif
 
         cardNames.clear();
@@ -534,7 +534,7 @@ private:
         voiceActorNames.clear();
 
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Cleaning localisation complete!");
+        LOGGER->debug("Cleaning localisation complete!");
         #endif
     }
 public:

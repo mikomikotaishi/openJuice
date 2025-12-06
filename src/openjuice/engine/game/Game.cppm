@@ -14,6 +14,7 @@ module;
 export module openjuice.engine.game.Game;
 
 import std;
+import stdx;
 
 import openjuice.card.HyperCardFactory;
 import openjuice.card.StandardCardFactory;
@@ -30,7 +31,6 @@ import openjuice.engine.unit.Playable;
 import openjuice.engine.unit.Unit;
 import openjuice.engine.util.Colours;
 import openjuice.engine.util.Exceptions;
-import openjuice.engine.util.Logging;
 import openjuice.unit.BasicEnemyFactory;
 import openjuice.unit.BossEnemyFactory;
 import openjuice.unit.CharacterFactory;
@@ -41,6 +41,8 @@ using std::fmt::FormatParseContext;
 using std::mem::SharedPointer;
 using std::mem::UniquePointer;
 using std::ranges::IotaView;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace fmt = std::fmt;
 namespace mem = std::mem;
@@ -56,7 +58,6 @@ using openjuice::engine::unit::Playable;
 using openjuice::unit::CharacterFactory;
 
 using namespace openjuice::engine::game::ecs::components;
-using namespace openjuice::engine::util::logging;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 
@@ -71,7 +72,7 @@ export class Game {
 public:
     static constexpr u8 MAX_PLAYERS = Board::MAX_PLAYERS; ///< Maximum number of players.
 private:
-    static inline const Logger& LOGGER = Logger::getInstance(); ///< The logger instance.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Game"); ///< The logger instance.
 
     // Game board and ECS components
     SharedPointer<Board> gameBoard; ///< The game board.
@@ -111,7 +112,7 @@ public:
         deltaTime{GlobalSettings::getInstance().getDeltaTime()} {
 
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Creating Game object");
+        LOGGER->debug("Creating Game object");
         #endif
     }
 
@@ -120,7 +121,7 @@ public:
      */
     ~Game() {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Destroying Game object");
+        LOGGER->debug("Destroying Game object");
         #endif
     }
 
@@ -150,7 +151,7 @@ public:
         }
 
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Game initialised");
+        LOGGER->debug("Game initialised");
         #endif
 
         return {};
@@ -173,7 +174,7 @@ public:
      */
     void setPlayerCharacter(u8 playerNumber, u8 characterId) throws(OutOfRangeException) {
         #ifndef NDEBUG
-        LOGGER.log(LogLevel::DEBUG, "Setting player {} to character of ID {}", playerNumber, characterId);
+        LOGGER->debug("Setting player {} to character of ID {}", playerNumber, characterId);
         #endif
 
         if (playerNumber >= MAX_PLAYERS) {
@@ -225,7 +226,7 @@ public:
      * @brief Runs the game.
      */
     void run() {
-        LOGGER.log(LogLevel::INFO, "Beginning game");
+        LOGGER->info("Beginning game");
 
         currentPhase = GamePhase::PLAYER_TURN;
     }
