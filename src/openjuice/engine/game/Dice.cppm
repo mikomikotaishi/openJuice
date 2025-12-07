@@ -16,8 +16,8 @@ import openjuice.engine.util.RandomNumberGenerator;
 
 using std::collections::Deque;
 using std::collections::Vector;
-using std::sync::LockGuard;
 using std::sync::Mutex;
+using std::sync::ScopedLock;
 
 using openjuice::engine::util::RandomNumberGenerator;
 
@@ -35,7 +35,7 @@ private:
      * @class RollRecord
      * @brief Contains information on the number of sides rolled by the dice and the result.
      */
-    class RollRecord {
+    class RollRecord final {
     private:
         u8 sides; ///< The number of sides on the die
         u8 result; ///< The result of the roll
@@ -64,7 +64,7 @@ private:
     NON_COPYABLE_NON_MOVABLE(Dice);
 
     void recordRoll(u8 sides, u8 result) {
-        LockGuard<Mutex> lock(historyMutex);
+        ScopedLock<Mutex> lock(historyMutex);
         rollHistory.emplace_back(sides, result);
         if (rollHistory.size() > DICEROLL_HISTORY_CAPACITY) {
             rollHistory.pop_front();
@@ -114,7 +114,7 @@ public:
      */
     [[nodiscard]]
     Vector<Pair<u8, u8>> getHistory() const {
-        LockGuard<Mutex> lock(historyMutex);
+        ScopedLock<Mutex> lock(historyMutex);
         Vector<Pair<u8, u8>> history;
         history.reserve(rollHistory.size());
 
@@ -133,7 +133,7 @@ public:
      */
     [[nodiscard]]
     Pair<usize, f32> getStats(u8 sides) const noexcept {
-        LockGuard<Mutex> lock(historyMutex);
+        ScopedLock<Mutex> lock(historyMutex);
         usize count = 0;
         f32 sum = 0.0f;
 
@@ -151,7 +151,7 @@ public:
      * @brief Clear the roll history
      */
     void clearHistory() noexcept {
-        LockGuard<Mutex> lock(historyMutex);
+        ScopedLock<Mutex> lock(historyMutex);
         rollHistory.clear();
     }
 };

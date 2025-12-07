@@ -17,12 +17,12 @@ import std;
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
 /**
- * @struct BoardInfo
+ * @class BoardInfo
  * @brief Struct aggregating key information about boards.
  * 
- * The BoardInfo struct aggregates key information about boards, such as ID, name, dimensions, and home panels.
+ * The BoardInfo record aggregates key information about boards, such as ID, name, dimensions, and home panels.
  */
-export class BoardInfo {
+export class BoardInfo final {
 public:
     static constexpr u8 MAX_PLAYERS = 4; ///< Maximum number of players.
     using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;

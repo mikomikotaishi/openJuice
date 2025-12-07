@@ -50,10 +50,10 @@ public:
     static constexpr StringView PATH_SAVEFILE = "./userdata/savedata.toml"; ///< The save file path.
 
     /**
-     * @struct ProfileData
-     * @brief Struct to store profile data across the game.
+     * @class ProfileData
+     * @brief Record to store profile data across the game.
      */
-    class ProfileData {
+    class ProfileData final {
     private:
         String playerName; ///< The player name
         u64 totalPlayTime; ///< The total amount of time played in the save slot, in seconds
