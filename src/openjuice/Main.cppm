@@ -42,6 +42,7 @@ private:
      * @param mode The game execute mode evaluated from input parser.
      * @return Optional<LaunchMode> where nullopt represents no launch mode from execute mode.
      */
+    [[nodiscard]]
     static constexpr Optional<LaunchMode> getLaunch(GameExecuteMode mode) noexcept {
         switch (mode) {
             case GameExecuteMode::TUI_MODE:
