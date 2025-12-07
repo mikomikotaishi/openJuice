@@ -60,7 +60,7 @@ public:
     /**
       * @brief Play the card.
       */
-    void play() const final {
+    void play() const noexcept override final {
 
     }
 };
