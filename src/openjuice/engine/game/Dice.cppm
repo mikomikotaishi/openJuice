@@ -37,8 +37,8 @@ private:
      */
     class RollRecord final {
     private:
-        u8 sides; ///< The number of sides on the die
-        u8 result; ///< The result of the roll
+        const u8 sides; ///< The number of sides on the die
+        const u8 result; ///< The result of the roll
     public:
         GETTER(u8, Sides, sides);
         GETTER(u8, Result, result);

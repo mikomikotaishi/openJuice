@@ -27,22 +27,17 @@ public:
     static constexpr u8 MAX_PLAYERS = 4; ///< Maximum number of players.
     using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
 private:
-    u32 id; ///< The ID of the board. 0 denotes an error.
-    String name; ///< The name of the board.
-    u8 width; ///< The width of the board.
-    u8 height; ///< The height of the board.
-    HomePanels homePanels; ///< The home panels for each player.
+    const u32 id; ///< The ID of the board. 0 denotes an error.
+    const String name; ///< The name of the board.
+    const u8 width; ///< The width of the board.
+    const u8 height; ///< The height of the board.
+    const HomePanels homePanels; ///< The home panels for each player.
 public:
     GETTER(u32, Id, id);
     GETTER(String, Name, name);
     GETTER(u8, Width, width);
     GETTER(u8, Height, height);
     GETTER(HomePanels, HomePanels, homePanels);
-
-    /**
-     * @brief Default constructor
-     */
-    constexpr BoardInfo() noexcept = default;
 
     /**
      * @brief Constructor with parameters
@@ -56,26 +51,6 @@ public:
     constexpr BoardInfo(u32 id, StringView name, u8 width, u8 height, HomePanels& panels):
         id{id}, name{String(name)}, width{width}, 
         height{height}, homePanels{panels} {}
-
-    /**
-     * @brief Copy constructor
-     */
-    constexpr BoardInfo(const BoardInfo&) noexcept = default;
-
-    /**
-     * @brief Move constructor
-     */
-    constexpr BoardInfo(BoardInfo&&) noexcept = default;
-
-    /**
-     * @brief Copy assignment operator
-     */
-    constexpr BoardInfo& operator=(const BoardInfo&) noexcept = default;
-
-    /**
-     * @brief Move assignment operator
-     */
-    constexpr BoardInfo& operator=(BoardInfo&&) noexcept = default;
 
     /**
      * @brief Destructor
