@@ -31,7 +31,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 export enum class BoardLibraryError: u8 {
     DIRECTORY_NOT_FOUND, ///< The directory containing boards was not found
     INVALID_TOML_ARRAY, ///< A TOML array was not valid or contained invalid data
-    INVALID_TOML_ARRAY_SIZE ///< A TOML array had an invalid size
+    INVALID_TOML_ARRAY_SIZE, ///< A TOML array had an invalid size
+    CORRUPTED_LIBRARY_TOML ///< The TOML file storing the board library is corrupted or has invalid data
 };
 
 END_MODULE_NAMESPACE();
@@ -56,6 +57,8 @@ struct Formatter<BoardLibraryError> {
             case BoardLibraryError::INVALID_TOML_ARRAY_SIZE:
                 name = "Invalid TOML array size"; 
                 break;
+            case BoardLibraryError::CORRUPTED_LIBRARY_TOML:
+                name = "Corrupted library TOML";
             default:
                 sys::unreachable();
         }

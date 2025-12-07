@@ -19,10 +19,10 @@ import tomlplusplus;
 #endif
 
 /**
- * @namespace toml
+ * @namespace tomlpp
  * @brief The toml++ namespace toml:: 
  */
-export namespace toml {
+export namespace tomlpp {
     /**
      * @namespace literals
      * @brief The toml++ namespace toml::literals::

@@ -11,54 +11,54 @@ BIN_DIR := $(INSTALL_PREFIX)/bin
 CMAKE_GENERATOR := Ninja
 CMAKE_BUILD_TYPE := Release
 
-# Sanitizer configuration (can be overridden with make SANITIZERS="address undefined")
-SANITIZERS ?=
-ENABLE_SANITIZERS := OFF
-CMAKE_SANITIZER_FLAGS :=
+# Sanitiser configuration (can be overridden with make SANITISERS="address undefined")
+SANITISERS ?=
+ENABLE_SANITISERS := OFF
+CMAKE_SANITISER_FLAGS :=
 
-# Process sanitizer flags
-ifneq ($(SANITIZERS),)
-	ENABLE_SANITIZERS := ON
+# Process sanitiser flags
+ifneq ($(SANITISERS),)
+	ENABLE_SANITISERS := ON
 	CMAKE_BUILD_TYPE := Debug
 	
-	ifeq ($(findstring address,$(SANITIZERS)),address)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_ADDRESS=ON -DUSE_SANITIZER_LEAK=ON
+	ifeq ($(findstring address,$(SANITISERS)),address)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_ADDRESS=ON -DUSE_SANITISER_LEAK=ON
 	endif
 	
-	ifeq ($(findstring kernel-address,$(SANITIZERS)),kernel-address)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_KERNEL=ON
+	ifeq ($(findstring kernel-address,$(SANITISERS)),kernel-address)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_KERNEL=ON
 	endif
 	
-	ifeq ($(findstring hw-address,$(SANITIZERS)),hw-address)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_HW=ON
+	ifeq ($(findstring hw-address,$(SANITISERS)),hw-address)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_HW=ON
 	endif
 	
-	ifeq ($(findstring undefined,$(SANITIZERS)),undefined)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_UNDEFINED=ON
+	ifeq ($(findstring undefined,$(SANITISERS)),undefined)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_UNDEFINED=ON
 	endif
 	
-	ifeq ($(findstring thread,$(SANITIZERS)),thread)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_THREAD=ON
+	ifeq ($(findstring thread,$(SANITISERS)),thread)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_THREAD=ON
 	endif
 	
-	ifeq ($(findstring memory,$(SANITIZERS)),memory)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_MEMORY=ON
+	ifeq ($(findstring memory,$(SANITISERS)),memory)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_MEMORY=ON
 	endif
 	
-	ifeq ($(findstring leak,$(SANITIZERS)),leak)
-		CMAKE_SANITIZER_FLAGS += -DUSE_SANITIZER_LEAK=ON
+	ifeq ($(findstring leak,$(SANITISERS)),leak)
+		CMAKE_SANITISER_FLAGS += -DUSE_SANITISER_LEAK=ON
 	endif
 	
-	ifeq ($(SANITIZERS),all)
-		CMAKE_SANITIZER_FLAGS := -DUSE_SANITIZER_ADDRESS=ON -DUSE_SANITIZER_UNDEFINED=ON -DUSE_SANITIZER_LEAK=ON
+	ifeq ($(SANITISERS),all)
+		CMAKE_SANITISER_FLAGS := -DUSE_SANITISER_ADDRESS=ON -DUSE_SANITISER_UNDEFINED=ON -DUSE_SANITISER_LEAK=ON
 	endif
 	
-	ifeq ($(SANITIZERS),all-kernel)
-		CMAKE_SANITIZER_FLAGS := -DUSE_SANITIZER_KERNEL=ON -DUSE_SANITIZER_UNDEFINED=ON -DUSE_SANITIZER_MEMORY=ON -DUSE_SANITIZER_LEAK=ON
+	ifeq ($(SANITISERS),all-kernel)
+		CMAKE_SANITISER_FLAGS := -DUSE_SANITISER_KERNEL=ON -DUSE_SANITISER_UNDEFINED=ON -DUSE_SANITISER_MEMORY=ON -DUSE_SANITISER_LEAK=ON
 	endif
 	
-	ifeq ($(SANITIZERS),all-hardware)
-		CMAKE_SANITIZER_FLAGS := -DUSE_SANITIZER_HW=ON -DUSE_SANITIZER_UNDEFINED=ON -DUSE_SANITIZER_MEMORY=ON -DUSE_SANITIZER_LEAK=ON
+	ifeq ($(SANITISERS),all-hardware)
+		CMAKE_SANITISER_FLAGS := -DUSE_SANITISER_HW=ON -DUSE_SANITISER_UNDEFINED=ON -DUSE_SANITISER_MEMORY=ON -DUSE_SANITISER_LEAK=ON
 	endif
 endif
 
@@ -97,12 +97,12 @@ help:
 	@printf "  $(YELLOW)install$(RESET)       - Install to $(INSTALL_PREFIX)/bin\n"
 	@printf "  $(YELLOW)uninstall$(RESET)     - Remove installed files\n"
 	@printf "\n"
-	@printf "$(BOLD)Sanitizer Options:$(RESET)\n"
-	@printf "  $(YELLOW)SANITIZERS$(RESET)    - Enable sanitizers (builds in Debug mode)\n"
+	@printf "$(BOLD)Sanitiser Options:$(RESET)\n"
+	@printf "  $(YELLOW)SANITISERS$(RESET)    - Enable sanitisers (builds in Debug mode)\n"
 	@printf "    Values: address, kernel-address, hw-address, undefined, thread, memory, leak\n"
 	@printf "    Special: all, all-kernel, all-hardware\n"
-	@printf "    Example: make build SANITIZERS=\"address undefined\"\n"
-	@printf "    Example: make run SANITIZERS=all\n"
+	@printf "    Example: make build SANITISERS=\"address undefined\"\n"
+	@printf "    Example: make run SANITISERS=all\n"
 	@printf "\n"
 	@printf "$(BOLD)Script Targets:$(RESET)\n"
 	@printf "  $(YELLOW)update-discord$(RESET) - Update Discord SDK files\n"
@@ -124,15 +124,15 @@ help:
 .PHONY: configure
 configure:
 	@printf "$(BOLD)$(BLUE)Configuring CMake build system...$(RESET)\n"
-	@if [ "$(ENABLE_SANITIZERS)" = "ON" ]; then \
-		printf "$(BOLD)$(MAGENTA)Sanitizers enabled:$(RESET) $(SANITIZERS)\n"; \
-		printf "$(YELLOW)Building in Debug mode for sanitizer support$(RESET)\n"; \
+	@if [ "$(ENABLE_SANITISERS)" = "ON" ]; then \
+		printf "$(BOLD)$(MAGENTA)Sanitisers enabled:$(RESET) $(SANITISERS)\n"; \
+		printf "$(YELLOW)Building in Debug mode for sanitiser support$(RESET)\n"; \
 	fi
 	cmake -S . -B $(BUILD_DIR) -G $(CMAKE_GENERATOR) \
 		-DCMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		-DCMAKE_INSTALL_PREFIX=$(INSTALL_PREFIX) \
-		-DENABLE_SANITIZERS=$(ENABLE_SANITIZERS) \
-		$(CMAKE_SANITIZER_FLAGS)
+		-DENABLE_SANITISERS=$(ENABLE_SANITISERS) \
+		$(CMAKE_SANITISER_FLAGS)
 	@printf "$(GREEN)✓ Configuration complete$(RESET)\n"
 
 # Build the project
@@ -316,7 +316,7 @@ info:
 	@printf "$(BOLD)Install Dir:$(RESET)  $(INSTALL_PREFIX)\n"
 	@printf "$(BOLD)Generator:$(RESET)    $(CMAKE_GENERATOR)\n"
 	@printf "$(BOLD)Build Type:$(RESET)   $(CMAKE_BUILD_TYPE)\n"
-	@printf "$(BOLD)Sanitizers:$(RESET)   $(if $(SANITIZERS),$(SANITIZERS),None)\n"
+	@printf "$(BOLD)Sanitisers:$(RESET)   $(if $(SANITISERS),$(SANITISERS),None)\n"
 	@printf "\n"
 	@printf "$(BOLD)Status:$(RESET)\n"
 	@if [ -d "$(BUILD_DIR)" ]; then \

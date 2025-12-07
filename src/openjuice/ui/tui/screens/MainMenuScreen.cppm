@@ -86,7 +86,7 @@ private:
     /**
      * @brief Creates the screen component
      */
-    void createComponent() final {
+    void createComponent() noexcept override final {
         if (initialised) {
             return;
         }
@@ -221,21 +221,21 @@ public:
     /**
      * @brief Called when screen becomes active
      */
-    void onActivate() noexcept final {
+    void onActivate() noexcept override final {
         selectedOption = 0;
     }
 
     /**
      * @brief Called when screen becomes inactive
      */
-    void onDeactivate() final {
+    void onDeactivate() noexcept override final {
 
     }
 
     /**
      * @brief Update screen
      */
-    void update() final {
+    void update() noexcept override final {
 
     }
 };

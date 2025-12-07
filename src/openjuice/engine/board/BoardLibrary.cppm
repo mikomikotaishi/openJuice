@@ -35,8 +35,8 @@ using stdx::util::logging::LoggerFactory;
 namespace fs = std::fs;
 namespace mem = std::mem;
 
-using toml::TomlArray;
-using toml::TomlTable;
+using tomlpp::TomlArray;
+using tomlpp::TomlTable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
@@ -116,14 +116,22 @@ public:
         for (const DirectoryEntry& entry: DirectoryIterator(directory)) {
             if (entry.is_regular_file() && entry.path().extension() == ".toml") {
                 String boardPath = entry.path().string();
-                TomlTable data = toml::parse_file(boardPath);
+                TomlTable data = tomlpp::parse_file(boardPath);
 
-                u32 id = *data["id"].value<u32>();
-                String boardName = *data["name"].value<String>();
-                u8 boardWidth = *data["width"].value<u8>();
-                u8 boardHeight = *data["height"].value<u8>();
+                u32 id = data["id"].value_or<u32>(0);
+                String boardName = data["name"].value_or<String>("");
+                u8 boardWidth = data["width"].value_or<u8>(0);
+                u8 boardHeight = data["height"].value_or<u8>(0);
+
+                if (id == 0 || boardName.empty() || boardWidth == 0 || boardHeight == 0) {
+                    return Unexpected<Error<BoardLibraryError>>(
+                        Tags::IN_PLACE,
+                        BoardLibraryError::CORRUPTED_LIBRARY_TOML,
+                        "Corrupted board library TOML file!"
+                    );
+                }
+
                 Array<Pair<u8, u8>, BoardInfo::MAX_PLAYERS> homePanels;
-
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
                     for (usize i = 0; i < homePanelsData->size() && i < BoardInfo::MAX_PLAYERS; ++i) {

@@ -583,6 +583,7 @@ public:
      * @return Optional<EntityId> The new entity ID, or nullopt if capacity is reached.
      */
     template <ValidComponent... Args>
+    [[nodiscard]]
     Optional<EntityId> entity(Args... args) noexcept {
         Optional<EntityId> id = entityManager.createEntity();
         if (!id.has_value()) {

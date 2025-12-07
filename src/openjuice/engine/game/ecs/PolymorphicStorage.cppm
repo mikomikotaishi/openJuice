@@ -668,6 +668,7 @@ public:
      * @return T Pointer to the component, or nullptr if not present.
      */
     template <typename T>
+    [[nodiscard]]
     EnableIfType<IsPointerValue<T>, T> getDefer(u32 index) const noexcept {
         return mask[index] ? static_cast<T>(storage) + index : nullptr;
     }
@@ -704,6 +705,7 @@ public:
      * 
      * @warning No bounds checking is performed.
      */
+    [[nodiscard]]
     EntityId get(usize id) const noexcept {
         return connector[id];
     }
@@ -716,6 +718,7 @@ public:
      * 
      * @warning No bounds checking is performed.
      */
+    [[nodiscard]]
     EntityId operator[](usize id) const noexcept {
         return get(id);
     }

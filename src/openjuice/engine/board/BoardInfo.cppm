@@ -27,7 +27,7 @@ public:
     static constexpr u8 MAX_PLAYERS = 4; ///< Maximum number of players.
     using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
 private:
-    u32 id; ///< The ID of the board.
+    u32 id; ///< The ID of the board. 0 denotes an error.
     String name; ///< The name of the board.
     u8 width; ///< The width of the board.
     u8 height; ///< The height of the board.
@@ -53,8 +53,8 @@ public:
      * @param height The board height
      * @param panels The home panels for each player
      */
-    constexpr BoardInfo(u32 id, const String& name, u8 width, u8 height, HomePanels& panels):
-        id{id}, name{name}, width{width}, 
+    constexpr BoardInfo(u32 id, StringView name, u8 width, u8 height, HomePanels& panels):
+        id{id}, name{String(name)}, width{width}, 
         height{height}, homePanels{panels} {}
 
     /**

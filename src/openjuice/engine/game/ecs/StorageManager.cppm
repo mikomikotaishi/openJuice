@@ -72,6 +72,7 @@ private:
      * @return StorageId The unique ID for component type T.
      */
     template <typename T>
+    [[nodiscard]]
     StorageId getIdInternal() noexcept {
         static StorageId id = idCount++;
         return id;
@@ -260,6 +261,7 @@ public:
      * @return StorageId The unique ID for the component type.
      */
     template <typename T>
+    [[nodiscard]]
     StorageId getId() noexcept {
         return getIdInternal<RemoveConstVolatileReferenceType<T>>();
     }
@@ -423,6 +425,7 @@ public:
      * @return PolymorphicStorage& Reference to the storage container for type T.
      */
     template <typename T>
+    [[nodiscard]]
     PolymorphicStorage& getStorage() noexcept {
         StorageId id = getId<T>();
         PolymorphicStorage& storage = storages[id];

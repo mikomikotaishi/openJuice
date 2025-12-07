@@ -72,7 +72,7 @@ private:
      * @return SharedPointer<TUIScreen> to the requested screen
      */
     [[nodiscard]]
-    SharedPointer<TUIScreen> getScreen(ScreenType type) {
+    SharedPointer<TUIScreen> getScreen(ScreenType type) noexcept {
         auto switchCallback = [this](ScreenType newType) -> void {
             switchScreen(newType);
         };
@@ -89,7 +89,7 @@ private:
      *
      * @param type The screen to switch to
      */
-    void switchScreen(ScreenType type) {
+    void switchScreen(ScreenType type) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("TextUserInterface: switching to screen type {}", type);
         #endif
@@ -286,7 +286,7 @@ public:
     /**
      * @brief
      */
-    void processEvents() override {
+    void processEvents() noexcept override {
         if (hasInput()) {
             String command = readInput();
 
@@ -302,7 +302,7 @@ public:
     /**
      * @brief
      */
-    void render() override {
+    void render() noexcept override {
         if (containerComponent) {
             isLoopRunning = true;
             screen.Loop(containerComponent);

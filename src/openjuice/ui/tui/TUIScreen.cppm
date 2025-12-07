@@ -57,7 +57,7 @@ protected:
     /**
      * @brief Creates the screen component
      */
-    virtual void createComponent() = 0;
+    virtual void createComponent() noexcept = 0;
 
     /**
      * @brief Constructor for the TUIScreen class
@@ -75,24 +75,24 @@ public:
      *
      * @return The component
      */
-    virtual Component getComponent() const {
+    virtual Component getComponent() const noexcept {
         return component;
     }
 
     /**
      * @brief Called when the screen becomes active
      */
-    virtual void onActivate() = 0;
+    virtual void onActivate() noexcept = 0;
 
     /**
      * @brief Called when the screen becomes inactive
      */
-    virtual void onDeactivate() = 0;
+    virtual void onDeactivate() noexcept = 0;
 
     /**
      * @brief Update screen logic
      */
-    virtual void update() = 0;
+    virtual void update() noexcept = 0;
 
     /**
      * @brief Check if the screen requested exit
@@ -100,7 +100,7 @@ public:
      * @return True if exit was requested, else false
      */
     [[nodiscard]]
-    virtual bool shouldExit() const {
+    virtual bool shouldExit() const noexcept {
         return false;
     }
 };
