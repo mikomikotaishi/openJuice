@@ -39,13 +39,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  */
 export class ThreadPool {
 private:
+    Barrier<> barrier; ///< Synchronisation barrier for coordinating thread execution.
+    Function<void(usize, usize)> task = nullptr; ///< The current task function to execute.
     UniquePointer<JoiningThread[]> threads; ///< Array of worker threads in the pool.
-    const u32 threadCount = 0; ///< Number of worker threads in the pool.
-    const u32 taskCount = 0; ///< Total number of tasks (threadCount + 1, including main thread).
     UniquePointer<usize[]> starts; ///< Starting indices for each thread's work chunk.
     UniquePointer<usize[]> ends; ///< Ending indices for each thread's work chunk.
-    Function<void(usize, usize)> task = nullptr; ///< The current task function to execute.
-    Barrier<> barrier; ///< Synchronisation barrier for coordinating thread execution.
+    const u32 threadCount = 0; ///< Number of worker threads in the pool.
+    const u32 taskCount = 0; ///< Total number of tasks (threadCount + 1, including main thread).
     bool shouldJoin = false; ///< Flag indicating whether threads should terminate.
 public:
     /**
@@ -62,16 +62,16 @@ public:
      * that calls execTask() also executes a chunk of work.
      */
     explicit ThreadPool(u32 threadCount):
+        barrier(threadCount + 1),
         threads{
             threadCount > 0 
                 ? reinterpret_cast<JoiningThread*>(::operator new(sizeof(JoiningThread) * threadCount, AlignValue{alignof(JoiningThread)}))
                 : nullptr
         },
+        starts{mem::make_unique<usize[]>(threadCount + 1)},
+        ends{mem::make_unique<usize[]>(threadCount + 1)},
         threadCount{threadCount},
-        taskCount{threadCount + 1},
-        starts{mem::make_unique<usize[]>(taskCount)},
-        ends{mem::make_unique<usize[]>(taskCount)},
-        barrier(threadCount + 1) {
+        taskCount{threadCount + 1} {
         for (u32 i: IotaView(0u, threadCount)) {
             new (&threads[i])JoiningThread([this, i]() -> void {
                 while (true) {

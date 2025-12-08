@@ -171,7 +171,7 @@ public:
                     );
                 }
 
-                boardList.push_back(mem::make_shared<BoardInfo>(id, boardName, boardWidth, boardHeight, homePanels));
+                boardList.push_back(mem::make_shared<BoardInfo>(boardName, id, boardWidth, boardHeight, homePanels));
             }
         }
 

@@ -91,8 +91,6 @@ private:
     static constexpr StringView COMMENT_PREFIX = "//"; ///< A comment prefix used in the localisation files.
     static constexpr StringView EOF_MARKER = "[EOF]"; ///< A marker used to denote the end of the file in the localisation files.
 
-    const String gameLanguageCode; ///< The language code currently being used by the game.
-
     HashMap<String, String> cardNames; ///< A dictionary of all card names.
     HashMap<String, String> cardDescriptions; ///< A dictionary of all card descriptions.
     HashMap<String, String> cardFlavours; ///< A dictionary of all card flavour texts.
@@ -108,6 +106,8 @@ private:
     HashMap<String, String> unitNames; ///< A dictionary of all unit names.
     HashMap<String, String> unitDescriptions; ///< A dictionary of all unit descriptions.
     HashMap<String, String> voiceActorNames; ///< A dictionary of all voice actor names.
+
+    const String gameLanguageCode; ///< The language code currently being used by the game.
 
     /**
      * @brief Default constructor.

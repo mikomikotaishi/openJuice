@@ -74,22 +74,20 @@ public:
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Game"); ///< The logger instance.
 
-    // Game board and ECS components
-    SharedPointer<Board> gameBoard; ///< The game board.
-    UniquePointer<Registry> registry; ///< The ECS registry
+    // Game board and ECS components (ordered by size for optimal padding)
+    Array<SharedPointer<Player>, MAX_PLAYERS> players; ///< Player array
+    String statusMessage; ///< Status message
+    Vector<EntityId> mobEntities; ///< Mob entities
+    SharedPointer<Board> gameBoard; ///< The game board
     Array<EntityId, MAX_PLAYERS> playerEntities; ///< Store player entity IDs
-
-    // Game state variables
-    f32 deltaTime;
-    GamePhase currentPhase = GamePhase::SETUP;
-    u8 currentPlayerIndex = 0;
-    u8 chapterNumber = 1;
-    Array<SharedPointer<Player>, MAX_PLAYERS> players;
-    Vector<EntityId> mobEntities;
-    EntityId activeBattleAttacker = 0;
-    EntityId activeBattleDefender = 0;
-    bool battleInProgress = false;
-    String statusMessage;
+    UniquePointer<Registry> registry; ///< The ECS registry
+    f32 deltaTime; ///< Delta time
+    EntityId activeBattleAttacker = 0; ///< Battle attacker
+    EntityId activeBattleDefender = 0; ///< Battle defender
+    GamePhase currentPhase = GamePhase::SETUP; ///< Current phase
+    u8 currentPlayerIndex = 0; ///< Current player index
+    u8 chapterNumber = 1; ///< Chapter number
+    bool battleInProgress = false; ///< Battle in progress flag
 
     /**
      * @brief Advances the game to the next player.
@@ -107,8 +105,8 @@ public:
      */
     Game():
         gameBoard{mem::make_shared<Board>(0)},
-        registry{mem::make_unique<Registry>(1000)},
         playerEntities{{}},
+        registry{mem::make_unique<Registry>(1000)},
         deltaTime{GlobalSettings::getInstance().getDeltaTime()} {
 
         #ifndef NDEBUG

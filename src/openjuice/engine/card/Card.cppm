@@ -43,14 +43,14 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  */
 export class Card: public IFinalOnly, public IKeyQueryable {
 private:
+    const Expected<u8, DeckPointError> deckPoints; ///< The deck points of the card
+    const Optional<Rarity> rarity; ///< The rarity of the card.
+    const Optional<u16> cost; ///< The cost to play the card (nullopt if not constant)
+    const Optional<u8> limitPerDeck; ///< The limit of the card per deck (nullopt if not a standard card)
     const u16 id; ///< The ID of the card.
     const CardType cardType; ///< The card type of the card.
     const SpawnType spawnType; ///< The spawn type of the card.
-    const Optional<Rarity> rarity; ///< The rarity of the card.
-    const Optional<u16> cost; ///< The cost to play the card (nullopt if not constant)
     const u8 level; ///< The level of the card.
-    const Optional<u8> limitPerDeck; ///< The limit of the card per deck (nullopt if not a standard card)
-    const Expected<u8, DeckPointError> deckPoints; ///< The deck points of the card
 protected:
     static constexpr StringView CARD_KEY = ""; ///< The key belonging to the card to query in TextManager
     static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in TextManager
@@ -59,8 +59,8 @@ protected:
      * @brief Default constructor to initialise a Card object.
      */
     Card():
-        id{0}, cardType{static_cast<CardType>(0)}, spawnType{static_cast<SpawnType>(0)}, rarity{nullopt}, 
-        cost{nullopt}, level{0}, limitPerDeck{0}, deckPoints{0} {}
+        deckPoints{0}, rarity{nullopt}, cost{nullopt}, limitPerDeck{0},
+        id{0}, cardType{static_cast<CardType>(0)}, spawnType{static_cast<SpawnType>(0)}, level{0} {}
 
     /**
      * @brief Virtual default destructor.
@@ -80,7 +80,8 @@ public:
      * @param deckPoints The deck points of the card.
      */
     Card(u16 id, CardType cardType, SpawnType spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
-        id{id}, cardType{cardType}, spawnType{spawnType}, rarity{rarity}, cost{cost}, level{level}, limitPerDeck{limit}, deckPoints{std::util::move(deckPoints)} {}
+        deckPoints{std::util::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
+        id{id}, cardType{cardType}, spawnType{spawnType}, level{level} {}
 
     GETTER(u16, Id, id);
     GETTER(CardType, CardType, cardType);

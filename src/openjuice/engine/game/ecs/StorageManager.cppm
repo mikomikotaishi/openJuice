@@ -52,12 +52,12 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  */
 export class StorageManager {
 private:
-    u32 capacity = 512; ///< The maximum number of component types that can be registered.
     UniquePointer<PolymorphicStorage[]> storages; ///< Array of polymorphic storage containers, one per component type.
-    u32 storageCapacity = 0; ///< The highest component type ID ever allocated.
     UniquePointer<bool[]> mask; ///< Boolean mask tracking which component types are registered/active.
     UniquePointer<StorageId[]> entries; ///< Dense array of active component type IDs.
     UniquePointer<u32[]> indices; ///< Sparse array mapping component type IDs to dense array indices.
+    u32 capacity = 512; ///< The maximum number of component types that can be registered.
+    u32 storageCapacity = 0; ///< The highest component type ID ever allocated.
     u32 entryCount = 0; ///< The number of registered component types currently active.
     static inline u32 idCount = 0; ///< Global counter for assigning unique IDs to component types (shared across all instances).
 
@@ -102,11 +102,11 @@ public:
      *                 Defaults to 512 if not specified.
      */
     explicit StorageManager(u32 capacity):
-        capacity{capacity},
         storages{mem::make_unique<PolymorphicStorage[]>(capacity)},
         mask{mem::make_unique<bool[]>(capacity)},
         entries{mem::make_unique<StorageId[]>(capacity)},
-        indices{mem::make_unique<u32[]>(capacity)} {}
+        indices{mem::make_unique<u32[]>(capacity)},
+        capacity{capacity} {}
 
     /**
      * @brief Destroys the StorageManager instance.
@@ -130,9 +130,12 @@ public:
      * @param other The StorageManager instance to copy from.
      */
     StorageManager(const StorageManager& other):
-        capacity{other.capacity}, storages{mem::make_unique<PolymorphicStorage[]>(other.storageCapacity)},
-        storageCapacity{other.storageCapacity}, mask{mem::make_unique<bool[]>(other.storageCapacity)},
-        entries{mem::make_unique<StorageId[]>(other.storageCapacity)}, indices{mem::make_unique<u32[]>(other.storageCapacity)},
+        storages{mem::make_unique<PolymorphicStorage[]>(other.storageCapacity)},
+        mask{mem::make_unique<bool[]>(other.storageCapacity)},
+        entries{mem::make_unique<StorageId[]>(other.storageCapacity)},
+        indices{mem::make_unique<u32[]>(other.storageCapacity)},
+        capacity{other.capacity},
+        storageCapacity{other.storageCapacity},
         entryCount{other.entryCount} {
         ranges::copy(Span<PolymorphicStorage>(other.storages.get(), storageCapacity), storages.get());
         ranges::copy(Span<bool>(other.mask.get(), storageCapacity), mask.get());
@@ -149,9 +152,12 @@ public:
      * @param other The StorageManager instance to move from.
      */
     StorageManager(StorageManager&& other):
-        capacity{other.capacity}, storages{util::move(other.storages)},
-        storageCapacity{other.storageCapacity}, mask{util::move(other.mask)},
-        entries{util::move(other.entries)}, indices{util::move(other.indices)},
+        storages{util::move(other.storages)},
+        mask{util::move(other.mask)},
+        entries{util::move(other.entries)},
+        indices{util::move(other.indices)},
+        capacity{other.capacity},
+        storageCapacity{other.storageCapacity},
         entryCount{other.entryCount} {}
 
     /**

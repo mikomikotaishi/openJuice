@@ -76,16 +76,14 @@ export class Engine {
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Engine"); ///< The logger instance.
 
-    LaunchMode launchMode; ///< The selected user interface mode
-    SharedPointer<Game> game; ///< The main game instance containing game state
-    UniquePointer<DiscordManager> discordManager; ///< The manager for Discord integration.
-    
-    Mutex stateMutex; ///< Mutex for thread-safe access to game state
     ConditionVariable gameUpdate; ///< Condition variable for signaling game thread
-    AtomicBoolean gamePaused = false; ///< Flag indicating if the game is paused
-    
+    Mutex stateMutex; ///< Mutex for thread-safe access to game state
     JoiningThread gameThread; ///< Thread for running game logic
     JoiningThread uiThread; ///< Thread for running UI logic
+    SharedPointer<Game> game; ///< The main game instance containing game state
+    UniquePointer<DiscordManager> discordManager; ///< The manager for Discord integration.
+    LaunchMode launchMode; ///< The selected user interface mode
+    AtomicBoolean gamePaused = false; ///< Flag indicating if the game is paused
     
     /**
      * @brief Runs the actual game loop (all computational parts of the game)
@@ -179,8 +177,9 @@ public:
      * @param mode The launch mode determining which UI to initialise
      */
     explicit Engine(LaunchMode mode): 
-        launchMode{mode}, game{mem::make_shared<Game>()},
-        discordManager{mem::make_unique<DiscordManager>()} {
+        game{mem::make_shared<Game>()},
+        discordManager{mem::make_unique<DiscordManager>()},
+        launchMode{mode} {
         #ifndef NDEBUG
         LOGGER->debug("Creating Engine object");
         #endif

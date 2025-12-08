@@ -36,12 +36,12 @@ export class Panel {
 public:
     using Neighbours = Array<WeakPointer<Panel>, 4>;
 private:
+    Neighbours neighbours; ///< The neighbouring panels.
+    BitSet<4> enters; ///< The directions from which the panel can be entered.
+    BitSet<4> exits; ///< The directions from which the panel can be exited.
     u16 id; ///< The ID of the panel.
     PanelType type; ///< The type of the panel.
     PanelType alternativeType = PanelType::NEUTRAL; ///< The alternative type of the panel.
-    BitSet<4> enters; ///< The directions from which the panel can be entered.
-    BitSet<4> exits; ///< The directions from which the panel can be exited.
-    Neighbours neighbours; ///< The neighbouring panels.
 public:
     /**
      * @brief Constructor to initialise a Panel object.
@@ -53,7 +53,7 @@ public:
      * @param alternativeType The alternative type of the panel (if any).
      */
     Panel(u16 id, PanelType type, PanelType alternativeType, const BitSet<4>& enters, const BitSet<4>& exits):
-        id{id}, type{type}, alternativeType{alternativeType}, enters{enters}, exits{exits} {}
+        neighbours{}, enters{enters}, exits{exits}, id{id}, type{type}, alternativeType{alternativeType} {}
 
     GETTER(u16, Id, id);
     PROPERTY(PanelType, Type, type);

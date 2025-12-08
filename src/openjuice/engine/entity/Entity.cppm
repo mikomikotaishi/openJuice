@@ -39,9 +39,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::entity);
  * The Entity abstract class represents a generic entity in the game with the following attributes: unit, stars, and current health.
  */
 export class Entity {
-private:
-    EntityId id; ///< The ECS entity ID associated with this entity.
+protected:
     Registry* registry; ///< Pointer to the ECS registry
+    EntityId id; ///< The ECS entity ID associated with this entity.
 public:
     /**
      * @brief Constructor to initialise an Entity object.

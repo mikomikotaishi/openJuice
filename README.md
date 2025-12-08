@@ -107,14 +107,12 @@ xmake run
 To be written.
 
 ## TODO:
-* ~~Migrate to standard library modules (once released for GCC 15)~~
-    - Currently using homemade standard library modules, no plans to revert to official standard library modules.
-    - Once official standard library modules release, plans are to use them for homemade standard library modules to increase compilation speed.
 * Resolve all `#warning` markers, if possible
 * Complete design document
 * Continue documentation (Doxygen)
 * Implement online multiplayer functionality
 * Implement a game AI
+* Re-order the class fields to be in order of size, to benefit from padding
 
 ## Dependencies
 This project uses the following external libraries:
@@ -124,8 +122,6 @@ This project uses the following external libraries:
 - [Boost.System](https://github.com/boostorg/system)
 - [Discord Social SDK](https://discord.com/developers/social-sdk)
 - [FTXUI](https://github.com/ArthurSonzogni/FTXUI)
-  - [grid-container-ftxui](https://github.com/mingsheng13/grid-container-ftxui)
-  - [ip-input-ftxui](https://github.com/mingsheng13/ip-input-ftxui)
 - [nlohmann-json](https://github.com/nlohmann/json)
 - [SFML](https://github.com/SFML/SFML)
 - [SQLiteCpp](https://github.com/SRombauts/SQLiteCpp)

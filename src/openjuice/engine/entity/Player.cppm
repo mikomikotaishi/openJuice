@@ -50,8 +50,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::entity);
  * The Player class extends the Entity abstract class and represents a player entity with attributes such as wins, norma, and hand.
  */
 export class Player: public Entity {
-private:
-    Registry* registry; ///< Pointer to the ECS registry
 public:
     /**
      * @brief Constructor to initialise a Player object.
@@ -60,7 +58,7 @@ public:
      * @param character The character associated with the player.
      */
     explicit Player(Registry& reg, const SharedPointer<Playable>& character = nullptr):
-        Entity(reg, character), registry{&reg} {
+        Entity(reg, character) {
         registry->emplace<PlayerTag>(getEntityId());
         registry->emplace<PlayerComponent>(getEntityId());
         registry->emplace<HandComponent>(getEntityId());

@@ -56,12 +56,12 @@ private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("DiscordManager"); ///< The logger instance.
 
     mutable Mutex discordMutex; ///< Mutex for thread-safe operations on Discord
+    String currentActivity; ///< Current activity
     UniquePointer<Client> client; ///< Discord SDK client
+    u64 sessionStartTime; ///< Session start timestamp
+    DiscordActivityType currentActivityType; ///< Current activity type
     bool isConnected = false; ///< Connection status
     bool isInitialised = false; ///< Initialisation status
-    String currentActivity; ///< Current activity
-    DiscordActivityType currentActivityType; ///< Current activity type
-    u64 sessionStartTime; ///< Session start timestamp
 
     /**
      * @brief Create base activity with common properties
@@ -107,10 +107,10 @@ public:
      * @brief Constructor of the DiscordManager
      */
     DiscordManager():
-        currentActivityType{DiscordActivityType::IN_MENU},
         sessionStartTime{static_cast<u64>(
             time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
-        )} {}
+        )},
+        currentActivityType{DiscordActivityType::IN_MENU} {}
 
     /**
      * @brief Destructor of the DiscordManager

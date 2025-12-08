@@ -55,6 +55,8 @@ export class TextUserInterface: public UserInterface {
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 
+    TreeMap<ScreenType, SharedPointer<TUIScreen>> screens; ///< Map storing all initialised screens
+
     ScreenInteractive screen = ScreenInteractive::Fullscreen(); ///< Main screen
     ScreenType currentScreen = ScreenType::TITLE; ///< The current active screen type
     Component activeComponent; ///< Active FTXUI component
@@ -62,8 +64,6 @@ private:
     bool showExitDialog = false; ///< Flag to show exit confirmation dialog
     bool exitDialogSelection = false; ///< Selected option in exit dialog
     bool isLoopRunning = false; ///< Flag to track if screen.Loop() is running
-
-    TreeMap<ScreenType, SharedPointer<TUIScreen>> screens; ///< Map storing all initialised screens
 
     /**
      * @brief Get or create screen if it doesn't exist

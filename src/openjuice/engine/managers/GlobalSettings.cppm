@@ -35,10 +35,10 @@ public:
     static constexpr StringView PATH_DEBUGFILE = "./userdata/debug.txt"; ///< The debug file path.
     static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
 private:
-    String programName; ///< The name of the executable.
     Vector<String> programArgs; ///< The program command line arguments.
-    Language language = Language::ENGLISH; ///< The current language setting.
+    String programName; ///< The name of the executable.
     f32 deltaTime = 0.0f; ///< The delta-time associated with the frame rate (1/frame rate), in seconds
+    Language language = Language::ENGLISH; ///< The current language setting.
 
     /**
      * @brief Private constructor to prevent instantiation.

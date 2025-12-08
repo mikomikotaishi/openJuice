@@ -31,8 +31,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
  */
 export class RandomNumberGenerator final {
 private:
-    static inline MersenneTwister rng{RandomDevice{}()}; ///< Mersenne Twister random number generator.
     static inline Mutex rngMutex; ///< Mutex for thread-safe access to the RNG.
+    static inline MersenneTwister rng{RandomDevice{}()}; ///< Mersenne Twister random number generator.
 
     /**
      * @brief Private constructor to prevent instantiation.

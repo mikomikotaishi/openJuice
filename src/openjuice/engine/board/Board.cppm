@@ -170,9 +170,9 @@ private:
 
     GameBoard gameBoard; ///< The game board represented as a 2D array of panels.
     BoardInfo::HomePanels homePanels; ///< The home panels for each player.
+    UniquePointer<Graph> graph; ///< Internal graph representation for pathfinding.
     u8 boardWidth; ///< The width of the board.
     u8 boardHeight; ///< The height of the board.
-    UniquePointer<Graph> graph; ///< Internal graph representation for pathfinding.
 public:
     /**
      * @brief Construct a new Board object.

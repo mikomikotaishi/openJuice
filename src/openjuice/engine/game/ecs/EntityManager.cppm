@@ -39,13 +39,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  */
 export class EntityManager {
 private:
-    u32 capacity = 512; ///< The maximum number of entities that may exist simultaneously.
-    u32 occupied = 0; ///< The highest entity ID ever allocated (includes alive and freed IDs).
     UniquePointer<bool[]> mask; ///< Boolean mask tracking which entity IDs are currently active/alive.
     UniquePointer<EntityId[]> entries; ///< Dense array of all currently alive entity IDs.
     UniquePointer<u32[]> indices; ///< Sparse array mapping entity IDs to their dense array indices.
-    u32 entryCount = 0; ///< The number of entities currently alive.
     UniquePointer<u32[]> freeIds; ///< Free list of recycled entity IDs available for reuse.
+    u32 capacity = 512; ///< The maximum number of entities that may exist simultaneously.
+    u32 occupied = 0; ///< The highest entity ID ever allocated (includes alive and freed IDs).
+    u32 entryCount = 0; ///< The number of entities currently alive.
     u32 freeIdsCount = 0; ///< The number of IDs currently in the free list.
 
     /**
@@ -75,11 +75,11 @@ public:
      * @param capacity The maximum number of entities that can exist simultaneously.
      */
     explicit EntityManager(u32 capacity):
-        capacity{capacity},
         mask{mem::make_unique<bool[]>(capacity)},
         entries{mem::make_unique<EntityId[]>(capacity)},
         indices{mem::make_unique<u32[]>(capacity)},
-        freeIds{mem::make_unique<u32[]>(capacity)} {}
+        freeIds{mem::make_unique<u32[]>(capacity)},
+        capacity{capacity} {}
 
     /**
      * @brief Copy constructor for EntityManager.
@@ -90,12 +90,13 @@ public:
      * @param other The EntityManager instance to copy from.
      */
     EntityManager(const EntityManager& other):
-        capacity{other.capacity}, occupied{other.occupied},
-        mask{mem::make_unique<bool[]>(capacity)},
-        entries{mem::make_unique<EntityId[]>(capacity)},
-        indices{mem::make_unique<u32[]>(capacity)},
+        mask{mem::make_unique<bool[]>(other.capacity)},
+        entries{mem::make_unique<EntityId[]>(other.capacity)},
+        indices{mem::make_unique<u32[]>(other.capacity)},
+        freeIds{mem::make_unique<u32[]>(other.capacity)},
+        capacity{other.capacity},
+        occupied{other.occupied},
         entryCount{other.entryCount},
-        freeIds{mem::make_unique<u32[]>(capacity)},
         freeIdsCount{other.freeIdsCount} {
         ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
         ranges::copy(Span<EntityId>(other.entries.get(), capacity), entries.get());
@@ -112,12 +113,13 @@ public:
      * @param other The EntityManager instance to move from.
      */
     EntityManager(EntityManager&& other):
-        capacity{other.capacity}, occupied{other.occupied},
         mask{util::move(other.mask)},
         entries{util::move(other.entries)},
         indices{util::move(other.indices)},
-        entryCount{other.entryCount},
         freeIds{util::move(other.freeIds)},
+        capacity{other.capacity},
+        occupied{other.occupied},
+        entryCount{other.entryCount},
         freeIdsCount{other.freeIdsCount} {
         other.capacity = 0;
         other.occupied = 0;

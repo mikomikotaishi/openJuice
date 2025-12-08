@@ -53,26 +53,26 @@ private:
     using HandlerInvokeFunction = void(*)(void*, void*, EntityId); ///< Function pointer type for invoking type-erased callbacks with entity and component.
     using CopyHandlerFunction = void(*)(void*, void*&); ///< Function pointer type for deep-copying a callback function object.
 
-    u32 capacity = 0; ///< The maximum number of components that can be stored.
-    u32 occupied = 0; ///< The highest entity ID that has ever been stored (includes alive and freed slots).
-    void* storage = nullptr; ///< Raw memory buffer containing the actual component data, indexed by entity ID.
-    usize size = 0; ///< The size in bytes of each component (0 for empty types).
-    AlignValue alignment = AlignValue{0}; ///< The memory alignment requirement of the component type.
     UniquePointer<bool[]> mask; ///< Boolean mask tracking which entity IDs have components in this storage.
     UniquePointer<EntityId[]> connector; ///< Dense array of entity IDs that have components in this storage.
     UniquePointer<u32[]> indices; ///< Sparse array mapping entity IDs to their dense array indices.
+    void* storage = nullptr; ///< Raw memory buffer containing the actual component data, indexed by entity ID.
+    void* onConstructFn = nullptr; ///< Type-erased callable invoked when a component is created.
+    void* onDestroyFn = nullptr; ///< Type-erased callable invoked when a component is destroyed.
     EraseFunction eraseFn = nullptr; ///< Function pointer that calls the component destructor.
     DeleteFunction deleteFn = nullptr; ///< Function pointer that deallocates the storage buffer with proper alignment.
     CopyFunction copyFn = nullptr; ///< Function pointer that copy-constructs a component from one index to another.
     MoveFunction moveFn = nullptr; ///< Function pointer that move-constructs a component from one index to another.
-    void* onConstructFn = nullptr; ///< Type-erased callable invoked when a component is created.
-    void* onDestroyFn = nullptr; ///< Type-erased callable invoked when a component is destroyed.
     HandlerInvokeFunction onConstructInvokeFn = nullptr; ///< Function pointer to invoke the construct callback.
     HandlerInvokeFunction onDestroyInvokeFn = nullptr; ///< Function pointer to invoke the destroy callback.
     CopyHandlerFunction onConstructFunctionCopyFn; ///< Function pointer that deep-copies the construct callback.
     CopyHandlerFunction onDestroyFunctionCopyFn; ///< Function pointer that deep-copies the destroy callback.
     DeleteFunction onConstructDeleteFn; ///< Function pointer that deletes the construct callback.
     DeleteFunction onDestroyDeleteFn; ///< Function pointer that deletes the destroy callback.
+    usize size = 0; ///< The size in bytes of each component (0 for empty types).
+    AlignValue alignment = AlignValue{0}; ///< The memory alignment requirement of the component type.
+    u32 capacity = 0; ///< The maximum number of components that can be stored.
+    u32 occupied = 0; ///< The highest entity ID that has ever been stored (includes alive and freed slots).
     bool populated = false; ///< Flag indicating whether the storage has been initialised with a concrete type.
 
     /**
@@ -131,12 +131,17 @@ public:
      * @param other The PolymorphicStorage instance to copy from.
      */
     PolymorphicStorage(const PolymorphicStorage& other):
-        capacity{other.capacity}, occupied{other.occupied}, size{other.size}, alignment{other.alignment},
-        mask{other.populated ? mem::make_unique<bool[]>(capacity) : nullptr},
-        connector{other.populated ? mem::make_unique<EntityId[]>(capacity) : nullptr},
-        indices{other.populated ? mem::make_unique<u32[]>(capacity) : nullptr},
-        eraseFn{other.populated ? other.eraseFn : nullptr}, deleteFn{other.populated ? other.deleteFn : nullptr},
-        copyFn{other.populated ? other.copyFn : nullptr}, moveFn{other.populated ? other.moveFn : nullptr}, 
+        mask{other.populated ? mem::make_unique<bool[]>(other.capacity) : nullptr},
+        connector{other.populated ? mem::make_unique<EntityId[]>(other.capacity) : nullptr},
+        indices{other.populated ? mem::make_unique<u32[]>(other.capacity) : nullptr},
+        eraseFn{other.populated ? other.eraseFn : nullptr},
+        deleteFn{other.populated ? other.deleteFn : nullptr},
+        copyFn{other.populated ? other.copyFn : nullptr},
+        moveFn{other.populated ? other.moveFn : nullptr},
+        size{other.size},
+        alignment{other.alignment},
+        capacity{other.capacity},
+        occupied{other.occupied},
         populated{other.populated} {
         if (other.populated) {
             if (other.storage) {
@@ -179,15 +184,27 @@ public:
      * @param other The PolymorphicStorage instance to move from.
      */
     PolymorphicStorage(PolymorphicStorage&& other):
-        capacity{other.capacity}, occupied{other.occupied}, storage{other.storage},
-        size{other.size}, alignment{other.alignment}, mask{util::move(other.mask)},
-        connector{util::move(other.connector)}, indices{util::move(other.indices)},
-        eraseFn{other.eraseFn}, deleteFn{other.deleteFn}, copyFn{other.copyFn}, 
-        moveFn{other.moveFn}, onConstructFn{other.onConstructFn}, onDestroyFn{other.onDestroyFn},
-        onConstructInvokeFn{other.onConstructInvokeFn}, onDestroyInvokeFn{other.onDestroyInvokeFn},
-        onConstructFunctionCopyFn{other.onConstructFunctionCopyFn}, 
+        mask{util::move(other.mask)},
+        connector{util::move(other.connector)},
+        indices{util::move(other.indices)},
+        storage{other.storage},
+        onConstructFn{other.onConstructFn},
+        onDestroyFn{other.onDestroyFn},
+        eraseFn{other.eraseFn},
+        deleteFn{other.deleteFn},
+        copyFn{other.copyFn},
+        moveFn{other.moveFn},
+        onConstructInvokeFn{other.onConstructInvokeFn},
+        onDestroyInvokeFn{other.onDestroyInvokeFn},
+        onConstructFunctionCopyFn{other.onConstructFunctionCopyFn},
         onDestroyFunctionCopyFn{other.onDestroyFunctionCopyFn},
-        onConstructDeleteFn{other.onConstructDeleteFn}, onDestroyDeleteFn{other.onDestroyDeleteFn} {
+        onConstructDeleteFn{other.onConstructDeleteFn},
+        onDestroyDeleteFn{other.onDestroyDeleteFn},
+        size{other.size},
+        alignment{other.alignment},
+        capacity{other.capacity},
+        occupied{other.occupied},
+        populated{other.populated} {
         other.populated = false;
     }
 
