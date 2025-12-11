@@ -28,6 +28,7 @@ using std::collections::HashMap;
 using std::collections::Vector;
 using std::mem::SharedPointer;
 using std::mem::UniquePointer;
+using std::ranges::IotaView;
 
 namespace io = std::io;
 namespace mem = std::mem;
@@ -101,7 +102,7 @@ private:
             for (const Array<UniquePointer<Panel>, GAME_MAX_WIDTH>& row: gameboard) {
                 for (const UniquePointer<Panel>& panel: row) {
                     if (panel) {
-                        for (usize i = 0; i < DIRECTION_OFFSETS.size(); ++i) {
+                        for (usize i: IotaView(0uz, DIRECTION_OFFSETS.size())) {
                             SharedPointer<Panel> neighbour = panel->getNeighbour(static_cast<Direction>(i));
                             if (neighbour) {
                                 addEdge(SharedPointer<Panel>(panel.get()), neighbour);
@@ -207,14 +208,14 @@ public:
      *
      * @param start The starting panel.
      * @param distance The distance to search (positive for forward, negative for backward).
-     * @return Vector<SharedPointer<Panel>> The panels at the specified distance.
+     * @return A list of panels at the specified distance, or nullopt if there is no instance of graph.
      */
     [[nodiscard]]
-    Vector<SharedPointer<Panel>> getPanelsAtDistance(const SharedPointer<Panel>& start, i8 distance) const {
-        if (graph) {
-            return graph->atDistance(start, distance);
+    Optional<Vector<SharedPointer<Panel>>> getPanelsAtDistance(const SharedPointer<Panel>& start, i8 distance) const {
+        if (!graph) {
+            return nullopt;
         }
-        return {};
+        return graph->atDistance(start, distance);
     }
 
     /**

@@ -29,10 +29,12 @@ using std::collections::Vector;
 using std::fs::DirectoryEntry;
 using std::fs::DirectoryIterator;
 using std::mem::SharedPointer;
+using std::ranges::IotaView;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 namespace fs = std::fs;
+namespace math = std::math;
 namespace mem = std::mem;
 
 using tomlpp::TomlArray;
@@ -134,7 +136,7 @@ public:
                 Array<Pair<u8, u8>, BoardInfo::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
-                    for (usize i = 0; i < homePanelsData->size() && i < BoardInfo::MAX_PLAYERS; ++i) {
+                    for (usize i: IotaView(0uz, math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {

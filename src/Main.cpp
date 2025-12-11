@@ -33,10 +33,10 @@ int main(int argc, char* argv[]) {
             .init(GlobalSettings::PATH_DEBUGFILE);
         Main::main(args);
     } catch (const Exception& e) {
-        LoggerFactory::instance().of("main()")->error("An error occured: {}", e.what());
+        LoggerFactory::instance().of("::main()")->error("An error occured: {}", e.what());
         return EXIT_FAILURE;
     } catch (...) {
-        LoggerFactory::instance().of("main()")->error("An unknown error occured.");
+        LoggerFactory::instance().of("::main()")->error("An unknown error occured.");
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
