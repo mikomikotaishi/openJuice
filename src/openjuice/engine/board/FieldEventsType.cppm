@@ -41,6 +41,7 @@ export enum class FieldEventsType: u8 {
     AMPLIFY, ///< All units randomly receive a bonus stat for 2 Chapters (every 6 chapters)
     BACKTRACK, ///< All units move in the reverse definition for the rest of the Chapter (every 8 chapters)
     BOMBER, ///< Places a bomb on a random panel that explodes within 1-4 Chapters, dealing 2 points of damage within 3 panels of a cross-shaped area (every 2 chapters)
+    CAKES, ///< All players receive Mio's False Cake, either used as 1 damage missile or grants random effect (every 6 chapters)
     CHARITY, ///< All players draw 1 card at the beginning of Chapter (every 5 chapters)
     CONFUSION, ///< All player's cards are rearranged and put face-down, unreadable to both the owner and other players, for the rest of the chapter (every 7 chapters)
     FISH_A_FISH, ///< Activates the fishing minigame (every 9 chapters)
@@ -58,12 +59,12 @@ export enum class FieldEventsType: u8 {
     TREASURE, ///< A Red or Blue chest is placed on a random panel (up to board size limit), giving the contents (every chapter)
 
     // Automatic
-    BOSS_ENCOUNTER, 
-    TERROR,
-    CHAOS_BATTLEFIELD,
-    STARVATION,
-    OVERINDULGENCE,
-    CONVERGENCE
+    BOSS_ENCOUNTER, ///< All Encounter panels on the map are replaced with Boss panels, until Boss is defeated (triggered when norma level 4 achieved for the first time by any player)
+    TERROR, ///< Random Boss panels spawn around the board. Increases as game progresses. Does not affect Home, Warp, or Warp Move panels (on co-op mode: every 2 chapters before chapter 40, every chapter after chapter 40)
+    CHAOS_BATTLEFIELD, ///< All panels become Player Encounter panels, disables Home panel stop options, until end of Chapter (every 10 chapters)
+    STARVATION, ///< All players gain amount of stars equal to current HP, then every player's HP becomes 1 (on chapter 1, then every 8 chapters) 
+    OVERINDULGENCE, ///< All Bonus and Drop panels become Heal panels, lasting for 3 Chapters (every 6 chapters)
+    CONVERGENCE ///< Curent field changes to another random field (every 6 chapters)
 };
 
 END_MODULE_NAMESPACE();
@@ -102,6 +103,9 @@ struct Formatter<FieldEventsType> {
                 break;
             case FieldEventsType::BOMBER: 
                 name = "Bomber"; 
+                break;
+            case FieldEventsType::CAKES:
+                name = "Cakes";
                 break;
             case FieldEventsType::CHARITY: 
                 name = "Charity"; 

@@ -56,7 +56,7 @@ export enum class PanelType: u8 {
     MINIGAME, // 22 - UNUSED, Play a random minigame
     BOSS_HOME, // 23 - UNUSED, Spawn panel for Boss, face this board's boss in combat
     DECORATION, // 24 - UNUSED, gain 1 decoration
-    PLAYER_ENCOUNTER // 25 - UNUSED, face a random player in combat
+    PLAYER_ENCOUNTER, // 25 - UNUSED, face a random player in combat
     RANDOM // 26 - Causes either a positive or negative effect of any normal panel
 };
 
@@ -152,7 +152,7 @@ struct Formatter<PanelType> {
                 name = "Player Encounter";
                 break;
             case PanelType::RANDOM:
-                name = "Random"
+                name = "Random";
                 break;
             default:
                 sys::unreachable();
