@@ -3,7 +3,7 @@
  * @module openjuice.card.seasonal.HoldTheGremlin
  * @brief Implementation of the HoldTheGremlin class.
  *
- * This file contains the implementation of the HoldTheGremlin class, which represents the card "Lonely Chariot" in the game.
+ * This file contains the implementation of the HoldTheGremlin class, which represents the card "Hold the Gremlin" in the game.
  */
 
 module;
@@ -31,24 +31,24 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::seasonal);
  * @class HoldTheGremlin
  * @brief Class representing the HoldTheGremlin card.
  *
- * @extends BoostCard
+ * @extends GiftCard
  * @extends SeasonalCard
  *
- * The HoldTheGremlin class extends both BoostCard and SeasonalCard to represent the card "Lonely Chariot" in the game.
+ * The HoldTheGremlin class extends both GiftCard and SeasonalCard to represent the card "Hold the Gremlin" in the game.
  */
-export class HoldTheGremlin final: public BoostCard, public SeasonalCard {
+export class HoldTheGremlin final: public GiftCard, public SeasonalCard {
 private:
     static constexpr u8 ID = 12; ///< The id of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::BOOST_CARD; ///< The card type of this specific card
-    static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
-    static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card
-    static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
-    static constexpr u8 LEVEL = 3; ///< The level of this specific card
-    static constexpr Optional<u8> LIMIT = 3; ///< The limit of this specific card
-    static constexpr Expected<u8, DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
+    static constexpr CardType CARD_TYPE = CardType::GIFT; ///< The card type of this specific card
+    static constexpr SpawnType SPAWN_TYPE = SpawnType::SEASONAL; ///< The spawn type of this specific card
+    static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
+    static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
+    static constexpr u8 LEVEL = 1; ///< The level of this specific card
+    static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card
+    static constexpr Expected<u8, DeckPointError> DECK_POINTS = Unexpected(DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
-    CARD_METADATA("CARD_BOOST_HoldTheGremlin", "CARD_ARTIST_JUNPYON");
+    CARD_METADATA("CARD_CHAOS_GIFT_HOTPOTATO", "CARD_ARTIST_HONO");
     IMPLEMENT_NOOP();
 public:
     /**

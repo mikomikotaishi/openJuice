@@ -30,6 +30,7 @@ namespace mem = std::mem;
 using openjuice::engine::card::spawntypes::HyperCard;
 
 using namespace openjuice::card::hyper;
+using namespace openjuice::card::hyper::seasonal;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card);
 

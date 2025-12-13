@@ -1,25 +1,24 @@
 /**
- * @file MushroomCardFactory.cppm
- * @module openjuice.card.MushroomCardFactory
- * @brief Implementation of the MushroomCardFactory class.
+ * @file SeasonalCardFactory.cppm
+ * @module openjuice.card.SeasonalCardFactory
+ * @brief Implementation of the SeasonalCardFactory class.
  *
- * This file contains the implementation of the MushroomCardFactory class, which is used to create MushroomCard objects.
+ * This file contains the implementation of the SeasonalCardFactory class, which is used to create SeasonalCard objects.
  */
 
 module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.MushroomCardFactory;
+export module openjuice.card.SeasonalCardFactory;
 
 import std;
 import stdx;
 
 import openjuice.engine.card.Card;
 import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.card.mushroom.LegendaryMushroomCard;
 import openjuice.engine.managers.GlobalSettings;
-import openjuice.card.mushroom;
+import openjuice.card.seasonal;
 
 using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
@@ -28,14 +27,9 @@ using stdx::util::logging::LoggerFactory;
 namespace fmt = std::fmt;
 namespace mem = std::mem;
 
-using openjuice::engine::card::LegendaryMushroomColour;
-using openjuice::engine::card::MushroomColour;
-using openjuice::engine::card::mushroom::LegendaryMushroomCard;
-using openjuice::engine::card::spawntypes::MushroomCard;
+using openjuice::engine::card::spawntypes::SeasonalCard;
 
-using namespace openjuice::card::mushroom::legendary;
-using namespace openjuice::card::mushroom::regular::battle;
-using namespace openjuice::card::mushroom::regular::boost;
+using namespace openjuice::card::seasonal;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card);
 

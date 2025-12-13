@@ -3,7 +3,7 @@
  * @module openjuice.card.seasonal.ChaosRoost
  * @brief Implementation of the ChaosRoost class.
  *
- * This file contains the implementation of the ChaosRoost class, which represents the card "Lonely Chariot" in the game.
+ * This file contains the implementation of the ChaosRoost class, which represents the card "Chaos Roost" in the game.
  */
 
 module;
@@ -31,24 +31,24 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::seasonal);
  * @class ChaosRoost
  * @brief Class representing the ChaosRoost card.
  *
- * @extends BoostCard
+ * @extends EventCard
  * @extends SeasonalCard
  *
- * The ChaosRoost class extends both BoostCard and SeasonalCard to represent the card "Lonely Chariot" in the game.
+ * The ChaosRoost class extends both EventCard and SeasonalCard to represent the card "Chaos Roost" in the game.
  */
-export class ChaosRoost final: public BoostCard, public SeasonalCard {
+export class ChaosRoost final: public EventCard, public SeasonalCard {
 private:
     static constexpr u8 ID = 6; ///< The id of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::BOOST_CARD; ///< The card type of this specific card
-    static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
-    static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card
-    static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
-    static constexpr u8 LEVEL = 3; ///< The level of this specific card
-    static constexpr Optional<u8> LIMIT = 3; ///< The limit of this specific card
-    static constexpr Expected<u8, DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
+    static constexpr CardType CARD_TYPE = CardType::EVENT; ///< The card type of this specific card
+    static constexpr SpawnType SPAWN_TYPE = SpawnType::SEASONAL; ///< The spawn type of this specific card
+    static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
+    static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
+    static constexpr u8 LEVEL = 2; ///< The level of this specific card
+    static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card
+    static constexpr Expected<u8, DeckPointError> DECK_POINTS = Unexpected(DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
-    CARD_METADATA("CARD_BOOST_ChaosRoost", "CARD_ARTIST_JUNPYON");
+    CARD_METADATA("CARD_CHAOS_ROOST", "CARD_ARTIST_IKUSE");
     IMPLEMENT_NOOP();
 public:
     /**

@@ -8,6 +8,7 @@
 
 export module openjuice.engine.card.SpawnTypes;
 
+export import :CharacterSpecificCard;
 export import :HyperCard;
 export import :MushroomCard;
 export import :SeasonalCard;

@@ -41,13 +41,13 @@ export class SeasonalUnforgivingAvenger final: public BattleCard, public HyperCa
 private:
     static constexpr u16 ID = 2004; ///< The id of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::BATTLE_CARD; ///< The card type of this specific card
+    static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
     static constexpr u8 LEVEL = 5; ///< The level of this specific card
     static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card
-    static constexpr Expected<u8, DeckPointError> DECK_POINTS = DeckPointError::NOT_STANDARD_CARD; ///< The deck points of this specific card
+    static constexpr Expected<u8, DeckPointError> DECK_POINTS = Unexpected(DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     CARD_METADATA("CARD_HYPER_SUMMER2018_AVENGER", "CARD_ARTIST_LENDO_KHAR");
     IMPLEMENT_NOOP();

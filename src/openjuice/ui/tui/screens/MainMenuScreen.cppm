@@ -50,7 +50,7 @@ export class MainMenuScreen final: public TUIScreen {
 private:
     bool initialised = false; ///< Whether the screen has been initialised
     i32 selectedOption = 0; ///< The current option selected
-    Vector<String> menuOptions = {
+    Vector<StringView> menuOptions = {
         getTextManager().getMenuScreenText("PLAYMENU_FREEBATTLE")
             .value_or("Free battle"), // Multiplayer
         getTextManager().getMenuScreenText("PLAYMENU_CAMPAIGN")

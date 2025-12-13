@@ -46,7 +46,7 @@ export class ConfigScreen final: public TUIScreen {
 private:
     bool initialised = false; ///< Whether the screen has been initialised
     i32 selectedTab = 0; ///< The currently selected tab
-    Vector<String> tabNames = {
+    Vector<StringView> tabNames = {
         getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
             .value_or("System"),
         getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
@@ -74,6 +74,7 @@ private:
 
         okButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_OK")
+                .transform([](const StringView sv) -> String { return String(sv); })
                 .value_or("OK"),
             [this]() -> void {
                 // TODO: Implement saving logic
@@ -84,6 +85,7 @@ private:
 
         backButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_BACK")
+                .transform([](const StringView sv) -> String { return String(sv); })
                 .value_or("Back"),
             [this]() -> void {
                 screenSwitchCallback(ScreenType::MAIN_MENU);

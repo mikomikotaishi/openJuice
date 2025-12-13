@@ -48,7 +48,7 @@ private:
     bool exitSelected = false; ///< Whether the entire application should exit
     bool initialised = false; ///< Whether the screen has been initialised
     i32 selectedOption = 0; ///< The current option selected
-    Vector<String> menuOptions = {
+    Vector<StringView> menuOptions = {
         getTextManager().getMenuScreenText("MAINMENU_NEWGAME")
             .value_or("New game"), // New game
         getTextManager().getMenuScreenText("MAINMENU_LOADGAME")

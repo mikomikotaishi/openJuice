@@ -41,7 +41,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card::mushroom);
  */
 export class BattleMushroomCard: public BattleCard, public MushroomCard {
 private:
-    static constexpr CardType CARD_TYPE = CardType::GIFT_CARD; ///< The card type of these cards
+    static constexpr CardType CARD_TYPE = CardType::GIFT; ///< The card type of these cards
     static constexpr SpawnType SPAWN_TYPE = SpawnType::MUSHROOM; ///< The spawn type of these cards
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of these cards
     static constexpr Optional<u16> COST = 0; ///< The cost of these cards

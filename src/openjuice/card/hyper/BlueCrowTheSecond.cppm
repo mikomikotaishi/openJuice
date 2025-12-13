@@ -40,7 +40,7 @@ export class BlueCrowTheSecond final: public BattleCard, public HyperCard {
 private:
     static constexpr u16 ID = 11; ///< The ID of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::BATTLE_CARD; ///< The card type of this specific card
+    static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card

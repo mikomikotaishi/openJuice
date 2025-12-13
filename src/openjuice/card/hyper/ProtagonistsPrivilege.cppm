@@ -40,7 +40,7 @@ export class ProtagonistsPrivilege final: public BoostCard, public HyperCard {
 private: 
     static constexpr u16 ID = 1; ///< The ID of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::BOOST_CARD; ///< The card type of this specific card
+    static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card

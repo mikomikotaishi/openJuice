@@ -40,7 +40,7 @@ export class BrutalPrank final: public TrapCard, public StandardCard {
 private: 
     static constexpr u16 ID = 59; ///< The id of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::TRAP_CARD; ///< The card type of this specific card
+    static constexpr CardType CARD_TYPE = CardType::TRAP; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card

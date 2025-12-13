@@ -40,7 +40,7 @@ export class UnluckyCharm final: public GiftCard, public StandardCard {
 private:
     static constexpr u16 ID = 64; ///< The id of this specific card
 
-    static constexpr CardType CARD_TYPE = CardType::GIFT_CARD; ///< The card type of this specific card
+    static constexpr CardType CARD_TYPE = CardType::GIFT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::UNCOMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = nullopt; ///< The cost of this specific card

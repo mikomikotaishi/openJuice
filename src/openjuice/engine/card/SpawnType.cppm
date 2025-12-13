@@ -33,6 +33,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 export enum class SpawnType: u8 {
     STANDARD, ///< Standard spawn type.
     HYPER, ///< Hyper spawn type.
+    CHARACTER_SPECIFIC, ///< Character-specific spawn type.
     SEASONAL, ///< Seasonal spawn type.
     MUSHROOM, ///< Mushroom spawn type.
 };
@@ -55,6 +56,9 @@ struct Formatter<SpawnType> {
                 break;
             case SpawnType::HYPER:
                 name = "Hyper";
+                break;
+            case SpawnType::CHARACTER_SPECIFIC:
+                name = "Character-specific";
                 break;
             case SpawnType::SEASONAL:
                 name = "Seasonal";
