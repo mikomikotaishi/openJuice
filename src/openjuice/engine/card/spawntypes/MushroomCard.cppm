@@ -32,7 +32,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card::spawntypes);
  */
 export class MushroomCard: virtual public Card {
 protected:
-    static constexpr char EFFECT_KEY[] = ""; ///< The key belonging to the effect to query in TextManager
+    // Uses "CARD_SHROOM_BLUE" because all (regular) mushroom cards have the same description.
+    static constexpr char EFFECT_KEY[] = "CARD_SHROOM_BLUE"; ///< The key belonging to the effect to query in TextManager
 
     /**
      * @brief Default constructor for MushroomCard.

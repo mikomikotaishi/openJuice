@@ -31,12 +31,12 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  * The CardType enumeration defines the types of cards in the game.
  */
 export enum class CardType: u8 {
-    BANNER_CARD, ///< Banner card type.
-    BATTLE_CARD, ///< Battle card type.
-    BOOST_CARD, ///< Boost card type.
-    EVENT_CARD, ///< Event card type.
-    GIFT_CARD, ///< Gift card type.
-    TRAP_CARD ///< Trap card type.
+    BANNER, ///< Banner card type.
+    BATTLE, ///< Battle card type.
+    BOOST, ///< Boost card type.
+    EVENT, ///< Event card type.
+    GIFT, ///< Gift card type.
+    TRAP ///< Trap card type.
 };
 
 END_MODULE_NAMESPACE();
@@ -52,23 +52,23 @@ struct Formatter<CardType> {
     static FormatContext::Iterator format(CardType type, FormatContext& ctx) {
         StringView name;
         switch (type) {
-            case CardType::BANNER_CARD:
-                name = "Banner Card";
+            case CardType::BANNER:
+                name = "Banner";
                 break;
-            case CardType::BATTLE_CARD:
-                name = "Battle Card";
+            case CardType::BATTLE:
+                name = "Battle";
                 break;
-            case CardType::BOOST_CARD:
-                name = "Boost Card";
+            case CardType::BOOST:
+                name = "Boost";
                 break;
-            case CardType::EVENT_CARD:
-                name = "Event Card";
+            case CardType::EVENT:
+                name = "Event";
                 break;
-            case CardType::GIFT_CARD:
-                name = "Gift Card";
+            case CardType::GIFT:
+                name = "Gift";
                 break;
-            case CardType::TRAP_CARD:
-                name = "Trap Card";
+            case CardType::TRAP:
+                name = "Trap";
                 break;
             default:
                 sys::unreachable();

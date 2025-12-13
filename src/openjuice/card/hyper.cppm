@@ -118,3 +118,4 @@ export import openjuice.card.hyper.Gamble; // 14
 // export import openjuice.card.hyper.Affluence; // 1076
 // export import openjuice.card.hyper.SweetIndulgence; // 1083
 // export import openjuice.card.hyper.WhenMySlumberBreaks; // 1086
+export import openjuice.card.hyper.seasonal;

@@ -31,9 +31,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  * The SpawnType enumeration defines the spawn types of cards in the game.
  */
 export enum class SpawnType: u8 {
-    STANDARD, ///< STANDARD spawn type.
-    HYPER, ///< HYPER spawn type.
-    MUSHROOM, ///< MUSHROOM spawn type.
+    STANDARD, ///< Standard spawn type.
+    HYPER, ///< Hyper spawn type.
+    SEASONAL, ///< Seasonal spawn type.
+    MUSHROOM, ///< Mushroom spawn type.
 };
 
 END_MODULE_NAMESPACE();
@@ -50,13 +51,16 @@ struct Formatter<SpawnType> {
         StringView name;
         switch (type) {
             case SpawnType::STANDARD:
-                name = "Standard Card";
+                name = "Standard";
                 break;
             case SpawnType::HYPER:
-                name = "Hyper Card";
+                name = "Hyper";
+                break;
+            case SpawnType::SEASONAL:
+                name = "Seasonal";
                 break;
             case SpawnType::MUSHROOM:
-                name = "Mushroom Card";
+                name = "Mushroom";
                 break;
             default:
                 sys::unreachable();

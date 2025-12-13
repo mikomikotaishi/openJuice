@@ -48,16 +48,12 @@ private:
     i32 selectedTab = 0; ///< The currently selected tab
     Vector<String> tabNames = {
         getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("System"),
         getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Screen"),
         getTextManager().getConfigText("CONFIG_LABEL_SOUND")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Sound"),
         getTextManager().getConfigText("CONFIG_LABEL_VOICE")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Voice")
     }; ///< The list of tab names
 
@@ -78,7 +74,6 @@ private:
 
         okButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_OK")
-                .transform([](StringView sv) -> String { return String(sv); })
                 .value_or("OK"),
             [this]() -> void {
                 // TODO: Implement saving logic
@@ -89,7 +84,6 @@ private:
 
         backButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_BACK")
-                .transform([](StringView sv) -> String { return String(sv); })
                 .value_or("Back"),
             [this]() -> void {
                 screenSwitchCallback(ScreenType::MAIN_MENU);
@@ -102,7 +96,6 @@ private:
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
-                                .transform([](StringView sv) -> String { return String(sv); })
                                 .value_or("System")
                         ) | bold | center,
                         separator(),
@@ -113,7 +106,6 @@ private:
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
-                                .transform([](StringView sv) -> String { return String(sv); })
                                 .value_or("Screen")
                         ) | bold | center,
                         separator(),
@@ -124,7 +116,6 @@ private:
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_SOUND")
-                                .transform([](StringView sv) -> String { return String(sv); })
                                 .value_or("Sound")
                         ) | bold | center,
                         separator(),
@@ -135,7 +126,6 @@ private:
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_VOICE")
-                                .transform([](StringView sv) -> String { return String(sv); })
                                 .value_or("Voice")
                         ) | bold | center,
                         separator(),
@@ -166,7 +156,6 @@ private:
                 hbox({
                     text(
                         getTextManager().getMenuScreenText("MENU_BUTTON_GAME_CONFIG")
-                            .transform([](StringView sv) -> String { return String(sv); })
                             .value_or("Config")
                     ) | bold | center | flex,
                     separator(),

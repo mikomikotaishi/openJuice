@@ -52,32 +52,23 @@ private:
     i32 selectedOption = 0; ///< The current option selected
     Vector<String> menuOptions = {
         getTextManager().getMenuScreenText("PLAYMENU_FREEBATTLE")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Free battle"), // Multiplayer
         getTextManager().getMenuScreenText("PLAYMENU_CAMPAIGN")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Campaign"), // Campaign
         getTextManager().getMenuScreenText("PLAYMENU_SHOP")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Shop"), // Shop
         getTextManager().getMenuScreenText("PLAYMENU_PROFILE")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Profile"), // Profile
         getTextManager().getMenuScreenText("PLAYMENU_CODEX")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("OJDex"), // OJDex
         getTextManager().getMenuScreenText("PLAYMENU_MANUAL")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Manual"), // Guide
         getTextManager().getMenuScreenText("PLAYMENU_WIKI")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Wiki"), // Wiki
         getTextManager().getMenuScreenText("MENU_BUTTON_GAME_CONFIG")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Config"), // Config
         "Credits", // Credits
         getTextManager().getMenuScreenText("PLAYMENU_EXIT")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Exit") // Exit to title
     }; ///< The list of menu options
 

@@ -50,16 +50,12 @@ private:
     i32 selectedOption = 0; ///< The current option selected
     Vector<String> menuOptions = {
         getTextManager().getMenuScreenText("MAINMENU_NEWGAME")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("New game"), // New game
         getTextManager().getMenuScreenText("MAINMENU_LOADGAME")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Continue"), // Continue
         getTextManager().getMenuScreenText("MAINMENU_CONFIGURATION")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Config"), // Config
         getTextManager().getMenuScreenText("MAINMENU_EXIT")
-            .transform([](StringView sv) -> String { return String(sv); })
             .value_or("Exit") // Exit game
     }; ///< The list of menu options
 

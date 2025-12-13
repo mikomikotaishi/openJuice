@@ -10,4 +10,5 @@ export module openjuice.engine.card.SpawnTypes;
 
 export import :HyperCard;
 export import :MushroomCard;
+export import :SeasonalCard;
 export import :StandardCard;

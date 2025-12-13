@@ -194,14 +194,12 @@ public:
                     text(
                         TextManager::getInstance()
                             .getMenuScreenText("PLAYMENU_EXIT")
-                            .transform([](StringView sv) -> String { return String(sv); })
                             .value_or("Exit")
                     ) | bold | center,
                     separator(),
                     text(
                         TextManager::getInstance()
                             .getCommentText("COM_GAME_QUITCONFIRM")
-                            .transform([](StringView sv) -> String { return String(sv); })
                             .value_or("Are you sure you want to exit the program?")
                     ) | center,
                     separator(),
@@ -226,7 +224,6 @@ public:
                                     : ">",
                                 TextManager::getInstance()
                                     .getMenuScreenText("MENU_BUTTON_NO")
-                                    .transform([](StringView sv) -> String { return String(sv); })
                                     .value_or("No")
                             )
                         ) | (exitDialogSelection ? nothing : inverted),
