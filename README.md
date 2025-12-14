@@ -116,17 +116,17 @@ To be written.
 
 ## Dependencies
 This project uses the following external libraries:
-- [stdlib](https://github.com/mikomikotaishi/stdlib)
-- [Boost.Asio](https://github.com/boostorg/asio)
-- [Boost.Regex](https://github.com/boostorg/regex)
-- [Boost.System](https://github.com/boostorg/system)
-- [Discord Social SDK](https://discord.com/developers/social-sdk)
-- [FTXUI](https://github.com/ArthurSonzogni/FTXUI)
-- [nlohmann-json](https://github.com/nlohmann/json)
-- [SFML](https://github.com/SFML/SFML)
-- [SQLiteCpp](https://github.com/SRombauts/SQLiteCpp)
-- [tomlplusplus](https://github.com/marzer/tomlplusplus)
+- [stdlib](https://github.com/mikomikotaishi/stdlib) (`std`)
+- [Boost.Asio](https://github.com/boostorg/asio) (`boost::asio`)
+- [Boost.Regex](https://github.com/boostorg/regex) (`boost::regex`)
+- [Boost.System](https://github.com/boostorg/system) (`boost::system`)
+- [Discord Social SDK](https://discord.com/developers/social-sdk) (`discordpp`)
+- [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (`ftxui`)
+- [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)
+- [SFML](https://github.com/SFML/SFML) (`sfml`)
+- [SQLiteCpp](https://github.com/SRombauts/SQLiteCpp) (`sqlite`)
+- [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)
 
-ECS adapted from [kawa_ecs](https://github.com/superPuero/kawa_ecs).
+ECS adapted from [kawa_ecs](https://github.com/superPuero/kawa_ecs) (`kawa::ecs`).
 
 To generate the graph, the tool [module-graph-tool](https://github.com/sebastian-eichelbaum/module-graph-tool) is used.

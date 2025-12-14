@@ -20,11 +20,57 @@ There are scripts that are used to compile the project simply:
 - `quick-cmake-build.py` (Python; for simplicity and cross-compatibility)
 - `QuickCMakeBuild.java` (Java with JBang; experimental)
 
+== Discord SDK Update Scripts
+This directory contains scripts to automatically update Discord SDK files from the `discord_social_sdk` directory to the `lib/discord` directory.
+
+=== Usage
+
+=== Method 1: Python Script (Recommended)
+```bash
+./update_discord_sdk.py
+```
+
+=== Method 2: Bash Script  
+```bash
+./update_discord_sdk.sh
+```
+
+=== How it works
+When you drag and drop a new `discord_social_sdk` folder into the project root, run either script to automatically:
+
++ Copy all platform-specific libraries to the correct locations
++ Update the licence file
++ Handle the iOS framework directory structure
++ Provide detailed logging of all operations
+
+=== File Mappings
+The scripts copy files according to this structure:
+
+```
+discord_social_sdk/                 →  lib/discord/
+├── License-Notices.txt             →  License-Notices.txt
+├── lib/release/                    
+│   ├── discord_partner_sdk.aar     →  android/discord_partner_sdk.aar
+│   ├── libdiscord_partner_sdk.dylib→  darwin/libdiscord_partner_sdk.dylib  
+│   ├── libdiscord_partner_sdk.so   →  linux/libdiscord_partner_sdk.so
+│   ├── discord_partner_sdk.lib     →  win32/discord_partner_sdk.lib
+│   └── discord_partner_sdk.xcframework → ios/discord_partner_sdk.xcframework
+└── bin/release/
+    └── discord_partner_sdk.dll     →  win32/discord_partner_sdk.dll
+```
+
+=== Requirements
+- Python 3.6+ (for Python script)
+- Bash (for shell script)
+- The `discord_social_sdk` directory must exist in the project root
+
+Both scripts will create the necessary directory structure automatically.
+
 = Coding style
 When contributing, make sure that you have `git pull`ed the most recent revision.
 
 == Import statements and include directives
-Generally we will avoid writing ```cpp #include``` as much as possible, however it is certainly impossible to completely forgo the use of this directive. Use ```cpp #include``` sparingly, only when absolutely necessary. Some cases in which it is necessary include writing ```cpp #include <filesystem>``` to allow aliases from `std.os` to work, or using ```cpp #include <toml++/toml.hpp>``` or ```cpp #include <SDL3/SDL.h>```  In all other cases, simply invoke ```cpp import``` instead.
+Generally we will avoid writing ```cpp #include``` as much as possible, however it is certainly impossible to completely forgo the use of this directive. Use ```cpp #include``` sparingly, only when absolutely necessary. Some cases in which it is necessary include writing ```cpp #include <filesystem>``` to allow aliases from `std.fs` to work, or using ```cpp #include <toml++/toml.hpp>``` or ```cpp #include <SDL3/SDL.h>```  In all other cases, simply invoke ```cpp import``` instead.
 
 With all import statements, we aim to match the Java style for organising the use of ```cpp import```. This means:
 - ```cpp import``` all (homemade) standard library modules (under `std` first), alphabetically.
@@ -33,7 +79,7 @@ With all import statements, we aim to match the Java style for organising the us
 - ```cpp import``` all internal modules necessary, alphabetically
 - ```cpp import``` all external modules necessary, alphabetically (if any)
 
-For standard library modules, while you are free to ```cpp import``` only the needed header within the module (i.e. ```cpp import std.os.Filesystem;``` instead of ```cpp import std.os;```), please do so only sparingly and only if you have a very compelling reason.
+For standard library modules, while you are free to ```cpp import``` only the needed header within the module (i.e. ```cpp import std.fs.filesystem;``` instead of ```cpp import std.fs;```), please do so only sparingly and only if you have a very compelling reason.
 
 == Namespaces
 If using all symbols from an imported namespace, simply use ```cpp using namespace``` to reduce cluttering the codebase. For instance, whenever anything of the `std::collections` namespace is invoked, we write ```cpp using namespace std::collections;```.
@@ -67,16 +113,3 @@ Indicate the header that the standard library module is associated with, and ind
 
 = Module naming scheme
 This project follows a Java-style convention of naming modules, with the primary difference of omitting the top level domain and project name. In other words, the module should be named by its path relative to the project root delimited by `.` (to denote hierarchy), with the final word in the module name being the name of the file, in PascalCase. The name of the file itself should be in PascalCase.
-
-= Standard library modules
-This project has decided not to use the C++ standard library modules, simply because at the current time of writing they are not widely available, and have some questionable design choices (namely only allowing the option to be imported in their entirety). As such, we have decided to write standard library modules of our own that wrap the existing standard library headers into logical groupings and namespaces.
-
-The naming convention continues the module naming convention - a header `X` part of collection `x` should be named `mylib.x.Y` (where `Y` should be in PascalCase), and the module that exports all headers belonging to `x` will be named `mylib.x` (in lowercase).
-
-The option to override the default name of the standard library modules is offered by defining the macro `NO_RESERVED_STD`, however the codebase does not use this for future compatibility.
-
-The standard library modules provided are divided into their own directories, and each exported by another module that imports them into a collection of header modules, such as `std.core`, `std.math`, `std.os`, etc. This is to simplify the number of code packages needed to be imported into a file. At the end of these, we include ```cpp export using namespace std;``` for convenience.
-
-There are instances in which both the header and the module must be imported due to some issues with the existing code. If so, then do as necessary.
-
-If a header that is necessary is does not have an associated standard library module, please write it yourself in a logical directory and namespace, and import it to whatever module should export it.
