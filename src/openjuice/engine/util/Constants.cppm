@@ -18,7 +18,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 /**
  * @class Constants
- * @brief Struct representing a colour with red, green, and blue components.
+ * @brief Static class containing game-related constants in a central location.
  */
 export class Constants {
 private:
