@@ -1,16 +1,16 @@
 /**
- * @file SeasonalLifeguardOnTheWhiteBeach.cppm
- * @module openjuice.card.hyper.seasonal.SeasonalLifeguardOnTheWhiteBeach
- * @brief Implementation of the SeasonalLifeguardOnTheWhiteBeach class.
+ * @file LifeguardOnTheWhiteBeach.cppm
+ * @module openjuice.card.coop.role.LifeguardOnTheWhiteBeach
+ * @brief Implementation of the LifeguardOnTheWhiteBeach class.
  *
- * This file contains the implementation of the SeasonalLifeguardOnTheWhiteBeach class, which represents the card "Lifegurad on the White Beach" (seasonal) in the game.
+ * This file contains the implementation of the LifeguardOnTheWhiteBeach class, which represents the card "Lifeguard on the White Beach" in the game.
  */
 
 module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.seasonal.SeasonalLifeguardOnTheWhiteBeach;
+export module openjuice.card.coop.role.LifeguardOnTheWhiteBeach;
 
 import std;
 
@@ -28,34 +28,34 @@ using namespace openjuice::engine::card::spawntypes;
 BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
 
 /**
- * @class SeasonalLifeguardOnTheWhiteBeach
- * @brief Class representing the SeasonalLifeguardOnTheWhiteBeach card.
+ * @class LifeguardOnTheWhiteBeach
+ * @brief Class representing the LifeguardOnTheWhiteBeach card.
  *
  * @extends EventCard
  * @extends HyperCard
- * @extends SeasonalCard
+ * @extends CoopCard
  *
- * The SeasonalLifeguardOnTheWhiteBeach class extends both EventCard, HyperCard, and SeasonalCard to represent the card "Lifeguard on the White Beach" (seasonal) in the game.
+ * The LifeguardOnTheWhiteBeach class extends both EventCard, HyperCard, and SeasonalCard to represent the card "Lifeguard on the White Beach" in the game.
  */
-export class SeasonalLifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public SeasonalCard {
+export class LifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public CoopCard {
 private:
-    static constexpr u16 ID = 2002; ///< The id of this specific card
+    static constexpr u8 ID = 2; ///< The id of this specific card
 
     static constexpr CardType CARD_TYPE = CardType::EVENT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
-    static constexpr u8 LEVEL = 5; ///< The level of this specific card
+    static constexpr u8 LEVEL = 3; ///< The level of this specific card
     static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card
     static constexpr Expected<u8, DeckPointError> DECK_POINTS = Unexpected(DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
-    CARD_METADATA("CARD_HYPER_SUMMER2018_DEFENDER", "CARD_ARTIST_HEXUN");
+    CARD_METADATA("CARD_HYPER_COOP_CLASS_GUARDIAN", "CARD_ARTIST_HEXUN");
     IMPLEMENT_NOOP();
 public:
     /**
-     * @brief Constructor to initialise a SeasonalLifeguardOnTheWhiteBeach object.
+     * @brief Constructor to initialise a LifeguardOnTheWhiteBeach object.
      */
-    SeasonalLifeguardOnTheWhiteBeach(): 
+    LifeguardOnTheWhiteBeach(): 
         SET_CARD_STATS() {}
         
     /**

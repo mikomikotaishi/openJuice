@@ -36,6 +36,8 @@ export enum class SpawnType: u8 {
     CHARACTER_SPECIFIC, ///< Character-specific spawn type.
     SEASONAL, ///< Seasonal spawn type.
     MUSHROOM, ///< Mushroom spawn type.
+    COOP, ///< Co-op spawn type
+    BOSS ///< Boss spawn type
 };
 
 END_MODULE_NAMESPACE();
@@ -65,6 +67,12 @@ struct Formatter<SpawnType> {
                 break;
             case SpawnType::MUSHROOM:
                 name = "Mushroom";
+                break;
+            case SpawnType::COOP:
+                name = "Co-op";
+                break;
+            case SpawnType::BOSS:
+                name = "Boss";
                 break;
             default:
                 sys::unreachable();
