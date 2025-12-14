@@ -16,6 +16,7 @@ import std;
 import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.util.Constants;
 import openjuice.engine.util.Exceptions;
 import openjuice.engine.util.Language;
 
@@ -32,6 +33,7 @@ namespace io = std::io;
 namespace fmt = std::fmt;
 
 using openjuice::engine::managers::GlobalSettings;
+using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
 using openjuice::engine::util::exceptions::InvalidLanguageException;
 
@@ -47,7 +49,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class Censor {
 public:
-    static constexpr StringView PATH_BLACKLIST_FILE = "./blacklist/blacklist_{}.txt"; ///< The blacklist file path.
+    static constexpr StringView PATH_BLACKLIST_FILE = Constants::PATH_BLACKLIST_FILE; ///< The blacklist file path.
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Censor"); ///< The logger instance.
     Vector<String> blacklist; ///< List of inappropriate words to censor.

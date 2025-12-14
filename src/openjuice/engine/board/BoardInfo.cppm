@@ -14,6 +14,10 @@ export module openjuice.engine.board.BoardInfo;
 
 import std;
 
+import openjuice.engine.util.Constants;
+
+using openjuice::engine::util::Constants;
+
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
 /**
@@ -24,7 +28,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  */
 export class BoardInfo final {
 public:
-    static constexpr u8 MAX_PLAYERS = 4; ///< Maximum number of players.
+    static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
     using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
 private:
     const String name; ///< The name of the board.

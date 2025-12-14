@@ -14,12 +14,14 @@ export module openjuice.engine.managers.GlobalSettings;
 
 import std;
 
+import openjuice.engine.util.Constants;
 import openjuice.engine.util.Language;
 
 using std::collections::Vector;
 
 namespace sys = std::sys;
 
+using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
@@ -32,8 +34,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
  */
 export class GlobalSettings {
 public:
-    static constexpr StringView PATH_DEBUGFILE = "./userdata/debug.txt"; ///< The debug file path.
-    static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
+    static constexpr StringView PATH_DEBUGFILE = Constants::PATH_DEBUGFILE; ///< The debug file path.
+    static constexpr StringView USERDATA_DIR = Constants::USERDATA_DIR; ///< The user data directory path.
 private:
     Vector<String> programArgs; ///< The program command line arguments.
     String programName; ///< The name of the executable.

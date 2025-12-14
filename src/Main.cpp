@@ -15,6 +15,7 @@ using stdx::util::logging::LoggerFactory;
 
 using openjuice::Main;
 using openjuice::engine::managers::GlobalSettings;
+using openjuice::engine::util::Constants;
 
 /**
  * @brief The main function of the openJuice application.
@@ -30,7 +31,7 @@ int main(int argc, char* argv[]) {
             .setProgramName(argv[0])
             .setProgramArgs(args);
         LoggerFactory::instance()
-            .init(GlobalSettings::PATH_DEBUGFILE);
+            .init(Constants::PATH_DEBUGFILE);
         Main::main(args);
     } catch (const Exception& e) {
         LoggerFactory::instance().of("::main()")->error("An error occured: {}", e.what());

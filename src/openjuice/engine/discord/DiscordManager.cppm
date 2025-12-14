@@ -17,6 +17,8 @@ export import :DiscordActivityType;
 import std;
 import stdx;
 
+import openjuice.engine.util.Constants;
+
 import discordpp;
 
 using std::mem::SharedPointer;
@@ -31,6 +33,8 @@ using stdx::util::logging::LoggerFactory;
 namespace fmt = std::fmt;
 namespace mem = std::mem;
 namespace time = std::time;
+
+using openjuice::engine::util::Constants;
 
 using discordpp::Activity;
 using discordpp::ActivityAssets;
@@ -48,10 +52,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::discord);
  */
 export class DiscordManager {
 public:
-    static constexpr u64 APPLICATION_ID = 1374097529788039318; ///< Application ID
-    static constexpr StringView APPLICATION_NAME = "openJuice"; ///< The name of the application on Discord
-    static constexpr StringView LARGE_IMAGE_KEY = ""; ///< The large image key on Discord
-    static constexpr StringView SMALL_IMAGE_KEY = ""; ///< The small image key on Discord
+    static constexpr u64 APPLICATION_ID = Constants::DISCORD_APPLICATION_ID; ///< Application ID
+    static constexpr StringView APPLICATION_NAME = Constants::DISCORD_APPLICATION_NAME; ///< The name of the application on Discord
+    static constexpr StringView LARGE_IMAGE_KEY = Constants::DISCORD_LARGE_IMAGE_KEY; ///< The large image key on Discord
+    static constexpr StringView SMALL_IMAGE_KEY = Constants::DISCORD_SMALL_IMAGE_KEY; ///< The small image key on Discord
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("DiscordManager"); ///< The logger instance.
 
@@ -129,7 +133,6 @@ public:
         ScopedLock<Mutex> lock(discordMutex);
 
         try {
-
             client = mem::make_unique<Client>();
             client->SetApplicationId(APPLICATION_ID);
             client->SetStatusChangedCallback([this](Client::Status status, Client::Error error, i32 details) -> void {
@@ -179,9 +182,9 @@ public:
 
         client->UpdateRichPresence(activity, [](const ClientResult& result) -> void {
             if (result.Successful()) {
-
+                // do something...
             } else {
-
+                // do something else...
             }
         });
 

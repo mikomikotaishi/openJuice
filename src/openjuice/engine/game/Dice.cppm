@@ -12,6 +12,7 @@ export module openjuice.engine.game.Dice;
 
 import std;
 
+import openjuice.engine.util.Constants;
 import openjuice.engine.util.RandomNumberGenerator;
 
 using std::collections::Deque;
@@ -19,6 +20,7 @@ using std::collections::Vector;
 using std::sync::Mutex;
 using std::sync::ScopedLock;
 
+using openjuice::engine::util::Constants;
 using openjuice::engine::util::RandomNumberGenerator;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
@@ -29,7 +31,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  */
 export class Dice {
 public:
-    static constexpr usize DICEROLL_HISTORY_CAPACITY = 100; ///< Maximum number of dice rolls stored.
+    static constexpr usize DICEROLL_HISTORY_CAPACITY = Constants::DICEROLL_HISTORY_CAPACITY; ///< Maximum number of dice rolls stored.
 private:
     /**
      * @class RollRecord

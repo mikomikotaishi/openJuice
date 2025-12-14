@@ -21,6 +21,7 @@ import std;
 import openjuice.engine.board.BoardInfo;
 import openjuice.engine.board.BoardLibrary;
 import openjuice.engine.board.Panel;
+import openjuice.engine.util.Constants;
 import openjuice.engine.util.Direction;
 
 using std::collections::Queue;
@@ -35,6 +36,7 @@ namespace mem = std::mem;
 
 using openjuice::engine::board::BoardInfo;
 using openjuice::engine::board::Panel;
+using openjuice::engine::util::Constants;
 using openjuice::engine::util::Direction;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
@@ -47,9 +49,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  */
 export class Board {
 public:
-    static constexpr u8 MAX_PLAYERS = BoardInfo::MAX_PLAYERS; ///< Maximum number of players.
-    static constexpr usize GAME_MAX_WIDTH = 20; ///< Maximum game width.
-    static constexpr usize GAME_MAX_HEIGHT = 20; ///< Maximum game height.
+    static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
+    static constexpr usize GAME_MAX_WIDTH = Constants::GAME_MAX_WIDTH; ///< Maximum game width.
+    static constexpr usize GAME_MAX_HEIGHT = Constants::GAME_MAX_HEIGHT; ///< Maximum game height.
 
     using GameBoard = Array<Array<UniquePointer<Panel>, GAME_MAX_WIDTH>, GAME_MAX_HEIGHT>;
 

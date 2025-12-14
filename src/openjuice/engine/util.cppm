@@ -8,7 +8,8 @@
 
 export module openjuice.engine.util;
 
-export import openjuice.engine.util.Colours;
+export import openjuice.engine.util.Colour;
+export import openjuice.engine.util.Constants;
 export import openjuice.engine.util.Direction;
 export import openjuice.engine.util.Exceptions;
 export import openjuice.engine.util.InputParser;

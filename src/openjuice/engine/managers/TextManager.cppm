@@ -21,6 +21,7 @@ import std;
 import stdx;
 
 import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.util.Constants;
 import openjuice.engine.util.Misc;
 
 using std::collections::HashMap;
@@ -36,6 +37,8 @@ using stdx::util::logging::LoggerFactory;
 namespace io = std::io;
 namespace fmt = std::fmt;
 namespace fs = std::fs;
+
+using openjuice::engine::util::Constants;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
 
@@ -83,7 +86,7 @@ public:
     static constexpr StringView PATH_UNITS_FILE = "./assets/define/{}/units.txt"; ///< File containing unit localisation.
     static constexpr StringView PATH_VOICEACTORS_FILE = "./assets/define/{}/voiceactors.txt"; ///< File containing voice actor localisation.
 
-    static constexpr StringView ORANGE_JUICE_WIKI_URL = "https://100orangejuice.fandom.com"; ///< The URL for the 100% Orange Juice! wiki
+    static constexpr StringView ORANGE_JUICE_WIKI_URL = Constants::ORANGE_JUICE_WIKI_URL; ///< The URL for the 100% Orange Juice! wiki
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextManager"); ///< The logger instance.
 

@@ -15,7 +15,7 @@ export module openjuice.engine.managers.ProfileManager;
 import std;
 import stdx;
 
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.util.Constants;
 
 import tomlpp;
 
@@ -30,6 +30,8 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 namespace fs = std::fs;
+
+using openjuice::engine::util::Constants;
 
 using tomlpp::NodeView;
 using tomlpp::TomlNode;
@@ -46,8 +48,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
  */
 export class ProfileManager {
 public:
-    static constexpr StringView USERDATA_DIR = GlobalSettings::USERDATA_DIR; ///< The user data directory path.
-    static constexpr StringView PATH_SAVEFILE = "./userdata/savedata.toml"; ///< The save file path.
+    static constexpr StringView USERDATA_DIR = Constants::USERDATA_DIR; ///< The user data directory path.
+    static constexpr StringView PATH_SAVEFILE = Constants::PATH_SAVEFILE; ///< The save file path.
 
     /**
      * @class ProfileData

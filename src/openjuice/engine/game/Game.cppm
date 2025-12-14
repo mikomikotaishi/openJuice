@@ -29,8 +29,7 @@ import openjuice.engine.managers.GlobalSettings;
 import openjuice.engine.unit.Enemy;
 import openjuice.engine.unit.Playable;
 import openjuice.engine.unit.Unit;
-import openjuice.engine.util.Colours;
-import openjuice.engine.util.Exceptions;
+import openjuice.engine.util.Constants;
 import openjuice.unit.BasicEnemyFactory;
 import openjuice.unit.BossEnemyFactory;
 import openjuice.unit.CharacterFactory;
@@ -55,6 +54,7 @@ using openjuice::engine::game::ecs::Registry;
 using openjuice::engine::game::ecs::RegistryError;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::unit::Playable;
+using openjuice::engine::util::Constants;
 using openjuice::unit::CharacterFactory;
 
 using namespace openjuice::engine::game::ecs::components;
@@ -70,7 +70,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  */
 export class Game {
 public:
-    static constexpr u8 MAX_PLAYERS = Board::MAX_PLAYERS; ///< Maximum number of players.
+    static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Game"); ///< The logger instance.
 

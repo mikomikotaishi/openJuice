@@ -22,6 +22,7 @@ import stdx;
 
 import openjuice.engine.board.BoardInfo;
 import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.util.Constants;
 
 import tomlpp;
 
@@ -37,6 +38,8 @@ namespace fs = std::fs;
 namespace math = std::math;
 namespace mem = std::mem;
 
+using openjuice::engine::util::Constants;
+
 using tomlpp::TomlArray;
 using tomlpp::TomlTable;
 
@@ -50,7 +53,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  */
 export class BoardLibrary {
 public:
-    static constexpr StringView MAPS_DIR = "./maps"; ///< The maps directory path.
+    static constexpr StringView MAPS_DIR = Constants::MAPS_DIR; ///< The maps directory path.
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BoardLibrary"); ///< The logger instance.
 

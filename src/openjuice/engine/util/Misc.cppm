@@ -110,8 +110,8 @@ export namespace misc {
      */
     [[nodiscard]]
     consteval usize hashString(StringView s) noexcept {
-        const i64 p = 131;
-        const i64 m = 4294967291;
+        static constexpr i64 p = 131;
+        static constexpr i64 m = 4294967291;
         i64 total = 0;
         i64 currentMultiplier = 1;
         for (usize i = 0; s[i] != '\0'; ++i) {
