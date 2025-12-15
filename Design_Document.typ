@@ -20,6 +20,16 @@ There are scripts that are used to compile the project simply:
 - `quick-cmake-build.py` (Python; for simplicity and cross-compatibility)
 - `QuickCMakeBuild.java` (Java with JBang; experimental)
 
+== Updating the module dependency graph
+To update the module dependency graph run the following:
+```bash
+mgt
+dot -Tpng graph.dot -o dependencies.png
+```
+Note that the following programs are required:
+- #link("https://github.com/sebastian-eichelbaum/module-graph-tool")[`mgt`]
+- #link("https://wiki.archlinux.org/title/Graphviz")[`dot`]
+
 == Discord SDK Update Scripts
 This directory contains scripts to automatically update Discord SDK files from the `discord_social_sdk` directory to the `lib/discord` directory.
 
