@@ -74,7 +74,6 @@ private:
 
         okButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_OK")
-                .transform([](const StringView sv) -> String { return String(sv); })
                 .value_or("OK"),
             [this]() -> void {
                 // TODO: Implement saving logic
@@ -85,7 +84,6 @@ private:
 
         backButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_BACK")
-                .transform([](const StringView sv) -> String { return String(sv); })
                 .value_or("Back"),
             [this]() -> void {
                 screenSwitchCallback(ScreenType::MAIN_MENU);
