@@ -1,6 +1,6 @@
 /**
  * @file SeasonalUnforgivingAvenger.cppm
- * @module openjuice.card.hyper.seasonal.SeasonalUnforgivingAvenger
+ * @module openjuice.card.coop.seasonal.SeasonalUnforgivingAvenger
  * @brief Implementation of the SeasonalUnforgivingAvenger class.
  *
  * This file contains the implementation of the SeasonalUnforgivingAvenger class, which represents the card "Chaos Protect" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.seasonal.SeasonalUnforgivingAvenger;
+export module openjuice.card.coop.seasonal.SeasonalUnforgivingAvenger;
 
 import std;
 
@@ -25,7 +25,7 @@ using openjuice::engine::card::Rarity;
 using namespace openjuice::engine::card::cardtypes;
 using namespace openjuice::engine::card::spawntypes;
 
-BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
+BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
 
 /**
  * @class SeasonalUnforgivingAvenger
@@ -33,11 +33,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
  *
  * @extends BattleCard
  * @extends HyperCard
- * @extends SeasonalCard
+ * @extends CoopCard
  *
- * The SeasonalUnforgivingAvenger class extends both BoostCard and SeasonalCard to represent the card "Unforgiving Avenger" (seasonal) in the game.
+ * The SeasonalUnforgivingAvenger class extends both BoostCard and CoopCard to represent the card "Unforgiving Avenger" (seasonal) in the game.
  */
-export class SeasonalUnforgivingAvenger final: public BattleCard, public HyperCard, public SeasonalCard {
+export class SeasonalUnforgivingAvenger final: public BattleCard, public HyperCard, public CoopCard {
 private:
     static constexpr u16 ID = 2004; ///< The id of this specific card
 

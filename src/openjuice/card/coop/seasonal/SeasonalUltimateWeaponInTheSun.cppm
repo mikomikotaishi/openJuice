@@ -1,6 +1,6 @@
 /**
  * @file SeasonalUltimateWeaponInTheSun.cppm
- * @module openjuice.card.hyper.seasonal.SeasonalUltimateWeaponInTheSun
+ * @module openjuice.card.coop.seasonal.SeasonalUltimateWeaponInTheSun
  * @brief Implementation of the SeasonalUltimateWeaponInTheSun class.
  *
  * This file contains the implementation of the SeasonalUltimateWeaponInTheSun class, which represents the card "Ultimate Weapon in the Sun" (seasonal) in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.seasonal.SeasonalUltimateWeaponInTheSun;
+export module openjuice.card.coop.seasonal.SeasonalUltimateWeaponInTheSun;
 
 import std;
 
@@ -25,7 +25,7 @@ using openjuice::engine::card::Rarity;
 using namespace openjuice::engine::card::cardtypes;
 using namespace openjuice::engine::card::spawntypes;
 
-BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
+BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
 
 /**
  * @class SeasonalUltimateWeaponInTheSun
@@ -33,13 +33,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
  *
  * @extends BoostCard
  * @extends HyperCard
- * @extends SeasonalCard
+ * @extends CoopCard
  *
- * The SeasonalUltimateWeaponInTheSun class extends both BoostCard, HyperCard, and SeasonalCard to represent the card "Chaos Protect" in the game.
+ * The SeasonalUltimateWeaponInTheSun class extends both BoostCard, HyperCard, and CoopCard to represent the card "Chaos Protect" in the game.
  */
-export class SeasonalUltimateWeaponInTheSun final: public BoostCard, public HyperCard, public SeasonalCard {
+export class SeasonalUltimateWeaponInTheSun final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    static constexpr u16 ID = 2001; ///< The id of this specific card
+    static constexpr u16 ID = 1; ///< The id of this specific card
 
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card

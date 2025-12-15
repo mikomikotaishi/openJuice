@@ -1,6 +1,6 @@
 /**
  * @file SeasonalLifeguardOnTheWhiteBeach.cppm
- * @module openjuice.card.hyper.seasonal.SeasonalLifeguardOnTheWhiteBeach
+ * @module openjuice.card.coop.seasonal.SeasonalLifeguardOnTheWhiteBeach
  * @brief Implementation of the SeasonalLifeguardOnTheWhiteBeach class.
  *
  * This file contains the implementation of the SeasonalLifeguardOnTheWhiteBeach class, which represents the card "Lifegurad on the White Beach" (seasonal) in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.seasonal.SeasonalLifeguardOnTheWhiteBeach;
+export module openjuice.card.coop.seasonal.SeasonalLifeguardOnTheWhiteBeach;
 
 import std;
 
@@ -25,7 +25,7 @@ using openjuice::engine::card::Rarity;
 using namespace openjuice::engine::card::cardtypes;
 using namespace openjuice::engine::card::spawntypes;
 
-BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
+BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
 
 /**
  * @class SeasonalLifeguardOnTheWhiteBeach
@@ -33,13 +33,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
  *
  * @extends EventCard
  * @extends HyperCard
- * @extends SeasonalCard
+ * @extends CoopCard
  *
- * The SeasonalLifeguardOnTheWhiteBeach class extends both EventCard, HyperCard, and SeasonalCard to represent the card "Lifeguard on the White Beach" (seasonal) in the game.
+ * The SeasonalLifeguardOnTheWhiteBeach class extends both EventCard, HyperCard, and CoopCard to represent the card "Lifeguard on the White Beach" (seasonal) in the game.
  */
-export class SeasonalLifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public SeasonalCard {
+export class SeasonalLifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public CoopCard {
 private:
-    static constexpr u16 ID = 2002; ///< The id of this specific card
+    static constexpr u16 ID = 2; ///< The id of this specific card
 
     static constexpr CardType CARD_TYPE = CardType::EVENT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card

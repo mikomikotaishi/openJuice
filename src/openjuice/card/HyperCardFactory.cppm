@@ -9,6 +9,7 @@
 module;
 
 #include "Macros.hpp"
+#include "Rename.hpp"
 
 export module openjuice.card.HyperCardFactory;
 
@@ -30,7 +31,6 @@ namespace mem = std::mem;
 using openjuice::engine::card::spawntypes::HyperCard;
 
 using namespace openjuice::card::hyper;
-using namespace openjuice::card::hyper::seasonal;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card);
 
@@ -286,14 +286,6 @@ public:
             //     return mem::make_shared<SweetIndulgence>();
             // case 1086:
             //     return mem::make_shared<WhenMySlumberBreaks>();
-            case 2001:
-                return mem::make_shared<SeasonalUltimateWeaponInTheSun>();
-            case 2002:
-                return mem::make_shared<SeasonalLifeguardOnTheWhiteBeach>();
-            case 2003:
-                return mem::make_shared<SeasonalGuardianOfBloomingFlowers>();
-            case 2004:
-                return mem::make_shared<SeasonalUnforgivingAvenger>();
             default:
                 return nullopt;
         }

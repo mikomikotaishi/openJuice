@@ -9,3 +9,4 @@
 export module openjuice.card.coop;
 
 export import openjuice.card.coop.role;
+export import openjuice.card.coop.seasonal;

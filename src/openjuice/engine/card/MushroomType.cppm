@@ -109,15 +109,11 @@ export enum class LegendaryMushroomColour: u8 {
 
 END_MODULE_NAMESPACE();
 
-#ifdef OPENJUICE_ALTERNATE_USING_SYNTAX
-using openjuice::engine::card::{BattleMushroomType, BoostMushroomType, LegendaryMushroomColour, LegendaryMushroomType, MushroomColour};
-#else
 using openjuice::engine::card::BattleMushroomType;
 using openjuice::engine::card::BoostMushroomType;
 using openjuice::engine::card::LegendaryMushroomColour;
 using openjuice::engine::card::LegendaryMushroomType;
 using openjuice::engine::card::MushroomColour;
-#endif
 
 template <>
 struct Formatter<BoostMushroomType> {

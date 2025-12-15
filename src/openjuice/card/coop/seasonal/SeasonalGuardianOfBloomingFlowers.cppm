@@ -1,6 +1,6 @@
 /**
  * @file SeasonalGuardianOfBloomingFlowers.cppm
- * @module openjuice.card.hyper.seasonal.SeasonalGuardianOfBloomingFlowers
+ * @module openjuice.card.coop.seasonal.SeasonalGuardianOfBloomingFlowers
  * @brief Implementation of the SeasonalGuardianOfBloomingFlowers class.
  *
  * This file contains the implementation of the SeasonalGuardianOfBloomingFlowers class, which represents the card "Guardian of Blooming Flowers" (seasonal) in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.seasonal.SeasonalGuardianOfBloomingFlowers;
+export module openjuice.card.coop.seasonal.SeasonalGuardianOfBloomingFlowers;
 
 import std;
 
@@ -25,7 +25,7 @@ using openjuice::engine::card::Rarity;
 using namespace openjuice::engine::card::cardtypes;
 using namespace openjuice::engine::card::spawntypes;
 
-BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
+BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
 
 /**
  * @class SeasonalGuardianOfBloomingFlowers
@@ -33,13 +33,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
  *
  * @extends BoostCard
  * @extends HyperCard
- * @extends SeasonalCard
+ * @extends CoopCard
  *
- * The SeasonalGuardianOfBloomingFlowers class extends both BoostCard, HyperCard, and SeasonalCard to represent the card "Guardian of Blooming Flowers" (seasonal) in the game.
+ * The SeasonalGuardianOfBloomingFlowers class extends both BoostCard, HyperCard, and CoopCard to represent the card "Guardian of Blooming Flowers" (seasonal) in the game.
  */
-export class SeasonalGuardianOfBloomingFlowers final: public BoostCard, public HyperCard, public SeasonalCard {
+export class SeasonalGuardianOfBloomingFlowers final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    static constexpr u16 ID = 2003; ///< The id of this specific card
+    static constexpr u16 ID = 3; ///< The id of this specific card
 
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card

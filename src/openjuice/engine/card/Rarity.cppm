@@ -41,7 +41,6 @@ END_MODULE_NAMESPACE();
 
 using openjuice::engine::card::Rarity;
 
-// Must use std::formatter, not fmt::Formatter
 template <>
 struct Formatter<Rarity> {
     static constexpr const char* parse(FormatParseContext& ctx) noexcept {

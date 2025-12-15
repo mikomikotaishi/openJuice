@@ -25,7 +25,7 @@ using openjuice::engine::card::Rarity;
 using namespace openjuice::engine::card::cardtypes;
 using namespace openjuice::engine::card::spawntypes;
 
-BEGIN_MODULE_NAMESPACE(openjuice::card::hyper::seasonal);
+BEGIN_MODULE_NAMESPACE(openjuice::card::coop::role);
 
 /**
  * @class LifeguardOnTheWhiteBeach

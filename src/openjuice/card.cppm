@@ -8,7 +8,9 @@
 
 export module openjuice.card;
 
+export import openjuice.card.BossCardFactory;
 export import openjuice.card.CharacterSpecificCardFactory;
+export import openjuice.card.CoopCardFactory;
 export import openjuice.card.HyperCardFactory;
 export import openjuice.card.MushroomCardFactory;
 export import openjuice.card.SeasonalCardFactory;
