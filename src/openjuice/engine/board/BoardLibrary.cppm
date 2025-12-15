@@ -123,12 +123,12 @@ public:
                 String boardPath = entry.path().string();
                 TomlTable data = tomlpp::parse_file(boardPath);
 
-                u32 id = data["id"].value_or<u32>(0);
+                u32 boardId = data["id"].value_or<u32>(0);
                 String boardName = data["name"].value_or<String>("");
                 u8 boardWidth = data["width"].value_or<u8>(0);
                 u8 boardHeight = data["height"].value_or<u8>(0);
 
-                if (id == 0 || boardName.empty() || boardWidth == 0 || boardHeight == 0) {
+                if (boardId == 0 || boardName.empty() || boardWidth == 0 || boardHeight == 0) {
                     return Unexpected<Error<BoardLibraryError>>(
                         Tags::IN_PLACE,
                         BoardLibraryError::CORRUPTED_LIBRARY_TOML,
@@ -176,7 +176,7 @@ public:
                     );
                 }
 
-                boardList.push_back(mem::make_shared<BoardInfo>(boardName, id, boardWidth, boardHeight, homePanels));
+                boardList.push_back(mem::make_shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
             }
         }
 

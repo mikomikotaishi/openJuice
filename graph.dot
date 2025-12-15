@@ -510,8 +510,8 @@ digraph {
 	98 [label=<stdx.compiler.clang<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=lightgrey];
 	99 [label=<stdx.compiler.clang.api_notes<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=mediumspringgreen];
 	100 [label=<stdx.compiler.llvm<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=lightgrey];
-	101 [label=<stdx.compiler.llvm.Pass<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=mediumspringgreen];
-	102 [label=<stdx.compiler.llvm.InitializePasses<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=tomato];
+	101 [label=<stdx.compiler.llvm.InitializePasses<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=mediumspringgreen];
+	102 [label=<stdx.compiler.llvm.Pass<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=mediumspringgreen];
 	103 [label=<stdx.core<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=lightgrey];
 	104 [label=<stdx.core.Exceptions<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=lightgrey];
 	105 [label=<stdx.arch.arm<br/>>, fontname=Monospace, shape=box, style="rounded,filled", fillcolor=lightgrey];
@@ -1212,6 +1212,7 @@ digraph {
 	594 -> 75 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	587 -> 528 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	586 -> 75 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	591 -> 528 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	66 -> 62 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	75 -> 325 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	629 -> 627 [style=solid, penwidth=1, color=gray, fontcolor=gray];
@@ -1480,6 +1481,9 @@ digraph {
 	646 -> 75 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	75 -> 413 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	78 -> 218 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	522 -> 486 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	75 -> 406 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	78 -> 217 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	600 -> 75 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	506 -> 486 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	410 -> 373 [style=solid, penwidth=1, color=gray, fontcolor=gray];
@@ -1662,8 +1666,6 @@ digraph {
 	325 -> 328 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	722 -> 522 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	492 -> 487 [style=solid, penwidth=1, color=gray, fontcolor=gray];
-	432 -> 427 [style=solid, penwidth=1, color=gray, fontcolor=gray];
-	36 -> 11 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	341 -> 348 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	521 -> 111 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	707 -> 522 [style=solid, penwidth=1, color=gray, fontcolor=gray];
@@ -1712,6 +1714,8 @@ digraph {
 	508 -> 485 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	93 -> 76 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	510 -> 509 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	36 -> 11 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	432 -> 427 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	477 -> 639 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	233 -> 251 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	21 -> 24 [style=solid, penwidth=1, color=gray, fontcolor=gray];
@@ -1774,9 +1778,6 @@ digraph {
 	35 -> 6 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	731 -> 757 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	112 -> 98 [style=solid, penwidth=1, color=gray, fontcolor=gray];
-	522 -> 486 [style=solid, penwidth=1, color=gray, fontcolor=gray];
-	75 -> 406 [style=solid, penwidth=1, color=gray, fontcolor=gray];
-	78 -> 217 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	82 -> 88 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	704 -> 772 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	718 -> 75 [style=solid, penwidth=1, color=gray, fontcolor=gray];
@@ -2143,6 +2144,7 @@ digraph {
 	411 -> 462 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	411 -> 452 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	325 -> 330 [style=solid, penwidth=1, color=gray, fontcolor=gray];
+	100 -> 102 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	534 -> 528 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	411 -> 52 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	690 -> 702 [style=solid, penwidth=1, color=gray, fontcolor=gray];
@@ -2575,5 +2577,4 @@ digraph {
 	206 -> 266 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	575 -> 75 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 	630 -> 571 [style=solid, penwidth=1, color=gray, fontcolor=gray];
-	591 -> 528 [style=solid, penwidth=1, color=gray, fontcolor=gray];
 }

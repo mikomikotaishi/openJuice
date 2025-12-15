@@ -32,10 +32,10 @@ public:
     using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
 private:
     const String name; ///< The name of the board.
+    const HomePanels homePanels; ///< The home panels for each player.
     const u32 id; ///< The ID of the board. 0 denotes an error.
     const u8 width; ///< The width of the board.
     const u8 height; ///< The height of the board.
-    const HomePanels homePanels; ///< The home panels for each player.
 public:
     GETTER(String, Name, name);
     GETTER(u32, Id, id);
@@ -46,15 +46,15 @@ public:
     /**
      * @brief Constructor with parameters
      * 
-     * @param name The board name
      * @param id The board ID
+     * @param name The board name
      * @param width The board width
      * @param height The board height
      * @param panels The home panels for each player
      */
-    constexpr BoardInfo(StringView name, u32 id, u8 width, u8 height, HomePanels& panels):
-        name{String(name)}, id{id}, width{width}, 
-        height{height}, homePanels{panels} {}
+    constexpr BoardInfo(u32 id, StringView name, u8 width, u8 height, const HomePanels& panels):
+        name{String(name)}, homePanels{panels}, id{id},
+        width{width}, height{height} {}
 
     /**
      * @brief Destructor
