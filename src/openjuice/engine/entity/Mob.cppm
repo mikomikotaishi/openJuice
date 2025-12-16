@@ -14,14 +14,15 @@ export module openjuice.engine.entity.Mob;
 
 import std;
 
-import openjuice.engine.entity.Entity;
 import openjuice.engine.game.ecs.Components;
+import openjuice.engine.game.ecs.Entity;
 import openjuice.engine.game.ecs.Registry;
 import openjuice.engine.unit.Enemy;
 
 using std::mem::SharedPointer;
 using std::meta::IsBaseOfValue;
 
+using openjuice::engine::game::ecs::Entity;
 using openjuice::engine::game::ecs::Registry;
 using openjuice::engine::game::ecs::components::MobTag;
 using openjuice::engine::unit::Enemy;

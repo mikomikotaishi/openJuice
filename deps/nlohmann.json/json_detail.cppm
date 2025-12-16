@@ -17,8 +17,8 @@ export module nlohmann.json:detail;
  * Detail namespace - not to be exported for external use
  */
 export namespace _detail::nlohmann::json {
-    template <typename T = void, typename SFINAE = void>
-    using AdlSerializer = ::nlohmann::adl_serializer<T, SFINAE>;
+    template <typename T = void, typename Err = void>
+    using AdlSerializer = ::nlohmann::adl_serializer<T, Err>;
 
     template <
         template <typename U, typename V, typename... Args> class ObjectType = std::map,
@@ -29,7 +29,7 @@ export namespace _detail::nlohmann::json {
         class NumberUnsignedType = std::uint64_t,
         class NumberFloatType = double,
         template <typename U> class AllocatorType = std::allocator,
-        template <typename T, typename SFINAE = void> class JSONSerializer = ::nlohmann::adl_serializer,
+        template <typename T, typename Err = void> class JSONSerializer = ::nlohmann::adl_serializer,
         class BinaryType = std::vector<std::uint8_t>, // cppcheck-suppress syntaxError
         class CustomBaseClass = void
     >
@@ -64,13 +64,13 @@ export namespace _detail::nlohmann::json {
     using JsonOutOfRangeException = ::nlohmann::basic_json<>::out_of_range;
     using JsonLibraryException = ::nlohmann::basic_json<>::other_error;
 
-    template <typename T, typename SFINAE>
-    using JsonSerializer = ::nlohmann::basic_json<>::json_serializer<T, SFINAE>;
+    template <typename T, typename Err>
+    using JsonSerializer = ::nlohmann::basic_json<>::json_serializer<T, Err>;
 
     using JsonValue = ::nlohmann::basic_json<>::value_t;
     using ErrorHandler = ::nlohmann::basic_json<>::error_handler_t;
     using CborTagHandler = ::nlohmann::basic_json<>::cbor_tag_handler_t;
-    using BjDataVersion = ::nlohmann::basic_json<>::bjdata_version_t;
+    using BinaryJsonDataVersion = ::nlohmann::basic_json<>::bjdata_version_t;
     using JsonInitializerList = ::nlohmann::basic_json<>::initializer_list_t;
     using InputFormat = ::nlohmann::basic_json<>::input_format_t;
     using JsonSax = ::nlohmann::basic_json<>::json_sax_t;

@@ -175,6 +175,7 @@ public:
         game{std::mem::make_shared<Game>()},
         discordManager{std::mem::make_unique<DiscordManager>()},
         launchMode{mode} {
+
         #ifndef NDEBUG
         LOGGER->debug("Creating Engine object");
         #endif
@@ -205,8 +206,10 @@ public:
      * Launches both game and UI threads and waits for them to complete.
      * The UI thread drives the application lifecycle; when it exits,
      * this method ensures the game thread is also terminated properly.
+     *
+     * @throws RuntimeException
      */
-    void init() {
+    void init() throws (RuntimeException) {
         #ifndef NDEBUG
         LOGGER->debug("Initialising Engine");
         #endif

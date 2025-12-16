@@ -116,8 +116,7 @@ public:
         std::io::println("Enter your desired language:");
         std::io::println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
         
-        using LanguageMap = HashMap<String, Pair<Language, StringView>>;
-        static const LanguageMap languageMap = {
+        static const HashMap<String, Pair<Language, StringView>> languageMap = {
             {"en", {Language::ENGLISH, "English selected"}},
             {"jp", {Language::JAPANESE, "Japanese selected"}},
             {"chs", {Language::CHINESE_SIMPLIFIED, "Simplified Chinese selected"}},

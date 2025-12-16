@@ -61,8 +61,7 @@ public:
      */
     static void main(const Vector<String>& args) {
         InputParser inputs(args);
-        Optional<LaunchMode> lm = getLaunch(inputs.handleInputs());
-        if (lm.has_value()) {
+        if (Optional<LaunchMode> lm = getLaunch(inputs.handleInputs()); lm.has_value()) {
             Engine eng(*lm);
             eng.init();
         }

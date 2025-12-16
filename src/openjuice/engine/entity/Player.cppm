@@ -16,8 +16,8 @@ import std;
 
 import openjuice.engine.card.Card;
 import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.entity.Entity;
 import openjuice.engine.game.ecs.Components;
+import openjuice.engine.game.ecs.Entity;
 import openjuice.engine.game.ecs.Registry;
 import openjuice.engine.unit.Playable;
 import openjuice.engine.unit.Unit;
@@ -29,6 +29,7 @@ using std::meta::IsBaseOfValue;
 
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawntypes::MushroomCard;
+using openjuice::engine::game::ecs::Entity;
 using openjuice::engine::game::ecs::Registry;
 using openjuice::engine::game::ecs::components::PlayerTag;
 using openjuice::engine::game::ecs::components::PlayerComponent;

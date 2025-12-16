@@ -162,7 +162,7 @@ private:
             }
 
             if (line[0] == '<' && line[line.length() - 1] == '>') {
-                currentKey = util::misc::trimString(line.substr(1, line.length() - 2));
+                currentKey = openjuice::engine::util::misc::trimString(line.substr(1, line.length() - 2));
                 expectingValue = true;
             } else if (expectingValue) {
                 targetMap[currentKey] = line;
@@ -217,7 +217,7 @@ private:
                     cardDescriptions[currentKey] = currentDescription;
                     cardFlavours[currentKey] = currentFlavor;
                 }
-                currentKey = util::misc::trimString(line.substr(1, line.length() - 2));
+                currentKey = openjuice::engine::util::misc::trimString(line.substr(1, line.length() - 2));
                 currentName = "";
                 currentDescription = "";
                 currentFlavor = "";
@@ -417,7 +417,7 @@ private:
                 if (!currentKey.empty() && !currentName.empty()) {
                     unitNames[currentKey] = currentName;
                 }
-                currentKey = util::misc::trimString(line.substr(1, line.length() - 2));
+                currentKey = openjuice::engine::util::misc::trimString(line.substr(1, line.length() - 2));
                 currentName = "";
                 currentDescription = "";
             } else if (line.starts_with("name=")) {

@@ -24,7 +24,7 @@ export namespace nlohmann::json {
     using _detail::nlohmann::json::JsonValue;
     using _detail::nlohmann::json::ErrorHandler;
     using _detail::nlohmann::json::CborTagHandler;
-    using _detail::nlohmann::json::BjDataVersion;
+    using _detail::nlohmann::json::BinaryJsonDataVersion;
     using _detail::nlohmann::json::JsonInitializerList;
     using _detail::nlohmann::json::InputFormat;
     using _detail::nlohmann::json::JsonSax;

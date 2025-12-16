@@ -96,6 +96,9 @@ private:
     }
 
 public:
+    PROPERTY(GamePhase, CurrentPhase, currentPhase);
+    GETTER(u8, ChapterNumber, chapterNumber);
+
     /**
      * @brief Constructor for the Game class.
      */
@@ -166,7 +169,7 @@ public:
      *
      * @throws OutOfRangeException if playerNumber is out of range.
      */
-    void setPlayerCharacter(u8 playerNumber, u8 characterId) throws(OutOfRangeException) {
+    void setPlayerCharacter(u8 playerNumber, u8 characterId) throws (OutOfRangeException) {
         #ifndef NDEBUG
         LOGGER->debug("Setting player {} to character of ID {}", playerNumber, characterId);
         #endif
@@ -204,7 +207,7 @@ public:
      * @throws OutOfRangeException if playerNumber is out of range.
      */
     [[nodiscard]]
-    EntityId getPlayerEntity(u8 playerNumber) throws(OutOfRangeException) {
+    EntityId getPlayerEntity(u8 playerNumber) throws (OutOfRangeException) {
         if (playerNumber >= MAX_PLAYERS) {
             throw OutOfRangeException("Invalid player number!");
         }
@@ -248,7 +251,7 @@ public:
      * @throws OutOfRangeException if index is out of range
      */
     [[nodiscard]]
-    SharedPointer<Player> getPlayer(u8 index) const throws(OutOfRangeException) {
+    SharedPointer<Player> getPlayer(u8 index) const throws (OutOfRangeException) {
         if (index >= MAX_PLAYERS) {
             throw OutOfRangeException("Invalid index!");
         }
@@ -258,32 +261,6 @@ public:
         #else
         return players[index];
         #endif
-    }
-
-    /**
-     * @brief Get current game phase
-     * @return Current phase
-     */
-    [[nodiscard]]
-    GamePhase getCurrentPhase() const noexcept {
-        return currentPhase;
-    }
-
-    /**
-     * @brief Set current game phase
-     * @param phase New phase
-     */
-    void setCurrentPhase(GamePhase phase) noexcept {
-        currentPhase = phase;
-    }
-
-    /**
-     * @brief Get chapter number
-     * @return Current chapter number
-     */
-    [[nodiscard]]
-    u8 getChapterNumber() const noexcept {
-        return chapterNumber;
     }
 
     /**

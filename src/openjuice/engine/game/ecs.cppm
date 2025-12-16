@@ -9,6 +9,7 @@
 export module openjuice.engine.game.ecs;
 
 export import openjuice.engine.game.ecs.Components;
+export import openjuice.engine.game.ecs.Entity;
 export import openjuice.engine.game.ecs.IComponent;
 export import openjuice.engine.game.ecs.Meta;
 export import openjuice.engine.game.ecs.PolymorphicStorage;

@@ -104,13 +104,13 @@ export namespace misc {
      */
     [[nodiscard]]
     consteval usize hashString(StringView s) noexcept {
-        static constexpr i64 p = 131;
-        static constexpr i64 m = 4294967291;
+        static constexpr i64 P = 131;
+        static constexpr i64 M = 4294967291;
         i64 total = 0;
         i64 currentMultiplier = 1;
         for (usize i = 0; s[i] != '\0'; ++i) {
-            total = (total + currentMultiplier * s[i]) % m;
-            currentMultiplier = (currentMultiplier * p) % m;
+            total = (total + currentMultiplier * s[i]) % M;
+            currentMultiplier = (currentMultiplier * P) % M;
         }
         return static_cast<usize>(total);
     }
@@ -138,7 +138,7 @@ export namespace misc {
      * @return A string with C++ style format specifiers ({}).
      */
     [[nodiscard]]
-    String convertFormatSpecifier(StringView format) {
+    String convertFormatSpecifier(StringView format) noexcept {
         String result;
         result.reserve(format.size());
         
@@ -205,8 +205,8 @@ export namespace misc {
      */
     template <usize N>
     [[nodiscard]]
-    constexpr Array<char, N * 2> convertFormatSpecifier(const char (&fmt)[N]) {
-        Array<char, N * 2> result{};
+    constexpr Array<char, N * 2> convertFormatSpecifier(const char (&fmt)[N]) noexcept {
+        Array<char, N * 2> result;
         usize resultIndex = 0;
         
         for (usize i = 0; i < N - 1; ++i) {
@@ -300,7 +300,7 @@ export namespace misc {
         i32 cols = 0;
         #ifdef _WIN32
         ConsoleScreenBufferInfo cbsi;
-        if (stdx::os::windows::GetConsoleScreenBufferInfo(windows::GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+        if (stdx::os::windows::GetConsoleScreenBufferInfo(stdx::os::windows::GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
             rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
             cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
         } else {
