@@ -46,9 +46,10 @@
  * @param Name The machine-readable name of the property.
  */
 #define SETTER(Type, Method, Name) \
-    /** @brief Sets the name value for the object. @return The name value of the object. */  \
-    void set##Method(Type value) noexcept { \
+    /** @brief Sets the name value for the object. @return The instance of the object. */  \
+    auto set##Method(Type value) noexcept -> decltype(*this) { \
         Name = value; \
+        return *this; \
     }
 
 /**
