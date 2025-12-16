@@ -28,12 +28,6 @@ using std::time::SystemClock;
 using std::time::TimePoint;
 using std::time::temporal::Seconds;
 
-namespace fmt = std::fmt;
-namespace sys = std::sys;
-namespace time = std::time;
-
-using namespace stdx::os;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 export namespace misc {
@@ -286,7 +280,7 @@ export namespace misc {
         return Unexpected(UrlOpenError::UNSUPPORTED_PLATFORM);
         #endif
 
-        i32 result = sys::system(fmt::format("{} {}", startingCommand, url).c_str());
+        i32 result = std::sys::system(std::fmt::format("{} {}", startingCommand, url).c_str());
 
         if (result != 0) {
             return Unexpected(UrlOpenError::SYSTEM_CALL_FAILED);
@@ -306,7 +300,7 @@ export namespace misc {
         i32 cols = 0;
         #ifdef _WIN32
         ConsoleScreenBufferInfo cbsi;
-        if (windows::GetConsoleScreenBufferInfo(windows::GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+        if (stdx::os::windows::GetConsoleScreenBufferInfo(windows::GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
             rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
             cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
         } else {
@@ -314,7 +308,7 @@ export namespace misc {
         }
         #else
         WindowSize w;
-        if (unix::sys::ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0) {
+        if (stdx::os::unix::sys::ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0) {
             rows = w.ws_row;
             cols = w.ws_col;
         } else {
@@ -331,8 +325,8 @@ export namespace misc {
     [[nodiscard]]
     String getCurrentTimeAsString() {
         TimePoint<SystemClock> now = SystemClock::now();
-        LocalTime<Seconds> currentTime = time::current_zone()->to_local(time::floor<Seconds>(now));
-        return fmt::format("{:%Y-%m-%d %H:%M:%S}", currentTime);
+        LocalTime<Seconds> currentTime = std::time::current_zone()->to_local(std::time::floor<Seconds>(now));
+        return std::fmt::format("{:%Y-%m-%d %H:%M:%S}", currentTime);
     }
 }
 

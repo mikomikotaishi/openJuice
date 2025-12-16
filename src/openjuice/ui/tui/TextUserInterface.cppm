@@ -23,18 +23,13 @@ import openjuice.ui.tui.TUIUtils;
 
 import ftxui;
 
+using std::collections::TreeMap;
 using std::mem::SharedPointer;
 using std::sync::Mutex;
 using std::sync::ScopedLock;
 using std::sys::Signal;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
-
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-namespace sys = std::sys;
-
-using namespace std::collections;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::TextManager;
@@ -205,7 +200,7 @@ public:
                     separator(),
                     hbox({
                         text(
-                            fmt::format(
+                            std::fmt::format(
                                 "{} {} ",
                                 exitDialogSelection 
                                     ? ">" 
@@ -217,7 +212,7 @@ public:
                         ) | (exitDialogSelection ? inverted : nothing),
                         text(" "),
                         text(
-                            fmt::format(
+                            std::fmt::format(
                                 "{} {} ",
                                 exitDialogSelection 
                                     ? " " 

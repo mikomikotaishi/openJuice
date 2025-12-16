@@ -24,9 +24,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-
 using openjuice::engine::card::spawntypes::SeasonalCard;
 
 using namespace openjuice::card::seasonal;
@@ -61,29 +58,29 @@ public:
             case 0:
                 return nullptr;
             case 1:
-                return mem::make_shared<SweetBattle>();
+                return std::mem::make_shared<SweetBattle>();
             case 2:
-                return mem::make_shared<SnowballReflector>();
+                return std::mem::make_shared<SnowballReflector>();
             case 3:
-                return mem::make_shared<GrownupSnowballFight>();
+                return std::mem::make_shared<GrownupSnowballFight>();
             case 4:
-                return mem::make_shared<MiosFalseCake>();
+                return std::mem::make_shared<MiosFalseCake>();
             case 5:
-                return mem::make_shared<ChaoticLaunch>();
+                return std::mem::make_shared<ChaoticLaunch>();
             case 6:
-                return mem::make_shared<ChaosRoost>();
+                return std::mem::make_shared<ChaosRoost>();
             case 7:
-                return mem::make_shared<ChaosProtect>();
+                return std::mem::make_shared<ChaosProtect>();
             case 8:
-                return mem::make_shared<FromTheChaoticAbyss>();
+                return std::mem::make_shared<FromTheChaoticAbyss>();
             case 9:
-                return mem::make_shared<ChaoticRampage>();
+                return std::mem::make_shared<ChaoticRampage>();
             case 10:
-                return mem::make_shared<ChaosRoulette>();
+                return std::mem::make_shared<ChaosRoulette>();
             case 11:
-                return mem::make_shared<ChaoticPool>();
+                return std::mem::make_shared<ChaoticPool>();
             case 12:
-                return mem::make_shared<HoldTheGremlin>();
+                return std::mem::make_shared<HoldTheGremlin>();
             default:
                 return nullopt;
         }

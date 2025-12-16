@@ -29,8 +29,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fs = std::fs;
-
 using openjuice::engine::util::Constants;
 
 using tomlpp::NodeView;
@@ -88,7 +86,7 @@ private:
      */
     ProfileManager() {
         try {
-            fs::create_directories(USERDATA_DIR);
+            std::fs::create_directories(USERDATA_DIR);
             loadProfile();
         } catch (const FileSystemException& e) {
             LOGGER->warn("Failed to create directory {}: {}", USERDATA_DIR, e.what());
@@ -164,7 +162,7 @@ public:
      * @return True if successfully loaded, false otherwise.
      */
     bool loadProfile() noexcept {
-        if (!fs::exists(PATH_SAVEFILE)) {
+        if (!std::fs::exists(PATH_SAVEFILE)) {
             LOGGER->info("Save file not found, creating new profile");
             return saveProfile();
         }
@@ -208,7 +206,7 @@ public:
             LOGGER->info("Profile saved successfully for {}", currentProfile.getPlayerName());
             return true;
         } catch (const IOException& e) {
-            if (!fs::exists(PATH_SAVEFILE)) {
+            if (!std::fs::exists(PATH_SAVEFILE)) {
                 LOGGER->warn("Failed to save profile, file/directory does not exist: {}", e.what());
             } else {
                 LOGGER->warn("Failed to save profile, write operation failed: {}", e.what());

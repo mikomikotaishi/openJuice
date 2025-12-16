@@ -23,9 +23,6 @@ import ftxui;
 using std::collections::Vector;
 using std::mem::SharedPointer;
 
-namespace sys = std::sys;
-namespace util = std::util;
-
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
@@ -90,7 +87,7 @@ private:
                         screenSwitchCallback(ScreenType::EXIT);
                         return true;
                     default:
-                        sys::unreachable();
+                        std::sys::unreachable();
                 }
             }
             return false;
@@ -118,7 +115,7 @@ public:
      * @param callback Function to call when switching screens
      */
     TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(util::move(game), util::move(callback)) {
+        TUIScreen(std::util::move(game), std::util::move(callback)) {
         createComponent();
     }
 

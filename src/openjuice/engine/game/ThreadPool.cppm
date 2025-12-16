@@ -21,9 +21,6 @@ using std::mem::UniquePointer;
 using std::ranges::IotaView;
 using std::sync::Barrier;
 
-namespace mem = std::mem;
-namespace util = std::util;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 
 /**
@@ -68,8 +65,8 @@ public:
                 ? reinterpret_cast<JoiningThread*>(::operator new(sizeof(JoiningThread) * threadCount, AlignValue{alignof(JoiningThread)}))
                 : nullptr
         },
-        starts{mem::make_unique<usize[]>(threadCount + 1)},
-        ends{mem::make_unique<usize[]>(threadCount + 1)},
+        starts{std::mem::make_unique<usize[]>(threadCount + 1)},
+        ends{std::mem::make_unique<usize[]>(threadCount + 1)},
         threadCount{threadCount},
         taskCount{threadCount + 1} {
         for (u32 i: IotaView(0u, threadCount)) {
@@ -138,7 +135,7 @@ public:
      */
     template <typename Fn>
     void execTask(Fn&& query, usize work) {
-        task = util::forward<Fn>(query);
+        task = std::util::forward<Fn>(query);
         usize chunk = work / taskCount;
         usize tail = work - chunk * taskCount;
         for (u32 i: IotaView(0u, taskCount)) {

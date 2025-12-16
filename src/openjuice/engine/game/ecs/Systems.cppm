@@ -24,8 +24,6 @@ import openjuice.engine.game.ecs.Registry;
 
 using std::mem::SharedPointer;
 
-namespace sys = std::sys;
-
 using openjuice::engine::card::Card;
 using openjuice::engine::game::ecs::EntityId;
 
@@ -202,7 +200,7 @@ export namespace systems {
                 defenceRoll = defenceRoll < 1 ? 1 : defenceRoll;
                 return attackRoll >= defenceRoll ? attackRoll : 0;
             }
-            sys::unreachable();
+            std::sys::unreachable();
         }
 
         /**

@@ -39,11 +39,6 @@ using std::time::SystemClock;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace concurrent = std::concurrent;
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-namespace sys = std::sys;
-
 using openjuice::engine::discord::DiscordManager;
 using openjuice::engine::game::ecs::RegistryError;
 using openjuice::engine::managers::GlobalSettings;
@@ -112,7 +107,7 @@ private:
                 game->update(); 
             }
             
-            concurrent::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+            std::concurrent::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
         }
     }
     
@@ -129,13 +124,13 @@ private:
         UniquePointer<UserInterface> ui;
         switch (launchMode) {
             case LaunchMode::CLI:
-                ui = mem::make_unique<CommandLineInterface>(game, stateMutex);
+                ui = std::mem::make_unique<CommandLineInterface>(game, stateMutex);
                 break;
             case LaunchMode::TUI:
-                ui = mem::make_unique<TextUserInterface>(game, stateMutex);
+                ui = std::mem::make_unique<TextUserInterface>(game, stateMutex);
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
         
         ui->init();
@@ -162,11 +157,11 @@ private:
                         ui->render();
                     }
                     
-                    concurrent::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+                    std::concurrent::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
                 }
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 
@@ -177,8 +172,8 @@ public:
      * @param mode The launch mode determining which UI to initialise
      */
     explicit Engine(LaunchMode mode): 
-        game{mem::make_shared<Game>()},
-        discordManager{mem::make_unique<DiscordManager>()},
+        game{std::mem::make_shared<Game>()},
+        discordManager{std::mem::make_unique<DiscordManager>()},
         launchMode{mode} {
         #ifndef NDEBUG
         LOGGER->debug("Creating Engine object");
@@ -224,7 +219,7 @@ public:
         }
 
         if (Expected<void, RegistryError> r = game->init(); !r) {
-            throw RuntimeException(fmt::format("Game failed to initialise: {}", r.error()));
+            throw RuntimeException(std::fmt::format("Game failed to initialise: {}", r.error()));
         }
         
         gameThread = JoiningThread([this](StopToken token) -> void {

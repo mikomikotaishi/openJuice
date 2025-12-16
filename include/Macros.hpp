@@ -38,14 +38,31 @@
         return Name; \
     }
 
+// Helper macros for SETTER overloading
+#define SETTER_GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
+
 /**
- * @brief A utility to build a set method on top of a property.
+ * @brief A utility to build a set method on top of a property (void return).
  *
  * @param Type The type of the property.
  * @param Method The human-readable name for the method.
  * @param Name The machine-readable name of the property.
  */
-#define SETTER(Type, Method, Name) \
+#define SETTER_3(Type, Method, Name) \
+    /** @brief Sets the name value for the object. */  \
+    void set##Method(Type value) noexcept { \
+        Name = value; \
+    }
+
+/**
+ * @brief A utility to build a set method on top of a property (fluent return).
+ *
+ * @param Type The type of the property.
+ * @param Method The human-readable name for the method.
+ * @param Name The machine-readable name of the property.
+ * @param Fluent If present, enables fluent chaining (return *this).
+ */
+#define SETTER_4(Type, Method, Name, Fluent) \
     /** @brief Sets the name value for the object. @return The instance of the object. */  \
     auto set##Method(Type value) noexcept -> decltype(*this) { \
         Name = value; \
@@ -53,16 +70,52 @@
     }
 
 /**
- * @brief Utility macro to create getter and setter methods for a property.
- * This combines GETTER and SETTER macros for convenience.
+ * @brief A utility to build a set method on top of a property.
+ * Can be called with 3 arguments (returns void) or 4 arguments (returns *this for fluent chaining).
+ *
+ * @param Type The type of the property.
+ * @param Method The human-readable name for the method.
+ * @param Name The machine-readable name of the property.
+ * @param Fluent (Optional) If provided, enables fluent chaining.
+ */
+#define SETTER(...) SETTER_GET_MACRO(__VA_ARGS__, SETTER_4, SETTER_3)(__VA_ARGS__)
+
+// Helper macros for PROPERTY overloading
+#define PROPERTY_GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
+
+/**
+ * @brief Utility macro to create getter and setter methods for a property (void setter).
  *
  * @param Type The type of the property.
  * @param Method The human-readable name for the methods.
  * @param Name The machine-readable name of the property.
  */
-#define PROPERTY(Type, Method, Name) \
+#define PROPERTY_3(Type, Method, Name) \
     GETTER(Type, Method, Name) \
-    SETTER(Type, Method, Name)
+    SETTER_3(Type, Method, Name)
+
+/**
+ * @brief Utility macro to create getter and setter methods for a property (fluent setter).
+ *
+ * @param Type The type of the property.
+ * @param Method The human-readable name for the methods.
+ * @param Name The machine-readable name of the property.
+ * @param Fluent If present, enables fluent chaining for setter.
+ */
+#define PROPERTY_4(Type, Method, Name, Fluent) \
+    GETTER(Type, Method, Name) \
+    SETTER_4(Type, Method, Name, Fluent)
+
+/**
+ * @brief Utility macro to create getter and setter methods for a property.
+ * Can be called with 3 arguments (void setter) or 4 arguments (fluent setter).
+ *
+ * @param Type The type of the property.
+ * @param Method The human-readable name for the methods.
+ * @param Name The machine-readable name of the property.
+ * @param Fluent (Optional) If provided, enables fluent chaining for setter.
+ */
+#define PROPERTY(...) PROPERTY_GET_MACRO(__VA_ARGS__, PROPERTY_4, PROPERTY_3)(__VA_ARGS__)
 
 /**
  * @brief Utility macro to implement the method noop() which must be implemented by

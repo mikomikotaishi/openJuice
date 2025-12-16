@@ -30,10 +30,6 @@ using std::time::temporal::Milliseconds;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-namespace time = std::time;
-
 using openjuice::engine::util::Constants;
 
 using discordpp::Activity;
@@ -112,7 +108,7 @@ public:
      */
     DiscordManager():
         sessionStartTime{static_cast<u64>(
-            time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
+            std::time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
         )},
         currentActivityType{DiscordActivityType::IN_MENU} {}
 
@@ -133,7 +129,7 @@ public:
         ScopedLock<Mutex> lock(discordMutex);
 
         try {
-            client = mem::make_unique<Client>();
+            client = std::mem::make_unique<Client>();
             client->SetApplicationId(APPLICATION_ID);
             client->SetStatusChangedCallback([this](Client::Status status, Client::Error error, i32 details) -> void {
                 switch (status) {

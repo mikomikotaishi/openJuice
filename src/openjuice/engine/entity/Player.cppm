@@ -27,8 +27,6 @@ using std::collections::Vector;
 using std::mem::SharedPointer;
 using std::meta::IsBaseOfValue;
 
-namespace mem = std::mem;
-
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawntypes::MushroomCard;
 using openjuice::engine::game::ecs::Registry;
@@ -139,7 +137,7 @@ public:
     [[nodiscard]]
     u8 getRecovery() const {
         SharedPointer<Unit> unit = getUnit();
-        SharedPointer<Playable> character = mem::dynamic_pointer_cast<Playable>(unit);
+        SharedPointer<Playable> character = std::mem::dynamic_pointer_cast<Playable>(unit);
         return character ? character->getRecovery() : 0;
     }
 

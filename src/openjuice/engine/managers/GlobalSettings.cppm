@@ -19,8 +19,6 @@ import openjuice.engine.util.Language;
 
 using std::collections::Vector;
 
-namespace sys = std::sys;
-
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
 
@@ -105,7 +103,7 @@ public:
             case Language::KOREAN:
                 return "ko";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 

@@ -25,10 +25,6 @@ import openjuice.engine.util.Messages;
 
 using std::collections::Vector;
 
-namespace fmt = std::fmt;
-namespace ranges = std::ranges;
-namespace string = std::text::string;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 export enum class GameExecuteMode: u8 {
@@ -55,7 +51,7 @@ private:
     [[nodiscard]]
     Optional<i32> parseInteger(StringView s) {
         try {
-            return string::stoi(String{s});
+            return std::text::string::stoi(String{s});
         } catch (...) {
             return nullopt;
         }
@@ -71,7 +67,7 @@ public:
     explicit InputParserBase(Span<char*> args, char* envp[] = nullptr):
         args{Vector<String>(args.begin() + 1, args.end())} {
         if (envp) {
-            for (char** env = envp; *env != nullptr; ++env) {
+            for (char** env = envp; *env; ++env) {
                 envs.emplace_back(*env);
             }
         }
@@ -86,7 +82,7 @@ public:
     explicit InputParserBase(const Vector<String>& args, char* envp[] = nullptr):
         args{args} {
         if (envp) {
-            for (char** env = envp; *env != nullptr; ++env) {
+            for (char** env = envp; *env; ++env) {
                 envs.emplace_back(*env);
             }
         }
@@ -106,17 +102,17 @@ public:
         args{Vector<String>(args.begin() + 1, args.end())} {
         bool foundValue = false;
         if (envp) {
-            for (char** env = envp; *env != nullptr; ++env) {
+            for (char** env = envp; *env; ++env) {
                 envs.emplace_back(*env);
             }
         }
         for (const String& arg: args) {
-            if (ranges::contains(validOptions, arg)) {
+            if (std::ranges::contains(validOptions, arg)) {
                 if (parseInteger(arg) && !foundValue) {
                     foundValue = true;
                     continue;
                 }
-                throw InvalidArgumentException(fmt::format("Invalid option: {}", arg));
+                throw InvalidArgumentException(std::fmt::format("Invalid option: {}", arg));
             }
         }
     }
@@ -133,17 +129,17 @@ public:
         args{args} {
         bool foundValue = false;
         if (envp) {
-            for (char** env = envp; *env != nullptr; ++env) {
+            for (char** env = envp; *env; ++env) {
                 envs.emplace_back(*env);
             }
         }
         for (const String& arg: args) {
-            if (ranges::contains(validOptions, arg)) {
+            if (std::ranges::contains(validOptions, arg)) {
                 if (parseInteger(arg) && !foundValue) {
                     foundValue = true;
                     continue;
                 }
-                throw InvalidArgumentException(fmt::format("Invalid option: {}", arg));
+                throw InvalidArgumentException(std::fmt::format("Invalid option: {}", arg));
             }
         }
     }
@@ -156,8 +152,7 @@ public:
      */
     [[nodiscard]]
     String getOptionValue(StringView option) const noexcept {
-        auto it = ranges::find(args, option);
-        if (it != args.end()) {
+        if (auto it = std::ranges::find(args, option); it != args.end()) {
             ++it;
             if (it != args.end()) {
                 return *it;
@@ -174,7 +169,7 @@ public:
      */
     [[nodiscard]]
     bool optionExists(const String& option) const noexcept {
-        return ranges::contains(args, option);
+        return std::ranges::contains(args, option);
     }
 };
 

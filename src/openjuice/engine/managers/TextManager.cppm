@@ -34,10 +34,6 @@ using std::util::InPlaceTag;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace io = std::io;
-namespace fmt = std::fmt;
-namespace fs = std::fs;
-
 using openjuice::engine::util::Constants;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
@@ -140,11 +136,11 @@ private:
      */
     [[nodiscard]]
     Expected<void, Error<TextManagerError>> parseSimpleFormatFile(const Path& filePath, HashMap<String, String>& targetMap) noexcept {
-        if (!fs::exists(filePath)) {
+        if (!std::fs::exists(filePath)) {
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_NOT_FOUND, 
-                fmt::format("Failed to find file {}", filePath.string())
+                std::fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
@@ -152,7 +148,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_OPEN_FAILURE,
-                fmt::format("Failed to open file {}", filePath.string())
+                std::fmt::format("Failed to open file {}", filePath.string())
             );
         }
 
@@ -160,7 +156,7 @@ private:
         String currentKey;
         bool expectingValue = false;
 
-        while (io::getline(file, line)) {
+        while (std::io::getline(file, line)) {
             if (line.empty() || line.starts_with(COMMENT_PREFIX) || line == EOF_MARKER) {
                 continue;
             }
@@ -189,11 +185,11 @@ private:
         LOGGER->debug("Parsing cards file: {}", filePath.string());
         #endif
 
-        if (!fs::exists(filePath)) {
+        if (!std::fs::exists(filePath)) {
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_NOT_FOUND, 
-                fmt::format("Failed to find file {}", filePath.string())
+                std::fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
@@ -201,7 +197,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_OPEN_FAILURE,
-                fmt::format("Failed to open file {}", filePath.string())
+                std::fmt::format("Failed to open file {}", filePath.string())
             );
         }
 
@@ -211,7 +207,7 @@ private:
         String currentDescription;
         String currentFlavor;
 
-        while (io::getline(file, line)) {
+        while (std::io::getline(file, line)) {
             if (line.empty() || line.starts_with(COMMENT_PREFIX) || line == EOF_MARKER) {
                 continue;
             }
@@ -391,11 +387,11 @@ private:
         LOGGER->debug("Parsing units file: {}", filePath.string());
         #endif
 
-        if (!fs::exists(filePath)) {
+        if (!std::fs::exists(filePath)) {
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_NOT_FOUND, 
-                fmt::format("Failed to find file {}", filePath.string())
+                std::fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
@@ -403,7 +399,7 @@ private:
             return Unexpected<Error<TextManagerError>>(
                 Tags::IN_PLACE,
                 TextManagerError::FILE_OPEN_FAILURE,
-                fmt::format("Failed to open file {}", filePath.string())
+                std::fmt::format("Failed to open file {}", filePath.string())
             );
         }
 
@@ -412,7 +408,7 @@ private:
         String currentName;
         String currentDescription;
 
-        while (io::getline(file, line)) {
+        while (std::io::getline(file, line)) {
             if (line.empty() || line.substr(0, 2) == COMMENT_PREFIX || line == EOF_MARKER) {
                 continue;
             }
@@ -465,19 +461,19 @@ private:
 
         bool successful = true;
 
-        Path cardsFile(fmt::format(PATH_CARDS_FILE, gameLanguageCode));
-        Path cards2File(fmt::format(PATH_CARDS_2_FILE, gameLanguageCode));
-        Path cardArtistsFile(fmt::format(PATH_CARDARTISTS_FILE, gameLanguageCode));
-        Path commentsFile(fmt::format(PATH_COMMENT_FILE, gameLanguageCode));
-        Path configFile(fmt::format(PATH_CONFIG_FILE, gameLanguageCode));
-        Path fieldNamesFile(fmt::format(PATH_FIELDNAMES_FILE, gameLanguageCode));
-        Path gameMessagesFile(fmt::format(PATH_GAME_MESSAGE_FILE, gameLanguageCode));
-        Path gameNormaFile(fmt::format(PATH_GAME_NORMA_FILE, gameLanguageCode));
-        Path gameSystemFile(fmt::format(PATH_GAME_SYSTEM_FILE, gameLanguageCode));
-        Path menuScreensFile(fmt::format(PATH_MENUSCREENS_FILE, gameLanguageCode));
-        Path resultFile(fmt::format(PATH_RESULT_FILE, gameLanguageCode));
-        Path unitsFile(fmt::format(PATH_UNITS_FILE, gameLanguageCode));
-        Path voiceActorsFile(fmt::format(PATH_VOICEACTORS_FILE, gameLanguageCode));
+        Path cardsFile(std::fmt::format(PATH_CARDS_FILE, gameLanguageCode));
+        Path cards2File(std::fmt::format(PATH_CARDS_2_FILE, gameLanguageCode));
+        Path cardArtistsFile(std::fmt::format(PATH_CARDARTISTS_FILE, gameLanguageCode));
+        Path commentsFile(std::fmt::format(PATH_COMMENT_FILE, gameLanguageCode));
+        Path configFile(std::fmt::format(PATH_CONFIG_FILE, gameLanguageCode));
+        Path fieldNamesFile(std::fmt::format(PATH_FIELDNAMES_FILE, gameLanguageCode));
+        Path gameMessagesFile(std::fmt::format(PATH_GAME_MESSAGE_FILE, gameLanguageCode));
+        Path gameNormaFile(std::fmt::format(PATH_GAME_NORMA_FILE, gameLanguageCode));
+        Path gameSystemFile(std::fmt::format(PATH_GAME_SYSTEM_FILE, gameLanguageCode));
+        Path menuScreensFile(std::fmt::format(PATH_MENUSCREENS_FILE, gameLanguageCode));
+        Path resultFile(std::fmt::format(PATH_RESULT_FILE, gameLanguageCode));
+        Path unitsFile(std::fmt::format(PATH_UNITS_FILE, gameLanguageCode));
+        Path voiceActorsFile(std::fmt::format(PATH_VOICEACTORS_FILE, gameLanguageCode));
 
         Vector<Expected<void, Error<TextManagerError>>> results{
             parseCardsFile(cardsFile),

@@ -19,9 +19,6 @@ using std::fmt::FormatContext;
 using std::fmt::FormatParseContext;
 using std::fmt::Formatter;
 
-namespace fmt = std::fmt;
-namespace sys = std::sys;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 
 /**
@@ -51,7 +48,7 @@ export enum class BattleMushroomType: u8 {
  * The BoostMushroomType enumeration defines the types of possible mushroom cards of Boost type in the game.
  */
 export enum class BoostMushroomType: u8 {
-    NULL_BOOST = static_cast<usize>(BattleMushroomType::ROLL_SIX) + 1, ///< No effect (always appears)
+    NULL_BOOST = std::util::to_underlying(BattleMushroomType::ROLL_SIX) + 1, ///< No effect (always appears)
     MOVE_UP, ///< Gain +1/2/3 MOV on next roll
     MOVE_DOWN, ///< Gain -1/2/3 MOV on next roll
     GAIN_STARS, ///< Gain Lvl x 1/2/3/4/5 stars
@@ -164,9 +161,9 @@ struct Formatter<BoostMushroomType> {
                 name = "Gain Win";
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
-        return fmt::format_to(ctx.out(), "{}", name);
+        return std::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 
@@ -213,9 +210,9 @@ struct Formatter<BattleMushroomType> {
                 name = "Roll 6";
                 break;                
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
-        return fmt::format_to(ctx.out(), "{}", name);
+        return std::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 
@@ -235,9 +232,9 @@ struct Formatter<LegendaryMushroomColour> {
                 name = "Phantom Blue Mushroom";
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
-        return fmt::format_to(ctx.out(), "{}", name);
+        return std::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 
@@ -303,9 +300,9 @@ struct Formatter<MushroomColour> {
                 name = "Yellow Mushroom";
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
-        return fmt::format_to(ctx.out(), "{}", name);
+        return std::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

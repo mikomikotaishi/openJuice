@@ -14,8 +14,6 @@ export module openjuice.engine.util.Messages;
 
 import std;
 
-namespace io = std::io;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 /**
@@ -27,15 +25,15 @@ export namespace messages {
      * @brief Print the help message.
      */
     void printHelp() {
-        io::println("Help message");
+        std::io::println("Help message");
     }
 
     /**
      * @brief Print the credits message.
      */
     void printCredits() {
-        io::println("Version: 0.0.x");
-        io::println("Credits message");
+        std::io::println("Version: 0.0.x");
+        std::io::println("Credits message");
     }
 }
 

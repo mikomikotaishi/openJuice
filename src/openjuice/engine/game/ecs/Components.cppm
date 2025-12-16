@@ -23,8 +23,6 @@ using std::collections::BitSet;
 using std::collections::Vector;
 using std::mem::SharedPointer;
 
-namespace util = std::util;
-
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawntypes::MushroomCard;
 using openjuice::engine::unit::Unit;
@@ -122,7 +120,7 @@ export namespace components {
          * @param unitPointer 
          */
         explicit UnitComponent(SharedPointer<Unit> unitPointer):
-            unit{util::move(unitPointer)} {}
+            unit{std::util::move(unitPointer)} {}
         
         UnitComponent() = default;
     };

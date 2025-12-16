@@ -188,8 +188,8 @@ private:
                 [&](auto&&... storages) -> void {
                     for (EntityId id: *smallest) {
                         if ((requiredStorages[RequiredInds]->has(id) && ...)) {
-                            util::forward<Fn>(fn)(
-                                util::forward<Params>(params)..., 
+                            std::util::forward<Fn>(fn)(
+                                std::util::forward<Params>(params)..., 
                                 storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                             );
                         }
@@ -201,8 +201,8 @@ private:
             apply(
                 [&](auto&&... storages) -> void {
                     for (EntityId id: entityManager) {
-                        util::forward<Fn>(fn)(
-                            util::forward<Params>(params)..., 
+                        std::util::forward<Fn>(fn)(
+                            std::util::forward<Params>(params)..., 
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -268,7 +268,7 @@ private:
                                 EntityId id = smallest->get(i);
                                 if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                                     fn(
-                                        util::forward<Params>(params)...,
+                                        std::util::forward<Params>(params)...,
                                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                     );
                                 }
@@ -287,7 +287,7 @@ private:
                             for (usize i: IotaView(start, end)) {
                                 EntityId id = entityManager[i];
                                 fn(
-                                    util::forward<Params>(params)...,
+                                    std::util::forward<Params>(params)...,
                                     storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                 );
                             }
@@ -352,7 +352,7 @@ private:
                         if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                             fn(
                                 id,
-                                util::forward<Params>(params)...,
+                                std::util::forward<Params>(params)...,
                                 storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                             );
                         }
@@ -366,7 +366,7 @@ private:
                     for (EntityId id: entityManager) {
                         fn(
                             id,
-                            util::forward<Params>(params)...,
+                            std::util::forward<Params>(params)...,
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -433,7 +433,7 @@ private:
                                 if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                                     fn(
                                         id,
-                                        util::forward<Params>(params)...,
+                                        std::util::forward<Params>(params)...,
                                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                     );
                                 }
@@ -453,7 +453,7 @@ private:
                                 EntityId id = entityManager[i];
                                 fn(
                                     id,
-                                    util::forward<Params>(params)...,
+                                    std::util::forward<Params>(params)...,
                                     storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                 );
                             }
@@ -512,7 +512,7 @@ private:
                 [&](auto&&... storages) -> void {
                     if ((requiredStorages[RequiredInds]->has(id) && ...))  {
                         fn(
-                            util::forward<Params>(params)...,
+                            std::util::forward<Params>(params)...,
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -523,7 +523,7 @@ private:
             apply(
                 [&](auto&&... storages) -> void {
                     fn(
-                        util::forward<Params>(params)...,
+                        std::util::forward<Params>(params)...,
                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                     );
                 },
@@ -589,7 +589,7 @@ public:
         if (!id.has_value()) {
             return nullopt;
         }
-        (emplace<Args>(*id, util::forward<Args>(args)), ...);
+        (emplace<Args>(*id, std::util::forward<Args>(args)), ...);
         return id;
     }
 
@@ -608,7 +608,7 @@ public:
     template <ValidComponent T, typename... Args>
         requires ConstructibleFrom<T, Args...>
     T& emplace(EntityId id, Args&&... args) noexcept {
-        return storageManager.emplace<T>(id, util::forward<Args>(args)...);
+        return storageManager.emplace<T>(id, std::util::forward<Args>(args)...);
     }
 
     /**
@@ -800,7 +800,7 @@ public:
     void onConstruct(Fn&& fn) {
         using FnTraits = FunctionTraits<Fn>;
         using SecondArg = typename FnTraits::template ArgumentAt<1>;
-        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnConstruct(util::forward<Fn>(fn));
+        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnConstruct(std::util::forward<Fn>(fn));
     }
 
     /**
@@ -817,7 +817,7 @@ public:
     void onDestroy(Fn&& fn) {
         using FnTraits = FunctionTraits<Fn>;
         using SecondArg = typename FnTraits::template ArgumentAt<1>;
-        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnDestroy(util::forward<Fn>(fn));
+        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnDestroy(std::util::forward<Fn>(fn));
     }
 
     /**
@@ -852,7 +852,7 @@ public:
             for (StorageId s: storageManager) {
                 PolymorphicStorage& storage = storageManager.getStorage(s);
                 if (storage.has(id)) {
-                    util::forward<Fn>(fn)(util::forward<Params>(params)..., storage.getTypeInfo());
+                    std::util::forward<Fn>(fn)(std::util::forward<Params>(params)..., storage.getTypeInfo());
                 }
             }
         }
@@ -877,7 +877,7 @@ public:
             for (StorageId s: storageManager) {
                 PolymorphicStorage& storage = storageManager.getStorage(s);
                 if (storage.has(e)) {
-                    util::forward<Fn>(fn)(e, util::forward<Params>(params)..., storage.getTypeInfo());
+                    std::util::forward<Fn>(fn)(e, std::util::forward<Params>(params)..., storage.getTypeInfo());
                 }
             }
         }
@@ -905,24 +905,24 @@ public:
         ++queryLevel;
         if constexpr (QrTraits::IS_EMPTY) {
             for ([[maybe_unused]] EntityId _: entityManager) {
-                util::forward<Fn>(fn)(util::forward<Params>(params)...);
+                std::util::forward<Fn>(fn)(std::util::forward<Params>(params)...);
             }
         } else {
             if constexpr (QrTraits::PASSES_ENTITY_ID) {
                 querySelfImpl<Fn, typename QrTraits::NO_PARAMS_ARGS_COUNT>(
-                    util::forward<Fn>(fn),
+                    std::util::forward<Fn>(fn),
                     make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                     make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                    util::forward<Params>(params)...
+                    std::util::forward<Params>(params)...
                 );
             } else {
                 queryImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
-                    util::forward<Fn>(fn),
+                    std::util::forward<Fn>(fn),
                     make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                     make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                    util::forward<Params>(params)...
+                    std::util::forward<Params>(params)...
                 );
             }
         }
@@ -954,7 +954,7 @@ public:
             pool.execTask(
                 [&](usize start, usize end) -> void {
                     for ([[maybe_unused]] usize _: IotaView(start, end)) {
-                        fn(util::forward<Params>(params)...);
+                        fn(std::util::forward<Params>(params)...);
                     }
                 },
                 entityManager.getOccupied()
@@ -962,20 +962,20 @@ public:
         } else if constexpr (QrTraits::PASSES_ENTITY_ID) {
             querySelfParallelImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                 pool,
-                util::forward<Fn>(fn),
+                std::util::forward<Fn>(fn),
                 make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                 make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                 make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                util::forward<Params>(params)...
+                std::util::forward<Params>(params)...
             );
         } else {
             queryParallelImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                 pool,
-                util::forward<Fn>(fn),
+                std::util::forward<Fn>(fn),
                 make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                 make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                 make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                util::forward<Params>(params)...
+                std::util::forward<Params>(params)...
             );
         }
         --queryLevel;
@@ -1001,15 +1001,15 @@ public:
         using QrTraits = QueryTraits<Fn, 0, Params...>;
         if (entityManager.alive(id)) {
             if constexpr (QrTraits::ARGS_COUNT == QrTraits::PARAMS_COUNT) {
-                fn(util::forward<Params>(params)...);
+                fn(std::util::forward<Params>(params)...);
             } else {
                 queryWithImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                     id,
-                    util::forward<Fn>(fn),
+                    std::util::forward<Fn>(fn),
                     make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                     make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                    util::forward<Params>(params)...
+                    std::util::forward<Params>(params)...
                 );
             }
         }

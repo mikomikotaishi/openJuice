@@ -31,9 +31,6 @@ using std::mem::SharedPointer;
 using std::mem::UniquePointer;
 using std::ranges::IotaView;
 
-namespace io = std::io;
-namespace mem = std::mem;
-
 using openjuice::engine::board::BoardInfo;
 using openjuice::engine::board::Panel;
 using openjuice::engine::util::Constants;
@@ -192,7 +189,7 @@ public:
             homePanels = boardData->getHomePanels();
 
             // Initialise the graph after the game board is set up
-            graph = mem::make_unique<Graph>(gameBoard);
+            graph = std::mem::make_unique<Graph>(gameBoard);
         } else {
             // Initialises to 0 at application startup - trivial case
             boardWidth = 0;
@@ -218,13 +215,6 @@ public:
             return nullopt;
         }
         return graph->atDistance(start, distance);
-    }
-
-    /**
-     * @brief Print the board to the terminal.
-     */
-    void printBoardAscii() const {
-        io::println("█");
     }
 };
 

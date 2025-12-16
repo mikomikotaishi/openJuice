@@ -29,9 +29,6 @@ using std::io::Stderr;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace io = std::io;
-namespace string = std::text::string;
-
 using IOContext = boost::asio::io_context;
 using Resolver = boost::asio::ip::tcp::resolver;
 using ResultsType = boost::asio::ip::tcp::resolver::results_type;
@@ -60,7 +57,7 @@ private:
     void startChat() {
         LOGGER->info("Starting chat");
         String message;
-        while (io::getline(Cin, message)) {
+        while (std::io::getline(Cin, message)) {
             message += "\n";
             boost::asio::write(clientSocket, boost::asio::buffer(message));
         }
@@ -77,12 +74,12 @@ private:
                     boost::asio::read_until(clientSocket, buffer, '\n');
                     InputStream is(&buffer);
                     String message;
-                    io::getline(is, message);
-                    io::print("\n[CHAT] {}\n> ", message);
+                    std::io::getline(is, message);
+                    std::io::print("\n[CHAT] {}\n> ", message);
                     Cout.flush();
                 }
             } catch (...) {
-                io::println(Stderr, "Disconnected from server.");
+                std::io::println(Stderr, "Disconnected from server.");
             }
         });
     }
@@ -104,7 +101,7 @@ public:
     ChatClient(IOContext& ioContext, const String& host, i16 port):
         clientSocket(ioContext) {
         Resolver resolver(ioContext);
-        ResultsType endpoints = resolver.resolve(host, string::to_string(port));
+        ResultsType endpoints = resolver.resolve(host, std::text::string::to_string(port));
         boost::asio::connect(clientSocket, endpoints);
         startListening();
         startChat();

@@ -19,8 +19,6 @@ import openjuice.engine.util.InputParser;
 
 using std::collections::Vector;
 
-namespace sys = std::sys;
-
 using openjuice::engine::game::Engine;
 using openjuice::engine::game::LaunchMode;
 using openjuice::engine::util::GameExecuteMode;
@@ -52,7 +50,7 @@ private:
             case GameExecuteMode::HELP_MESSAGE:
                 return nullopt;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 public:

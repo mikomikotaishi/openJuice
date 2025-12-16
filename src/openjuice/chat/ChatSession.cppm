@@ -25,14 +25,8 @@ using std::mem::EnableSharedFromThis;
 using std::mem::SharedPointer;
 using stdx::linq::Query;
 
-namespace io = std::io;
-namespace mem = std::mem;
-namespace util = std::util;
-
 using boost::asio::ip::tcp::Socket;
 using boost::system::ErrorCode;
-
-using namespace boost::asio;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -55,7 +49,7 @@ private:
      */
     void broadcast(const String& msg) {
         for (SharedPointer<ChatSession>& client: clients) {
-            if (client != shared_from_this()) {
+            if (client != boost::asio::shared_from_this()) {
                 client->deliver(msg);
             }
         }
@@ -66,7 +60,7 @@ private:
      */
     void removeClient() {
         clients = Query::from(clients)
-            .where([self = shared_from_this()](const auto& c) -> bool { return c != self; })
+            .where([self = boost::asio::shared_from_this()](const auto& c) -> bool { return c != self; })
             .to<Vector>();
     }
 
@@ -80,7 +74,7 @@ private:
                 if (!ec) {
                     String message = inputBuffer.substr(0, length);
                     inputBuffer.erase(0, length);
-                    io::print("Received: {}", message);
+                    std::io::print("Received: {}", message);
                     broadcast(message);
                     readMessage();
                 } else {
@@ -97,13 +91,13 @@ public:
      * @param clients The list of connected clients.
      */
     ChatSession(Socket socket, Vector<SharedPointer<ChatSession>>& clients):
-        sessionSocket{util::move(socket)}, clients{clients} {}
+        sessionSocket{std::util::move(socket)}, clients{clients} {}
     
     /**
      * @brief Start the chat session.
      */
     void start() {
-        clients.push_back(shared_from_this());
+        clients.push_back(boost::asio::shared_from_this());
         readMessage();
     }
 
@@ -112,7 +106,7 @@ public:
      *
      * @param msg The message to deliver.
      */
-    void deliver(const String& msg) {
+    void deliver(StringView msg) {
         boost::asio::async_write(sessionSocket, boost::asio::buffer(msg),
             [](ErrorCode, usize) -> void {}
         );

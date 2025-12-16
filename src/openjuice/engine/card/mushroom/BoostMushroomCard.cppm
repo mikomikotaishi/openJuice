@@ -21,8 +21,6 @@ import openjuice.engine.managers.TextManager;
 
 using std::meta::IsBaseOfValue;
 
-namespace sys = std::sys;
-
 using openjuice::engine::card::cardtypes::BoostCard;
 using openjuice::engine::card::spawntypes::MushroomCard;
 using openjuice::engine::managers::TextManager;
@@ -87,7 +85,7 @@ private:
             case BoostMushroomType::WIN:
                 return "CARD_SHROOM_WIN";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 
@@ -121,7 +119,7 @@ private:
             case MushroomColour::YELLOW:
                 return "CARD_SHROOM_YELLOW";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 
@@ -154,7 +152,7 @@ private:
             case MushroomColour::YELLOW:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 protected:

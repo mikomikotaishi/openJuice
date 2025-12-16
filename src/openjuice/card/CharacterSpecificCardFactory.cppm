@@ -24,9 +24,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-
 using openjuice::engine::card::spawntypes::CharacterSpecificCard;
 
 using namespace openjuice::card::character;
@@ -61,11 +58,11 @@ public:
             case 0:
                 return nullptr;
             case 1:
-                return mem::make_shared<MiosChristmasCake>();
+                return std::mem::make_shared<MiosChristmasCake>();
             case 2:
-                return mem::make_shared<Freight>();
+                return std::mem::make_shared<Freight>();
             case 3:
-                return mem::make_shared<RedAndBlue>();
+                return std::mem::make_shared<RedAndBlue>();
             default:
                 return nullopt;
         }

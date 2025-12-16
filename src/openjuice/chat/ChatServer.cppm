@@ -24,14 +24,9 @@ import boost.system;
 using std::collections::Vector;
 using std::mem::SharedPointer;
 
-namespace mem = std::mem;
-namespace util = std::util;
-
 using boost::asio::ip::tcp::Acceptor;
 using boost::asio::ip::tcp::Socket;
 using boost::system::ErrorCode;
-
-using namespace boost::asio;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -53,7 +48,7 @@ private:
         serverAcceptor.async_accept(
             [this](ErrorCode ec, Socket socket) -> void {
                 if (!ec) {
-                    mem::make_shared<ChatSession>(util::move(socket), clients)->start();
+                    std::mem::make_shared<ChatSession>(std::util::move(socket), clients)->start();
                 }
                 acceptConnection();
             }
@@ -67,7 +62,7 @@ public:
      * @param port The port to listen on.
      */
     ChatServer(IOContext& ioContext, i16 port):
-        serverAcceptor(ioContext, ip::tcp::endpoint(ip::tcp::v4(), static_cast<u16>(port))) {
+        serverAcceptor(ioContext, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), static_cast<u16>(port))) {
         acceptConnection();
     }
 };

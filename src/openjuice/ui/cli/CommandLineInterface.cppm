@@ -25,10 +25,6 @@ using std::mem::SharedPointer;
 using std::sync::Mutex;
 using std::sync::ScopedLock;
 
-namespace io = std::io;
-namespace string = std::text::string;
-namespace util = std::util;
-
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::managers::TextManager;
@@ -80,7 +76,7 @@ public:
      * @param mutex Reference to state mutex for synchronisation
      */
     CommandLineInterface(SharedPointer<Game> game, Mutex& mutex):
-        UserInterface(util::move(game), mutex) {}
+        UserInterface(std::util::move(game), mutex) {}
 
     /**
      * @brief
@@ -110,15 +106,15 @@ public:
      * @brief
      */
     void render() override {
-        io::println("Current game state: {}", game->toString());
+        std::io::println("Current game state: {}", game->toString());
     }
 
     /**
      * @brief Initialises the language for the command line interface.
      */
     static void initialiseLanguage() {
-        io::println("Enter your desired language:");
-        io::println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
+        std::io::println("Enter your desired language:");
+        std::io::println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
         
         using LanguageMap = HashMap<String, Pair<Language, StringView>>;
         static const LanguageMap languageMap = {
@@ -134,10 +130,10 @@ public:
 
         String languageInput;
         while (true) {
-            io::getline(Cin, languageInput);
+            std::io::getline(Cin, languageInput);
             if (auto it = languageMap.find(languageInput); it != languageMap.end()) {
                 GlobalSettings::getInstance().setLanguage(it->second.first);
-                io::println("{}", it->second.second);
+                std::io::println("{}", it->second.second);
                 break;
             }
         }
@@ -148,27 +144,27 @@ public:
      * @brief Initialises the frame rate for the command line interface.
      */
     static void initialiseFrameRate() {
-        io::println("Enter your desired frame rate (fps) (1-600):");
-        io::println("Press Enter to use the default (60 fps).");
+        std::io::println("Enter your desired frame rate (fps) (1-600):");
+        std::io::println("Press Enter to use the default (60 fps).");
 
         String frameRateInput;
 
         while (true) {
-            io::getline(Cin, frameRateInput);
+            std::io::getline(Cin, frameRateInput);
             if (frameRateInput.empty()) {
                 GlobalSettings::getInstance().setFrameRate(60);
-                io::println("Frame rate: 60 frames per second (default)");
+                std::io::println("Frame rate: 60 frames per second (default)");
                 break;
             }
             usize pos = 0;
-            u64 frameRate = string::stoul(frameRateInput, &pos);
+            u64 frameRate = std::text::string::stoul(frameRateInput, &pos);
 
             if (pos == frameRateInput.size() && frameRate >= 1 && frameRate <= 600) {
                 GlobalSettings::getInstance().setFrameRate(static_cast<u16>(frameRate));
-                io::println("Frame rate: {} frames per second", frameRate);
+                std::io::println("Frame rate: {} frames per second", frameRate);
                 break;
             } else {
-                io::println(Stderr, "Invalid frame rate. Please enter a number between 1 and 600.");
+                std::io::println(Stderr, "Invalid frame rate. Please enter a number between 1 and 600.");
             }
         }
     }

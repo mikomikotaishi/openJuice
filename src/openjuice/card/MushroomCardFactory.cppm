@@ -25,9 +25,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-
 using openjuice::engine::card::LegendaryMushroomColour;
 using openjuice::engine::card::MushroomColour;
 using openjuice::engine::card::mushroom::LegendaryMushroomCard;
@@ -68,53 +65,53 @@ public:
             case 0:
                 return nullptr;
             case 1:
-                return mem::make_shared<NullBattleMushroom>(colour);
+                return std::mem::make_shared<NullBattleMushroom>(colour);
             case 2:
-                return mem::make_shared<AttackUpMushroom>(colour);
+                return std::mem::make_shared<AttackUpMushroom>(colour);
             case 3:
-                return mem::make_shared<AttackDownMushroom>(colour);
+                return std::mem::make_shared<AttackDownMushroom>(colour);
             case 4:
-                return mem::make_shared<DefenceUpMushroom>(colour);
+                return std::mem::make_shared<DefenceUpMushroom>(colour);
             case 5:
-                return mem::make_shared<DefenceDownMushroom>(colour);
+                return std::mem::make_shared<DefenceDownMushroom>(colour);
             case 6:
-                return mem::make_shared<EvadeUpMushroom>(colour);
+                return std::mem::make_shared<EvadeUpMushroom>(colour);
             case 7:
-                return mem::make_shared<EvadeDownMushroom>(colour);
+                return std::mem::make_shared<EvadeDownMushroom>(colour);
             case 8:
-                return mem::make_shared<HealMushroom>(colour);
+                return std::mem::make_shared<HealMushroom>(colour);
             case 9:
-                return mem::make_shared<DamageMushroom>(colour);
+                return std::mem::make_shared<DamageMushroom>(colour);
             case 10:
-                return mem::make_shared<RollOneMushroom>(colour);
+                return std::mem::make_shared<RollOneMushroom>(colour);
             case 11:
-                return mem::make_shared<RollSixMushroom>(colour);
+                return std::mem::make_shared<RollSixMushroom>(colour);
             case 12:
-                return mem::make_shared<NullBoostMushroom>(colour);
+                return std::mem::make_shared<NullBoostMushroom>(colour);
             case 13:
-                return mem::make_shared<MoveUpMushroom>(colour);
+                return std::mem::make_shared<MoveUpMushroom>(colour);
             case 14:
-                return mem::make_shared<MoveDownMushroom>(colour);
+                return std::mem::make_shared<MoveDownMushroom>(colour);
             case 15:
-                return mem::make_shared<GainStarsMushroom>(colour);
+                return std::mem::make_shared<GainStarsMushroom>(colour);
             case 16:
-                return mem::make_shared<LoseStarsMushroom>(colour);
+                return std::mem::make_shared<LoseStarsMushroom>(colour);
             case 17:
-                return mem::make_shared<HealthUpMushroom>(colour);
+                return std::mem::make_shared<HealthUpMushroom>(colour);
             case 18:
-                return mem::make_shared<HealthDownMushroom>(colour);
+                return std::mem::make_shared<HealthDownMushroom>(colour);
             case 19:
-                return mem::make_shared<FrostwalkerMushroom>(colour);
+                return std::mem::make_shared<FrostwalkerMushroom>(colour);
             case 20:
-                return mem::make_shared<WarpMushroom>(colour);
+                return std::mem::make_shared<WarpMushroom>(colour);
             case 21:
-                return mem::make_shared<ConfusionMushroom>(colour);
+                return std::mem::make_shared<ConfusionMushroom>(colour);
             case 22:
-                return mem::make_shared<DrawMushroom>(colour);
+                return std::mem::make_shared<DrawMushroom>(colour);
             case 23:
-                return mem::make_shared<DiscardMushroom>(colour);
+                return std::mem::make_shared<DiscardMushroom>(colour);
             case 24:
-                return mem::make_shared<WinMushroom>(colour);
+                return std::mem::make_shared<WinMushroom>(colour);
             default:
                 return nullopt;
         }
@@ -138,9 +135,9 @@ public:
             case 0:
                 return nullptr;
             case 1:
-                return mem::make_shared<LegendaryStarsMushroom>(colour);
+                return std::mem::make_shared<LegendaryStarsMushroom>(colour);
             case 2:
-                return mem::make_shared<LegendaryWinsMushroom>(colour);
+                return std::mem::make_shared<LegendaryWinsMushroom>(colour);
             default:
                 return nullopt;
         }

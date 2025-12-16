@@ -21,8 +21,6 @@ import openjuice.engine.managers.TextManager;
 
 using std::meta::IsBaseOfValue;
 
-namespace sys = std::sys;
-
 using openjuice::engine::card::cardtypes::GiftCard;
 using openjuice::engine::card::spawntypes::MushroomCard;
 using openjuice::engine::managers::TextManager;
@@ -65,7 +63,7 @@ private:
             case LegendaryMushroomType::WINS:
                 return "CARD_SHROOM_LEGEND_WINS";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 
@@ -82,7 +80,7 @@ private:
             case LegendaryMushroomColour::PHANTOM_BLUE:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 
@@ -99,7 +97,7 @@ private:
             case LegendaryMushroomColour::PHANTOM_BLUE:
                 return "CARD_SHROOM_PHANTOMBLUE";
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 protected:

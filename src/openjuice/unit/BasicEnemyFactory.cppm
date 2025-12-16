@@ -23,9 +23,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-
 using namespace openjuice::engine::unit;
 using namespace openjuice::unit::enemies;
 
@@ -59,11 +56,11 @@ public:
             case 0:
                 return nullptr;
             case 1:
-                return mem::make_shared<Chicken>();
+                return std::mem::make_shared<Chicken>();
             case 2:
-                return mem::make_shared<RoboBall>();
+                return std::mem::make_shared<RoboBall>();
             case 3:
-                return mem::make_shared<Seagull>();
+                return std::mem::make_shared<Seagull>();
             default:
                 return nullopt;
         }

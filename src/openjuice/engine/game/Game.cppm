@@ -43,10 +43,6 @@ using std::ranges::IotaView;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-namespace sys = std::sys;
-
 using openjuice::engine::board::Board;
 using openjuice::engine::entity::Player;
 using openjuice::engine::game::ecs::EntityId;
@@ -104,9 +100,9 @@ public:
      * @brief Constructor for the Game class.
      */
     Game():
-        gameBoard{mem::make_shared<Board>(0)},
+        gameBoard{std::mem::make_shared<Board>(0)},
         playerEntities{{}},
-        registry{mem::make_unique<Registry>(1000)},
+        registry{std::mem::make_unique<Registry>(1000)},
         deltaTime{GlobalSettings::getInstance().getDeltaTime()} {
 
         #ifndef NDEBUG
@@ -184,13 +180,13 @@ public:
         if (Optional<SharedPointer<Playable>> ch = CharacterFactory::create(characterId); ch.has_value()) {
             character = *ch;
         } else {
-            throw OutOfRangeException(fmt::format("Error: {} is not a valid character ID!", characterId));
+            throw OutOfRangeException(std::fmt::format("Error: {} is not a valid character ID!", characterId));
         }
         
         registry->emplace<UnitComponent>(player, character);
         registry->emplace<HealthComponent>(player, character->getHealth(), character->getHealth());
 
-        SharedPointer<Player> playerWrapper = mem::make_shared<Player>(*registry, character);
+        SharedPointer<Player> playerWrapper = std::mem::make_shared<Player>(*registry, character);
 
         #ifndef NDEBUG
         players.at(playerNumber) = playerWrapper;
@@ -433,7 +429,7 @@ public:
      */
     [[nodiscard]]
     String toString() const {
-        String result = fmt::format(
+        String result = std::fmt::format(
             "Chapter: {} | Current Player: {} | Phase: {} | Battle: {}",
             chapterNumber,
             currentPlayerIndex,
@@ -442,7 +438,7 @@ public:
         );
 
         if (!statusMessage.empty()) {
-            result = fmt::format("{} | {}", result, statusMessage);
+            result = std::fmt::format("{} | {}", result, statusMessage);
         }
 
         return result;

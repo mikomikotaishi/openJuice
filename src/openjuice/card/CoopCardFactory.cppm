@@ -29,10 +29,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-namespace sys = std::sys;
-
 using openjuice::engine::card::spawntypes::CoopCard;
 
 using namespace openjuice::card::coop;
@@ -89,15 +85,15 @@ public:
                     case 0:
                         return nullptr;
                     case 1:
-                        return mem::make_shared<UltimateWeaponInTheSun>();
+                        return std::mem::make_shared<UltimateWeaponInTheSun>();
                     case 2:
-                        return mem::make_shared<LifeguardOnTheWhiteBeach>();
+                        return std::mem::make_shared<LifeguardOnTheWhiteBeach>();
                     case 3:
-                        return mem::make_shared<GuardianOfBloomingFlowers>();
+                        return std::mem::make_shared<GuardianOfBloomingFlowers>();
                     case 4:
-                        return mem::make_shared<UnforgivingAvenger>();
+                        return std::mem::make_shared<UnforgivingAvenger>();
                     case 5:
-                        return mem::make_shared<SummerGames>();
+                        return std::mem::make_shared<SummerGames>();
                     default:
                         return nullopt;
                 }
@@ -106,18 +102,18 @@ public:
                     case 0:
                         return nullptr;
                     case 1:
-                        return mem::make_shared<SeasonalUltimateWeaponInTheSun>();
+                        return std::mem::make_shared<SeasonalUltimateWeaponInTheSun>();
                     case 2:
-                        return mem::make_shared<SeasonalLifeguardOnTheWhiteBeach>();
+                        return std::mem::make_shared<SeasonalLifeguardOnTheWhiteBeach>();
                     case 3:
-                        return mem::make_shared<SeasonalGuardianOfBloomingFlowers>();
+                        return std::mem::make_shared<SeasonalGuardianOfBloomingFlowers>();
                     case 4:
-                        return mem::make_shared<SeasonalUnforgivingAvenger>();
+                        return std::mem::make_shared<SeasonalUnforgivingAvenger>();
                     default:
                         return nullopt;
                 }
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
     }
 };
@@ -145,9 +141,9 @@ struct Formatter<CoopCardFactory::SecondaryType> {
                 name = "Seasonal";
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
-        return fmt::format_to(ctx.out(), "{}", name);
+        return std::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

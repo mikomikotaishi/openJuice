@@ -19,9 +19,6 @@ using std::fmt::FormatContext;
 using std::fmt::FormatParseContext;
 using std::fmt::Formatter;
 
-namespace fmt = std::fmt;
-namespace sys = std::sys;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::discord);
 
 /**
@@ -59,9 +56,9 @@ struct Formatter<DiscordActivityType> {
                 name = "Paused";
                 break;
             default:
-                sys::unreachable();
+                std::sys::unreachable();
         }
-        return fmt::format_to(ctx.out(), "{}", name);
+        return std::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

@@ -34,10 +34,6 @@ using std::ranges::IotaView;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fs = std::fs;
-namespace math = std::math;
-namespace mem = std::mem;
-
 using openjuice::engine::util::Constants;
 
 using tomlpp::TomlArray;
@@ -111,11 +107,11 @@ public:
         LOGGER->debug("Loading boards from directory: {}", directory);
         #endif
         
-        if (!fs::exists(directory)) {
+        if (!std::fs::exists(directory)) {
             return Unexpected<Error<BoardLibraryError>>(
                 Tags::IN_PLACE,
                 BoardLibraryError::DIRECTORY_NOT_FOUND,
-                fmt::format("The directory {} was not found!", directory)
+                std::fmt::format("The directory {} was not found!", directory)
             );
         }
         for (const DirectoryEntry& entry: DirectoryIterator(directory)) {
@@ -139,14 +135,14 @@ public:
                 Array<Pair<u8, u8>, BoardInfo::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
-                    for (usize i: IotaView(0uz, math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
+                    for (usize i: IotaView(0uz, std::math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {
                                 return Unexpected<Error<BoardLibraryError>>(
                                     Tags::IN_PLACE,
                                     BoardLibraryError::INVALID_TOML_ARRAY_SIZE,
-                                    fmt::format("Invalid homePanels size: expected 2, got {}", panel->size())
+                                    std::fmt::format("Invalid homePanels size: expected 2, got {}", panel->size())
                                 );
                             }
                             #ifndef NDEBUG
@@ -176,7 +172,7 @@ public:
                     );
                 }
 
-                boardList.push_back(mem::make_shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
+                boardList.push_back(std::mem::make_shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
             }
         }
 

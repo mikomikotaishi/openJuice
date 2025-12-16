@@ -23,9 +23,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace fmt = std::fmt;
-namespace mem = std::mem;
-
 using namespace openjuice::engine::unit;
 using namespace openjuice::unit::bosses;
 
@@ -59,11 +56,11 @@ public:
             case 0:
                 return nullptr;
             case 1:
-                return mem::make_shared<FlyingCastle>();
+                return std::mem::make_shared<FlyingCastle>();
             case 2:
-                return mem::make_shared<ShifuRobot>();
+                return std::mem::make_shared<ShifuRobot>();
             case 3:
-                return mem::make_shared<StoreManager>();
+                return std::mem::make_shared<StoreManager>();
             default:
                 return nullopt;
         }

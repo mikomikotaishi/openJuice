@@ -29,9 +29,6 @@ using std::io::InputFileStream;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-namespace io = std::io;
-namespace fmt = std::fmt;
-
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
@@ -89,11 +86,11 @@ private:
      */
     void loadBlacklist(Language language) {
         LOGGER->info("Loading blacklist for language of value {}", static_cast<u8>(language));
-        String filename = fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
+        String filename = std::fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
         blacklist.clear();
         String word;
         InputFileStream file(filename);
-        while (io::getline(file, word)) {
+        while (std::io::getline(file, word)) {
             if (!word.empty()) {
                 blacklist.push_back(word);
             }
@@ -128,7 +125,7 @@ public:
     String censorMessage(const String& message) const {
         String censoredMessage = message;
         for (const String& word: blacklist) {
-            Regex pattern(fmt::format("\\b{}\\b", word), boost::regex_constants::icase);
+            Regex pattern(std::fmt::format("\\b{}\\b", word), boost::regex_constants::icase);
             String replacement(word.length(), censorChar);
             censoredMessage = boost::regex_replace(censoredMessage, pattern, replacement);
         }

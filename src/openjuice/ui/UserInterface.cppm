@@ -18,8 +18,6 @@ using std::mem::SharedPointer;
 using std::sync::AtomicBoolean;
 using std::sync::Mutex;
 
-namespace util = std::util;
-
 using openjuice::engine::game::Game;
 
 BEGIN_MODULE_NAMESPACE(openjuice::ui);
@@ -41,7 +39,7 @@ public:
      * @param mutex Reference to mutex for thread-safe access
      */
     UserInterface(SharedPointer<Game> game, Mutex& mutex):
-        game{util::move(game)}, stateMutex{mutex} {}
+        game{std::util::move(game)}, stateMutex{mutex} {}
 
     virtual ~UserInterface() = default;
 

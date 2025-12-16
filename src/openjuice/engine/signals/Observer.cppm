@@ -20,8 +20,6 @@ import std;
 using std::collections::Vector;
 using std::meta::IsBaseOfValue;
 
-namespace ranges = std::ranges;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::signals);
 
 /**
@@ -73,7 +71,7 @@ public:
      * @param observer 
      */
     void detach(Observer* observer) {
-        ranges::remove(observers, observer);
+        std::ranges::remove(observers, observer);
     }
 
     /**
