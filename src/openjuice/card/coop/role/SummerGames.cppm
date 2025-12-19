@@ -38,9 +38,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::role);
  * The SummerGames class extends both BoostCard, HyperCard, and SeasonalCard to represent the card "Summer Games" in the game.
  */
 export class SummerGames final: public BoostCard, public HyperCard, public CoopCard {
-private:
+public:
     static constexpr u8 ID = 5; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

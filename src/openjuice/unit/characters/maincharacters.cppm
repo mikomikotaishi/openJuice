@@ -105,3 +105,4 @@ export import openjuice.unit.characters.maincharacters.Yuki; // 14
 // export import openjuice.unit.characters.maincharacters.Chuu; // 95
 // export import openjuice.unit.characters.maincharacters.Haruka; // 96
 // export import openjuice.unit.characters.maincharacters.Kanata; // 97
+// export import openjuice.unit.characters.maincharacters.MariPopomi; // 98

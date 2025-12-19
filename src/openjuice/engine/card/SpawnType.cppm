@@ -33,8 +33,10 @@ export enum class SpawnType: u8 {
     CHARACTER_SPECIFIC, ///< Character-specific spawn type.
     SEASONAL, ///< Seasonal spawn type.
     MUSHROOM, ///< Mushroom spawn type.
-    COOP, ///< Co-op spawn type
-    BOSS ///< Boss spawn type
+    COOP, ///< Co-op spawn type.
+    BOSS, ///< Boss spawn type.
+    BOUNTY_HUNT, ///< Bounty Hunt spawn type.
+    GENERIC ///< Generic (placeholder) spawn type.
 };
 
 END_MODULE_NAMESPACE();
@@ -70,6 +72,12 @@ struct Formatter<SpawnType> {
                 break;
             case SpawnType::BOSS:
                 name = "Boss";
+                break;
+            case SpawnType::BOUNTY_HUNT:
+                name = "Bounty Hunt";
+                break;
+            case SpawnType::GENERIC:
+                name = "Generic";
                 break;
             default:
                 std::sys::unreachable();

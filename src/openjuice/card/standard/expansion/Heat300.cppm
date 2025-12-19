@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::expansion);
  * The Heat300 class extends both TrapCard and StandardCard to represent the card "Heat 300%" in the game.
  */
 export class Heat300 final: public TrapCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 31; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::TRAP; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card

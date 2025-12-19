@@ -30,7 +30,7 @@ public:
     static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
     static constexpr StringView PATH_SAVEFILE = "./userdata/savedata.toml"; ///< The save file path.
     static constexpr StringView PATH_BLACKLIST_FILE = "./blacklist/blacklist_{}.txt"; ///< The blacklist file path.
-    static constexpr StringView ORANGE_JUICE_WIKI_URL = "https://100orangejuice.fandom.com"; ///< The URL for the 100% Orange Juice! wiki
+    static constexpr StringView ORANGE_JUICE_WIKI_URL = "https://orangejuice.wiki"; ///< The URL for the 100% Orange Juice! wiki
 
     // Discord constants
     static constexpr u64 DISCORD_APPLICATION_ID = 1374097529788039318; ///< Application ID

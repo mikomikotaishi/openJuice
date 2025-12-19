@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::character);
  * The Freight class extends both BattleCard and CharacterSpecificCard to represent the card "Freight" in the game.
  */
 export class Freight final: public BattleCard, public CharacterSpecificCard {
-private:
+public:
     static constexpr u8 ID = 2; ///< The ID of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::CHARACTER_SPECIFIC; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

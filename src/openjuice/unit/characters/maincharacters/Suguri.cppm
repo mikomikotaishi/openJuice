@@ -30,10 +30,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::characters::maincharacters);
  * The Suguri class is a final class that inherits from MainCharacter and represents a specific character in the game.
  */
 export class Suguri final: public MainCharacter {
-private:
+public:
     static constexpr u16 ID = 4; ///< ID of this specific character
+private:
     static constexpr CharacterDifficulty DIFFICULTY = CharacterDifficulty::THREE; ///< Difficulty of this specific character
-    
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character

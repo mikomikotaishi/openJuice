@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::character);
  * The MiosChristmasCake class extends both BoostCard and CharacterSpecificCard to represent the card "Mio's Christmas Cake" in the game.
  */
 export class MiosChristmasCake final: public BoostCard, public CharacterSpecificCard {
-private:
+public:
     static constexpr u8 ID = 1; ///< The ID of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::CHARACTER_SPECIFIC; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

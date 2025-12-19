@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::expansion);
  * The TragedyInTheDeadOfNight class extends both TrapCard and StandardCard to represent the card "Tragedy in the Dead of Night" in the game.
  */
 export class TragedyInTheDeadOfNight final: public TrapCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 32; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::TRAP; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::UNCOMMON; ///< The rarity of this specific card

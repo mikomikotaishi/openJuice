@@ -84,6 +84,7 @@ private:
     u8 currentPlayerIndex = 0; ///< Current player index
     u8 chapterNumber = 1; ///< Chapter number
     bool battleInProgress = false; ///< Battle in progress flag
+    // TODO: Add a spectator list
 
     /**
      * @brief Advances the game to the next player.

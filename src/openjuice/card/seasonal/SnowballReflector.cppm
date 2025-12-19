@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::seasonal);
  * The SnowballReflector class extends both BattleCard and SeasonalCard to represent the card "Snowball Reflector" in the game.
  */
 export class SnowballReflector final: public BattleCard, public SeasonalCard {
-private:
+public:
     static constexpr u8 ID = 2; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

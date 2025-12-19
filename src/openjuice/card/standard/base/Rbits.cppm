@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
  * The Rbits class extends both BattleCard and StandardCard to represent the card "Rbits" in the game.
  */
 export class Rbits final: public BattleCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 8; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card

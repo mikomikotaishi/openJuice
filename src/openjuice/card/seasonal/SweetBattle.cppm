@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::seasonal);
  * The SweetBattle class extends both GiftCard and SeasonalCard to represent the card "Sweet Battle" in the game.
  */
 export class SweetBattle final: public GiftCard, public SeasonalCard {
-private:
+public:
     static constexpr u8 ID = 1; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::GIFT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

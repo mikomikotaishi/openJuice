@@ -38,9 +38,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
  * The SeasonalGuardianOfBloomingFlowers class extends both BoostCard, HyperCard, and CoopCard to represent the card "Guardian of Blooming Flowers" (seasonal) in the game.
  */
 export class SeasonalGuardianOfBloomingFlowers final: public BoostCard, public HyperCard, public CoopCard {
-private:
+public:
     static constexpr u16 ID = 3; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

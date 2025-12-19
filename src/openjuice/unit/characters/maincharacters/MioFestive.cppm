@@ -30,11 +30,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::characters::maincharacters);
  * The MioFestive class is a final class that inherits from MainCharacter and represents a specific character in the game.
  */
 export class MioFestive final: public MainCharacter {
-private:
+public:
     static constexpr u16 ID = 10; ///< ID of this specific character
-    // TODO: Find the actual stat for Difficulty.
-    static constexpr CharacterDifficulty DIFFICULTY = CharacterDifficulty::ONE; ///< Difficulty of this specific character
-    
+private:
+    static constexpr CharacterDifficulty DIFFICULTY = CharacterDifficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -2; ///< Defence stat of this specific character

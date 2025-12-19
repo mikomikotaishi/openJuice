@@ -39,9 +39,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::expansion);
  * The ForcedRevival class extends both EventCard and StandardCard to represent the card "Forced Revival" in the game.
  */
 export class ForcedRevival final: public EventCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 40; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::EVENT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::UNCOMMON; ///< The rarity of this specific card

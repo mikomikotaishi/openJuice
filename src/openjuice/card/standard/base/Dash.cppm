@@ -16,7 +16,6 @@ import std;
 
 import openjuice.engine.card;
 
-
 using openjuice::engine::card::Card;
 using openjuice::engine::card::CardType;
 using openjuice::engine::card::DeckPointError;
@@ -38,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
  * The Dash class extends both BoostCard and StandardCard to represent the card "Dash" in the game.
  */
 export class Dash final: public BoostCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 1; ///< The ID of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card

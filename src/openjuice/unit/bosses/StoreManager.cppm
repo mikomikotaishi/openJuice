@@ -29,9 +29,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::bosses);
  * The StoreManager class is a final class that inherits from BossEnemy and represents a specific type of boss enemy in the game.
  */
 export class StoreManager final: public BossEnemy {
-private:
+public:
     static constexpr u16 ID = 3; ///< ID of this specific boss
-    
+private:
     static constexpr u8 HEALTH = 8; ///< Health stat of this specific boss
     static constexpr i8 ATTACK = 3; ///< Attack stat of this specific boss
     static constexpr i8 DEFENCE = 2; ///< Defence stat of this specific boss

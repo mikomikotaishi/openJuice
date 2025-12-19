@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::mixedbooster);
  * The Mimic class extends both BoostCard and StandardCard to represent the card "Mimic" in the game.
  */
 export class Mimic final: public BoostCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 47; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::RARE; ///< The rarity of this specific card

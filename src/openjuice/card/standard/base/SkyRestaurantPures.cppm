@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
  * The SkyRestaurantPures class extends both TrapCard and StandardCard to represent the card "Sky Restaurant 'Pures'" in the game.
  */
 export class SkyRestaurantPures final: public TrapCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 15; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::TRAP; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::RARE; ///< The rarity of this specific card

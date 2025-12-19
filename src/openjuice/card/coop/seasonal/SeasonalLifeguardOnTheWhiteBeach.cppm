@@ -38,9 +38,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
  * The SeasonalLifeguardOnTheWhiteBeach class extends both EventCard, HyperCard, and CoopCard to represent the card "Lifeguard on the White Beach" (seasonal) in the game.
  */
 export class SeasonalLifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public CoopCard {
-private:
+public:
     static constexpr u16 ID = 2; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::EVENT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

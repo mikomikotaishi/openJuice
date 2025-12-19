@@ -255,6 +255,10 @@ public:
             //     return std::mem::make_shared<HypeBringer>();
             // case 97:
             //     return std::mem::make_shared<IntellectualSoundingBluff>();
+            // === All cards released from 3.28.1 onwards ===
+            // case 98:
+            //     return std::mem::make_shared<PreciseDiceRolls>();
+            // === Hyper cards part of another hyper card ===
             // case 1026:
             //     return std::mem::make_shared<DanceLongHairedBeasts>();
             // case 1034:

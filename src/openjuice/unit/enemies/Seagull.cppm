@@ -29,9 +29,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::enemies);
  * The Seagull class is a final class that inherits from BasicEnemy and represents a specific type of enemy in the game.
  */
 export class Seagull final: public BasicEnemy {
-private:
+public:
     static constexpr u16 ID = 3; ///< ID of this specific enemy
-    
+private:
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific enemy
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific enemy

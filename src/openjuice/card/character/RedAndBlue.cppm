@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::character);
  * The ChristmasInferno class extends both GiftCard and CharacterSpecificCard to represent the card "Red & Blue" in the game.
  */
 export class RedAndBlue final: public GiftCard, public CharacterSpecificCard {
-private:
+public:
     static constexpr u8 ID = 3; ///< The ID of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::GIFT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::CHARACTER_SPECIFIC; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

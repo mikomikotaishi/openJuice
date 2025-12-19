@@ -104,6 +104,7 @@ export import openjuice.card.hyper.Gamble; // 14
 // export import openjuice.card.hyper.IllGetALittleIntoIt; // 95
 // export import openjuice.card.hyper.HypeBringer; // 96
 // export import openjuice.card.hyper.IntellectualSoundingBluff; // 97
+// export import openjuice.card.hyper.PreciseDiceRolls; // 98
 // export import openjuice.card.hyper.DanceLongHairedBeasts; // 1026
 // export import openjuice.card.hyper.InvisibleBomb; // 1034
 // export import openjuice.card.hyper.EvilSpyWorkExecution; // 1038

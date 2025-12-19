@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::acceleration);
  * The WindyEnchantment class extends both GiftCard and StandardCard to represent the card "Windy Enchantment" in the game.
  */
 export class WindyEnchantment final: public GiftCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 65; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::GIFT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::RARE; ///< The rarity of this specific card

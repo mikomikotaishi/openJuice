@@ -38,9 +38,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
  * The SeasonalUnforgivingAvenger class extends both BoostCard and CoopCard to represent the card "Unforgiving Avenger" (seasonal) in the game.
  */
 export class SeasonalUnforgivingAvenger final: public BattleCard, public HyperCard, public CoopCard {
-private:
+public:
     static constexpr u16 ID = 2004; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card

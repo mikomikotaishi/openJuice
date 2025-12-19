@@ -9,8 +9,10 @@
 export module openjuice.engine.card.SpawnTypes;
 
 export import :BossCard;
+export import :BountyHuntCard;
 export import :CharacterSpecificCard;
 export import :CoopCard;
+export import :GenericCard;
 export import :HyperCard;
 export import :MushroomCard;
 export import :SeasonalCard;

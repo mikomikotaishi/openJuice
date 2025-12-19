@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
  * The FinalBattle class extends both BattleCard and StandardCard to represent the card "Final Battle" in the game.
  */
 export class FinalBattle final: public BattleCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 10; ///< The ID of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::RARE; ///< The rarity of this specific card

@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::mixedbooster);
  * The TacticalRetreat class extends both BattleCard and StandardCard to represent the card "Tactical Retreat" in the game.
  */
 export class TacticalRetreat final: public BattleCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 48; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BATTLE; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card

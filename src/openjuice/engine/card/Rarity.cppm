@@ -27,7 +27,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  * 
  * The Rarity enumeration defines the rarities of cards in the game.
  */
-export enum class Rarity {
+export enum class Rarity: u8 {
     NONE, ///< No rarity (for hyper cards).
     COMMON, ///< COMMON rarity.
     UNCOMMON, ///< UNCOMMON rarity.

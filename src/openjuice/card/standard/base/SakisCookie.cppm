@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
  * The SakisCookie class extends both BoostCard and StandardCard to represent the card "Saki's Cookie" in the game.
  */
 export class SakisCookie final: public BoostCard, public StandardCard {
-private:
+public:
     static constexpr u16 ID = 2; ///< The id of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card

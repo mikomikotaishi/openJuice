@@ -253,6 +253,9 @@ public:
             //     return std::mem::make_shared<Haruka>();
             // case 97:
             //     return std::mem::make_shared<Kanata>();
+            // === All characters released from 3.28.1 onwards ===
+            // case 98:
+            //     return std::mem::make_shared<MariPopomi>();
             default:
                 return nullopt;
         }

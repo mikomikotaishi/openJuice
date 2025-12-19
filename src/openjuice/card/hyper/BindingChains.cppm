@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper);
  * The BindingChains class extends both EventCard and HyperCard to represent the card "Binding Chains" in the game.
  */
 export class BindingChains final: public EventCard, public HyperCard {
-private:
+public:
     static constexpr u16 ID = 7; ///< The ID of this specific card
-
+private:
     static constexpr CardType CARD_TYPE = CardType::EVENT; ///< The card type of this specific card
     static constexpr SpawnType SPAWN_TYPE = SpawnType::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Rarity> RARITY = nullopt; ///< The rarity of this specific card
