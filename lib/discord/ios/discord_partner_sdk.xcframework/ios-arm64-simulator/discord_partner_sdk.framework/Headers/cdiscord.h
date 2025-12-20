@@ -567,6 +567,7 @@ typedef void (*Discord_Client_LobbyMemberUpdatedCallback)(uint64_t lobbyId,
                                                           uint64_t memberId,
                                                           void* userData);
 typedef void (*Discord_Client_LobbyUpdatedCallback)(uint64_t lobbyId, void* userData);
+typedef void (*Discord_Client_IsDiscordAppInstalledCallback)(bool installed, void* userData);
 typedef void (*Discord_Client_AcceptActivityInviteCallback)(Discord_ClientResult* result,
                                                             Discord_String joinSecret,
                                                             void* userData);
@@ -1196,6 +1197,8 @@ bool DISCORD_API Discord_MessageHandle_Lobby(Discord_MessageHandle* self,
                                              Discord_LobbyHandle* returnValue);
 void DISCORD_API Discord_MessageHandle_Metadata(Discord_MessageHandle* self,
                                                 Discord_Properties* returnValue);
+void DISCORD_API Discord_MessageHandle_ModerationMetadata(Discord_MessageHandle* self,
+                                                          Discord_Properties* returnValue);
 void DISCORD_API Discord_MessageHandle_RawContent(Discord_MessageHandle* self,
                                                   Discord_String* returnValue);
 bool DISCORD_API Discord_MessageHandle_Recipient(Discord_MessageHandle* self,
@@ -1694,6 +1697,11 @@ Discord_Client_UnlinkChannelFromLobby(Discord_Client* self,
                                       Discord_Client_LinkOrUnlinkChannelCallback callback,
                                       Discord_FreeFn callback__userDataFree,
                                       void* callback__userData);
+void DISCORD_API
+Discord_Client_IsDiscordAppInstalled(Discord_Client* self,
+                                     Discord_Client_IsDiscordAppInstalledCallback callback,
+                                     Discord_FreeFn callback__userDataFree,
+                                     void* callback__userData);
 void DISCORD_API Discord_Client_AcceptActivityInvite(Discord_Client* self,
                                                      Discord_ActivityInvite* invite,
                                                      Discord_Client_AcceptActivityInviteCallback cb,

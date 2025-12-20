@@ -67,240 +67,240 @@ public:
             case 0:
                 return nullptr;
             // === Base Pack cards ===
-            case 1:
+            case Dash::ID:
                 return std::mem::make_shared<Dash>();
-            case 2:
+            case SakisCookie::ID:
                 return std::mem::make_shared<SakisCookie>();
-            case 3:
+            case FlipOut::ID:
                 return std::mem::make_shared<FlipOut>();
-            case 4:
+            case NiceJingle::ID:
                 return std::mem::make_shared<NiceJingle>();
-            case 5:
+            case NicePresent::ID:
                 return std::mem::make_shared<NicePresent>();
-            case 6:
+            case Pudding::ID:
                 return std::mem::make_shared<Pudding>();
-            case 7:
+            case ImOnFire::ID:
                 return std::mem::make_shared<ImOnFire>();
-            case 8:
+            case Rbits::ID:
                 return std::mem::make_shared<Rbits>();
-            case 9:
+            case RainbowColoredCircle::ID:
                 return std::mem::make_shared<RainbowColoredCircle>();
-            case 10:
+            case FinalBattle::ID:
                 return std::mem::make_shared<FinalBattle>();
-            case 11:
+            case BadPudding::ID:
                 return std::mem::make_shared<BadPudding>();
-            case 12:
+            case MimyuusHammer::ID:
                 return std::mem::make_shared<MimyuusHammer>();
-            case 13:
+            case DangerousPudding::ID:
                 return std::mem::make_shared<DangerousPudding>();
-            case 14:
+            case Assault::ID:
                 return std::mem::make_shared<Assault>();
-            case 15:
+            case SkyRestaurantPures::ID:
                 return std::mem::make_shared<SkyRestaurantPures>();
-            case 16:
+            case HereAndThere::ID:
                 return std::mem::make_shared<HereAndThere>();
-            case 17:
+            case HolyNight::ID:
                 return std::mem::make_shared<HolyNight>();
-            case 18:
+            case OutOfAmmo::ID:
                 return std::mem::make_shared<OutOfAmmo>();
-            case 19:
+            case GiftExchange::ID:
                 return std::mem::make_shared<GiftExchange>();
-            case 20:
+            case LittleWar::ID:
                 return std::mem::make_shared<LittleWar>();
             // === Expansion Pack cards ===
-            case 21:
+            case LongDistanceShot::ID:
                 return std::mem::make_shared<LongDistanceShot>();
-            case 22:
+            case StiffCrystal::ID:
                 return std::mem::make_shared<StiffCrystal>();
-            case 23:
+            case Extend::ID:
                 return std::mem::make_shared<Extend>();
-            case 24:
+            case PrincesssPrivilege::ID:
                 return std::mem::make_shared<PrincesssPrivilege>();
-            case 25:
+            case BigMagnum::ID:
                 return std::mem::make_shared<BigMagnum>();
-            case 26:
+            case Shield::ID:
                 return std::mem::make_shared<Shield>();
-            case 27:
+            case ReverseAttributeField::ID:
                 return std::mem::make_shared<ReverseAttributeField>();
-            case 28:
+            case PiggyBank::ID:
                 return std::mem::make_shared<PiggyBank>();
-            case 29:
+            case Invasion::ID:
                 return std::mem::make_shared<Invasion>();
-            case 30:
+            case GoAway::ID:
                 return std::mem::make_shared<GoAway>();
-            case 31:
+            case Heat300::ID:
                 return std::mem::make_shared<Heat300>();
-            case 32:
+            case TragedyInTheDeadOfNight::ID:
                 return std::mem::make_shared<TragedyInTheDeadOfNight>();
-            case 33:
+            case Exchange::ID:
                 return std::mem::make_shared<Exchange>();
-            case 34:
+            case Flamethrower::ID:
                 return std::mem::make_shared<Flamethrower>();
-            case 35:
+            case ForTheFutureOfTheToyStore::ID:
                 return std::mem::make_shared<ForTheFutureOfTheToyStore>();
-            case 36:
+            case CloudOfSeagulls::ID:
                 return std::mem::make_shared<CloudOfSeagulls>();
-            case 37:
+            case WeAreWaruda::ID:
                 return std::mem::make_shared<WeAreWaruda>();
-            case 38:
+            case Dinner::ID:
                 return std::mem::make_shared<Dinner>();
-            case 39:
+            case SuperAllOutMode::ID:
                 return std::mem::make_shared<SuperAllOutMode>();
-            case 40:
+            case ForcedRevival::ID:
                 return std::mem::make_shared<ForcedRevival>();
-            case 41:
+            case OhMyFriend::ID:
                 return std::mem::make_shared<OhMyFriend>();
-            case 42:
+            case SealedGuardian::ID:
                 return std::mem::make_shared<SealedGuardian>();
             // === Mixed Booster Pack cards ===
-            case 43:
+            case LonelyChariot::ID:
                 return std::mem::make_shared<LonelyChariot>();
-            case 44:
+            case Ambush::ID:
                 return std::mem::make_shared<Ambush>();
-            case 45:
+            case PassionateResearch::ID:
                 return std::mem::make_shared<PassionateResearch>();
-            case 46:
+            case PresidentsPrivilege::ID:
                 return std::mem::make_shared<PresidentsPrivilege>();
-            case 47:
+            case Mimic::ID:
                 return std::mem::make_shared<Mimic>();
-            case 48:
+            case TacticalRetreat::ID:
                 return std::mem::make_shared<TacticalRetreat>();
-            case 49:
+            case ShieldCounter::ID:
                 return std::mem::make_shared<ShieldCounter>();
-            case 50:
+            case PiyopiyoProcession::ID:
                 return std::mem::make_shared<PiyopiyoProcession>();
-            case 51:
+            case SealedMemories::ID:
                 return std::mem::make_shared<SealedMemories>();
-            case 52:
+            case MixPhenomenon::ID:
                 return std::mem::make_shared<MixPhenomenon>();
-            case 53:
+            case ScarySolicitation::ID:
                 return std::mem::make_shared<ScarySolicitation>();
             // === Acceleration Pack cards ===
-            case 54:
+            case CompletionReward::ID:
                 return std::mem::make_shared<CompletionReward>();
-            case 55:
+            case GentlemansBattle::ID:
                 return std::mem::make_shared<GentlemansBattle>();
-            case 56:
+            case AccelHyper::ID:
                 return std::mem::make_shared<AccelHyper>();
-            case 57:
+            case Extension::ID:
                 return std::mem::make_shared<Extension>();
-            case 58:
+            case QuickRestoration::ID:
                 return std::mem::make_shared<QuickRestoration>();
-            case 59:
+            case BrutalPrank::ID:
                 return std::mem::make_shared<BrutalPrank>();
-            case 60:
+            case PresentThief::ID:
                 return std::mem::make_shared<PresentThief>();
-            case 61:
+            case PlayOfTheGods::ID:
                 return std::mem::make_shared<PlayOfTheGods>();
-            case 62:
+            case ScrambledEve::ID:
                 return std::mem::make_shared<ScrambledEve>();
-            case 63:
+            case StarBlastingLight::ID:
                 return std::mem::make_shared<StarBlastingLight>();
-            case 64:
+            case UnluckyCharm::ID:
                 return std::mem::make_shared<UnluckyCharm>();
-            case 65:
+            case WindyEnchantment::ID:
                 return std::mem::make_shared<WindyEnchantment>();
             // // === Community Pack 1 cards ===
-            // case 66:
+            // case TreasureThief::ID:
             //     return std::mem::make_shared<TreasureThief>();
-            // case 67:
+            // case DarkSideOfBusiness::ID:
             //     return std::mem::make_shared<DarkSideOfBusiness>();
-            // case 68:
+            // case Wanted::ID:
             //     return std::mem::make_shared<Wanted>();
-            // case 69:
+            // case PartyTime::ID:
             //     return std::mem::make_shared<PartyTime>();
-            // case 70:
+            // case LostChild::ID:
             //     return std::mem::make_shared<LostChild>();
-            // case 71:
+            // case PriceOfPower::ID:
             //     return std::mem::make_shared<PriceOfPower>();
             // /// === Community Pack 2 cards ===
-            // case 72:
+            // case PathBlockers::ID:
             //     return std::mem::make_shared<PathBlockers>();
-            // case 73:
+            // case DesperateModification::ID:
             //     return std::mem::make_shared<DesperateModification>();
-            // case 74:
+            // case Poppoformation::ID:
             //     return std::mem::make_shared<Poppoformation>();
-            // case 75:
+            // case AcceleratingSky::ID:
             //     return std::mem::make_shared<AcceleratingSky>();
-            // case 76:
+            // case PoppoTheSnatcher::ID:
             //     return std::mem::make_shared<PoppoTheSnatcher>();
-            // case 77:
+            // case Bloodlust::ID:
             //     return std::mem::make_shared<Bloodlust>();
             // // === Pudding Pack cards ===
-            // case 78:
+            // case BackdoorTrade::ID:
             //     return std::mem::make_shared<BackdoorTrade>();
-            // case 79:
+            // case SinkOrSwim::ID:
             //     return std::mem::make_shared<SinkOrSwim>();
-            // case 80:
+            // case SeriousBattle::ID:
             //     return std::mem::make_shared<SeriousBattle>();
-            // case 81:
+            // case PortablePudding::ID:
             //     return std::mem::make_shared<PortablePudding>();
-            // case 82:
+            // case IWannaSeeYou::ID:
             //     return std::mem::make_shared<IWannaSeeYou>();
-            // case 83:
+            // case Encore::ID:
             //     return std::mem::make_shared<Encore>();
-            // case 84:
+            // case SweetDestroyer::ID:
             //     return std::mem::make_shared<SweetDestroyer>();
-            // case 85:
+            // case SereneHush::ID:
             //     return std::mem::make_shared<SereneHush>();
-            // case 86:
+            // case UnpaidWork::ID:
             //     return std::mem::make_shared<UnpaidWork>();
-            // case 87:
+            // case IndiscriminateFireSupport::ID:
             //     return std::mem::make_shared<IndiscriminateFireSupport>();
-            // case 88:
+            // case LuckyCharm::ID:
             //     return std::mem::make_shared<LuckyCharm>();
-            // case 89:
+            // case MetallicMonocoque::ID:
             //     return std::mem::make_shared<MetallicMonocoque>();
             // // === Community Pack 3 cards ===
-            // case 90:
+            // case Overtime::ID:
             //     return std::mem::make_shared<Overtime>();
-            // case 91:
+            // case DeceptiveDisarming::ID:
             //     return std::mem::make_shared<DeceptiveDisarming>();
-            // case 92:
+            // case BanaNana::ID:
             //     return std::mem::make_shared<BanaNana>();
-            // case 93:
+            // case PetSnacks::ID:
             //     return std::mem::make_shared<PetSnacks>();
-            // case 94:
+            // case HomeImprovement::ID:
             //     return std::mem::make_shared<HomeImprovement>();
-            // case 95:
+            // case LuckySevens::ID:
             //     return std::mem::make_shared<LuckySevens>();
             // // === Community Pack 4 cards ===
-            // case 96:
+            // case WarpControl::ID:
             //     return std::mem::make_shared<WarpControl>();
-            // case 97:
+            // case MyWildFriends::ID:
             //     return std::mem::make_shared<MyWildFriends>();
-            // case 98:
+            // case ContestOfCuteness::ID:
             //     return std::mem::make_shared<ContestOfCuteness>();
-            // case 99:
+            // case BankOfPoppo::ID:
             //     return std::mem::make_shared<BankOfPoppo>();
-            // case 100:
+            // case Rebellion::ID:
             //     return std::mem::make_shared<Rebellion>();
-            // case 101:
+            // case NanakosBit::ID:
             //     return std::mem::make_shared<NanakosBit>();
             // // === Extracurricular Pack cards ===
-            // case 102:
+            // case FullBurst::ID:
             //     return std::mem::make_shared<FullBurst>();
-            // case 103:
+            // case ChefsSpecial::ID:
             //     return std::mem::make_shared<ChefsSpecial>();
-            // case 104:
+            // case GoWithTheFlow::ID:
             //     return std::mem::make_shared<GoWithTheFlow>();
-            // case 105:
+            // case MousseTheThief::ID:
             //     return std::mem::make_shared<MousseTheThief>();
-            // case 106:
+            // case ComingBackStronger::ID:
             //     return std::mem::make_shared<ComingBackStronger>();
-            // case 107:
+            // case ExtremeAlteration::ID:
             //     return std::mem::make_shared<ExtremeAlteration>();
-            // case 108:
+            // case TheGreatestTroublemakerEver::ID:
             //     return std::mem::make_shared<TheGreatestTroublemakerEver>();
-            // case 109:
+            // case LookHowLongMyArmsAndLegsAreNow::ID:
             //     return std::mem::make_shared<LookHowLongMyArmsAndLegsAreNow>();
-            // case 110:
+            // case WereTickedOff::ID:
             //     return std::mem::make_shared<WereTickedOff>();
-            // case 111:
+            // case ProtectionFee::ID:
             //     return std::mem::make_shared<ProtectionFee>();
-            // case 112:
+            // case FluffyAndFuzzy::ID:
             //     return std::mem::make_shared<FluffyAndFuzzy>();
-            // case 113:
+            // case FeelTheRushWithAnEnergyDrink::ID:
             //     return std::mem::make_shared<FeelTheRushWithAnEnergyDrink>();
 
             default:

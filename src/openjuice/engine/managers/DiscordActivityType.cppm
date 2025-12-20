@@ -1,9 +1,9 @@
 /**
  * @file DiscordActivityType.cppm
- * @module openjuice.engine.discord.DiscordManager:DiscordActivityType
+ * @module openjuice.engine.managers.DiscordManager:DiscordActivityType
  * @brief Definition of the DiscordActivityType enum class.
  *
- * This file contains the definition of the DiscordActivityType enum class, which represents discord activity status types.
+ * This file contains the definition of the DiscordActivityType enum class, which represents Discord activity status types.
  */
 
 module;
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.discord.DiscordManager:DiscordActivityType;
+export module openjuice.engine.managers.DiscordManager:DiscordActivityType;
 
 import std;
 
@@ -19,7 +19,7 @@ using std::fmt::FormatContext;
 using std::fmt::FormatParseContext;
 using std::fmt::Formatter;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::discord);
+BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
 
 /**
  * @enum DiscordActivityType
@@ -35,7 +35,7 @@ export enum class DiscordActivityType: u8 {
 
 END_MODULE_NAMESPACE();
 
-using openjuice::engine::discord::DiscordActivityType;
+using openjuice::engine::managers::DiscordActivityType;
 
 template <>
 struct Formatter<DiscordActivityType> {

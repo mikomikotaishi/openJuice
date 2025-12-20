@@ -64,7 +64,7 @@
  */
 #define SETTER_4(Type, Method, Name, Fluent) \
     /** @brief Sets the name value for the object. @return The instance of the object. */  \
-    auto set##Method(Type value) noexcept -> decltype(*this) { \
+    decltype(*this) set##Method(Type value) noexcept { \
         Name = value; \
         return *this; \
     }

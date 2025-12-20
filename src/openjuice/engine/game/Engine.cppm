@@ -17,9 +17,9 @@ export module openjuice.engine.game.Engine;
 import std;
 import stdx;
 
-import openjuice.engine.discord.DiscordManager;
 import openjuice.engine.game.Game;
 import openjuice.engine.game.ecs.Registry;
+import openjuice.engine.managers.DiscordManager;
 import openjuice.engine.managers.GlobalSettings;
 import openjuice.ui.UserInterface;
 import openjuice.ui.cli.CommandLineInterface;
@@ -39,8 +39,8 @@ using std::time::SystemClock;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::discord::DiscordManager;
 using openjuice::engine::game::ecs::RegistryError;
+using openjuice::engine::managers::DiscordManager;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::ui::cli::CommandLineInterface;
 using openjuice::ui::tui::TextUserInterface;

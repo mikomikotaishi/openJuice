@@ -2482,9 +2482,8 @@ public:
     std::optional<discordpp::UserHandle> User() const;
 };
 
-/// \brief A UserApplicationProfileHandle represents the profile of a user for the current
-/// application. This data is populated by the developer using the
-/// `update_application_user_identity` endpoint.
+/// \brief A UserApplicationProfileHandle represents a profile from an external identity provider,
+/// such as Steam or Epic Online Services.
 ///
 /// Handle objects in the SDK hold a reference both to the underlying data, and to the SDK instance.
 /// Changes to the underlying data will generally be available on existing handles objects without
@@ -3087,6 +3086,14 @@ public:
     /// renders in game.
     std::unordered_map<std::string, std::string> Metadata() const;
 
+    /// \brief Returns any moderation metadata the developer set on this message.
+    ///
+    /// Moderation metadata is just a set of simple string key/value pairs.
+    /// An example use case might be to include a flag that indicates the moderation status of the
+    /// message. Another example would be to include a re-written message that is more appropriate
+    /// for the game's audience.
+    std::unordered_map<std::string, std::string> ModerationMetadata() const;
+
     /// \brief Returns the content of this message, if any, but without replacing any markup from
     /// emojis and mentions.
     ///
@@ -3577,6 +3584,9 @@ public:
 
     /// \brief Callback function for Client::SetLobbyUpdatedCallback.
     using LobbyUpdatedCallback = std::function<void(uint64_t lobbyId)>;
+
+    /// \brief Callback invoked when the IsDiscordAppInstalled function completes.
+    using IsDiscordAppInstalledCallback = std::function<void(bool installed)>;
 
     /// \brief Callback function for Client::AcceptActivityInvite.
     using AcceptActivityInviteCallback =
@@ -4468,14 +4478,17 @@ public:
     /// \brief Retrieves messages from the DM conversation with the specified user.
     ///
     /// Returns a list of MessageHandle representing the recent messages in the conversation with
-    /// the recipient, with a maximum number specified by the limit parameter. The messages are
+    /// the recipient, with a with a maximum of 200 messages and up to 72 hours. The messages are
     /// returned in reverse chronological order (newest first). This function checks the local cache
     /// first and only makes an HTTP request to Discord's API if there are not enough cached
     /// messages available.
     ///
     /// If limit is greater than 0, restricts the number of messages returned. If limit is 0
-    /// or negative, the limit parameter is omitted from the request. This is intended for
+    /// or negative, the limit parameter is 200 messages and 72 hours. This is intended for
     /// games to load message history when users open a DM conversation.
+    ///
+    /// If either user hasn't played the game, there will be no channel between them and
+    /// this function will return a 404 `discordpp::ErrorType::HTTPError` error.
     void GetUserMessagesWithLimit(uint64_t recipientId,
                                   int32_t limit,
                                   discordpp::Client::UserMessagesWithLimitCallback cb);
@@ -4825,6 +4838,25 @@ public:
     /// not need to have any permissions on the Discord channel in order to sever the in-game link.
     void UnlinkChannelFromLobby(uint64_t lobbyId,
                                 discordpp::Client::LinkOrUnlinkChannelCallback callback);
+    /// @}
+
+    /// @name Mobile
+    /// @{
+
+    /// \brief Checks whether the Discord mobile app is installed on this device.
+    /// On desktop platforms, always returns false.
+    ///
+    /// This check does not require a client connection and can be called at any time.
+    ///
+    /// This can be used to provide UI hints to users about whether they can authorize via the
+    /// Discord app, or whether they will need to use a web browser flow.
+    ///
+    /// Platform Requirements:
+    /// - iOS: Your app must include "discord" in the LSApplicationQueriesSchemes array
+    ///   in your Info.plist for this check to work correctly.
+    /// - Android: Your app must include "com.discord" in the `queries` element
+    ///   in your AndroidManifest.xml (required for Android 11+).
+    void IsDiscordAppInstalled(discordpp::Client::IsDiscordAppInstalledCallback callback);
     /// @}
 
     /// @name Presence
@@ -9773,6 +9805,16 @@ std::unordered_map<std::string, std::string> MessageHandle::Metadata() const
     Discord_FreeProperties(returnValueNative__);
     return returnValue__;
 }
+std::unordered_map<std::string, std::string> MessageHandle::ModerationMetadata() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_Properties returnValueNative__;
+    Discord_MessageHandle_ModerationMetadata(&instance_, &returnValueNative__);
+    std::unordered_map<std::string, std::string> returnValue__ =
+      ConvertReturnedProperties(returnValueNative__);
+    Discord_FreeProperties(returnValueNative__);
+    return returnValue__;
+}
 std::string MessageHandle::RawContent() const
 {
     assert(state_ == DiscordObjectState::Owned);
@@ -11816,6 +11858,19 @@ void Client::UnlinkChannelFromLobby(uint64_t lobbyId,
     };
     Discord_Client_UnlinkChannelFromLobby(
       &instance_, lobbyId, callback__native, Tcallback__UserData::Free, callback__userData);
+}
+void Client::IsDiscordAppInstalled(discordpp::Client::IsDiscordAppInstalledCallback callback)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    using Tcallback__UserData = TDelegateUserData<std::remove_reference_t<decltype(callback)>>;
+    auto callback__userData = new Tcallback__UserData(callback);
+    Discord_Client_IsDiscordAppInstalledCallback callback__native = [](auto installed,
+                                                                       void* userData__) {
+        auto userData__typed = static_cast<Tcallback__UserData*>(userData__);
+        userData__typed->delegate(installed);
+    };
+    Discord_Client_IsDiscordAppInstalled(
+      &instance_, callback__native, Tcallback__UserData::Free, callback__userData);
 }
 void Client::AcceptActivityInvite(discordpp::ActivityInvite invite,
                                   discordpp::Client::AcceptActivityInviteCallback cb)

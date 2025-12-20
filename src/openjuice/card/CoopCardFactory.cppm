@@ -84,15 +84,15 @@ public:
                 switch (id) {
                     case 0:
                         return nullptr;
-                    case 1:
+                    case UltimateWeaponInTheSun::ID:
                         return std::mem::make_shared<UltimateWeaponInTheSun>();
-                    case 2:
+                    case LifeguardOnTheWhiteBeach::ID:
                         return std::mem::make_shared<LifeguardOnTheWhiteBeach>();
-                    case 3:
+                    case GuardianOfBloomingFlowers::ID:
                         return std::mem::make_shared<GuardianOfBloomingFlowers>();
-                    case 4:
+                    case UnforgivingAvenger::ID:
                         return std::mem::make_shared<UnforgivingAvenger>();
-                    case 5:
+                    case SummerGames::ID:
                         return std::mem::make_shared<SummerGames>();
                     default:
                         return nullopt;
@@ -101,13 +101,13 @@ public:
                 switch (id) {
                     case 0:
                         return nullptr;
-                    case 1:
+                    case SeasonalUltimateWeaponInTheSun::ID:
                         return std::mem::make_shared<SeasonalUltimateWeaponInTheSun>();
-                    case 2:
+                    case SeasonalLifeguardOnTheWhiteBeach::ID:
                         return std::mem::make_shared<SeasonalLifeguardOnTheWhiteBeach>();
-                    case 3:
+                    case SeasonalGuardianOfBloomingFlowers::ID:
                         return std::mem::make_shared<SeasonalGuardianOfBloomingFlowers>();
-                    case 4:
+                    case SeasonalUnforgivingAvenger::ID:
                         return std::mem::make_shared<SeasonalUnforgivingAvenger>();
                     default:
                         return nullopt;

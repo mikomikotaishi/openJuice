@@ -55,11 +55,11 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            case 1:
+            case Chicken::ID:
                 return std::mem::make_shared<Chicken>();
-            case 2:
+            case RoboBall::ID:
                 return std::mem::make_shared<RoboBall>();
-            case 3:
+            case Seagull::ID:
                 return std::mem::make_shared<Seagull>();
             default:
                 return nullopt;

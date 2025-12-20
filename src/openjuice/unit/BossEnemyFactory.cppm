@@ -55,11 +55,11 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            case 1:
+            case FlyingCastle::ID:
                 return std::mem::make_shared<FlyingCastle>();
-            case 2:
+            case ShifuRobot::ID:
                 return std::mem::make_shared<ShifuRobot>();
-            case 3:
+            case StoreManager::ID:
                 return std::mem::make_shared<StoreManager>();
             default:
                 return nullopt;

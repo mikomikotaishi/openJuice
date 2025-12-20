@@ -64,53 +64,53 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            case 1:
+            case NullBattleMushroom::ID:
                 return std::mem::make_shared<NullBattleMushroom>(colour);
-            case 2:
+            case AttackUpMushroom::ID:
                 return std::mem::make_shared<AttackUpMushroom>(colour);
-            case 3:
+            case AttackDownMushroom::ID:
                 return std::mem::make_shared<AttackDownMushroom>(colour);
-            case 4:
+            case DefenceUpMushroom::ID:
                 return std::mem::make_shared<DefenceUpMushroom>(colour);
-            case 5:
+            case DefenceDownMushroom::ID:
                 return std::mem::make_shared<DefenceDownMushroom>(colour);
-            case 6:
+            case EvadeUpMushroom::ID:
                 return std::mem::make_shared<EvadeUpMushroom>(colour);
-            case 7:
+            case EvadeDownMushroom::ID:
                 return std::mem::make_shared<EvadeDownMushroom>(colour);
-            case 8:
+            case HealMushroom::ID:
                 return std::mem::make_shared<HealMushroom>(colour);
-            case 9:
+            case DamageMushroom::ID:
                 return std::mem::make_shared<DamageMushroom>(colour);
-            case 10:
+            case RollOneMushroom::ID:
                 return std::mem::make_shared<RollOneMushroom>(colour);
-            case 11:
+            case RollSixMushroom::ID:
                 return std::mem::make_shared<RollSixMushroom>(colour);
-            case 12:
+            case NullBoostMushroom::ID:
                 return std::mem::make_shared<NullBoostMushroom>(colour);
-            case 13:
+            case MoveUpMushroom::ID:
                 return std::mem::make_shared<MoveUpMushroom>(colour);
-            case 14:
+            case MoveDownMushroom::ID:
                 return std::mem::make_shared<MoveDownMushroom>(colour);
-            case 15:
+            case GainStarsMushroom::ID:
                 return std::mem::make_shared<GainStarsMushroom>(colour);
-            case 16:
+            case LoseStarsMushroom::ID:
                 return std::mem::make_shared<LoseStarsMushroom>(colour);
-            case 17:
+            case HealthUpMushroom::ID:
                 return std::mem::make_shared<HealthUpMushroom>(colour);
-            case 18:
+            case HealthDownMushroom::ID:
                 return std::mem::make_shared<HealthDownMushroom>(colour);
-            case 19:
+            case FrostwalkerMushroom::ID:
                 return std::mem::make_shared<FrostwalkerMushroom>(colour);
-            case 20:
+            case WarpMushroom::ID:
                 return std::mem::make_shared<WarpMushroom>(colour);
-            case 21:
+            case ConfusionMushroom::ID:
                 return std::mem::make_shared<ConfusionMushroom>(colour);
-            case 22:
+            case DrawMushroom::ID:
                 return std::mem::make_shared<DrawMushroom>(colour);
-            case 23:
+            case DiscardMushroom::ID:
                 return std::mem::make_shared<DiscardMushroom>(colour);
-            case 24:
+            case WinMushroom::ID:
                 return std::mem::make_shared<WinMushroom>(colour);
             default:
                 return nullopt;
@@ -134,9 +134,9 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            case 1:
+            case LegendaryStarsMushroom::ID:
                 return std::mem::make_shared<LegendaryStarsMushroom>(colour);
-            case 2:
+            case LegendaryWinsMushroom::ID:
                 return std::mem::make_shared<LegendaryWinsMushroom>(colour);
             default:
                 return nullopt;

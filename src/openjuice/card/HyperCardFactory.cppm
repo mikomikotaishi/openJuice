@@ -59,233 +59,233 @@ public:
             case 0:
                 return nullptr;
             // === Main character hyper cards ===
-            case 1:
+            case ProtagonistsPrivilege::ID:
                 return std::mem::make_shared<ProtagonistsPrivilege>();
-            case 2:
+            case X16BigRocket::ID:
                 return std::mem::make_shared<X16BigRocket>();
-            case 3:
+            case HyperMode::ID:
                 return std::mem::make_shared<HyperMode>();
-            case 4:
+            case Accelerator::ID:
                 return std::mem::make_shared<Accelerator>();
             // === Unlockable character hyper cards ===
-            case 5:
+            case PresentForYou::ID:
                 return std::mem::make_shared<PresentForYou>();
-            case 6:
+            case AirStrike::ID:
                 return std::mem::make_shared<AirStrike>();
-            case 7:
+            case BindingChains::ID:
                 return std::mem::make_shared<BindingChains>();
-            case 8:
+            case Ubiquitous::ID:
                 return std::mem::make_shared<Ubiquitous>();
-            case 9:
+            case MagicalInferno::ID:
                 return std::mem::make_shared<MagicalInferno>();
-            case 10:
+            case ChristmasInferno::ID:
                 return std::mem::make_shared<ChristmasInferno>();
-            case 11:
+            case BlueCrowTheSecond::ID:
                 return std::mem::make_shared<BlueCrowTheSecond>();
-            case 12:
+            case ExtraordinarySpecs::ID:
                 return std::mem::make_shared<ExtraordinarySpecs>();
-            case 13:
+            case MagicalMassacre::ID:
                 return std::mem::make_shared<MagicalMassacre>();
-            case 14:
+            case Gamble::ID:
                 return std::mem::make_shared<Gamble>();
             // === Store-unlocked character hyper cards ===
-            // case 15:
+            // case GoldenEgg::ID:
             //     return std::mem::make_shared<GoldenEgg>();
-            // case 16:
+            // case ReflectiveShell::ID:
             //     return std::mem::make_shared<ReflectiveShell>();
-            // case 17:
+            // case JonathanRush::ID:
             //     return std::mem::make_shared<JonathanRush>();
-            // case 18:
+            // case BannedForLife::ID:
             //     return std::mem::make_shared<BannedForLife>();
-            // case 19:
+            // case TurboCharged::ID:
             //     return std::mem::make_shared<TurboCharged>();
-            // case 20:
+            // case ImmovableObject::ID:
             //     return std::mem::make_shared<ImmovableObject>();
             // === DLC-unlocked character hyper cards ===
-            // case 21:
+            // case BeyondHell::ID:
             //     return std::mem::make_shared<BeyondHell>();
-            // case 22:
+            // case DeployBits::ID:
             //     return std::mem::make_shared<DeployBits>();
-            // case 23:
+            // case SweetGuardian::ID:
             //     return std::mem::make_shared<SweetGuardian>();
-            // case 24:
+            // case BigBangBell::ID:
             //     return std::mem::make_shared<BigBangBell>();
-            // case 25:
+            // case CastOff::ID:
             //     return std::mem::make_shared<CastOff>();
-            // case 26:
+            // case PlushieMaster::ID:
             //     return std::mem::make_shared<PlushieMaster>(); // Sets DanceLongEaredBeasts trap when activated
-            // case 27:
+            // case Blazing::ID:
             //     return std::mem::make_shared<Blazing>();
-            // case 28:
+            // case SelfDestruct::ID:
             //     return std::mem::make_shared<SelfDestruct>();
-            // case 29:
+            // case CrystalBarrier::ID:
             //     return std::mem::make_shared<CrystalBarrier>();
-            // case 30:
+            // case SubspaceTunnel::ID:
             //     return std::mem::make_shared<SubspaceTunnel>();
-            // case 31:
+            // case DeltaField::ID:
             //     return std::mem::make_shared<DeltaField>();
-            // case 32:
+            // case WhimsicalWindmill::ID:
             //     return std::mem::make_shared<WhimsicalWindmill>();
-            // case 33:
+            // case AwakeningOfTalent::ID:
             //     return std::mem::make_shared<AwakeningOfTalent>();
-            // case 34:
+            // case StarBlastingFuse::ID:
             //     return std::mem::make_shared<StarBlastingFuse>(); // Sets InvisibleBomb trap when activated
-            // case 35:
+            // case MeltingMemories::ID:
             //     return std::mem::make_shared<MeltingMemories>();
-            // case 36:
+            // case SantasJob::ID:
             //     return std::mem::make_shared<SantasJob>();
-            // case 37:
+            // case AnotherUltimateWeapon::ID:
             //     return std::mem::make_shared<AnotherUltimateWeapon>();
-            // case 38:
+            // case EvilSpyWorkPreparation::ID:
             //     return std::mem::make_shared<EvilSpyWorkPreparation>(); // Sets EvilSpyWorkExecution trap when activated
-            // case 39:
+            // case WarudaMachineBlastOff::ID:
             //     return std::mem::make_shared<WarudaMachineBlastOff>();
-            // case 40:
+            // case FinalSurgery::ID:
             //     return std::mem::make_shared<FinalSurgery>();
             // case 41:
-            // case 42:
+            // case Overseer::ID:
             //     return std::mem::make_shared<Overseer>();
-            // case 43:
+            // case WitchsHairLock::ID:
             //     return std::mem::make_shared<WitchsHairLock>();
-            // case 44:
+            // case SolidWitch::ID:
             //     return std::mem::make_shared<SolidWitch>();
-            // case 45:
+            // case EvilMastermind::ID:
             //     return std::mem::make_shared<EvilMastermind>();
-            // case 46:
+            // case MiracleRedBeanIceCream::ID:
             //     return std::mem::make_shared<MiracleRedBeanIceCream>();
-            // case 47:
+            // case MagicalRevenge::ID:
             //     return std::mem::make_shared<MagicalRevenge>();
-            // case 48:
+            // case RevivalOfStars::ID:
             //     return std::mem::make_shared<RevivalOfStars>();
-            // case 49:
+            // case StealthOn::ID:
             //     return std::mem::make_shared<StealthOn>();
-            // case 50:
+            // case DoPiratesFlyInTheSky::ID:
             //     return std::mem::make_shared<DoPiratesFlyInTheSky>(); // Sets FlyingPirate trap when activated
-            // case 51:
+            // case WhiteChristmasher::ID:
             //     return std::mem::make_shared<WhiteChristmasher>(); // Converts to TrueWhiteChristmasher when carrying RedAndBlue
-            // case 52:
+            // case CookingTime::ID:
             //     return std::mem::make_shared<CookingTime>();
-            // case 53:
+            // case MiracleWalker::ID:
             //     return std::mem::make_shared<MiracleWalker>();
-            // case 54:
+            // case BranchExplosionStrategy::ID:
             //     return std::mem::make_shared<BranchExplosionStrategy>(); // Converts all cards to RbitHobbyShop
-            // case 55:
+            // case ExtendedPhotonRifle::ID:
             //     return std::mem::make_shared<ExtendedPhotonRifle>();
-            // case 56:
+            // case LeapThroughSpaceMarking::ID:
             //     return std::mem::make_shared<LeapThroughSpaceMarking>(); // Converts to LeapThroughSpace when activated
-            // case 57:
+            // case SpecialStage::ID:
             //     return std::mem::make_shared<SpecialStage>();
-            // case 58:
+            // case YuukiHand::ID:
             //     return std::mem::make_shared<YuukiHand>(); // Alternates between AngelHand (even chapters) and DevilHand (odd chapters)
-            // case 59:
+            // case Rival::ID:
             //     return std::mem::make_shared<Rival>();
-            // case 60:
+            // case ObserverOfEternity::ID:
             //     return std::mem::make_shared<ObserverOfEternity>();
-            // case 61:
+            // case ReproductionOfRecords::ID:
             //     return std::mem::make_shared<ReproductionOfRecords>();
-            // case 62:
+            // case ElliesMiracle::ID:
             //     return std::mem::make_shared<ElliesMiracle>();
-            // case 63:
+            // case LulusLuckyEgg::ID:
             //     return std::mem::make_shared<LulusLuckyEgg>();
-            // case 64:
+            // case RocketCannon::ID:
             //     return std::mem::make_shared<RocketCannon>(); // Converts to BigRocketCannon if alternate effect is used
-            // case 65:
+            // case FullSpeedAlicianrone::ID:
             //     return std::mem::make_shared<FullSpeedAlicianrone>();
-            // case 66:
+            // case BeastWitch::ID:
             //     return std::mem::make_shared<BeastWitch>();
-            // case 67:
+            // case IntelligenceOfficer::ID:
             //     return std::mem::make_shared<IntelligenceOfficer>();
-            // case 68:
+            // case RagingMadness::ID:
             //     return std::mem::make_shared<RagingMadness>();
-            // case 69:
+            // case SaintEyes::ID:
             //     return std::mem::make_shared<SaintEyes>();
-            // case 70:
+            // case ChefICouldUseSomeHelp::ID:
             //     return std::mem::make_shared<ChefICouldUseSomeHelp>(); // Converts to ManagerICouldUseSomeHelp when having 4 or more store manager counters and at least level 4
-            // case 71:
+            // case SafeJourney::ID:
             //     return std::mem::make_shared<SafeJourney>();
-            // case 72:
+            // case GuidanceOfTheWeathercock::ID:
             //     return std::mem::make_shared<GuidanceOfTheWeathercock>();
-            // case 73:
+            // case Upshift::ID:
             //     return std::mem::make_shared<Upshift>();
-            // case 74:
+            // case ZealousSalesman::ID:
             //     return std::mem::make_shared<ZealousSalesman>();
-            // case 75:
+            // case DanceInTheMoonlitNight::ID:
             //     return std::mem::make_shared<DanceInTheMoonlitNight>();
-            // case 76:
+            // case NewNobility::ID:
             //     return std::mem::make_shared<NewNobility>(); // Converts to Affluence if held by FernetNoble
-            // case 77:
+            // case TwilightColoredDream::ID:
             //     return std::mem::make_shared<TwilightColoredDream>();
-            // case 78:
+            // case LittleMagnum::ID:
             //     return std::mem::make_shared<LittleMagnum>();
-            // case 79:
+            // case IdealWorld::ID:
             //     return std::mem::make_shared<IdealWorld>();
-            // case 80:
+            // case StarCollector::ID:
             //     return std::mem::make_shared<StarCollector>();
-            // case 81:
+            // case TorrentOfMagic::ID:
             //     return std::mem::make_shared<TorrentOfMagic>();
-            // case 82:
+            // case GoodestBoy::ID:
             //     return std::mem::make_shared<GoodestBoy>();
-            // case 83:
+            // case SweetParadise::ID:
             //     return std::mem::make_shared<SweetParadise>(); // Sets SweetIndulgence trap when activated
-            // case 84:
+            // case SweetMakersMagic::ID:
             //     return std::mem::make_shared<SweetMakersMagic>();
-            // case 85:
+            // case OperationAMountainOfSweets::ID:
             //     return std::mem::make_shared<OperationAMountainOfSweets>();
-            // case 86:
+            // case ThreatsToMySlumber::ID:
             //     return std::mem::make_shared<ThreatsToMySlumber>(); // Converts to WhenMySlumberBreaks when activated
-            // case 87:
+            // case MakeBelievePrisonBreak::ID:
             //     return std::mem::make_shared<MakeBelievePrisonBreak>();
-            // case 88:
+            // case MotherPower::ID:
             //     return std::mem::make_shared<MotherPower>();
-            // case 89:
+            // case LuluIsAnUnluckyDragon::ID:
             //     return std::mem::make_shared<LuluIsAnUnluckyDragon>();
-            // case 90:
+            // case ElliesHyperMiracle::ID:
             //     return std::mem::make_shared<ElliesHyperMiracle>();
-            // case 91:
+            // case ExProtagonistsMomentOfGlory::ID:
             //     return std::mem::make_shared<ExProtagonistsMomentOfGlory>();
-            // case 92:
+            // case AllGunsAtTheReady::ID:
             //     return std::mem::make_shared<AllGunsAtTheReady>();
-            // case 93:
+            // case HeartOfResistance::ID:
             //     return std::mem::make_shared<HeartOfResistance>();
-            // case 94:
+            // case SuperYouthTime::ID:
             //     return std::mem::make_shared<SuperYouthTime>();
-            // case 95:
+            // case IllGetALittleIntoIt::ID:
             //     return std::mem::make_shared<IllGetALittleIntoIt>();
-            // case 96:
+            // case HypeBringer::ID:
             //     return std::mem::make_shared<HypeBringer>();
-            // case 97:
+            // case IntellectualSoundingBluff::ID:
             //     return std::mem::make_shared<IntellectualSoundingBluff>();
             // === All cards released from 3.28.1 onwards ===
             // case 98:
             //     return std::mem::make_shared<PreciseDiceRolls>();
             // === Hyper cards part of another hyper card ===
-            // case 1026:
+            // case DanceLongHairedBeasts::ID:
             //     return std::mem::make_shared<DanceLongHairedBeasts>();
-            // case 1034:
+            // case InvisibleBomb::ID:
             //     return std::mem::make_shared<InvisibleBomb>();
-            // case 1038:
+            // case EvilSpyWorkExecution::ID:
             //     return std::mem::make_shared<EvilSpyWorkExecution>();
-            // case 1050:
+            // case FlyingPirate::ID:
             //     return std::mem::make_shared<FlyingPirate>();
-            // case 1051:
+            // case TrueWhiteChristmasher::ID:
             //     return std::mem::make_shared<TrueWhiteChristmasher>();
-            // case 1054:
+            // case RbitHobbyShop::ID:
             //     return std::mem::make_shared<RbitHobbyShop>();
-            // case 1056:
+            // case LeapThroughSpace::ID:
             //     return std::mem::make_shared<LeapThroughSpace>();
-            // case 1058:
+            // case AngelHand::ID:
             //     return std::mem::make_shared<AngelHand>();
-            // case 1059:
+            // case DevilHand::ID:
             //     return std::mem::make_shared<DevilHand>();
-            // case 1064:
+            // case BigRocketCannon::ID:
             //     return std::mem::make_shared<BigRocketCannon>();
-            // case 1070:
+            // case ManagerICouldUseSomeHelp::ID:
             //     return std::mem::make_shared<ManagerICouldUseSomeHelp>();
-            // case 1076:
+            // case Affluence::ID:
             //     return std::mem::make_shared<Affluence>();
-            // case 1083:
+            // case SweetIndulgence::ID:
             //     return std::mem::make_shared<SweetIndulgence>();
-            // case 1086:
+            // case WhenMySlumberBreaks::ID:
             //     return std::mem::make_shared<WhenMySlumberBreaks>();
             default:
                 return nullopt;

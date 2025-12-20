@@ -57,31 +57,31 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            // case 1:
+            // case AdventurersRadar::ID:
             //     return std::mem::make_shared<AdventurersRadar>();
-            // case 2:
+            // case CorrosionBlaster::ID:
             //     return std::mem::make_shared<CorrosionBlaster>();
-            // case 3:
+            // case CursedSyrup::ID:
             //     return std::mem::make_shared<CursedSyrup>();
-            // case 4:
+            // case FluffyShokupan::ID:
             //     return std::mem::make_shared<FluffyShokupan>();
-            // case 5:
+            // case HolyWater::ID:
             //     return std::mem::make_shared<HolyWater>();
-            // case 6:
+            // case Lure::ID:
             //     return std::mem::make_shared<Lure>();
-            // case 7:
+            // case PoisonBlaster::ID:
             //     return std::mem::make_shared<PoisonBlaster>();
-            // case 8:
+            // case Shokupan::ID:
             //     return std::mem::make_shared<Shokupan>();
-            // case 9:
+            // case Slimebomb::ID:
             //     return std::mem::make_shared<Slimebomb>();
-            // case 10:
+            // case SmokeOfTheLostMemories::ID:
             //     return std::mem::make_shared<SmokeOfTheLostMemories>();
-            // case 11:
+            // case SparkleBomb::ID:
             //     return std::mem::make_shared<SparkleBomb>();
-            // case 12:
+            // case TeleportationPotion::ID:
             //     return std::mem::make_shared<TeleportationPotion>();
-            // case 13:
+            // case VenomBlaster::ID:
             //     return std::mem::make_shared<VenomBlaster>();
             default:
                 return nullopt;

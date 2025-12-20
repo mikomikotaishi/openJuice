@@ -57,11 +57,11 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            case 1:
+            case MiosChristmasCake::ID:
                 return std::mem::make_shared<MiosChristmasCake>();
-            case 2:
+            case Freight::ID:
                 return std::mem::make_shared<Freight>();
-            case 3:
+            case RedAndBlue::ID:
                 return std::mem::make_shared<RedAndBlue>();
             default:
                 return nullopt;

@@ -57,29 +57,29 @@ public:
         switch (id) {
             case 0:
                 return nullptr;
-            case 1:
+            case SweetBattle::ID:
                 return std::mem::make_shared<SweetBattle>();
-            case 2:
+            case SnowballReflector::ID:
                 return std::mem::make_shared<SnowballReflector>();
-            case 3:
+            case GrownupSnowballFight::ID:
                 return std::mem::make_shared<GrownupSnowballFight>();
-            case 4:
+            case MiosFalseCake::ID:
                 return std::mem::make_shared<MiosFalseCake>();
-            case 5:
+            case ChaoticLaunch::ID:
                 return std::mem::make_shared<ChaoticLaunch>();
-            case 6:
+            case ChaosRoost::ID:
                 return std::mem::make_shared<ChaosRoost>();
-            case 7:
+            case ChaosProtect::ID:
                 return std::mem::make_shared<ChaosProtect>();
-            case 8:
+            case FromTheChaoticAbyss::ID:
                 return std::mem::make_shared<FromTheChaoticAbyss>();
-            case 9:
+            case ChaoticRampage::ID:
                 return std::mem::make_shared<ChaoticRampage>();
-            case 10:
+            case ChaosRoulette::ID:
                 return std::mem::make_shared<ChaosRoulette>();
-            case 11:
+            case ChaoticPool::ID:
                 return std::mem::make_shared<ChaoticPool>();
-            case 12:
+            case HoldTheGremlin::ID:
                 return std::mem::make_shared<HoldTheGremlin>();
             default:
                 return nullopt;

@@ -2,7 +2,7 @@
  * @file discordpp.cppm
  * @module discordpp
  * @brief Module file for Discord Social SDK operations.
- * @version 1.7.13357
+ * @version 1.8.13395
  */
 
 module;

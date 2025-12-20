@@ -10,7 +10,6 @@ export module openjuice.engine;
 
 export import openjuice.engine.board;
 export import openjuice.engine.card;
-export import openjuice.engine.discord;
 export import openjuice.engine.entity;
 export import openjuice.engine.game;
 export import openjuice.engine.managers;

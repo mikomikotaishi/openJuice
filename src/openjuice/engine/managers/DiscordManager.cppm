@@ -1,6 +1,6 @@
 /**
  * @file DiscordManager.cppm
- * @module openjuice.engine.discord.DiscordManager
+ * @module openjuice.engine.managers.DiscordManager
  * @brief Implementation of the DiscordManager class.
  *
  * This file contains the implementation of the DiscordManager class, which manages interactions with Discord for the application.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.discord.DiscordManager;
+export module openjuice.engine.managers.DiscordManager;
 
 export import :DiscordActivityType;
 
@@ -38,7 +38,7 @@ using discordpp::ActivityTimestamps;
 using discordpp::Client;
 using discordpp::ClientResult;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::discord);
+BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
 
 /**
  * @class DiscordManager
