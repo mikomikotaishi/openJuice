@@ -1,6 +1,6 @@
 /**
  * @file BossEnemy.cppm
- * @module openjuice.engine.unit.BossEnemy
+ * @module openjuice.engine.unit:BossEnemy
  * @brief Definition of the BossEnemy interface.
  *
  * This file contains the definition of the BossEnemy interface, which represents a boss enemy unit.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.BossEnemy;
+export module openjuice.engine.unit:BossEnemy;
 
 import std;
 
-import openjuice.engine.unit.Enemy;
+import :Enemy;
 
 using std::meta::IsBaseOfValue;
 

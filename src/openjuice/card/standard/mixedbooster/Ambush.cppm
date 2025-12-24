@@ -1,6 +1,6 @@
 /**
  * @file Ambush.cppm
- * @module openjuice.card.standard.mixedbooster.Ambush
+ * @module openjuice.card.standard.mixedbooster:Ambush
  * @brief Implementation of the Ambush class.
  *
  * This file contains the implementation of the Ambush class, which represents the card "Ambush" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.mixedbooster.Ambush;
+export module openjuice.card.standard.mixedbooster:Ambush;
 
 import std;
 

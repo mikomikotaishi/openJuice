@@ -8,7 +8,7 @@
 
 export module openjuice.card.coop.seasonal;
 
-export import openjuice.card.coop.seasonal.SeasonalUltimateWeaponInTheSun; // 1
-export import openjuice.card.coop.seasonal.SeasonalLifeguardOnTheWhiteBeach; // 2
-export import openjuice.card.coop.seasonal.SeasonalGuardianOfBloomingFlowers; // 3
-export import openjuice.card.coop.seasonal.SeasonalUnforgivingAvenger; // 4
+export import :SeasonalUltimateWeaponInTheSun; // 1
+export import :SeasonalLifeguardOnTheWhiteBeach; // 2
+export import :SeasonalGuardianOfBloomingFlowers; // 3
+export import :SeasonalUnforgivingAvenger; // 4

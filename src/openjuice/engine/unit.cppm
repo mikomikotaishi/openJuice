@@ -8,10 +8,10 @@
 
 export module openjuice.engine.unit;
 
-export import openjuice.engine.unit.BasicEnemy;
-export import openjuice.engine.unit.BossEnemy;
-export import openjuice.engine.unit.Enemy;
-export import openjuice.engine.unit.EventCharacter;
-export import openjuice.engine.unit.MainCharacter;
-export import openjuice.engine.unit.Playable;
-export import openjuice.engine.unit.Unit;
+export import :BasicEnemy;
+export import :BossEnemy;
+export import :Enemy;
+export import :EventCharacter;
+export import :MainCharacter;
+export import :Playable;
+export import :Unit;

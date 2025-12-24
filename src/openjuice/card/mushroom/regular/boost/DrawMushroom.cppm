@@ -1,6 +1,6 @@
 /**
  * @file DrawMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.DrawMushroom
+ * @module openjuice.card.mushroom.regular.boost:DrawMushroom
  * @brief Implementation of the DrawMushroom class.
  *
  * This file contains the implementation of the DrawMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.DrawMushroom;
+export module openjuice.card.mushroom.regular.boost:DrawMushroom;
 
 import std;
 

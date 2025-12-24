@@ -1,6 +1,6 @@
 /**
  * @file GuardianOfBloomingFlowers.cppm
- * @module openjuice.card.coop.role.GuardianOfBloomingFlowers
+ * @module openjuice.card.coop.role:GuardianOfBloomingFlowers
  * @brief Implementation of the GuardianOfBloomingFlowers class.
  *
  * This file contains the implementation of the GuardianOfBloomingFlowers class, which represents the card "Guardian of Blooming Flowers" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.role.GuardianOfBloomingFlowers;
+export module openjuice.card.coop.role:GuardianOfBloomingFlowers;
 
 import std;
 

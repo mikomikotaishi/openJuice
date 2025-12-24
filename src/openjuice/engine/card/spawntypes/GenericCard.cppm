@@ -1,6 +1,6 @@
 /**
  * @file GenericCard.cppm
- * @module openjuice.engine.card.SpawnTypes:GenericCard
+ * @module openjuice.engine.card.spawntypes:GenericCard
  * @brief Definition of the GenericCard abstract class.
  *
  * This file contains the definition of the GenericCard abstract class, which represents a Generic (placeholder) card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:GenericCard;
+export module openjuice.engine.card.spawntypes:GenericCard;
 
 import std;
 

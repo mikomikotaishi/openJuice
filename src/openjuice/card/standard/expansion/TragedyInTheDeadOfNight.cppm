@@ -1,6 +1,6 @@
 /**
  * @file TragedyInTheDeadOfNight.cppm
- * @module openjuice.card.standard.expansion.TragedyInTheDeadOfNight
+ * @module openjuice.card.standard.expansion:TragedyInTheDeadOfNight
  * @brief Implementation of the TragedyInTheDeadOfNight class.
  *
  * This file contains the implementation of the TragedyInTheDeadOfNight class, which represents the card "Tragedy in the Dead of Night" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.TragedyInTheDeadOfNight;
+export module openjuice.card.standard.expansion:TragedyInTheDeadOfNight;
 
 import std;
 

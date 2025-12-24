@@ -1,6 +1,6 @@
 /**
  * @file BannerCard.cppm
- * @module openjuice.engine.card.CardTypes:BannerCard
+ * @module openjuice.engine.card.cardtypes:BannerCard
  * @brief Definition of the BannerCard abstract class.
  *
  * This file contains the definition of the BannerCard abstract class, which represents a Banner card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.CardTypes:BannerCard;
+export module openjuice.engine.card.cardtypes:BannerCard;
 
 import std;
 

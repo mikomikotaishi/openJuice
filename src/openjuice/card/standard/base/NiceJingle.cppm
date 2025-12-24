@@ -1,6 +1,6 @@
 /**
  * @file NiceJingle.cppm
- * @module openjuice.card.standard.base.NiceJingle
+ * @module openjuice.card.standard.base:NiceJingle
  * @brief Implementation of the NiceJingle class.
  *
  * This file contains the implementation of the NiceJingle class, which represents the card "Nice Jingle" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.NiceJingle;
+export module openjuice.card.standard.base:NiceJingle;
 
 import std;
 

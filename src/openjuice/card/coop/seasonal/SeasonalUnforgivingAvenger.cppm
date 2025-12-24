@@ -1,6 +1,6 @@
 /**
  * @file SeasonalUnforgivingAvenger.cppm
- * @module openjuice.card.coop.seasonal.SeasonalUnforgivingAvenger
+ * @module openjuice.card.coop.seasonal:SeasonalUnforgivingAvenger
  * @brief Implementation of the SeasonalUnforgivingAvenger class.
  *
  * This file contains the implementation of the SeasonalUnforgivingAvenger class, which represents the card "Chaos Protect" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.seasonal.SeasonalUnforgivingAvenger;
+export module openjuice.card.coop.seasonal:SeasonalUnforgivingAvenger;
 
 import std;
 

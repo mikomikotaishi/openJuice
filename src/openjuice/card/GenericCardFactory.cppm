@@ -1,6 +1,6 @@
 /**
  * @file GenericCardFactory.cppm
- * @module openjuice.card.GenericCardFactory
+ * @module openjuice.card:GenericCardFactory
  * @brief Implementation of the GenericCardFactory class.
  *
  * This file contains the implementation of the GenericCardFactory class, which is used to create GenericCard objects.
@@ -10,14 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.GenericCardFactory;
+export module openjuice.card:GenericCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.generic;
 
 using std::mem::SharedPointer;

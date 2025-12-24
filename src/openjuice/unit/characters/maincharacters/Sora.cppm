@@ -1,6 +1,6 @@
 /**
  * @file Sora.cppm
- * @module openjuice.unit.characters.maincharacters.Sora
+ * @module openjuice.unit.characters.maincharacters:Sora
  * @brief Implementation of the Sora class.
  *
  * This file contains the implementation of the Sora class, which represents a character in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.characters.maincharacters.Sora;
+export module openjuice.unit.characters.maincharacters:Sora;
 
 import std;
 
-import openjuice.engine.unit.MainCharacter;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::CharacterDifficulty;
 using openjuice::engine::unit::MainCharacter;

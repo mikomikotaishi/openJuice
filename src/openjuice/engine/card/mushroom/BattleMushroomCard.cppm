@@ -1,6 +1,6 @@
 /**
  * @file BattleMushroomCard.cppm
- * @module openjuice.engine.card.mushroom.BattleMushroomCard
+ * @module openjuice.engine.card.mushroom:BattleMushroomCard
  * @brief Definition of the BattleMushroomCard abstract class.
  *
  * This file contains the definition of the BattleMushroomCard abstract class, which represents a Battle-type Mushroom card in the game.
@@ -10,14 +10,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.mushroom.BattleMushroomCard;
+export module openjuice.engine.card.mushroom:BattleMushroomCard;
 
 import std;
 
 import openjuice.engine.card.Card;
-import openjuice.engine.card.CardTypes;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.card.cardtypes;
+import openjuice.engine.card.spawntypes;
+import openjuice.engine.managers;
 
 using std::meta::IsBaseOfValue;
 

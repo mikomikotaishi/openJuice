@@ -1,6 +1,6 @@
 /**
  * @file UltimateWeaponInTheSun.cppm
- * @module openjuice.card.coop.role.UltimateWeaponInTheSun
+ * @module openjuice.card.coop.role:UltimateWeaponInTheSun
  * @brief Implementation of the UltimateWeaponInTheSun class.
  *
  * This file contains the implementation of the UltimateWeaponInTheSun class, which represents the card "Ultimate Weapon in the Sun" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.role.UltimateWeaponInTheSun;
+export module openjuice.card.coop.role:UltimateWeaponInTheSun;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file InvalidIDException.cppm
- * @module openjuice.engine.util.Exceptions:InvalidIDException
+ * @module openjuice.engine.util:InvalidIDException
  * @brief Implementation of the InvalidIDException class.
  *
  * This file contains the implementation of the InvalidIDException class, which is used to handle invalid ID in ID queries.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Exceptions:InvalidIDException;
+export module openjuice.engine.util:InvalidIDException;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file ChaoticRampage.cppm
- * @module openjuice.card.seasonal.ChaoticRampage
+ * @module openjuice.card.seasonal:ChaoticRampage
  * @brief Implementation of the ChaoticRampage class.
  *
  * This file contains the implementation of the ChaoticRampage class, which represents the card "Chaotic Rampage" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.ChaoticRampage;
+export module openjuice.card.seasonal:ChaoticRampage;
 
 import std;
 

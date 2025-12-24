@@ -1,6 +1,6 @@
 /**
  * @file RainbowColoredCircle.cppm
- * @module openjuice.card.standard.base.RainbowColoredCircle
+ * @module openjuice.card.standard.base:RainbowColoredCircle
  * @brief Implementation of the RainbowColoredCircle class.
  *
  * This file contains the implementation of the RainbowColoredCircle class, which represents the card "Rainbow-Colored Circle" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.RainbowColoredCircle;
+export module openjuice.card.standard.base:RainbowColoredCircle;
 
 import std;
 

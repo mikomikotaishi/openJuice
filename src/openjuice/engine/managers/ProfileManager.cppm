@@ -1,6 +1,6 @@
 /**
  * @file ProfileManager.cppm
- * @module openjuice.engine.managers.ProfileManager
+ * @module openjuice.engine.managers:ProfileManager
  * @brief Implementation of the ProfileManager class.
  *
  * This file contains the implementation of the ProfileManager class, which manages the current profile for the application.
@@ -10,12 +10,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.managers.ProfileManager;
+export module openjuice.engine.managers:ProfileManager;
+
+export import :ProfileManagerError;
 
 import std;
 import stdx;
 
-import openjuice.engine.util.Constants;
+import openjuice.engine.util;
 
 import tomlpp;
 
@@ -55,8 +57,8 @@ public:
      */
     class ProfileData final {
     private:
-        String playerName; ///< The player name
-        u64 totalPlayTime; ///< The total amount of time played in the save slot, in seconds
+        String playerName = ""; ///< The player name
+        u64 totalPlayTime = 0; ///< The total amount of time played in the save slot, in seconds
     public:
         PROPERTY(String, PlayerName, playerName);
         PROPERTY(u64, TotalPlayTime, totalPlayTime)
@@ -67,7 +69,7 @@ public:
          * @param playerName The name of the player associated with a PlayerData.
          * @param totalPlayTime The total amount of time played in the save slot in seconds.
          */
-        constexpr ProfileData(StringView playerName = "", u64 totalPlayTime = 0):
+        constexpr ProfileData(StringView playerName, u64 totalPlayTime):
             playerName{String(playerName)}, totalPlayTime{totalPlayTime} {}
 
         /**
@@ -102,16 +104,17 @@ private:
      * @brief Deserialises a TOML into the ProfileData instance.
      * 
      * @param table The TOML table to deserialize from
-     * @return True if successful, false otherwise
+     * @return Expected<void, ProfileManagerError> indicating success or failure.
      */
-    bool deserialise(const TomlTable& table) noexcept {
+    [[nodiscard]]
+    Expected<void, ProfileManagerError> deserialise(const TomlTable& table) noexcept {
         try {
             if (NodeView<const TomlNode> playerNameNode = table["playerName"]; playerNameNode) {
                 if (Optional<String> playerNameValue = playerNameNode.value<String>()) {
                     currentProfile.setPlayerName(*playerNameValue);
                 } else {
                     LOGGER->warn("playerName field is not a string");
-                    return false;
+                    return Unexpected(ProfileManagerError::DESERIALISATION_FAILED);
                 }
             } else {
                 LOGGER->debug("playerName field not found, using default");
@@ -123,17 +126,17 @@ private:
                     currentProfile.setTotalPlayTime(static_cast<u64>(*playTimeValue));
                 } else {
                     LOGGER->warn("totalPlayTime field is not a valid integer");
-                    return false;
+                    return Unexpected(ProfileManagerError::DESERIALISATION_FAILED);
                 }
             } else {
                 LOGGER->debug("totalPlayTime field not found, using default");
                 currentProfile.setTotalPlayTime(0);
             }
 
-            return true;
+            return {};
         } catch (const Exception& e) {
             LOGGER->error("Exception during deserialization: {}", e.what());
-            return false;
+            return Unexpected(ProfileManagerError::DESERIALISATION_FAILED);
         }
     }
 public:
@@ -159,9 +162,10 @@ public:
 
     /**
      * @brief Load profile data from file.
-     * @return True if successfully loaded, false otherwise.
+     * @return Expected<void, ProfileManagerError> indicating success or failure.
      */
-    bool loadProfile() noexcept {
+    [[nodiscard]]
+    Expected<void, ProfileManagerError> loadProfile() noexcept {
         if (!std::fs::exists(PATH_SAVEFILE)) {
             LOGGER->info("Save file not found, creating new profile");
             return saveProfile();
@@ -170,28 +174,29 @@ public:
         try {
             TomlTable data = tomlpp::parse_file(PATH_SAVEFILE);
             
-            if (!deserialise(data)) {
-                LOGGER->error("Failed to deserialize profile data");
-                return false;
+            if (!deserialise(data).has_value()) {
+                LOGGER->error("Failed to deserialise profile data");
+                return Unexpected(ProfileManagerError::DESERIALISATION_FAILED);
             }
 
             profileLoaded = true;
             LOGGER->info("Profile loaded successfully for {}", currentProfile.getPlayerName());
-            return true;
+            return {};
         } catch (const TomlParseException& e) {
             LOGGER->error("Failed to parse TOML file: {}", e.what());
-            return false;
+            return Unexpected(ProfileManagerError::CORRUPTED_PROFILE_TOML);
         } catch (const Exception& e) {
             LOGGER->error("Error loading profile: {}", e.what());
-            return false;
+            return Unexpected(ProfileManagerError::PROFILE_LOAD_FAILED);
         }
     }
 
     /**
      * @brief Save profile data to file.
-     * @return True if successfully saved, false otherwise.
+     * @return Expected<void, ProfileManagerError> indicating success or failure.
      */
-    bool saveProfile() noexcept {
+    [[nodiscard]]
+    Expected<void, ProfileManagerError> saveProfile() noexcept {
         try {
             TomlTable data;
             data.insert("playerName", currentProfile.getPlayerName());
@@ -204,25 +209,27 @@ public:
             file.close();
 
             LOGGER->info("Profile saved successfully for {}", currentProfile.getPlayerName());
-            return true;
+            return {};
         } catch (const IOException& e) {
             if (!std::fs::exists(PATH_SAVEFILE)) {
                 LOGGER->warn("Failed to save profile, file/directory does not exist: {}", e.what());
+                return Unexpected(ProfileManagerError::PROFILE_SAVE_LOCATION_INVALID);
             } else {
                 LOGGER->warn("Failed to save profile, write operation failed: {}", e.what());
+                return Unexpected(ProfileManagerError::PROFILE_SAVE_WRITE_FAILED);
             }
-            return false;
         } catch (const Exception& e) {
             LOGGER->warn("Error saving profile: {}", e.what());
-            return false;
+            return Unexpected(ProfileManagerError::PROFILE_SAVE_FAILED);
         }
     }
 
     /**
      * @brief Reset profile data (start new game)
-     * @return True if successfully reset, false otherwise.
+     * @return Expected<void, ProfileManagerError> indicating success or failure.
      */
-    bool resetProfile() noexcept {
+    [[nodiscard]]
+    Expected<void, ProfileManagerError> resetProfile() noexcept {
         LOGGER->info("Attempting to reset profile for {}", currentProfile.getPlayerName());
         return saveProfile();
     }

@@ -1,6 +1,6 @@
 /**
  * @file Unit.cppm
- * @module openjuice.engine.unit.Unit
+ * @module openjuice.engine.unit:Unit
  * @brief Definition of the Unit abstract class.
  *
  * This file contains the definition of the Unit abstract class, which represents a generic unit in the game.
@@ -10,19 +10,19 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.Unit;
+export module openjuice.engine.unit:Unit;
 
 import std;
 
-import openjuice.engine.managers.TextManager;
-import openjuice.engine.util.Interfaces;
+import openjuice.engine.managers;
+import openjuice.engine.util;
 
 using std::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
 using openjuice::engine::managers::TextManagerError;
-using openjuice::engine::util::interfaces::IFinalOnly;
-using openjuice::engine::util::interfaces::IKeyQueryable;
+using openjuice::engine::util::IFinalOnly;
+using openjuice::engine::util::IKeyQueryable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -35,7 +35,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
  * @implements IFinalOnly
  * @implements IKeyQueryable
  */
-export class Unit: public IFinalOnly, public IKeyQueryable {
+export class [[nodiscard]] Unit: public IFinalOnly, public IKeyQueryable {
 private:
     const u16 id; ///< The ID of the unit.
     const u8 health; ///< The health of the unit.
@@ -72,9 +72,10 @@ public:
      * @return The name of the character.
      */
     [[nodiscard]]
-    String getName() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getUnitName(UNIT_KEY);
-        return String(result ? *result : "");
+    StringView getName() const noexcept {
+        return TextManager::getInstance()
+            .getUnitName(UNIT_KEY);
+            .value_or("");
     }
 
     /**
@@ -83,9 +84,10 @@ public:
      * @return The description of the unit.
      */
     [[nodiscard]]
-    String getDescription() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getUnitDescription(UNIT_KEY);
-        return String(result ? *result : "");
+    StringView getDescription() const noexcept {
+        return TextManager::getInstance()
+            .getUnitDescription(UNIT_KEY);
+            .value_or("");
     }
 
     /**
@@ -94,9 +96,10 @@ public:
      * @return The unit artist name.
      */
     [[nodiscard]]
-    String getArtistName() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardArtistName(ARTIST_KEY);
-        return String(result ? *result : "");
+    StringView getArtistName() const noexcept {
+        return TextManager::getInstance()
+            .getCardArtistName(ARTIST_KEY);
+            .value_or("");
     }
 
     /**
@@ -105,9 +108,10 @@ public:
      * @return The unit voice actor name.
      */
     [[nodiscard]]
-    String getVoiceActorName() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getVoiceActorName(VOICEACTOR_KEY);
-        return String(result ? *result : "");
+    StringView getVoiceActorName() const noexcept {
+        return TextManager::getInstance()
+            .getVoiceActorName(VOICEACTOR_KEY);
+            .value_or("");
     }
 };
 

@@ -1,6 +1,6 @@
 /**
  * @file Enemy.cppm
- * @module openjuice.engine.unit.Enemy
+ * @module openjuice.engine.unit:Enemy
  * @brief Definition of the Enemy abstract class.
  *
  * This file contains the definition of the Enemy abstract class, which represents an enemy unit in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.Enemy;
+export module openjuice.engine.unit:Enemy;
 
 import std;
 
-import openjuice.engine.unit.Unit;
+import :Unit;
 
 using std::meta::IsBaseOfValue;
 

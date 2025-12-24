@@ -8,9 +8,9 @@
 
 export module openjuice.card.standard.community4;
 
-// export import openjuice.card.standard.community4.WarpControl; // 96
-// export import openjuice.card.standard.community4.MyWildFriends; // 97
-// export import openjuice.card.standard.community4.ContestOfCuteness; // 98
-// export import openjuice.card.standard.community4.BankOfPoppo; // 99
-// export import openjuice.card.standard.community4.Rebellion; // 100
-// export import openjuice.card.standard.community4.NanakosBit; // 101
+// export import :WarpControl; // 96
+// export import :MyWildFriends; // 97
+// export import :ContestOfCuteness; // 98
+// export import :BankOfPoppo; // 99
+// export import :Rebellion; // 100
+// export import :NanakosBit; // 101

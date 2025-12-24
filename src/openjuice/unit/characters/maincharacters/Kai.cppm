@@ -1,6 +1,6 @@
 /**
  * @file Kai.cppm
- * @module openjuice.unit.characters.maincharacters.Kai
+ * @module openjuice.unit.characters.maincharacters:Kai
  * @brief Implementation of the Kai class.
  *
  * This file contains the implementation of the Kai class, which represents a character in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.characters.maincharacters.Kai;
+export module openjuice.unit.characters.maincharacters:Kai;
 
 import std;
 
-import openjuice.engine.unit.MainCharacter;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::CharacterDifficulty;
 using openjuice::engine::unit::MainCharacter;

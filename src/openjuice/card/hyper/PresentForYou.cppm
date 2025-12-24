@@ -1,6 +1,6 @@
 /**
  * @file PresentForYou.cppm
- * @module openjuice.card.hyper.PresentForYou
+ * @module openjuice.card.hyper:PresentForYou
  * @brief Implementation of the PresentForYou class.
  *
  * This file contains the implementation of the PresentForYou class, which represents the card "Present for You" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.PresentForYou;
+export module openjuice.card.hyper:PresentForYou;
 
 import std;
 

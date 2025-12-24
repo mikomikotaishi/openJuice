@@ -12,7 +12,7 @@ export module openjuice.ui.UserInterface;
 
 import std;
 
-import openjuice.engine.game.Game;
+import openjuice.engine.game;
 
 using std::mem::SharedPointer;
 using std::sync::AtomicBoolean;
@@ -26,7 +26,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui);
  * @class UserInterface
  * @brief Abstract base class for all user interfaces
  */
-export class UserInterface {
+export class [[nodiscard]] UserInterface {
 protected:
     SharedPointer<Game> game;
     Mutex& stateMutex;

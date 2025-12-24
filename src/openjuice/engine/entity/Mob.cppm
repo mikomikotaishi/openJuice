@@ -10,14 +10,12 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.entity.Mob;
+export module openjuice.engine.entity:Mob;
 
 import std;
 
-import openjuice.engine.game.ecs.Components;
-import openjuice.engine.game.ecs.Entity;
-import openjuice.engine.game.ecs.Registry;
-import openjuice.engine.unit.Enemy;
+import openjuice.engine.game.ecs;
+import openjuice.engine.unit;
 
 using std::mem::SharedPointer;
 using std::meta::IsBaseOfValue;

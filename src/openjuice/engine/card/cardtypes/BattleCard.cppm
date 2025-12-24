@@ -1,6 +1,6 @@
 /**
  * @file BattleCard.cppm
- * @module openjuice.engine.card.CardTypes:BattleCard
+ * @module openjuice.engine.card.cardtypes:BattleCard
  * @brief Definition of the BattleCard abstract class.
  *
  * This file contains the definition of the BattleCard abstract class, which represents a Battle card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.CardTypes:BattleCard;
+export module openjuice.engine.card.cardtypes:BattleCard;
 
 import std;
 

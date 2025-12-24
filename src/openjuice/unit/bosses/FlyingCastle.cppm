@@ -1,6 +1,6 @@
 /**
  * @file FlyingCastle.cppm
- * @module openjuice.unit.bosses.FlyingCastle
+ * @module openjuice.unit.bosses:FlyingCastle
  * @brief Implementation of the FlyingCastle class.
  *
  * This file contains the implementation of the FlyingCastle class, which represents a boss enemy in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.bosses.FlyingCastle;
+export module openjuice.unit.bosses:FlyingCastle;
 
 import std;
 
-import openjuice.engine.unit.BossEnemy;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::BossEnemy;
 

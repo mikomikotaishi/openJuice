@@ -1,6 +1,6 @@
 /**
  * @file ShifuRobot.cppm
- * @module openjuice.unit.bosses.ShifuRobot
+ * @module openjuice.unit.bosses:ShifuRobot
  * @brief Implementation of the ShifuRobot class.
  *
  * This file contains the implementation of the ShifuRobot class, which represents a boss enemy in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.bosses.ShifuRobot;
+export module openjuice.unit.bosses:ShifuRobot;
 
 import std;
 
-import openjuice.engine.unit.BossEnemy;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::BossEnemy;
 

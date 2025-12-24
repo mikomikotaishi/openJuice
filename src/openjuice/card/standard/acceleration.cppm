@@ -8,15 +8,15 @@
 
 export module openjuice.card.standard.acceleration;
 
-export import openjuice.card.standard.acceleration.CompletionReward; // 54
-export import openjuice.card.standard.acceleration.GentlemansBattle; // 55
-export import openjuice.card.standard.acceleration.AccelHyper; // 56
-export import openjuice.card.standard.acceleration.Extension; // 57
-export import openjuice.card.standard.acceleration.QuickRestoration; // 58
-export import openjuice.card.standard.acceleration.BrutalPrank; // 59
-export import openjuice.card.standard.acceleration.PresentThief; // 60
-export import openjuice.card.standard.acceleration.PlayOfTheGods; // 61
-export import openjuice.card.standard.acceleration.ScrambledEve; // 62
-export import openjuice.card.standard.acceleration.StarBlastingLight; // 63
-export import openjuice.card.standard.acceleration.UnluckyCharm; // 64
-export import openjuice.card.standard.acceleration.WindyEnchantment; // 65
+export import :CompletionReward; // 54
+export import :GentlemansBattle; // 55
+export import :AccelHyper; // 56
+export import :Extension; // 57
+export import :QuickRestoration; // 58
+export import :BrutalPrank; // 59
+export import :PresentThief; // 60
+export import :PlayOfTheGods; // 61
+export import :ScrambledEve; // 62
+export import :StarBlastingLight; // 63
+export import :UnluckyCharm; // 64
+export import :WindyEnchantment; // 65

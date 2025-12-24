@@ -1,6 +1,6 @@
 /**
  * @file AirStrike.cppm
- * @module openjuice.card.hyper.AirStrike
+ * @module openjuice.card.hyper:AirStrike
  * @brief Implementation of the AirStrike class.
  *
  * This file contains the implementation of the AirStrike class, which represents the card "Air Strike" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.AirStrike;
+export module openjuice.card.hyper:AirStrike;
 
 import std;
 

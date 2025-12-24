@@ -1,6 +1,6 @@
 /**
  * @file TrapCard.cppm
- * @module openjuice.engine.card.CardTypes:TrapCard
+ * @module openjuice.engine.card.cardtypes:TrapCard
  * @brief Definition of the TrapCard abstract class.
  *
  * This file contains the definition of the TrapCard abstract class, which represents a Trap card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.CardTypes:TrapCard;
+export module openjuice.engine.card.cardtypes:TrapCard;
 
 import std;
 

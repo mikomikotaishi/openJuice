@@ -1,6 +1,6 @@
 /**
  * @file BoardInfo.cppm
- * @module openjuice.engine.board.BoardInfo
+ * @module openjuice.engine.board:BoardInfo
  * @brief Definition of the BoardInfo struct.
  *
  * This file contains the definition of the BoardInfo struct, which aggregates key information about boards.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.board.BoardInfo;
+export module openjuice.engine.board:BoardInfo;
 
 import std;
 
-import openjuice.engine.util.Constants;
+import openjuice.engine.util;
 
 using openjuice::engine::util::Constants;
 
@@ -26,7 +26,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  * 
  * The BoardInfo record aggregates key information about boards, such as ID, name, dimensions, and home panels.
  */
-export class BoardInfo final {
+export class [[nodiscard]] BoardInfo final {
 public:
     static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
     using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;

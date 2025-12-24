@@ -1,6 +1,6 @@
 /**
  * @file Heat300.cppm
- * @module openjuice.card.standard.expansion.Heat300
+ * @module openjuice.card.standard.expansion:Heat300
  * @brief Implementation of the Heat300 class.
  *
  * This file contains the implementation of the Heat300 class, which represents the card "Heat 300%" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.Heat300;
+export module openjuice.card.standard.expansion:Heat300;
 
 import std;
 

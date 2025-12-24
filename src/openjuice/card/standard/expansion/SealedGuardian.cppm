@@ -1,6 +1,6 @@
 /**
  * @file SealedGuardian.cppm
- * @module openjuice.card.standard.expansion.SealedGuardian
+ * @module openjuice.card.standard.expansion:SealedGuardian
  * @brief Implementation of the SealedGuardian class.
  *
  * This file contains the implementation of the SealedGuardian class, which represents the card "Sealed Guardian" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.SealedGuardian;
+export module openjuice.card.standard.expansion:SealedGuardian;
 
 import std;
 

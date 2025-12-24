@@ -1,6 +1,6 @@
 /**
  * @file Fernet.cppm
- * @module openjuice.unit.characters.maincharacters.Fernet
+ * @module openjuice.unit.characters.maincharacters:Fernet
  * @brief Implementation of the Fernet class.
  *
  * This file contains the implementation of the Fernet class, which represents a character in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.characters.maincharacters.Fernet;
+export module openjuice.unit.characters.maincharacters:Fernet;
 
 import std;
 
-import openjuice.engine.unit.MainCharacter;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::CharacterDifficulty;
 using openjuice::engine::unit::MainCharacter;

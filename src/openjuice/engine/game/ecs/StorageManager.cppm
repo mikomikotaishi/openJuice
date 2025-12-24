@@ -1,6 +1,6 @@
 /**
  * @file StorageManager.cppm
- * @module openjuice.engine.game.ecs.Registry:StorageManager
+ * @module openjuice.engine.game.ecs:StorageManager
  * @brief Module of the ECS registry.
  *
  * This file contains the definitions for the ECS registry.
@@ -11,24 +11,18 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Registry:StorageManager;
+export module openjuice.engine.game.ecs:StorageManager;
 
 import std;
 import stdx;
 
-import openjuice.engine.game.ThreadPool;
-import openjuice.engine.game.ecs.Meta;
-import openjuice.engine.game.ecs.PolymorphicStorage;
+import :Meta;
+import :PolymorphicStorage;
+import :ThreadPool;
 
 using std::mem::UniquePointer;
 using std::meta::RemoveConstVolatileReferenceType;
 using std::ranges::IotaView;
-
-namespace mem = std::mem;
-namespace ranges = std::ranges;
-namespace util = std::util;
-
-using openjuice::engine::game::ThreadPool;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 

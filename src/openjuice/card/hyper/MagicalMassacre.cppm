@@ -1,6 +1,6 @@
 /**
  * @file MagicalMassacre.cppm
- * @module openjuice.card.hyper.MagicalMassacre
+ * @module openjuice.card.hyper:MagicalMassacre
  * @brief Implementation of the MagicalMassacre class.
  *
  * This file contains the implementation of the MagicalMassacre class, which represents the card "Magical Massacre" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.MagicalMassacre;
+export module openjuice.card.hyper:MagicalMassacre;
 
 import std;
 

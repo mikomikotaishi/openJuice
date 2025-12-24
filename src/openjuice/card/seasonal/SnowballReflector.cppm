@@ -1,6 +1,6 @@
 /**
  * @file SnowballReflector.cppm
- * @module openjuice.card.seasonal.SnowballReflector
+ * @module openjuice.card.seasonal:SnowballReflector
  * @brief Implementation of the SnowballReflector class.
  *
  * This file contains the implementation of the SnowballReflector class, which represents the card "Snowball Reflector" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.SnowballReflector;
+export module openjuice.card.seasonal:SnowballReflector;
 
 import std;
 

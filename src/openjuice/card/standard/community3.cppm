@@ -8,9 +8,9 @@
 
 export module openjuice.card.standard.community3;
 
-// export import openjuice.card.standard.community3.Overtime; // 90
-// export import openjuice.card.standard.community3.DeceptiveDisarming; // 91
-// export import openjuice.card.standard.community3.BanaNana; // 92
-// export import openjuice.card.standard.community3.PetSnacks; // 93
-// export import openjuice.card.standard.community3.HomeImprovement; // 94
-// export import openjuice.card.standard.community3.LuckySevens; // 95
+// export import :Overtime; // 90
+// export import :DeceptiveDisarming; // 91
+// export import :BanaNana; // 92
+// export import :PetSnacks; // 93
+// export import :HomeImprovement; // 94
+// export import :LuckySevens; // 95

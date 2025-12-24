@@ -1,6 +1,6 @@
 /**
  * @file LongDistanceShot.cppm
- * @module openjuice.card.standard.expansion.LongDistanceShot
+ * @module openjuice.card.standard.expansion:LongDistanceShot
  * @brief Implementation of the LongDistanceShot class.
  *
  * This file contains the implementation of the LongDistanceShot class, which represents the card "Long-Distance Shot" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.LongDistanceShot;
+export module openjuice.card.standard.expansion:LongDistanceShot;
 
 import std;
 

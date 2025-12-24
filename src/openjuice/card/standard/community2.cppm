@@ -8,9 +8,9 @@
 
 export module openjuice.card.standard.community2;
 
-// export import openjuice.card.standard.community2.PathBlockers; // 72
-// export import openjuice.card.standard.community2.DesperateModification; // 73
-// export import openjuice.card.standard.community2.Poppoformation; // 74
-// export import openjuice.card.standard.community2.AcceleratingSky; // 75
-// export import openjuice.card.standard.community2.PoppoTheSnatcher; // 76
-// export import openjuice.card.standard.community2.Bloodlust; // 77
+// export import :PathBlockers; // 72
+// export import :DesperateModification; // 73
+// export import :Poppoformation; // 74
+// export import :AcceleratingSky; // 75
+// export import :PoppoTheSnatcher; // 76
+// export import :Bloodlust; // 77

@@ -1,6 +1,6 @@
 /**
  * @file GamePhase.cppm
- * @module openjuice.engine.game.GamePhase
+ * @module openjuice.engine.game.Game:GamePhase
  * @brief Definition of the GamePhase enum class.
  *
  * This file contains the definition of the GamePhase enum class, which represents phases of the game.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.game.GamePhase;
+export module openjuice.engine.game.Game:GamePhase;
 
 import std;
 
@@ -31,7 +31,7 @@ export enum class GamePhase: u8 {
     BATTLE_PHASE, ///< Battle in progress
     CHAPTER_PHASE, ///< Chapter event in progress
     END_GAME, ///< Game completed
-    PAUSED ///< Game paused
+    PAUSED, ///< Game paused
 };
 
 END_MODULE_NAMESPACE();

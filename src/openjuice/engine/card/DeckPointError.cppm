@@ -29,7 +29,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  */
 export enum class DeckPointError: u8 {
     NOT_PLAYABLE_IN_COOP, ///< Card cannot be played in Co-op mode
-    NOT_STANDARD_CARD ///< Card is not a Standard-type card
+    NOT_STANDARD_CARD, ///< Card is not a Standard-type card
 };
 
 END_MODULE_NAMESPACE();

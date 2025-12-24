@@ -1,6 +1,6 @@
 /**
  * @file Ubiquitous.cppm
- * @module openjuice.card.hyper.Ubiquitous
+ * @module openjuice.card.hyper:Ubiquitous
  * @brief Implementation of the Ubiquitous class.
  *
  * This file contains the implementation of the Ubiquitous class, which represents the card "Ubiquitous" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.Ubiquitous;
+export module openjuice.card.hyper:Ubiquitous;
 
 import std;
 

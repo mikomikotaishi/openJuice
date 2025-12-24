@@ -1,6 +1,6 @@
 /**
  * @file CharacterSpecificCardFactory.cppm
- * @module openjuice.card.CharacterSpecificCardFactory
+ * @module openjuice.card:CharacterSpecificCardFactory
  * @brief Implementation of the CharacterSpecificCardFactory class.
  *
  * This file contains the implementation of the CharacterSpecificCardFactory class, which is used to create CharacterSpecificCard objects.
@@ -10,14 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.CharacterSpecificCardFactory;
+export module openjuice.card:CharacterSpecificCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.character;
 
 using std::mem::SharedPointer;

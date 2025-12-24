@@ -1,6 +1,6 @@
 /**
  * @file X16BigRocket.cppm
- * @module openjuice.card.hyper.X16BigRocket
+ * @module openjuice.card.hyper:X16BigRocket
  * @brief Implementation of the X16BigRocket class.
  *
  * This file contains the implementation of the X16BigRocket class, which represents the card "x16 Big Rocket" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.X16BigRocket;
+export module openjuice.card.hyper:X16BigRocket;
 
 import std;
 

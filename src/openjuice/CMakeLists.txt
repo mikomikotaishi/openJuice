@@ -37,7 +37,7 @@ elseif(MSVC)
 endif()
 
 target_link_libraries(modules PUBLIC 
-    stdlib
+    stdlibx
     boost_asio_modules
     boost_regex_modules
     boost_system_modules

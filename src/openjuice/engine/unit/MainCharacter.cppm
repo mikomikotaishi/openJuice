@@ -1,6 +1,6 @@
 /**
  * @file MainCharacter.cppm
- * @module openjuice.engine.unit.MainCharacter
+ * @module openjuice.engine.unit:MainCharacter
  * @brief Definition of the MainCharacter abstract class.
  *
  * This file contains the definition of the MainCharacter abstract class, which represents a main character unit in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.MainCharacter;
+export module openjuice.engine.unit:MainCharacter;
 
 import std;
 
-import openjuice.engine.unit.Playable;
+import :Playable;
 
 using std::meta::IsBaseOfValue;
 

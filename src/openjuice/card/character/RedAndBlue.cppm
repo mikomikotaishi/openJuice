@@ -1,6 +1,6 @@
 /**
  * @file RedAndBlue.cppm
- * @module openjuice.card.character.RedAndBlue
+ * @module openjuice.card.character:RedAndBlue
  * @brief Implementation of the RedAndBlue class.
  *
  * This file contains the implementation of the RedAndBlue class, which represents the card "Red & Blue" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.character.RedAndBlue;
+export module openjuice.card.character:RedAndBlue;
 
 import std;
 

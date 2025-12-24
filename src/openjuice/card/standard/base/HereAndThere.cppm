@@ -1,6 +1,6 @@
 /**
  * @file HereAndThere.cppm
- * @module openjuice.card.standard.base.HereAndThere
+ * @module openjuice.card.standard.base:HereAndThere
  * @brief Implementation of the HereAndThere class.
  *
  * This file contains the implementation of the HereAndThere class, which represents the card "Here and There" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.HereAndThere;
+export module openjuice.card.standard.base:HereAndThere;
 
 import std;
 

@@ -8,14 +8,14 @@
 
 export module openjuice.card.mushroom.regular.battle;
 
-export import openjuice.card.mushroom.regular.battle.NullBattleMushroom;
-export import openjuice.card.mushroom.regular.battle.AttackUpMushroom;
-export import openjuice.card.mushroom.regular.battle.AttackDownMushroom;
-export import openjuice.card.mushroom.regular.battle.DefenceUpMushroom;
-export import openjuice.card.mushroom.regular.battle.DefenceDownMushroom;
-export import openjuice.card.mushroom.regular.battle.EvadeUpMushroom;
-export import openjuice.card.mushroom.regular.battle.EvadeDownMushroom;
-export import openjuice.card.mushroom.regular.battle.HealMushroom;
-export import openjuice.card.mushroom.regular.battle.DamageMushroom;
-export import openjuice.card.mushroom.regular.battle.RollOneMushroom;
-export import openjuice.card.mushroom.regular.battle.RollSixMushroom;
+export import :NullBattleMushroom;
+export import :AttackUpMushroom;
+export import :AttackDownMushroom;
+export import :DefenceUpMushroom;
+export import :DefenceDownMushroom;
+export import :EvadeUpMushroom;
+export import :EvadeDownMushroom;
+export import :HealMushroom;
+export import :DamageMushroom;
+export import :RollOneMushroom;
+export import :RollSixMushroom;

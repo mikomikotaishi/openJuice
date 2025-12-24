@@ -1,6 +1,6 @@
 /**
  * @file HoldTheGremlin.cppm
- * @module openjuice.card.seasonal.HoldTheGremlin
+ * @module openjuice.card.seasonal:HoldTheGremlin
  * @brief Implementation of the HoldTheGremlin class.
  *
  * This file contains the implementation of the HoldTheGremlin class, which represents the card "Hold the Gremlin" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.HoldTheGremlin;
+export module openjuice.card.seasonal:HoldTheGremlin;
 
 import std;
 

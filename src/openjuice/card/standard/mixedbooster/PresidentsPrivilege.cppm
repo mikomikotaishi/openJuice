@@ -1,6 +1,6 @@
 /**
  * @file PresidentsPrivilege.cppm
- * @module openjuice.card.standard.mixedbooster.PresidentsPrivilege
+ * @module openjuice.card.standard.mixedbooster:PresidentsPrivilege
  * @brief Implementation of the PresidentsPrivilege class.
  *
  * This file contains the implementation of the PresidentsPrivilege class, which represents the card "President's Privilege" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.mixedbooster.PresidentsPrivilege;
+export module openjuice.card.standard.mixedbooster:PresidentsPrivilege;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file Shield.cppm
- * @module openjuice.card.standard.expansion.Shield
+ * @module openjuice.card.standard.expansion:Shield
  * @brief Implementation of the Shield class.
  *
  * This file contains the implementation of the Shield class, which represents the card "Shield" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.Shield;
+export module openjuice.card.standard.expansion:Shield;
 
 import std;
 

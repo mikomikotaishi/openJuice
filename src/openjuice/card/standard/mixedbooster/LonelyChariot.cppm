@@ -1,6 +1,6 @@
 /**
  * @file LonelyChariot.cppm
- * @module openjuice.card.standard.mixedbooster.LonelyChariot
+ * @module openjuice.card.standard.mixedbooster:LonelyChariot
  * @brief Implementation of the LonelyChariot class.
  *
  * This file contains the implementation of the LonelyChariot class, which represents the card "Lonely Chariot" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.mixedbooster.LonelyChariot;
+export module openjuice.card.standard.mixedbooster:LonelyChariot;
 
 import std;
 

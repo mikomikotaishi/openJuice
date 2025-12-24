@@ -8,15 +8,15 @@
 
 export module openjuice.card.standard.pudding;
 
-// export import openjuice.card.standard.pudding.BackdoorTrade; // 78
-// export import openjuice.card.standard.pudding.SinkOrSwim; // 79
-// export import openjuice.card.standard.pudding.SeriousBattle; // 80
-// export import openjuice.card.standard.pudding.PortablePudding; // 81
-// export import openjuice.card.standard.pudding.IWannaSeeYou; // 82
-// export import openjuice.card.standard.pudding.Encore; // 83
-// export import openjuice.card.standard.pudding.SweetDestroyer; // 84
-// export import openjuice.card.standard.pudding.SereneHush; // 85
-// export import openjuice.card.standard.pudding.UnpaidWork; // 86
-// export import openjuice.card.standard.pudding.IndiscriminateFireSupport; // 87
-// export import openjuice.card.standard.pudding.LuckyCharm; // 88
-// export import openjuice.card.standard.pudding.MetallicMonocoque; // 89
+// export import :BackdoorTrade; // 78
+// export import :SinkOrSwim; // 79
+// export import :SeriousBattle; // 80
+// export import :PortablePudding; // 81
+// export import :IWannaSeeYou; // 82
+// export import :Encore; // 83
+// export import :SweetDestroyer; // 84
+// export import :SereneHush; // 85
+// export import :UnpaidWork; // 86
+// export import :IndiscriminateFireSupport; // 87
+// export import :LuckyCharm; // 88
+// export import :MetallicMonocoque; // 89

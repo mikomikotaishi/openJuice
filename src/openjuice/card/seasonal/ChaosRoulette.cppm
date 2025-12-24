@@ -1,6 +1,6 @@
 /**
  * @file ChaosRoulette.cppm
- * @module openjuice.card.seasonal.ChaosRoulette
+ * @module openjuice.card.seasonal:ChaosRoulette
  * @brief Implementation of the ChaosRoulette class.
  *
  * This file contains the implementation of the ChaosRoulette class, which represents the card "Chaos Roulette" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.ChaosRoulette;
+export module openjuice.card.seasonal:ChaosRoulette;
 
 import std;
 

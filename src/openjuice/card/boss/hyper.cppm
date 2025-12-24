@@ -8,19 +8,19 @@
 
 export module openjuice.card.boss.hyper;
 
-// export import openjuice.card.boss.hyper.Roost; // 1
-// export import openjuice.card.boss.hyper.HyperRoost; // 2
-// export import openjuice.card.boss.hyper.Protect; // 3
-// export import openjuice.card.boss.hyper.PerfectReflectiveShell; // 4
-// export import openjuice.card.boss.hyper.FromTheAbyss; // 5
-// export import openjuice.card.boss.hyper.HypeMode; // 6
-// export import openjuice.card.boss.hyper.Rampage; // 7
-// export import openjuice.card.boss.hyper.HyperRampage; // 8
-// export import openjuice.card.boss.hyper.Launch; // 9
-// export import openjuice.card.boss.hyper.Dive; // 10
-// export import openjuice.card.boss.hyper.RoostBoost; // 11
-// export import openjuice.card.boss.hyper.PoTect; // 12
-// export import openjuice.card.boss.hyper.Goalpost; // 13
-// export import openjuice.card.boss.hyper.BalloonJerk; // 14
-// export import openjuice.card.boss.hyper.SwimmingRinger; // 15
-// export import openjuice.card.boss.hyper.HomeSweeper; // 16
+// export import :Roost; // 1
+// export import :HyperRoost; // 2
+// export import :Protect; // 3
+// export import :PerfectReflectiveShell; // 4
+// export import :FromTheAbyss; // 5
+// export import :HypeMode; // 6
+// export import :Rampage; // 7
+// export import :HyperRampage; // 8
+// export import :Launch; // 9
+// export import :Dive; // 10
+// export import :RoostBoost; // 11
+// export import :PoTect; // 12
+// export import :Goalpost; // 13
+// export import :BalloonJerk; // 14
+// export import :SwimmingRinger; // 15
+// export import :HomeSweeper; // 16

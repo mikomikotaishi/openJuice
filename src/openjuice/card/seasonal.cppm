@@ -8,15 +8,15 @@
 
 export module openjuice.card.seasonal;
 
-export import openjuice.card.seasonal.SweetBattle; // 1
-export import openjuice.card.seasonal.SnowballReflector; // 2
-export import openjuice.card.seasonal.GrownupSnowballFight; // 3
-export import openjuice.card.seasonal.MiosFalseCake; // 4
-export import openjuice.card.seasonal.ChaoticLaunch; // 5
-export import openjuice.card.seasonal.ChaosRoost; // 6
-export import openjuice.card.seasonal.ChaosProtect; // 7
-export import openjuice.card.seasonal.FromTheChaoticAbyss; // 8
-export import openjuice.card.seasonal.ChaoticRampage; // 9
-export import openjuice.card.seasonal.ChaosRoulette; // 10
-export import openjuice.card.seasonal.ChaoticPool; // 11
-export import openjuice.card.seasonal.HoldTheGremlin; // 12
+export import :SweetBattle; // 1
+export import :SnowballReflector; // 2
+export import :GrownupSnowballFight; // 3
+export import :MiosFalseCake; // 4
+export import :ChaoticLaunch; // 5
+export import :ChaosRoost; // 6
+export import :ChaosProtect; // 7
+export import :FromTheChaoticAbyss; // 8
+export import :ChaoticRampage; // 9
+export import :ChaosRoulette; // 10
+export import :ChaoticPool; // 11
+export import :HoldTheGremlin; // 12

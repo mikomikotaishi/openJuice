@@ -1,5 +1,6 @@
 /**
  * @file TitleScreen.cppm
+ * @module openjuice.ui.tui.screens:TitleScreen
  * @brief Definition of the TitleScreen class.
  *
  * This file contains the definition of the TitleScreen class.
@@ -9,13 +10,12 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.Screens:TitleScreen;
+export module openjuice.ui.tui.screens:TitleScreen;
 
 import std;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.ProfileManager;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.game;
+import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
 
 import ftxui;

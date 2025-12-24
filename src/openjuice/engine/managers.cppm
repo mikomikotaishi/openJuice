@@ -8,7 +8,7 @@
 
 export module openjuice.engine.managers;
 
-export import openjuice.engine.managers.DiscordManager;
-export import openjuice.engine.managers.GlobalSettings;
-export import openjuice.engine.managers.ProfileManager;
-export import openjuice.engine.managers.TextManager;
+export import :DiscordManager;
+export import :GlobalSettings;
+export import :ProfileManager;
+export import :TextManager;

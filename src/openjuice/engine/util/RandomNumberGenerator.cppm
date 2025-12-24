@@ -1,6 +1,6 @@
 /**
  * @file RandomNumberGenerator.cppm
- * @module openjuice.engine.util.RandomNumberGenerator
+ * @module openjuice.engine.util:RandomNumberGenerator
  * @brief Implementation of the RandomNumberGenerator class.
  *
  * This file contains the implementation of the RandomNumberGenerator class, which is used to generate random numbers.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.RandomNumberGenerator;
+export module openjuice.engine.util:RandomNumberGenerator;
 
 import std;
 

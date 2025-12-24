@@ -1,5 +1,6 @@
 /**
  * @file MultiplayerCustomScreen.cppm
+ * @module openjuice.ui.tui.screens:MultiplayerCustomScreen
  * @brief Definition of the MultiplayerCustomScreen class.
  *
  * This file contains the definition of the MultiplayerCustomScreen class.
@@ -9,13 +10,12 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.Screens:MultiplayerCustomScreen;
+export module openjuice.ui.tui.screens:MultiplayerCustomScreen;
 
 import std;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.ProfileManager;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.game;
+import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
 
 import ftxui;

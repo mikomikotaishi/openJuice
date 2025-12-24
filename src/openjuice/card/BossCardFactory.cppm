@@ -1,6 +1,6 @@
 /**
  * @file BossCardFactory.cppm
- * @module openjuice.card.BossCardFactory
+ * @module openjuice.card:BossCardFactory
  * @brief Implementation of the BossCardFactory class.
  *
  * This file contains the implementation of the BossCardFactory class, which is used to create BossCard objects.
@@ -11,14 +11,13 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.card.BossCardFactory;
+export module openjuice.card:BossCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.boss;
 
 using std::fmt::FormatContext;
@@ -42,10 +41,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  * The BossCardFactory class is a singleton factory class that creates BossCard objects based on the given ID.
  */
 export class BossCardFactory final {
-private:
-    UTILITY_CLASS(BossCardFactory);
-
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BossCardFactory"); ///< The logger instance.
 public:
     /** 
      * @enum SecondaryType
@@ -53,9 +48,25 @@ public:
      */
     enum class SecondaryType: u8 {
         STANDARD, ///< A BossCard of standard variety
-        HYPER ///< A BossCard of hyper variety
+        HYPER, ///< A BossCard of hyper variety
     };
+private:
+    UTILITY_CLASS(BossCardFactory);
 
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BossCardFactory"); ///< The logger instance.
+
+    [[nodiscard]]
+    static constexpr String secondaryTypeToString(SecondaryType type) noexcept {
+        switch (type) {
+            case BossCardFactory::SecondaryType::STANDARD:
+                return "Standard";
+            case BossCardFactory::SecondaryType::HYPER:
+                return "Hyper";
+            default:
+                std::sys::unreachable();
+        }
+    }
+public:
     /**
      * @brief Create a BossCard object with the given ID.
      *
@@ -65,7 +76,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<BossCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Creating BossCard of ID: {}, secondary type: {}", id, type);
+        LOGGER->debug("Creating BossCard of ID: {}, secondary type: {}", id, secondaryTypeToString(type));
         #endif
 
         switch (type) {

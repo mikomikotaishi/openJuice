@@ -8,7 +8,7 @@
 
 export module openjuice;
 
-export import openjuice.Main;
+export import :Main;
 export import openjuice.card;
 export import openjuice.chat;
 export import openjuice.engine;

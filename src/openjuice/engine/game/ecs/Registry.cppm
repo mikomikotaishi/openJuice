@@ -1,6 +1,6 @@
 /**
  * @file Registry.cppm
- * @module openjuice.engine.game.ecs.Registry
+ * @module openjuice.engine.game.ecs:Registry
  * @brief Module of the ECS registry.
  *
  * This file contains the definitions for the ECS registry.
@@ -11,17 +11,16 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Registry;
+export module openjuice.engine.game.ecs:Registry;
 
 import std;
 
 import :EntityManager;
+import :Meta;
+import :PolymorphicStorage;
 import :StorageManager;
+import :ThreadPool;
 export import :RegistryError;
-
-import openjuice.engine.game.ThreadPool;
-import openjuice.engine.game.ecs.Meta;
-import openjuice.engine.game.ecs.PolymorphicStorage;
 
 using std::mem::UniquePointer;
 using std::meta::IsPointerValue;
@@ -34,7 +33,6 @@ namespace mem = std::mem;
 namespace ranges = std::ranges;
 namespace util = std::util;
 
-using openjuice::engine::game::ThreadPool;
 using openjuice::engine::game::ecs::meta::ComponentTypeInfo;
 using openjuice::engine::game::ecs::meta::EnsureComponentTypeInfo;
 using openjuice::engine::game::ecs::meta::EnsureEntityId;

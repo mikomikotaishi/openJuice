@@ -1,6 +1,6 @@
 /**
  * @file BigMagnum.cppm
- * @module openjuice.card.standard.expansion.BigMagnum
+ * @module openjuice.card.standard.expansion:BigMagnum
  * @brief Implementation of the BigMagnum class.
  *
  * This file contains the implementation of the BigMagnum class, which represents the card "Big Magnum" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.BigMagnum;
+export module openjuice.card.standard.expansion:BigMagnum;
 
 import std;
 

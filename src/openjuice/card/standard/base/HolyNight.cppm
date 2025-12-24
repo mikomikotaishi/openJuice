@@ -1,6 +1,6 @@
 /**
  * @file HolyNight.cppm
- * @module openjuice.card.standard.base.HolyNight
+ * @module openjuice.card.standard.base:HolyNight
  * @brief Implementation of the HolyNight class.
  *
  * This file contains the implementation of the HolyNight class, which represents the card "Holy Night" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.HolyNight;
+export module openjuice.card.standard.base:HolyNight;
 
 import std;
 

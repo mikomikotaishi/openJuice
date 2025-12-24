@@ -1,6 +1,6 @@
 /**
  * @file Terrorize.cppm
- * @module openjuice.card.seasonal.Terrorize
+ * @module openjuice.card.seasonal:Terrorize
  * @brief Implementation of the Terrorize class.
  *
  * This file contains the implementation of the Terrorize class, which represents the card "Terrorize" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.Terrorize;
+export module openjuice.card.seasonal:Terrorize;
 
 import std;
 

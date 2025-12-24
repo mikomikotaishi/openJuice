@@ -1,6 +1,6 @@
 /**
  * @file TUIScreenFactory.cppm
- * @module openjuice.ui.tui.TUIScreenFactory
+ * @module openjuice.ui.tui:TUIScreenFactory
  * @brief Implementation of the TUIScreenFactory class.
  *
  * This file contains the implementation of the TUIScreenFactory class, which is used to create TUIScreen objects.
@@ -10,15 +10,15 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.TUIScreenFactory;
+export module openjuice.ui.tui:TUIScreenFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.ui.tui.Screens;
+import openjuice.engine.game;
+import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
+import openjuice.ui.tui.screens;
 
 using std::mem::SharedPointer;
 using stdx::util::logging::Logger;

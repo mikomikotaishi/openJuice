@@ -36,7 +36,7 @@ export enum class SpawnType: u8 {
     COOP, ///< Co-op spawn type.
     BOSS, ///< Boss spawn type.
     BOUNTY_HUNT, ///< Bounty Hunt spawn type.
-    GENERIC ///< Generic (placeholder) spawn type.
+    GENERIC, ///< Generic (placeholder) spawn type.
 };
 
 END_MODULE_NAMESPACE();

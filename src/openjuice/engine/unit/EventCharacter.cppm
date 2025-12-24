@@ -1,6 +1,6 @@
 /**
  * @file EventCharacter.cppm
- * @module openjuice.engine.unit.EventCharacter
+ * @module openjuice.engine.unit:EventCharacter
  * @brief Definition of the EventCharacter abstract class.
  *
  * This file contains the definition of the EventCharacter abstract class, which represents a main character unit in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.EventCharacter;
+export module openjuice.engine.unit:EventCharacter;
 
 import std;
 
-import openjuice.engine.unit.Playable;
+import :Playable;
 
 using std::meta::IsBaseOfValue;
 

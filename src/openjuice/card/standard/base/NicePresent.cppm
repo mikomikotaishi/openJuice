@@ -1,6 +1,6 @@
 /**
  * @file NicePresent.cppm
- * @module openjuice.card.standard.base.NicePresent
+ * @module openjuice.card.standard.base:NicePresent
  * @brief Implementation of the NicePresent class.
  *
  * This file contains the implementation of the NicePresent class, which represents the card "Nice Present" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.NicePresent;
+export module openjuice.card.standard.base:NicePresent;
 
 import std;
 

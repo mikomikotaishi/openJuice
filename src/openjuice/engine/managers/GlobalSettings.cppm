@@ -1,6 +1,6 @@
 /**
  * @file GlobalSettings.cppm
- * @module openjuice.engine.managers.GlobalSettings
+ * @module openjuice.engine.managers:GlobalSettings
  * @brief Implementation of the GlobalSettings class.
  *
  * This file contains the implementation of the GlobalSettings class, which manages global settings for the application.
@@ -10,12 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.managers.GlobalSettings;
+export module openjuice.engine.managers:GlobalSettings;
 
 import std;
 
-import openjuice.engine.util.Constants;
-import openjuice.engine.util.Language;
+import openjuice.engine.util;
 
 using std::collections::Vector;
 

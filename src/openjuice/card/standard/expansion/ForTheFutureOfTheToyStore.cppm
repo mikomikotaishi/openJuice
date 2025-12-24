@@ -1,6 +1,6 @@
 /**
  * @file ForTheFutureOfTheToyStore.cppm
- * @module openjuice.card.standard.expansion.ForTheFutureOfTheToyStore
+ * @module openjuice.card.standard.expansion:ForTheFutureOfTheToyStore
  * @brief Implementation of the ForTheFutureOfTheToyStore class.
  *
  * This file contains the implementation of the ForTheFutureOfTheToyStore class, which represents the card "For the Future of the Toy Store" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.ForTheFutureOfTheToyStore;
+export module openjuice.card.standard.expansion:ForTheFutureOfTheToyStore;
 
 import std;
 

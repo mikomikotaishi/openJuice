@@ -1,6 +1,6 @@
 /**
  * @file PanelType.cppm
- * @module openjuice.engine.board.Panel:PanelType
+ * @module openjuice.engine.board:PanelType
  * @brief Definition of the PanelType enum class.
  *
  * This file contains the definition of the PanelType enum class, which represents panel types.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.board.Panel:PanelType;
+export module openjuice.engine.board:PanelType;
 
 import std;
 
@@ -54,7 +54,7 @@ export enum class PanelType: u8 {
     BOSS_HOME, // 23 - UNUSED, Spawn panel for Boss, face this board's boss in combat
     DECORATION, // 24 - UNUSED, gain 1 decoration
     PLAYER_ENCOUNTER, // 25 - UNUSED, face a random player in combat
-    RANDOM // 26 - Causes either a positive or negative effect of any normal panel
+    RANDOM, // 26 - Causes either a positive or negative effect of any normal panel
 };
 
 END_MODULE_NAMESPACE();

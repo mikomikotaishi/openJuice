@@ -1,6 +1,6 @@
 /**
  * @file CharacterSpecificCard.cppm
- * @module openjuice.engine.card.SpawnTypes:CharacterSpecificCard
+ * @module openjuice.engine.card.spawntypes:CharacterSpecificCard
  * @brief Definition of the CharacterSpecificCard abstract class.
  *
  * This file contains the definition of the CharacterSpecificCard abstract class, which represents a Character-specific card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:CharacterSpecificCard;
+export module openjuice.engine.card.spawntypes:CharacterSpecificCard;
 
 import std;
 

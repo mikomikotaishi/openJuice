@@ -8,6 +8,7 @@
 
 export module openjuice.engine;
 
+export import :Engine;
 export import openjuice.engine.board;
 export import openjuice.engine.card;
 export import openjuice.engine.entity;

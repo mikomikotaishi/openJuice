@@ -1,6 +1,6 @@
 /**
  * @file InputParser.cppm
- * @module openjuice.engine.util.InputParser
+ * @module openjuice.engine.util:InputParser
  * @brief Implementation of the InputParser class.
  *
  * This file contains the implementation of the InputParser class, which extends the InputParserBase class to handle specific command line options.
@@ -14,14 +14,13 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.util.InputParser;
+export module openjuice.engine.util:InputParser;
 
 #define INPUTPARSER_DEPRECATION_MESSAGE "Do not use InputParser, instead use stdx::util::ArgumentParser as it is simpler."
 
 import std;
 
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Messages;
+import :Misc;
 
 using std::collections::Vector;
 
@@ -30,7 +29,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 export enum class GameExecuteMode: u8 {
     HELP_MESSAGE,
     TUI_MODE,
-    CLI_MODE
+    CLI_MODE,
 };
 
 /**
@@ -98,7 +97,7 @@ public:
      *
      * @throws InvalidArgumentException if an invalid argument is found
      */
-    explicit InputParserBase(Span<char*> args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws(InvalidArgumentException): 
+    explicit InputParserBase(Span<char*> args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws (InvalidArgumentException): 
         args{Vector<String>(args.begin() + 1, args.end())} {
         bool foundValue = false;
         if (envp) {
@@ -125,7 +124,7 @@ public:
      * @param validOptions Vector of valid options.
      * @throws InvalidArgumentException if an invalid argument is found
      */
-    explicit InputParserBase(const Vector<String>& args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws(InvalidArgumentException):
+    explicit InputParserBase(const Vector<String>& args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws (InvalidArgumentException):
         args{args} {
         bool foundValue = false;
         if (envp) {
@@ -216,10 +215,10 @@ public:
     [[nodiscard]]
     GameExecuteMode handleInputs() const {
         if (optionExists("-h")) {
-            messages::printHelp();
+            openjuice::engine::util::misc::printHelp();
             return GameExecuteMode::HELP_MESSAGE;
         } else if (optionExists("-v")) {
-            messages::printCredits();
+            openjuice::engine::util::misc::printCredits();
             return GameExecuteMode::HELP_MESSAGE;
         }
 

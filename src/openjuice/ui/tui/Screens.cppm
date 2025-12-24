@@ -1,12 +1,12 @@
 /**
  * @file Screens.cppm
- * @module openjuice.ui.tui.Screens
+ * @module openjuice.ui.tui.screens
  * @brief Import of TUI screen type module partitions.
  *
  * This file imports the module partitions for different TUI screens.
  */
 
-export module openjuice.ui.tui.Screens;
+export module openjuice.ui.tui.screens;
 
 export import :LoadingScreen;
 export import :TitleScreen;

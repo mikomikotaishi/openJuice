@@ -8,9 +8,9 @@
 
 export module openjuice.card.standard.community1;
 
-// export import openjuice.card.standard.community1.TreasureThief; // 66
-// export import openjuice.card.standard.community1.DarkSideOfBusiness; // 67
-// export import openjuice.card.standard.community1.Wanted; // 68
-// export import openjuice.card.standard.community1.PartyTime; // 69
-// export import openjuice.card.standard.community1.LostChild; // 70
-// export import openjuice.card.standard.community1.PriceOfPower; // 71
+// export import :TreasureThief; // 66
+// export import :DarkSideOfBusiness; // 67
+// export import :Wanted; // 68
+// export import :PartyTime; // 69
+// export import :LostChild; // 70
+// export import :PriceOfPower; // 71

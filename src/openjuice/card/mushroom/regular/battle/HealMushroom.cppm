@@ -1,6 +1,6 @@
 /**
  * @file HealMushroom.cppm
- * @module openjuice.card.mushroom.regular.battle.HealMushroom
+ * @module openjuice.card.mushroom.regular.battle:HealMushroom
  * @brief Implementation of the HealMushroom class.
  *
  * This file contains the implementation of the HealMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.battle.HealMushroom;
+export module openjuice.card.mushroom.regular.battle:HealMushroom;
 
 import std;
 

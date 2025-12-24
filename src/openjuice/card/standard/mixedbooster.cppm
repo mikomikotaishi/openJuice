@@ -8,14 +8,14 @@
 
 export module openjuice.card.standard.mixedbooster;
 
-export import openjuice.card.standard.mixedbooster.LonelyChariot; // 43
-export import openjuice.card.standard.mixedbooster.Ambush; // 44
-export import openjuice.card.standard.mixedbooster.PassionateResearch; // 45
-export import openjuice.card.standard.mixedbooster.PresidentsPrivilege; // 46
-export import openjuice.card.standard.mixedbooster.Mimic; // 47
-export import openjuice.card.standard.mixedbooster.TacticalRetreat; // 48
-export import openjuice.card.standard.mixedbooster.ShieldCounter; // 49
-export import openjuice.card.standard.mixedbooster.PiyopiyoProcession; // 50
-export import openjuice.card.standard.mixedbooster.SealedMemories; // 51
-export import openjuice.card.standard.mixedbooster.MixPhenomenon; // 52
-export import openjuice.card.standard.mixedbooster.ScarySolicitation; // 53
+export import :LonelyChariot; // 43
+export import :Ambush; // 44
+export import :PassionateResearch; // 45
+export import :PresidentsPrivilege; // 46
+export import :Mimic; // 47
+export import :TacticalRetreat; // 48
+export import :ShieldCounter; // 49
+export import :PiyopiyoProcession; // 50
+export import :SealedMemories; // 51
+export import :MixPhenomenon; // 52
+export import :ScarySolicitation; // 53

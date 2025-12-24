@@ -1,6 +1,6 @@
 /**
  * @file NullBattleMushroom.cppm
- * @module openjuice.card.mushroom.regular.battle.NullBattleMushroom
+ * @module openjuice.card.mushroom.regular.battle:NullBattleMushroom
  * @brief Implementation of the NullBattleMushroom class.
  *
  * This file contains the implementation of the NullBattleMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.battle.NullBattleMushroom;
+export module openjuice.card.mushroom.regular.battle:NullBattleMushroom;
 
 import std;
 

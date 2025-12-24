@@ -1,6 +1,6 @@
 /**
  * @file PiggyBank.cppm
- * @module openjuice.card.standard.expansion.PiggyBank
+ * @module openjuice.card.standard.expansion:PiggyBank
  * @brief Implementation of the PiggyBank class.
  *
  * This file contains the implementation of the PiggyBank class, which represents the card "Piggy Bank" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.PiggyBank;
+export module openjuice.card.standard.expansion:PiggyBank;
 
 import std;
 

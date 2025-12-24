@@ -1,6 +1,6 @@
 /**
  * @file DiscardMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.DiscardMushroom
+ * @module openjuice.card.mushroom.regular.boost:DiscardMushroom
  * @brief Implementation of the DiscardMushroom class.
  *
  * This file contains the implementation of the DiscardMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.DiscardMushroom;
+export module openjuice.card.mushroom.regular.boost:DiscardMushroom;
 
 import std;
 

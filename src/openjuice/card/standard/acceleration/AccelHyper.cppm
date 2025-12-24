@@ -1,6 +1,6 @@
 /**
  * @file AccelHyper.cppm
- * @module openjuice.card.standard.acceleration.AccelHyper
+ * @module openjuice.card.standard.acceleration:AccelHyper
  * @brief Implementation of the AccelHyper class.
  *
  * This file contains the implementation of the AccelHyper class, which represents the card "Accel Hyper" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.acceleration.AccelHyper;
+export module openjuice.card.standard.acceleration:AccelHyper;
 
 import std;
 

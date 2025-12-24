@@ -8,6 +8,6 @@
 
 export module openjuice.unit.enemies;
 
-export import openjuice.unit.enemies.Chicken; // 1
-export import openjuice.unit.enemies.RoboBall; // 2
-export import openjuice.unit.enemies.Seagull; // 3
+export import :Chicken; // 1
+export import :RoboBall; // 2
+export import :Seagull; // 3

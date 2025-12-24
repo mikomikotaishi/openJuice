@@ -1,6 +1,6 @@
 /**
  * @file SeasonalUltimateWeaponInTheSun.cppm
- * @module openjuice.card.coop.seasonal.SeasonalUltimateWeaponInTheSun
+ * @module openjuice.card.coop.seasonal:SeasonalUltimateWeaponInTheSun
  * @brief Implementation of the SeasonalUltimateWeaponInTheSun class.
  *
  * This file contains the implementation of the SeasonalUltimateWeaponInTheSun class, which represents the card "Ultimate Weapon in the Sun" (seasonal) in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.seasonal.SeasonalUltimateWeaponInTheSun;
+export module openjuice.card.coop.seasonal:SeasonalUltimateWeaponInTheSun;
 
 import std;
 

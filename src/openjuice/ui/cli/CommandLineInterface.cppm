@@ -8,14 +8,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.cli.CommandLineInterface;
+export module openjuice.ui.cli:CommandLineInterface;
 
 import std;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.managers.TextManager;
-import openjuice.engine.util.Language;
+import openjuice.engine.game;
+import openjuice.engine.managers;
+import openjuice.engine.util;
 import openjuice.ui.UserInterface;
 
 using std::collections::HashMap;

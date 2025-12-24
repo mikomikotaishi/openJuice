@@ -1,6 +1,6 @@
 /**
  * @file PresentThief.cppm
- * @module openjuice.card.standard.acceleration.PresentThief
+ * @module openjuice.card.standard.acceleration:PresentThief
  * @brief Implementation of the PresentThief class.
  *
  * This file contains the implementation of the PresentThief class, which represents the card "Present Thief" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.acceleration.PresentThief;
+export module openjuice.card.standard.acceleration:PresentThief;
 
 import std;
 

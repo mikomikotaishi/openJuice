@@ -1,6 +1,6 @@
 /**
  * @file Main.cpp
- * @module openjuice.Main
+ * @module openjuice:Main
  * @brief Main class for the openJuice application.
  *
  * This file contains the main class called by the main function of the openJuice application.
@@ -10,17 +10,15 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.Main;
+export module openjuice:Main;
 
 import std;
 
-import openjuice.engine.game.Engine;
-import openjuice.engine.util.InputParser;
+import openjuice.engine;
 
 using std::collections::Vector;
 
-using openjuice::engine::game::Engine;
-using openjuice::engine::game::LaunchMode;
+using openjuice::engine::Engine;
 using openjuice::engine::util::GameExecuteMode;
 using openjuice::engine::util::InputParser;
 
@@ -38,15 +36,15 @@ private:
      * @brief Determines the launch mode to launch the engine with.
      * 
      * @param mode The game execute mode evaluated from input parser.
-     * @return Optional<LaunchMode> where nullopt represents no launch mode from execute mode.
+     * @return Optional<Engine::LaunchMode> where nullopt represents no launch mode from execute mode.
      */
     [[nodiscard]]
-    static constexpr Optional<LaunchMode> getLaunch(GameExecuteMode mode) noexcept {
+    static constexpr Optional<Engine::LaunchMode> getLaunch(GameExecuteMode mode) noexcept {
         switch (mode) {
             case GameExecuteMode::TUI_MODE:
-                return LaunchMode::TUI;
+                return Engine::LaunchMode::TUI;
             case GameExecuteMode::CLI_MODE:
-                return LaunchMode::CLI;
+                return Engine::LaunchMode::CLI;
             case GameExecuteMode::HELP_MESSAGE:
                 return nullopt;
             default:
@@ -61,7 +59,7 @@ public:
      */
     static void main(const Vector<String>& args) {
         InputParser inputs(args);
-        if (Optional<LaunchMode> lm = getLaunch(inputs.handleInputs()); lm.has_value()) {
+        if (Optional<Engine::LaunchMode> lm = getLaunch(inputs.handleInputs()); lm.has_value()) {
             Engine eng(*lm);
             eng.init();
         }

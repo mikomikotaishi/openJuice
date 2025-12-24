@@ -1,6 +1,6 @@
 /**
  * @file SeasonalCard.cppm
- * @module openjuice.engine.card.SpawnTypes:SeasonalCard
+ * @module openjuice.engine.card.spawntypes:SeasonalCard
  * @brief Definition of the SeasonalCard abstract class.
  *
  * This file contains the definition of the SeasonalCard abstract class, which represents a Seasonal card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:SeasonalCard;
+export module openjuice.engine.card.spawntypes:SeasonalCard;
 
 import std;
 

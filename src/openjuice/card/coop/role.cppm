@@ -8,8 +8,8 @@
 
 export module openjuice.card.coop.role;
 
-export import openjuice.card.coop.role.UltimateWeaponInTheSun; // 1
-export import openjuice.card.coop.role.LifeguardOnTheWhiteBeach; // 2
-export import openjuice.card.coop.role.GuardianOfBloomingFlowers; // 3
-export import openjuice.card.coop.role.UnforgivingAvenger; // 4
-export import openjuice.card.coop.role.SummerGames; // 5
+export import :UltimateWeaponInTheSun; // 1
+export import :LifeguardOnTheWhiteBeach; // 2
+export import :GuardianOfBloomingFlowers; // 3
+export import :UnforgivingAvenger; // 4
+export import :SummerGames; // 5

@@ -46,7 +46,7 @@ export enum class ScreenType: u8 {
     WIKI, ///< Wiki (not a screen)
     CONFIG, ///< Config/settings menu screen
     CREDITS, ///< Credits menu screen
-    PAUSE ///< Game paused screen
+    PAUSE, ///< Game paused screen
 };
 
 END_MODULE_NAMESPACE();

@@ -1,6 +1,6 @@
 /**
  * @file StandardCard.cppm
- * @module openjuice.engine.card.SpawnTypes:StandardCard
+ * @module openjuice.engine.card.spawntypes:StandardCard
  * @brief Definition of the StandardCard abstract class.
  *
  * This file contains the definition of the StandardCard abstract class, which represents a Standard card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:StandardCard;
+export module openjuice.engine.card.spawntypes:StandardCard;
 
 import std;
 

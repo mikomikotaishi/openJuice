@@ -10,15 +10,12 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.chat.ChatClient;
+export module openjuice.chat:ChatClient;
 
 import std;
 import stdx;
 
-import openjuice.engine.managers.GlobalSettings;
-
-import boost.asio;
-import boost.system;
+import openjuice.engine.managers;
 
 #if 0
 using std::concurrent::JoiningThread;
@@ -34,8 +31,6 @@ using Resolver = boost::asio::ip::tcp::resolver;
 using ResultsType = boost::asio::ip::tcp::resolver::results_type;
 using Socket = boost::asio::ip::tcp::socket;
 using StreamBuffer = boost::asio::streambuf;
-
-using namespace boost::asio;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 

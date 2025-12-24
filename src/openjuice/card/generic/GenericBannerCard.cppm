@@ -1,6 +1,6 @@
 /**
  * @file GenericBannerCard.cppm
- * @module openjuice.card.generic.GenericBannerCard
+ * @module openjuice.card.generic:GenericBannerCard
  * @brief Implementation of the GenericBannerCard class.
  *
  * This file contains the implementation of the GenericBannerCard class, which represents a generic Banner card.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.generic.GenericBannerCard;
+export module openjuice.card.generic:GenericBannerCard;
 
 import std;
 

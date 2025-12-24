@@ -1,6 +1,6 @@
 /**
  * @file LegendaryWinsMushroom.cppm
- * @module openjuice.card.mushroom.legendary.LegendaryWinsMushroom
+ * @module openjuice.card.mushroom.legendary:LegendaryWinsMushroom
  * @brief Implementation of the LegendaryWinsMushroom class.
  *
  * This file contains the implementation of the LegendaryWinsMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.legendary.LegendaryWinsMushroom;
+export module openjuice.card.mushroom.legendary:LegendaryWinsMushroom;
 
 import std;
 

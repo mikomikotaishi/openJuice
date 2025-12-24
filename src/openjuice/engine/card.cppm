@@ -9,6 +9,6 @@
 export module openjuice.engine.card;
 
 export import openjuice.engine.card.Card;
-export import openjuice.engine.card.CardTypes;
-export import openjuice.engine.card.SpawnTypes;
+export import openjuice.engine.card.cardtypes;
 export import openjuice.engine.card.mushroom;
+export import openjuice.engine.card.spawntypes;

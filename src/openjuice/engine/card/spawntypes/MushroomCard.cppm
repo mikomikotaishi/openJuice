@@ -1,6 +1,6 @@
 /**
  * @file MushroomCard.cppm
- * @module openjuice.engine.card.SpawnTypes:MushroomCard
+ * @module openjuice.engine.card.spawntypes:MushroomCard
  * @brief Definition of the MushroomCard abstract class.
  *
  * This file contains the definition of the MushroomCard abstract class, which represents a Mushroom card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:MushroomCard;
+export module openjuice.engine.card.spawntypes:MushroomCard;
 
 import std;
 

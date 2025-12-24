@@ -1,6 +1,6 @@
 /**
  * @file SeasonalLifeguardOnTheWhiteBeach.cppm
- * @module openjuice.card.coop.seasonal.SeasonalLifeguardOnTheWhiteBeach
+ * @module openjuice.card.coop.seasonal:SeasonalLifeguardOnTheWhiteBeach
  * @brief Implementation of the SeasonalLifeguardOnTheWhiteBeach class.
  *
  * This file contains the implementation of the SeasonalLifeguardOnTheWhiteBeach class, which represents the card "Lifegurad on the White Beach" (seasonal) in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.seasonal.SeasonalLifeguardOnTheWhiteBeach;
+export module openjuice.card.coop.seasonal:SeasonalLifeguardOnTheWhiteBeach;
 
 import std;
 

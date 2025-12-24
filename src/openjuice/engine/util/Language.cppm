@@ -1,6 +1,6 @@
 /**
  * @file Language.cppm
- * @module openjuice.engine.util.Language
+ * @module openjuice.engine.util:Language
  * @brief Definition of the Language enum class.
  *
  * This file contains the definition of the Language enum class, which represents supported languages.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.util.Language;
+export module openjuice.engine.util:Language;
 
 import std;
 
@@ -34,7 +34,7 @@ export enum class Language: u8 {
     JAPANESE, ///< Japanese language.
     CHINESE_SIMPLIFIED, ///< Simplified Chinese language.
     CHINESE_TRADITIONAL, ///< Traditional Chinese language.
-    KOREAN ///< Korean language.
+    KOREAN, ///< Korean language.
 };
 
 END_MODULE_NAMESPACE();

@@ -14,9 +14,9 @@ export import :ScreenType;
 
 import std;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.TextManager;
-import openjuice.engine.util.Interfaces;
+import openjuice.engine.game;
+import openjuice.engine.managers;
+import openjuice.engine.util;
 
 import ftxui;
 
@@ -25,8 +25,7 @@ using std::mem::SharedPointer;
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::TextManager;
 using openjuice::engine::managers::TextManagerError;
-
-using namespace openjuice::engine::util::interfaces;
+using openjuice::engine::util::IFinalOnly;
 
 using namespace ftxui;
 

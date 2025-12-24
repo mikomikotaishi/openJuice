@@ -10,14 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.chat.ChatServer;
-
-import openjuice.chat.ChatSession;
+export module openjuice.chat:ChatServer;
 
 import std;
 
-import boost.asio;
-import boost.system;
+import :ChatSession;
 
 #if 0
 

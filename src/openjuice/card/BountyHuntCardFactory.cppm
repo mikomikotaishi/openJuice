@@ -1,6 +1,6 @@
 /**
  * @file BountyHuntCardFactory.cppm
- * @module openjuice.card.BountyHuntCardFactory
+ * @module openjuice.card:BountyHuntCardFactory
  * @brief Implementation of the BountyHuntCardFactory class.
  *
  * This file contains the implementation of the BountyHuntCardFactory class, which is used to create BountyHuntCard objects.
@@ -10,14 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.BountyHuntCardFactory;
+export module openjuice.card:BountyHuntCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.bountyhunt;
 
 using std::mem::SharedPointer;

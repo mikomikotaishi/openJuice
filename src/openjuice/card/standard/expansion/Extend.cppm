@@ -1,6 +1,6 @@
 /**
  * @file Extend.cppm
- * @module openjuice.card.standard.expansion.Extend
+ * @module openjuice.card.standard.expansion:Extend
  * @brief Implementation of the Extend class.
  *
  * This file contains the implementation of the Extend class, which represents the card "Extend" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.Extend;
+export module openjuice.card.standard.expansion:Extend;
 
 import std;
 

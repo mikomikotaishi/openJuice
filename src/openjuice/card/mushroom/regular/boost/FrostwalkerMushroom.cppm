@@ -1,6 +1,6 @@
 /**
  * @file FrostwalkerMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.FrostwalkerMushroom
+ * @module openjuice.card.mushroom.regular.boost:FrostwalkerMushroom
  * @brief Implementation of the FrostwalkerMushroom class.
  *
  * This file contains the implementation of the FrostwalkerMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.FrostwalkerMushroom;
+export module openjuice.card.mushroom.regular.boost:FrostwalkerMushroom;
 
 import std;
 

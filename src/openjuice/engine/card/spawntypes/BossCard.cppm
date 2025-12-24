@@ -1,6 +1,6 @@
 /**
  * @file BossCard.cppm
- * @module openjuice.engine.card.SpawnTypes:BossCard
+ * @module openjuice.engine.card.spawntypes:BossCard
  * @brief Definition of the BossCard abstract class.
  *
  * This file contains the definition of the BossCard abstract class, which represents a Boss card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:BossCard;
+export module openjuice.engine.card.spawntypes:BossCard;
 
 import std;
 

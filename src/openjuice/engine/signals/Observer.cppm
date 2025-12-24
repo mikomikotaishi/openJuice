@@ -1,6 +1,6 @@
 /**
  * @file Observer.cppm
- * @module openjuice.engine.signals.Observer
+ * @module openjuice.engine.signals:Observer
  * @brief Module file defining the Observer interface and Subject abstract class.
  *
  * This file contains the definitions of the Observer interface and Subject abstract class.
@@ -13,7 +13,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.signals.Observer;
+export module openjuice.engine.signals:Observer;
 
 import std;
 

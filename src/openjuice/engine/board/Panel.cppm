@@ -1,6 +1,6 @@
 /**
  * @file Panel.cppm
- * @module openjuice.engine.board.Panel
+ * @module openjuice.engine.board:Panel
  * @brief Implementation of the Panel class.
  *
  * This file contains the implementation of the Panel class, which represents a panel on the game board.
@@ -10,13 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.board.Panel;
+export module openjuice.engine.board:Panel;
 
 export import :PanelType;
 
 import std;
 
-import openjuice.engine.util.Direction;
+import openjuice.engine.util;
 
 using std::collections::BitSet;
 using std::mem::SharedPointer;
@@ -32,7 +32,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  *
  * The Panel class represents a panel on the game board with attributes such as type, neighbours, and entry/exit directions.
  */
-export class Panel {
+export class [[nodiscard]] Panel {
 public:
     using Neighbours = Array<WeakPointer<Panel>, 4>;
 private:
@@ -70,9 +70,9 @@ public:
      */
     void setNeighbour(Direction direction, const SharedPointer<Panel>& neighbour) RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        neighbours.at(static_cast<usize>(direction)) = neighbour;
+        neighbours.at(std::util::to_underlying(direction)) = neighbour;
         #else
-        neighbours[static_cast<usize>(direction)] = neighbour;
+        neighbours[std::util::to_underlying(direction)] = neighbour;
         #endif
     }
 
@@ -85,9 +85,9 @@ public:
     [[nodiscard]]
     SharedPointer<Panel> getNeighbour(Direction direction) const RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        return neighbours.at(static_cast<usize>(direction)).lock();
+        return neighbours.at(std::util::to_underlying(direction)).lock();
         #else
-        return neighbours[static_cast<usize>(direction)].lock();
+        return neighbours[std::util::to_underlying(direction)].lock();
         #endif
     }
 };

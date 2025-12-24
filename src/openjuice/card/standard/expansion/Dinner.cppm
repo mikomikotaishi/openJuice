@@ -1,6 +1,6 @@
 /**
  * @file Dinner.cppm
- * @module openjuice.card.standard.expansion.Dinner
+ * @module openjuice.card.standard.expansion:Dinner
  * @brief Implementation of the Dinner class.
  *
  * This file contains the implementation of the Dinner class, which represents the card "Dinner" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.Dinner;
+export module openjuice.card.standard.expansion:Dinner;
 
 import std;
 

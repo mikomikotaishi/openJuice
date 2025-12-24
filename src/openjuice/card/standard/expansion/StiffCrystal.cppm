@@ -1,6 +1,6 @@
 /**
  * @file StiffCrystal.cppm
- * @module openjuice.card.standard.expansion.StiffCrystal
+ * @module openjuice.card.standard.expansion:StiffCrystal
  * @brief Implementation of the StiffCrystal class.
  *
  * This file contains the implementation of the StiffCrystal class, which represents the card "Stiff Crystal" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.StiffCrystal;
+export module openjuice.card.standard.expansion:StiffCrystal;
 
 import std;
 

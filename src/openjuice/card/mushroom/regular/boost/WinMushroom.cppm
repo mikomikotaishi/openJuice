@@ -1,6 +1,6 @@
 /**
  * @file WinMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.WinMushroom
+ * @module openjuice.card.mushroom.regular.boost:WinMushroom
  * @brief Implementation of the WinMushroom class.
  *
  * This file contains the implementation of the WinMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.WinMushroom;
+export module openjuice.card.mushroom.regular.boost:WinMushroom;
 
 import std;
 

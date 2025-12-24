@@ -1,6 +1,6 @@
 /**
  * @file HealthUpMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.HealthUpMushroom
+ * @module openjuice.card.mushroom.regular.boost:HealthUpMushroom
  * @brief Implementation of the HealthUpMushroom class.
  *
  * This file contains the implementation of the HealthUpMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.HealthUpMushroom;
+export module openjuice.card.mushroom.regular.boost:HealthUpMushroom;
 
 import std;
 

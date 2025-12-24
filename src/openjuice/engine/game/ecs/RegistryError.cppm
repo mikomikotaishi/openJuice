@@ -1,6 +1,6 @@
 /**
  * @file RegistryError.cppm
- * @module openjuice.engine.game.ecs.Registry:RegistryError
+ * @module openjuice.engine.game.ecs:RegistryError
  * @brief Module of the ECS entity manager.
  *
  * This file contains the errors for the ECS entity manager.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.game.ecs.Registry:RegistryError;
+export module openjuice.engine.game.ecs:RegistryError;
 
 import std;
 
@@ -28,7 +28,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  * The DeckPointError enumeration defines the types of errors on ECS registry operations.
  */
 export enum class RegistryError: u8 {
-    ENTITY_CREATE_FAILURE ///< Failure to create an entity on the Registry
+    ENTITY_CREATE_FAILURE, ///< Failure to create an entity on the Registry
 };
 
 END_MODULE_NAMESPACE();

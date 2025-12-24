@@ -1,6 +1,6 @@
 /**
  * @file CloudOfSeagulls.cppm
- * @module openjuice.card.standard.expansion.CloudOfSeagulls
+ * @module openjuice.card.standard.expansion:CloudOfSeagulls
  * @brief Implementation of the CloudOfSeagulls class.
  *
  * This file contains the implementation of the CloudOfSeagulls class, which represents the card "Cloud of Seagulls" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.CloudOfSeagulls;
+export module openjuice.card.standard.expansion:CloudOfSeagulls;
 
 import std;
 

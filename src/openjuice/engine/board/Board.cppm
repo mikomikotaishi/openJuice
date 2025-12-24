@@ -1,6 +1,6 @@
 /**
  * @file Board.cppm
- * @module openjuice.engine.board.Board
+ * @module openjuice.engine.boardLBoard
  * @brief Implementation of the Board class.
  *
  * This file contains the implementation of the Board class, which represents the game board and its state.
@@ -14,15 +14,15 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.board.Board;
+export module openjuice.engine.board:Board;
 
 import std;
 
-import openjuice.engine.board.BoardInfo;
-import openjuice.engine.board.BoardLibrary;
-import openjuice.engine.board.Panel;
-import openjuice.engine.util.Constants;
-import openjuice.engine.util.Direction;
+import :BoardInfo;
+import :BoardLibrary;
+import :Panel;
+
+import openjuice.engine.util;
 
 using std::collections::Queue;
 using std::collections::HashMap;
@@ -44,7 +44,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  *
  * The Board class represents the game board and its state, including the panels and their connections.
  */
-export class Board {
+export class [[nodiscard]] Board {
 public:
     static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
     static constexpr usize GAME_MAX_WIDTH = Constants::GAME_MAX_WIDTH; ///< Maximum game width.
@@ -71,7 +71,7 @@ private:
      * The Graph class is used to handle internal calculations such as finding paths and distances between panels.
      * This is an implementation detail of Board and should not be exposed publicly.
      */
-    class Graph {
+    class [[nodiscard]] Graph {
     private:
         HashMap<SharedPointer<Panel>, Vector<SharedPointer<Panel>>> adjList; ///< Adjacency list for the graph.
         HashMap<SharedPointer<Panel>, Vector<SharedPointer<Panel>>> reverseAdjList; ///< Reverse adjacency list for the graph.

@@ -1,6 +1,6 @@
 /**
  * @file BasicEnemy.cppm
- * @module openjuice.engine.unit.BasicEnemy
+ * @module openjuice.engine.unit:BasicEnemy
  * @brief Definition of the BasicEnemy interface.
  *
  * This file contains the structure of the BasicEnemy interface, which represents a basic enemy unit.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.BasicEnemy;
+export module openjuice.engine.unit:BasicEnemy;
 
 import std;
 
-import openjuice.engine.unit.Enemy;
+import :Enemy;
 
 using std::meta::IsBaseOfValue;
 

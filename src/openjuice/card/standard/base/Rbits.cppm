@@ -1,6 +1,6 @@
 /**
  * @file Rbits.cppm
- * @module openjuice.card.standard.base.Rbits
+ * @module openjuice.card.standard.base:Rbits
  * @brief Implementation of the Rbits class.
  *
  * This file contains the implementation of the Rbits class, which represents the card "Rbits" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.Rbits;
+export module openjuice.card.standard.base:Rbits;
 
 import std;
 

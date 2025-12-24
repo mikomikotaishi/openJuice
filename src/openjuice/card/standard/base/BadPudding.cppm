@@ -1,6 +1,6 @@
 /**
  * @file BadPudding.cppm
- * @module openjuice.card.standard.base.BadPudding
+ * @module openjuice.card.standard.base:BadPudding
  * @brief Implementation of the BadPudding class.
  *
  * This file contains the implementation of the BadPudding class, which represents the card "Bad Pudding" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.BadPudding;
+export module openjuice.card.standard.base:BadPudding;
 
 import std;
 

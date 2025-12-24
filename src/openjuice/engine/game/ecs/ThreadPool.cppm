@@ -1,6 +1,6 @@
 /**
  * @file ThreadPool.cppm
- * @module openjuice.engine.game.ThreadPool
+ * @module openjuice.engine.game.ecs:ThreadPool
  * @brief Module of the ECS registry.
  *
  * This file contains the definitions for the thread pool class.
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ThreadPool;
+export module openjuice.engine.game.ecs:ThreadPool;
 
 import std;
 
@@ -21,7 +21,7 @@ using std::mem::UniquePointer;
 using std::ranges::IotaView;
 using std::sync::Barrier;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
+BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 
 /**
  * @class ThreadPool

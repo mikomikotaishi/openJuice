@@ -1,6 +1,6 @@
 /**
  * @file InvalidKeyException.cppm
- * @module openjuice.engine.util.Exceptions:InvalidKeyException
+ * @module openjuice.engine.util:InvalidKeyException
  * @brief Implementation of the InvalidKeyException class.
  *
  * This file contains the implementation of the InvalidKeyException class, which is used to handle invalid keys in TextManager key queries.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Exceptions:InvalidKeyException;
+export module openjuice.engine.util:InvalidKeyException;
 
 import std;
 

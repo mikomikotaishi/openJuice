@@ -117,12 +117,11 @@ To be written.
 ## Dependencies
 This project uses the following external libraries:
 - [stdlib](https://github.com/mikomikotaishi/stdlib) (`std`)
-- [Boost.Asio](https://github.com/boostorg/asio) (`boost::asio`)
-- [Boost.Regex](https://github.com/boostorg/regex) (`boost::regex`)
-- [Boost.System](https://github.com/boostorg/system) (`boost::system`)
+- [asio](https://github.com/chriskohlhoff/asio/) (`asio`)
 - [Discord Social SDK](https://discord.com/developers/social-sdk) (`discordpp`)
 - [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (`ftxui`)
 - [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)
+- [re2](https://github.com/google/re2) (`re2`)
 - [SFML](https://github.com/SFML/SFML) (`sfml`)
 - [SQLiteCpp](https://github.com/SRombauts/SQLiteCpp) (`sqlite`)
 - [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)

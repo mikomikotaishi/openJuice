@@ -8,7 +8,7 @@
 
 export module openjuice.chat;
 
-export import openjuice.chat.Censor;
-export import openjuice.chat.ChatClient;
-export import openjuice.chat.ChatServer;
-export import openjuice.chat.ChatSession;
+export import :Censor;
+export import :ChatClient;
+export import :ChatServer;
+export import :ChatSession;

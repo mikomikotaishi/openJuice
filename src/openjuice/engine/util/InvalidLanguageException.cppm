@@ -1,6 +1,6 @@
 /**
  * @file InvalidLanguageException.cppm
- * @module openjuice.engine.util.Exceptions:InvalidLanguageException
+ * @module openjuice.engine.util:InvalidLanguageException
  * @brief Implementation of the InvalidLanguageException class.
  *
  * This file contains the implementation of the InvalidLanguageException class, which is used to handle invalid language exceptions.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Exceptions:InvalidLanguageException;
+export module openjuice.engine.util:InvalidLanguageException;
 
 import std;
 

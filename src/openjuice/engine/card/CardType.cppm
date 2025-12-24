@@ -33,7 +33,7 @@ export enum class CardType: u8 {
     TRAP, ///< Trap card type.
     EVENT, ///< Event card type.
     GIFT, ///< Gift card type.
-    BANNER ///< Banner card type.
+    BANNER, ///< Banner card type.
 };
 
 END_MODULE_NAMESPACE();

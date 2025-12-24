@@ -1,6 +1,6 @@
 /**
  * @file PolymorphicStorage.cppm
- * @module openjuice.engine.game.ecs.PolymorphicStorage
+ * @module openjuice.engine.game.ecs:PolymorphicStorage
  * @brief Module of the polymorphic storage class.
  *
  * This file contains the definitions for the polymorphic storage class.
@@ -11,11 +11,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.PolymorphicStorage;
+export module openjuice.engine.game.ecs:PolymorphicStorage;
 
 import std;
 
-import openjuice.engine.game.ecs.Meta;
+import :Meta;
 
 using std::mem::AlignValue;
 using std::mem::UniquePointer;

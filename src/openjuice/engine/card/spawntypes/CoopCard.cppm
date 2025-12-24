@@ -1,6 +1,6 @@
 /**
  * @file CoopCard.cppm
- * @module openjuice.engine.card.SpawnTypes:CoopCard
+ * @module openjuice.engine.card.spawntypes:CoopCard
  * @brief Definition of the CoopCard abstract class.
  *
  * This file contains the definition of the CoopCard abstract class, which represents a Co-op card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:CoopCard;
+export module openjuice.engine.card.spawntypes:CoopCard;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file MushroomCardFactory.cppm
- * @module openjuice.card.MushroomCardFactory
+ * @module openjuice.card:MushroomCardFactory
  * @brief Implementation of the MushroomCardFactory class.
  *
  * This file contains the implementation of the MushroomCardFactory class, which is used to create MushroomCard objects.
@@ -10,15 +10,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.MushroomCardFactory;
+export module openjuice.card:MushroomCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.card.mushroom.LegendaryMushroomCard;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.card.mushroom;
+import openjuice.engine.managers;
 import openjuice.card.mushroom;
 
 using std::mem::SharedPointer;

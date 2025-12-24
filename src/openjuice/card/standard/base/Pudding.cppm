@@ -1,6 +1,6 @@
 /**
  * @file Pudding.cppm
- * @module openjuice.card.standard.base.Pudding
+ * @module openjuice.card.standard.base:Pudding
  * @brief Implementation of the Pudding class.
  *
  * This file contains the implementation of the Pudding class, which represents the card "Pudding" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.Pudding;
+export module openjuice.card.standard.base:Pudding;
 
 import std;
 

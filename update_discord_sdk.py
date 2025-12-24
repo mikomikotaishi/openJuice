@@ -11,6 +11,18 @@ import sys
 from pathlib import Path
 from typing import List, Tuple
 
+class ANSI:
+    """
+    @enum ANSI
+    
+    @brief ANSI escape codes for terminal text styling.
+    """
+    RESET: str = "\033[0m"
+    RED: str = "\033[31m"
+    GREEN: str = "\033[32m"
+    YELLOW: str = "\033[33m"
+    BLUE: str = "\033[34m"
+    CLEAR_LINE: str = "\033[K"
 
 def log(message: str) -> None:
     """
@@ -18,7 +30,34 @@ def log(message: str) -> None:
 
     @param message The message to log
     """
-    print(f"[UPDATE] {message}")
+    print(f"{ANSI.BLUE}[UPDATE]{ANSI.RESET} {message}")
+
+
+def error(message: str) -> None:
+    """
+    @brief Print an error message with formatting.
+
+    @param message The error message to log
+    """
+    print(f"{ANSI.RED}[ERROR]{ANSI.RESET} {message}", file=sys.stderr)
+
+
+def warning(message: str) -> None:
+    """
+    @brief Print a warning message with formatting.
+
+    @param message The warning message to log
+    """
+    print(f"{ANSI.YELLOW}[WARNING]{ANSI.RESET} {message}")
+
+
+def success(message: str) -> None:
+    """
+    @brief Print a success message with formatting.
+
+    @param message The success message to log
+    """
+    print(f"{ANSI.GREEN}[SUCCESS]{ANSI.RESET} {message}")
 
 
 def copy_file_with_dirs(src: Path, dst: Path) -> bool:
@@ -37,7 +76,7 @@ def copy_file_with_dirs(src: Path, dst: Path) -> bool:
         log(f"Copied: {src.relative_to(src.parents[2])} -> {dst.relative_to(dst.parents[2])}")
         return True
     except Exception as e:
-        log(f"ERROR copying {src}: {e}")
+        error(f"Copying {src}: {e}")
         return False
 
 
@@ -53,8 +92,8 @@ def update_discord_sdk(project_root: Path) -> int:
     target_dir: Path = project_root / "lib" / "discord"
 
     if not source_dir.exists():
-        log(f"ERROR: Source directory '{source_dir}' not found!")
-        log("Please ensure discord_social_sdk is in the project root.")
+        error(f"Source directory '{source_dir}' not found!")
+        error("Please ensure discord_social_sdk is in the project root.")
         return 1
     
     log(f"Updating Discord SDK from {source_dir} to {target_dir}")
@@ -91,7 +130,7 @@ def update_discord_sdk(project_root: Path) -> int:
             if copy_file_with_dirs(src_path, dst_path):
                 success_count += 1
         else:
-            log(f"WARNING: Source file not found: {src_rel}")
+            warning(f"Source file not found: {src_rel}")
     
     # Copy iOS framework directory
     if ios_framework_src.exists():
@@ -108,18 +147,18 @@ def update_discord_sdk(project_root: Path) -> int:
             log(f"Copied: iOS framework -> {ios_framework_dst.relative_to(target_dir.parent)}")
             success_count += 1
         except Exception as e:
-            log(f"ERROR copying iOS framework: {e}")
+            error(f"Copying iOS framework: {e}")
     else:
-        log("WARNING: iOS framework not found")
+        warning("iOS framework not found")
     
     # Summary
     log(f"Update complete: {success_count}/{total_count} files copied successfully")
     
     if success_count == total_count:
-        log("All Discord SDK files updated successfully!")
+        success("All Discord SDK files updated successfully!")
         return 0
     else:
-        log(f"Some files failed to copy ({total_count - success_count} failed)")
+        error(f"Some files failed to copy ({total_count - success_count} failed)")
         return 1
 
 
@@ -141,7 +180,7 @@ def main() -> int:
         log("Update cancelled by user")
         return 1
     except Exception as e:
-        log(f"Unexpected error: {e}")
+        error(f"Unexpected error: {e}")
         return 1
 
 if __name__ == "__main__":

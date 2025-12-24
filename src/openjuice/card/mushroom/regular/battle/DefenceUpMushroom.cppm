@@ -1,6 +1,6 @@
 /**
  * @file DefenceUpMushroom.cppm
- * @module openjuice.card.mushroom.regular.battle.DefenceUpMushroom
+ * @module openjuice.card.mushroom.regular.battle:DefenceUpMushroom
  * @brief Implementation of the DefenceUpMushroom class.
  *
  * This file contains the implementation of the DefenceUpMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.battle.DefenceUpMushroom;
+export module openjuice.card.mushroom.regular.battle:DefenceUpMushroom;
 
 import std;
 

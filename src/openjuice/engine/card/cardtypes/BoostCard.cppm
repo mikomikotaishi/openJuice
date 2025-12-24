@@ -1,6 +1,6 @@
 /**
  * @file BoostCard.cppm
- * @module openjuice.engine.card.CardTypes:BoostCard
+ * @module openjuice.engine.card.cardtypes:BoostCard
  * @brief Definition of the BoostCard abstract class.
  *
  * This file contains the definition of the BoostCard abstract class, which represents a Boost card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.CardTypes:BoostCard;
+export module openjuice.engine.card.cardtypes:BoostCard;
 
 import std;
 

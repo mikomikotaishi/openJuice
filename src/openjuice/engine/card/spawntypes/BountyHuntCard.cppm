@@ -1,6 +1,6 @@
 /**
  * @file BountyHuntCard.cppm
- * @module openjuice.engine.card.SpawnTypes:BountyHuntCard
+ * @module openjuice.engine.card.spawntypes:BountyHuntCard
  * @brief Definition of the BountyHuntCard abstract class.
  *
  * This file contains the definition of the BountyHuntCard abstract class, which represents a Bounty Hunt card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:BountyHuntCard;
+export module openjuice.engine.card.spawntypes:BountyHuntCard;
 
 import std;
 

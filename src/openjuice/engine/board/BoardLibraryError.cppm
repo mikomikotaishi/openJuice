@@ -1,6 +1,6 @@
 /**
  * @file BoardLibraryError.cppm
- * @module openjuice.engine.board.BoardLibrary:BoardLibraryError
+ * @module openjuice.engine.board:BoardLibraryError
  * @brief Definition of the BoardLibraryError enum class.
  *
  * This file contains the definition of the BoardLibraryError enum class, which possible errors during board library loading.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.board.BoardLibrary:BoardLibraryError;
+export module openjuice.engine.board:BoardLibraryError;
 
 import std;
 
@@ -29,7 +29,7 @@ export enum class BoardLibraryError: u8 {
     DIRECTORY_NOT_FOUND, ///< The directory containing boards was not found
     INVALID_TOML_ARRAY, ///< A TOML array was not valid or contained invalid data
     INVALID_TOML_ARRAY_SIZE, ///< A TOML array had an invalid size
-    CORRUPTED_LIBRARY_TOML ///< The TOML file storing the board library is corrupted or has invalid data
+    CORRUPTED_LIBRARY_TOML, ///< The TOML file storing the board library is corrupted or has invalid data
 };
 
 END_MODULE_NAMESPACE();
@@ -56,6 +56,7 @@ struct Formatter<BoardLibraryError> {
                 break;
             case BoardLibraryError::CORRUPTED_LIBRARY_TOML:
                 name = "Corrupted library TOML";
+                break;
             default:
                 std::sys::unreachable();
         }

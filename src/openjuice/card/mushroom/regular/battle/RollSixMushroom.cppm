@@ -1,6 +1,6 @@
 /**
  * @file RollSixMushroom.cppm
- * @module openjuice.card.mushroom.regular.battle.RollSixMushroom
+ * @module openjuice.card.mushroom.regular.battle:RollSixMushroom
  * @brief Implementation of the RollSixMushroom class.
  *
  * This file contains the implementation of the RollSixMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.battle.RollSixMushroom;
+export module openjuice.card.mushroom.regular.battle:RollSixMushroom;
 
 import std;
 

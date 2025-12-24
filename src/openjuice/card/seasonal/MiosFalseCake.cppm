@@ -1,6 +1,6 @@
 /**
  * @file MiosFalseCake.cppm
- * @module openjuice.card.seasonal.MiosFalseCake
+ * @module openjuice.card.seasonal:MiosFalseCake
  * @brief Implementation of the MiosFalseCake class.
  *
  * This file contains the implementation of the MiosFalseCake class, which represents the card "Mio's False Cake" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.MiosFalseCake;
+export module openjuice.card.seasonal:MiosFalseCake;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file GenericGiftCard.cppm
- * @module openjuice.card.generic.GenericGiftCard
+ * @module openjuice.card.generic:GenericGiftCard
  * @brief Implementation of the GenericGiftCard class.
  *
  * This file contains the implementation of the GenericGiftCard class, which represents a generic Gift card.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.generic.GenericGiftCard;
+export module openjuice.card.generic:GenericGiftCard;
 
 import std;
 

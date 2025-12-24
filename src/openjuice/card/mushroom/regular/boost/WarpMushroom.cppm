@@ -1,6 +1,6 @@
 /**
  * @file WarpMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.WarpMushroom
+ * @module openjuice.card.mushroom.regular.boost:WarpMushroom
  * @brief Implementation of the WarpMushroom class.
  *
  * This file contains the implementation of the WarpMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.WarpMushroom;
+export module openjuice.card.mushroom.regular.boost:WarpMushroom;
 
 import std;
 

@@ -8,4 +8,4 @@
 
 export module openjuice.engine.signals;
 
-export import openjuice.engine.signals.Observer;
+export import :Observer;

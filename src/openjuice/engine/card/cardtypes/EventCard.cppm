@@ -1,6 +1,6 @@
 /**
  * @file EventCard.cppm
- * @module openjuice.engine.card.CardTypes:EventCard
+ * @module openjuice.engine.card.cardtypes:EventCard
  * @brief Definition of the EventCard abstract class.
  *
  * This file contains the definition of the EventCard abstract class, which represents an Event card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.CardTypes:EventCard;
+export module openjuice.engine.card.cardtypes:EventCard;
 
 import std;
 

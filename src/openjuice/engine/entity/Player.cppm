@@ -10,17 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.entity.Player;
+export module openjuice.engine.entity:Player;
 
 import std;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.game.ecs.Components;
-import openjuice.engine.game.ecs.Entity;
-import openjuice.engine.game.ecs.Registry;
-import openjuice.engine.unit.Playable;
-import openjuice.engine.unit.Unit;
+import openjuice.engine.card;
+import openjuice.engine.game.ecs;
+import openjuice.engine.unit;
 
 using std::collections::BitSet;
 using std::collections::Vector;

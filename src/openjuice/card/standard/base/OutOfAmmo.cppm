@@ -1,6 +1,6 @@
 /**
  * @file OutOfAmmo.cppm
- * @module openjuice.card.standard.base.OutOfAmmo
+ * @module openjuice.card.standard.base:OutOfAmmo
  * @brief Implementation of the OutOfAmmo class.
  *
  * This file contains the implementation of the OutOfAmmo class, which represents the card "Out of Ammo" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.OutOfAmmo;
+export module openjuice.card.standard.base:OutOfAmmo;
 
 import std;
 

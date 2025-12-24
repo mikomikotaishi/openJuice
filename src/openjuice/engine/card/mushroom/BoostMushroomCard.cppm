@@ -1,6 +1,6 @@
 /**
  * @file BoostMushroomCard.cppm
- * @module openjuice.engine.card.mushroom.BoostMushroomCard
+ * @module openjuice.engine.card.mushroom:BoostMushroomCard
  * @brief Definition of the BoostMushroomCard abstract class.
  *
  * This file contains the definition of the BoostMushroomCard abstract class, which represents a Boost-type Mushroom card in the game.
@@ -10,14 +10,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.mushroom.BoostMushroomCard;
+export module openjuice.engine.card.mushroom:BoostMushroomCard;
 
 import std;
 
 import openjuice.engine.card.Card;
-import openjuice.engine.card.CardTypes;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.card.cardtypes;
+import openjuice.engine.card.spawntypes;
+import openjuice.engine.managers;
 
 using std::meta::IsBaseOfValue;
 

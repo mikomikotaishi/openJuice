@@ -8,4 +8,4 @@
 
 export module openjuice.ui.cli;
 
-export import openjuice.ui.cli.CommandLineInterface;
+export import :CommandLineInterface;

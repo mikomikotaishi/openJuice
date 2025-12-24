@@ -1,6 +1,6 @@
 /**
  * @file Components.cppm
- * @module openjuice.engine.game.ecs.Components
+ * @module openjuice.engine.game.ecs:Components
  * @brief Module of ECS components.
  *
  * This file contains the definitions for all ECS components.
@@ -10,14 +10,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Components;
+export module openjuice.engine.game.ecs:Components;
 
 import std;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.game.ecs.IComponent;
-import openjuice.engine.unit.Unit;
+import :IComponent;
+
+import openjuice.engine.card;
+import openjuice.engine.unit;
 
 using std::collections::BitSet;
 using std::collections::Vector;

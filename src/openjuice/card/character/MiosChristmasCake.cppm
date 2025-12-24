@@ -1,6 +1,6 @@
 /**
  * @file MiosChristmasCake.cppm
- * @module openjuice.card.character.MiosChristmasCake
+ * @module openjuice.card.character:MiosChristmasCake
  * @brief Implementation of the MiosChristmasCake class.
  *
  * This file contains the implementation of the MiosChristmasCake class, which represents the card "Mio's Christmas Cake" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.character.MiosChristmasCake;
+export module openjuice.card.character:MiosChristmasCake;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file Card.cppm
- * @module openjuice.engine.card.Card
+ * @module openjuice.engine.card:Card
  * @brief Definition of the Card abstract class and related enums.
  *
  * This file contains the definition of the Card abstract class and related enums, which represent different types of cards in the game.
@@ -20,15 +20,15 @@ export import :MushroomType;
 export import :Rarity;
 export import :SpawnType;
 
-import openjuice.engine.managers.TextManager;
-import openjuice.engine.util.Interfaces;
+import openjuice.engine.managers;
+import openjuice.engine.util;
 
 using std::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
 using openjuice::engine::managers::TextManagerError;
-using openjuice::engine::util::interfaces::IFinalOnly;
-using openjuice::engine::util::interfaces::IKeyQueryable;
+using openjuice::engine::util::IFinalOnly;
+using openjuice::engine::util::IKeyQueryable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 
@@ -41,7 +41,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  * @implements IFinalOnly
  * @implements IKeyQueryable
  */
-export class Card: public IFinalOnly, public IKeyQueryable {
+export class [[nodiscard]] Card: public IFinalOnly, public IKeyQueryable {
 private:
     const Expected<u8, DeckPointError> deckPoints; ///< The deck points of the card
     const Optional<Rarity> rarity; ///< The rarity of the card.
@@ -116,9 +116,10 @@ public:
      * @return The name of the card.
      */
     [[nodiscard]]
-    virtual String getName() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardName(CARD_KEY);
-        return String(result ? *result : "");
+    virtual StringView getName() const noexcept {
+        return TextManager::getInstance()
+            .getCardName(CARD_KEY);
+            .value_or("");
     }
 
     /**
@@ -126,9 +127,10 @@ public:
      * @return The description of the card.
      */
     [[nodiscard]]
-    virtual String getDescription() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardDescription(CARD_KEY);
-        return String(result ? *result : "");
+    virtual StringView getDescription() const noexcept {
+        return TextManager::getInstance()
+            .getCardDescription(CARD_KEY);
+            .value_or("");
     }
 
     /**
@@ -136,9 +138,10 @@ public:
      * @return The flavour text of the card.
      */
     [[nodiscard]]
-    String getFlavour() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardFlavour(CARD_KEY);
-        return String(result ? *result : "");
+    StringView getFlavour() const noexcept {
+        return TextManager::getInstance()
+            .getCardFlavour(CARD_KEY);
+            .value_or("");
     }
 
     /**
@@ -146,9 +149,10 @@ public:
      * @return The card artist name.
      */
     [[nodiscard]]
-    virtual String getArtistName() const {
-        Expected<StringView, TextManagerError> result = TextManager::getInstance().getCardArtistName(ARTIST_KEY);
-        return String(result ? *result : "");
+    virtual StringView getArtistName() const noexcept {
+        return TextManager::getInstance()
+            .getCardArtistName(ARTIST_KEY);
+            .value_or("");
     }
 };
 

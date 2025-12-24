@@ -1,6 +1,6 @@
 /**
  * @file ChaoticPool.cppm
- * @module openjuice.card.seasonal.ChaoticPool
+ * @module openjuice.card.seasonal:ChaoticPool
  * @brief Implementation of the ChaoticPool class.
  *
  * This file contains the implementation of the ChaoticPool class, which represents the card "Chaotic Pool" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.ChaoticPool;
+export module openjuice.card.seasonal:ChaoticPool;
 
 import std;
 

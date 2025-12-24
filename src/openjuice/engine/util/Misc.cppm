@@ -1,6 +1,6 @@
 /**
  * @file Misc.cppm
- * @module openjuice.engine.util.Misc
+ * @module openjuice.engine.util:Misc
  * @brief Implementation of miscellaneous utility functions for the engine.
  *
  * This file contains the implementation of miscellaneous utility functions for the engine, such as hashing strings and getting terminal size.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Misc;
+export module openjuice.engine.util:Misc;
 
 import std;
 import stdx;
@@ -32,6 +32,21 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 export namespace misc {
     /**
+     * @brief Print the help message.
+     */
+    void printHelp() {
+        std::io::println("Help message");
+    }
+
+    /**
+     * @brief Print the credits message.
+     */
+    void printCredits() {
+        std::io::println("Version: 0.0.x");
+        std::io::println("Credits message");
+    }
+
+    /**
      * @internal
      * @namespace detail
      * @brief Internal implementation details for string functions.
@@ -40,7 +55,7 @@ export namespace misc {
         /** 
          * @brief Lambda to check if character is a format specifier
          */
-        constexpr auto isFormatSpecifier = [](char c) constexpr noexcept -> bool {
+        constexpr auto isFormatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u' ||
                     c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G' ||
                     c == 'a' || c == 'A' || c == 'c' || c == 's' || c == 'p' || c == 'n';
@@ -49,49 +64,49 @@ export namespace misc {
         /**
          * @brief Lambda to check if character is a format flag
          */
-        constexpr auto isFlag = [](char c) constexpr noexcept -> bool {
+        constexpr auto isFlag = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return c == '-' || c == '+' || c == '#' || c == '0' || c == ' ';
         };
         
         /**
          * @brief Lambda to check if character is width/precision related
          */
-        constexpr auto isWidthOrPrecision = [](char c) constexpr noexcept -> bool {
+        constexpr auto isWidthOrPrecision = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return (c >= '0' && c <= '9') || c == '*' || c == '.';
         };
         
         /**
          * @brief Lambda to check if character is a length modifier
          */
-        constexpr auto isLengthModifier = [](char c) constexpr noexcept -> bool {
+        constexpr auto isLengthModifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return c == 'h' || c == 'l' || c == 'L' || c == 'z' || c == 'j' || c == 't';
         };
 
         /**
          * @brief Lambda to check if character is an integer specifier
          */
-        constexpr auto isIntegerSpecifier = [](char c) constexpr noexcept -> bool {
+        constexpr auto isIntegerSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u';
         };
         
         /**
          * @brief Lambda to check if character is a float specifier
          */
-        constexpr auto isFloatSpecifier = [](char c) constexpr noexcept -> bool {
+        constexpr auto isFloatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G' || c == 'a' || c == 'A';
         };
         
         /**
          * @brief Lambda to check if character is an 'other' specifier
          */
-        constexpr auto isOtherSpecifier = [](char c) constexpr noexcept -> bool {
+        constexpr auto isOtherSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return c == 'c' || c == 's' || c == 'p' || c == 'n';
         };
         
         /**
          * @brief Lambda to check if character is a format modifier
          */
-        constexpr auto isFormatModifier = [](char c) constexpr noexcept -> bool {
+        constexpr auto isFormatModifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
             return isFlag(c) || isWidthOrPrecision(c) || isLengthModifier(c);
         };
     }
@@ -255,7 +270,7 @@ export namespace misc {
     enum class UrlOpenError: u8 {
         UNSUPPORTED_PLATFORM,
         SYSTEM_CALL_FAILED,
-        INVALID_URL
+        INVALID_URL,
     };
 
     /**

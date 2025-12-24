@@ -1,6 +1,6 @@
 /**
  * @file GrownupSnowballFight.cppm
- * @module openjuice.card.seasonal.GrownupSnowballFight
+ * @module openjuice.card.seasonal:GrownupSnowballFight
  * @brief Implementation of the GrownupSnowballFight class.
  *
  * This file contains the implementation of the GrownupSnowballFight class, which represents the card "Grown-up Snowball Fight" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.seasonal.GrownupSnowballFight;
+export module openjuice.card.seasonal:GrownupSnowballFight;
 
 import std;
 

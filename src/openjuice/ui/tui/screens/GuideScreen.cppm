@@ -1,5 +1,6 @@
 /**
  * @file GuideScreen.cppm
+ * @module openjuice.ui.tui.screens:GuideScreen
  * @brief Definition of the GuideScreen class.
  *
  * This file contains the definition of the GuideScreen class.
@@ -9,13 +10,12 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.Screens:GuideScreen;
+export module openjuice.ui.tui.screens:GuideScreen;
 
 import std;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.ProfileManager;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.game;
+import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
 
 import ftxui;

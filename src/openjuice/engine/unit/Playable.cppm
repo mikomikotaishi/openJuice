@@ -1,6 +1,6 @@
 /**
  * @file Playable.cppm
- * @module openjuice.engine.unit.Playable
+ * @module openjuice.engine.unit:Playable
  * @brief Definition of the Playable abstract class.
  *
  * This file contains the definition of the Playable abstract class, which represents a playable unit in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.unit.Playable;
+export module openjuice.engine.unit:Playable;
 
 import std;
 
-import openjuice.engine.unit.Unit;
+import :Unit;
 
 using std::meta::IsBaseOfValue;
 

@@ -1,6 +1,6 @@
 /**
  * @file ChristmasInferno.cppm
- * @module openjuice.card.hyper.ChristmasInferno
+ * @module openjuice.card.hyper:ChristmasInferno
  * @brief Implementation of the ChristmasInferno class.
  *
  * This file contains the implementation of the ChristmasInferno class, which represents the card "Christmas Inferno" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.ChristmasInferno;
+export module openjuice.card.hyper:ChristmasInferno;
 
 import std;
 

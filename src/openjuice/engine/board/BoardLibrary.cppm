@@ -1,6 +1,6 @@
 /**
  * @file BoardLibrary.cppm
- * @module openjuice.engine.board.BoardLibrary
+ * @module openjuice.engine.board:BoardLibrary
  * @brief Implementation of the BoardLibrary class.
  *
  * This file contains the implementation of the BoardLibrary class, which is used to load and manage boards.
@@ -13,16 +13,17 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.board.BoardLibrary;
+export module openjuice.engine.board:BoardLibrary;
 
 export import :BoardLibraryError;
 
 import std;
 import stdx;
 
-import openjuice.engine.board.BoardInfo;
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Constants;
+import :BoardInfo;
+
+import openjuice.engine.managers;
+import openjuice.engine.util;
 
 import tomlpp;
 

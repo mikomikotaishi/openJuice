@@ -1,6 +1,6 @@
 /**
  * @file Colour.cppm
- * @module openjuice.engine.util.Colour
+ * @module openjuice.engine.util:Colour
  * @brief Definition of the Colour struct.
  *
  * This file contains the definition of the Colour struct, which provides predefined colours and ANSI colour codes.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Colour;
+export module openjuice.engine.util:Colour;
 
 import std;
 
@@ -20,7 +20,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
  * @struct Colour
  * @brief Struct representing a colour with red, green, and blue components.
  */
-export struct Colour {
+export struct [[nodiscard]] Colour {
     u8 r; ///< Red component.
     u8 g; ///< Green component.
     u8 b; ///< Blue component.
@@ -44,7 +44,8 @@ export struct Colour {
      * 
      * @return Black colour.
      */
-    static constexpr Colour black() {
+    [[nodiscard]]
+    static constexpr Colour black() noexcept {
         return Colour(0, 0, 0);
     }
 
@@ -53,7 +54,8 @@ export struct Colour {
      * 
      * @return Red colour.
      */
-    static constexpr Colour red() {
+    [[nodiscard]]
+    static constexpr Colour red() noexcept {
         return Colour(255, 0, 0);
     }
 
@@ -62,7 +64,8 @@ export struct Colour {
      * 
      * @return Green colour.
      */
-    static constexpr Colour green() {
+    [[nodiscard]]
+    static constexpr Colour green() noexcept {
         return Colour(0, 255, 0);
     }
 
@@ -71,7 +74,8 @@ export struct Colour {
      * 
      * @return Yellow colour.
      */
-    static constexpr Colour yellow() {
+    [[nodiscard]]
+    static constexpr Colour yellow() noexcept {
         return Colour(255, 255, 0);
     }
 
@@ -80,7 +84,8 @@ export struct Colour {
      * 
      * @return Blue colour.
      */
-    static constexpr Colour blue() {
+    [[nodiscard]]
+    static constexpr Colour blue() noexcept {
         return Colour(0, 0, 255);
     }
 
@@ -89,7 +94,8 @@ export struct Colour {
      * 
      * @return Magenta colour.
      */
-    static constexpr Colour magenta() {
+    [[nodiscard]]
+    static constexpr Colour magenta() noexcept {
         return Colour(255, 0, 255);
     }
 
@@ -98,7 +104,8 @@ export struct Colour {
      * 
      * @return Cyan colour.
      */
-    static constexpr Colour cyan() {
+    [[nodiscard]]
+    static constexpr Colour cyan() noexcept {
         return Colour(0, 255, 255);
     }
 
@@ -107,7 +114,8 @@ export struct Colour {
      * 
      * @return White colour.
      */
-    static constexpr Colour white() {
+    [[nodiscard]]
+    static constexpr Colour white() noexcept {
         return Colour(255, 255, 255);
     }
 

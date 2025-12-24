@@ -1,6 +1,6 @@
 /**
  * @file Dash.cppm
- * @module openjuice.card.standard.base.Dash
+ * @module openjuice.card.standard.base:Dash
  * @brief Implementation of the Dash class.
  *
  * This file contains the implementation of the Dash class, which represents the card "Dash" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.Dash;
+export module openjuice.card.standard.base:Dash;
 
 import std;
 

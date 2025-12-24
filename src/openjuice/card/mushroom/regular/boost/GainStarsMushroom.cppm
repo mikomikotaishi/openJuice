@@ -1,6 +1,6 @@
 /**
  * @file GainStarsMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.GainStarsMushroom
+ * @module openjuice.card.mushroom.regular.boost:GainStarsMushroom
  * @brief Implementation of the GainStarsMushroom class.
  *
  * This file contains the implementation of the GainStarsMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.GainStarsMushroom;
+export module openjuice.card.mushroom.regular.boost:GainStarsMushroom;
 
 import std;
 

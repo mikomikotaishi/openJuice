@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
             .setProgramName(argv[0])
             .setProgramArgs(args);
         LoggerFactory::instance()
+            .with_source_location(Constants::ENABLE_SOURCE_LOCATION)
             .init(Constants::PATH_DEBUGFILE);
         Main::main(args);
     } catch (const Exception& e) {

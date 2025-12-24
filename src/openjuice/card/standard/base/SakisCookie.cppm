@@ -1,6 +1,6 @@
 /**
  * @file SakisCookie.cppm
- * @module openjuice.card.standard.base.SakisCookie
+ * @module openjuice.card.standard.base:SakisCookie
  * @brief Implementation of the SakisCookie class.
  *
  * This file contains the implementation of the SakisCookie class, which represents the card "Saki's Cookie" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.SakisCookie;
+export module openjuice.card.standard.base:SakisCookie;
 
 import std;
 

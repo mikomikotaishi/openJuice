@@ -1,6 +1,6 @@
 /**
  * @file Gamble.cppm
- * @module openjuice.card.hyper.Gamble
+ * @module openjuice.card.hyper:Gamble
  * @brief Implementation of the Gamble class.
  *
  * This file contains the implementation of the Gamble class, which represents the card "Gamble!" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.Gamble;
+export module openjuice.card.hyper:Gamble;
 
 import std;
 

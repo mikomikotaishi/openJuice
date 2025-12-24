@@ -8,13 +8,15 @@
 
 export module openjuice.engine.util;
 
-export import openjuice.engine.util.Colour;
-export import openjuice.engine.util.Constants;
-export import openjuice.engine.util.Direction;
-export import openjuice.engine.util.Exceptions;
-export import openjuice.engine.util.InputParser;
-export import openjuice.engine.util.Interfaces;
-export import openjuice.engine.util.Language;
-export import openjuice.engine.util.Messages;
-export import openjuice.engine.util.Misc;
-export import openjuice.engine.util.RandomNumberGenerator;
+export import :Colour;
+export import :Constants;
+export import :Direction;
+export import :IFinalOnly;
+export import :IKeyQueryable;
+export import :InputParser;
+export import :InvalidIDException;
+export import :InvalidKeyException;
+export import :InvalidLanguageException;
+export import :Language;
+export import :Misc;
+export import :RandomNumberGenerator;

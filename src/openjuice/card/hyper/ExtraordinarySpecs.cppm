@@ -1,6 +1,6 @@
 /**
  * @file ExtraordinarySpecs.cppm
- * @module openjuice.card.hyper.ExtraordinarySpecs
+ * @module openjuice.card.hyper:ExtraordinarySpecs
  * @brief Implementation of the ExtraordinarySpecs class.
  *
  * This file contains the implementation of the ExtraordinarySpecs class, which represents the card "Extraordinary Specs" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.ExtraordinarySpecs;
+export module openjuice.card.hyper:ExtraordinarySpecs;
 
 import std;
 

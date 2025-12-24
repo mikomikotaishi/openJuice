@@ -1,6 +1,6 @@
 /**
  * @file Component.cppm
- * @module openjuice.engine.game.IComponent
+ * @module openjuice.engine.game:IComponent
  * @brief Module file for the interface for a IComponent
  *
  * This file contains the interface of an IComponent
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.IComponent;
+export module openjuice.engine.game.ecs:IComponent;
 
 import std;
 

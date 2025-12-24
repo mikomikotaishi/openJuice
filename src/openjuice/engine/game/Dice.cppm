@@ -12,8 +12,7 @@ export module openjuice.engine.game.Dice;
 
 import std;
 
-import openjuice.engine.util.Constants;
-import openjuice.engine.util.RandomNumberGenerator;
+import openjuice.engine.util;
 
 using std::collections::Deque;
 using std::collections::Vector;
@@ -37,7 +36,7 @@ private:
      * @class RollRecord
      * @brief Contains information on the number of sides rolled by the dice and the result.
      */
-    class RollRecord final {
+    class [[nodiscard]] RollRecord final {
     private:
         const u8 sides; ///< The number of sides on the die
         const u8 result; ///< The result of the roll

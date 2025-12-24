@@ -1,6 +1,6 @@
 /**
  * @file IKeyQueryable.cppm
- * @module openjuice.engine.util.Interfaces:IKeyQueryable
+ * @module openjuice.engine.util:IKeyQueryable
  * @brief Definition of the IKeyQueryable marker interface.
  *
  * This file contains the definition of the IKeyQueryable marker interface, which denotes that a class queries a key from the TextManager class.
@@ -10,13 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Interfaces:IKeyQueryable;
+export module openjuice.engine.util:IKeyQueryable;
 
 import std;
 
 using std::meta::IsBaseOfValue;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::util::interfaces);
+BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 /**
  * @interface IKeyQueryable

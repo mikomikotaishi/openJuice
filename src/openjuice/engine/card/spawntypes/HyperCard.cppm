@@ -1,6 +1,6 @@
 /**
  * @file HyperCard.cppm
- * @module openjuice.engine.card.SpawnTypes:HyperCard
+ * @module openjuice.engine.card.spawntypes:HyperCard
  * @brief Definition of the HyperCard abstract class.
  *
  * This file contains the definition of the HyperCard abstract class, which represents a Hyper card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.SpawnTypes:HyperCard;
+export module openjuice.engine.card.spawntypes:HyperCard;
 
 import std;
 

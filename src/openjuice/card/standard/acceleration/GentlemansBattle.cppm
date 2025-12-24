@@ -1,6 +1,6 @@
 /**
  * @file GentlemansBattle.cppm
- * @module openjuice.card.standard.acceleration.GentlemansBattle
+ * @module openjuice.card.standard.acceleration:GentlemansBattle
  * @brief Implementation of the GentlemansBattle class.
  *
  * This file contains the implementation of the GentlemansBattle class, which represents the card "Gentleman's Battle" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.acceleration.GentlemansBattle;
+export module openjuice.card.standard.acceleration:GentlemansBattle;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file StandardCardFactory.cppm
- * @module openjuice.card.StandardCardFactory
+ * @module openjuice.card:StandardCardFactory
  * @brief Implementation of the StandardCardFactory class.
  *
  * This file contains the implementation of the StandardCardFactory class, which is used to create StandardCard objects.
@@ -10,14 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.StandardCardFactory;
+export module openjuice.card:StandardCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.standard;
 
 using std::mem::SharedPointer;

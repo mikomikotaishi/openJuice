@@ -60,7 +60,7 @@ export enum class BoostMushroomType: u8 {
     CONFUSION, ///< For 1/2/3 chapters, all cards are reversed (player cannot see their cards, but other players can)
     DRAW, ///< Draw 2 cards
     DISCARD, ///< Discard a random card
-    WIN ///< Gain 1 win
+    WIN, ///< Gain 1 win
 };
 
 /**
@@ -71,7 +71,7 @@ export enum class BoostMushroomType: u8 {
  */
 export enum class LegendaryMushroomType: u8 {
     STARS = 1, ///< Gain +Lvl stars from all sources, winner (player) steals this card upon battle KO
-    WINS ///< Gain +1 win from all sources, winner (player) steals this card upon battle KO
+    WINS, ///< Gain +1 win from all sources, winner (player) steals this card upon battle KO
 };
 
 /**
@@ -90,7 +90,7 @@ export enum class MushroomColour: u8 {
     RAINBOW,
     RED,
     WHITE,
-    YELLOW
+    YELLOW,
 };
 
 /**
@@ -101,7 +101,7 @@ export enum class MushroomColour: u8 {
  */
 export enum class LegendaryMushroomColour: u8 {
     LEGENDARY_RED,
-    PHANTOM_BLUE
+    PHANTOM_BLUE,
 };
 
 END_MODULE_NAMESPACE();

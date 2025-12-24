@@ -1,6 +1,6 @@
 /**
  * @file RoboBall.cppm
- * @module openjuice.unit.enemies.RoboBall
+ * @module openjuice.unit.enemies:RoboBall
  * @brief Implementation of the RoboBall class.
  *
  * This file contains the implementation of the RoboBall class, which represents a basic enemy in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.enemies.RoboBall;
+export module openjuice.unit.enemies:RoboBall;
 
 import std;
 
-import openjuice.engine.unit.BasicEnemy;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::BasicEnemy;
 

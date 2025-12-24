@@ -10,17 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.chat.Censor;
+export module openjuice.chat:Censor;
 
 import std;
 import stdx;
 
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Constants;
-import openjuice.engine.util.Exceptions;
-import openjuice.engine.util.Language;
-
-import boost.regex;
+import openjuice.engine.managers;
+import openjuice.engine.util;
 
 #if 0
 
@@ -32,7 +28,7 @@ using stdx::util::logging::LoggerFactory;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
-using openjuice::engine::util::exceptions::InvalidLanguageException;
+using openjuice::engine::util::InvalidLanguageException;
 
 using boost::regex::Regex;
 

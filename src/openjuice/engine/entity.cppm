@@ -8,5 +8,5 @@
 
 export module openjuice.engine.entity;
 
-export import openjuice.engine.entity.Mob;
-export import openjuice.engine.entity.Player;
+export import :Mob;
+export import :Player;

@@ -1,6 +1,6 @@
 /**
  * @file Invasion.cppm
- * @module openjuice.card.standard.expansion.Invasion
+ * @module openjuice.card.standard.expansion:Invasion
  * @brief Implementation of the Invasion class.
  *
  * This file contains the implementation of the Invasion class, which represents the card "Invasion" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.Invasion;
+export module openjuice.card.standard.expansion:Invasion;
 
 import std;
 

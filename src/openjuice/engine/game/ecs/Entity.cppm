@@ -1,6 +1,6 @@
 /**
  * @file Entity.cppm
- * @module openjuice.engine.entity.Entity
+ * @module openjuice.engine.entity:Entity
  * @brief Definition of the Entity abstract class.
  *
  * This file contains the definition of the Entity abstract class, which represents a generic entity in the game.
@@ -12,13 +12,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Entity;
+export module openjuice.engine.game.ecs:Entity;
 
 import std;
 
-import openjuice.engine.game.ecs.Components;
-import openjuice.engine.game.ecs.Registry;
-import openjuice.engine.unit.Unit;
+import :Components;
+import :Registry;
+
+import openjuice.engine.unit;
 
 using std::mem::SharedPointer;
 using std::meta::IsBaseOfValue;
@@ -35,7 +36,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  *
  * The Entity abstract class represents a generic entity in the game with the following attributes: unit, stars, and current health.
  */
-export class Entity {
+export class [[nodiscard]] Entity {
 protected:
     Registry* registry; ///< Pointer to the ECS registry
     EntityId id; ///< The ECS entity ID associated with this entity.

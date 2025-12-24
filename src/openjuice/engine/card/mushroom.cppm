@@ -8,6 +8,6 @@
 
 export module openjuice.engine.card.mushroom;
 
-export import openjuice.engine.card.mushroom.BattleMushroomCard;
-export import openjuice.engine.card.mushroom.BoostMushroomCard;
-export import openjuice.engine.card.mushroom.LegendaryMushroomCard;
+export import :BattleMushroomCard;
+export import :BoostMushroomCard;
+export import :LegendaryMushroomCard;

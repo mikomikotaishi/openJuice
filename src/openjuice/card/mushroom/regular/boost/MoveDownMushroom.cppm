@@ -1,6 +1,6 @@
 /**
  * @file MoveDownMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.MoveDownMushroom
+ * @module openjuice.card.mushroom.regular.boost:MoveDownMushroom
  * @brief Implementation of the MoveDownMushroom class.
  *
  * This file contains the implementation of the MoveDownMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.MoveDownMushroom;
+export module openjuice.card.mushroom.regular.boost:MoveDownMushroom;
 
 import std;
 

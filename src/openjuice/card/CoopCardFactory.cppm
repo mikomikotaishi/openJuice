@@ -1,6 +1,6 @@
 /**
  * @file CoopCardFactory.cppm
- * @module openjuice.card.CoopCardFactory
+ * @module openjuice.card:CoopCardFactory
  * @brief Implementation of the CoopCardFactory class.
  *
  * This file contains the implementation of the CoopCardFactory class, which is used to create CoopCard objects.
@@ -11,16 +11,14 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.card.CoopCardFactory;
+export module openjuice.card:CoopCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.coop;
-import openjuice.card.seasonal;
 
 using std::fmt::FormatContext;
 using std::fmt::FormatParseContext;
@@ -44,10 +42,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  * The CoopCardFactory class is a singleton factory class that creates CoopCard objects based on the given ID.
  */
 export class CoopCardFactory final {
-private:
-    UTILITY_CLASS(CoopCardFactory);
-
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CoopCardFactory"); ///< The logger instance.
 public:
     /** 
      * @enum SecondaryType
@@ -56,9 +50,27 @@ public:
     enum class SecondaryType: u8 {
         STANDARD, ///< A CoopCard of standard variety
         ROLE, ///< A CoopCard of role variety
-        SEASONAL ///< A CoopCard of seasonal variety
+        SEASONAL, ///< A CoopCard of seasonal variety
     };
+private:
+    UTILITY_CLASS(CoopCardFactory);
 
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CoopCardFactory"); ///< The logger instance.
+
+    [[nodiscard]]
+    static constexpr String secondaryTypeToString(SecondaryType type) noexcept {
+        switch (type) {
+            case CoopCardFactory::SecondaryType::STANDARD:
+                return "Standard";
+            case CoopCardFactory::SecondaryType::ROLE:
+                return "Role";
+            case CoopCardFactory::SecondaryType::SEASONAL:
+                return "Seasonal";
+            default:
+                std::sys::unreachable();
+        }
+    }
+public:
     /**
      * @brief Create a CoopCard object with the given ID.
      *
@@ -68,7 +80,7 @@ public:
     [[nodiscard]]
     static Optional<SharedPointer<CoopCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Creating CoopCard of ID: {}, secondary type: {}", id, type);
+        LOGGER->debug("Creating CoopCard of ID: {}, secondary type: {}", id, secondaryTypeToString(type));
         #endif
 
         switch (type) {

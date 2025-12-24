@@ -1,6 +1,6 @@
 /**
  * @file Direction.cppm
- * @module openjuice.engine.util.Direction
+ * @module openjuice.engine.util:Direction
  * @brief Definition of the Direction enum class.
  *
  * This file contains the definition of the Direction enum class, which represents cardinal directions.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.util.Direction;
+export module openjuice.engine.util:Direction;
 
 import std;
 
@@ -31,7 +31,7 @@ export enum class Direction: u8 {
     UP = 0,
     LEFT = 1,
     RIGHT = 2,
-    DOWN = 3
+    DOWN = 3,
 };
 
 END_MODULE_NAMESPACE();

@@ -1,6 +1,6 @@
 /**
  * @file LittleWar.cppm
- * @module openjuice.card.standard.base.LittleWar
+ * @module openjuice.card.standard.base:LittleWar
  * @brief Implementation of the LittleWar class.
  *
  * This file contains the implementation of the LittleWar class, which represents the card "Little War" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.LittleWar;
+export module openjuice.card.standard.base:LittleWar;
 
 import std;
 

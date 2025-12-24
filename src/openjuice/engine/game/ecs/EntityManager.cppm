@@ -1,6 +1,6 @@
 /**
  * @file EntityManager.cppm
- * @module openjuice.engine.game.ecs.Registry:EntityManager
+ * @module openjuice.engine.game.ecs:EntityManager
  * @brief Module of the ECS entity manager.
  *
  * This file contains the definitions for the ECS entity manager.
@@ -11,11 +11,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Registry:EntityManager;
+export module openjuice.engine.game.ecs:EntityManager;
 
 import std;
 
-import openjuice.engine.game.ecs.Meta;
+import :Meta;
 
 using std::mem::UniquePointer;
 

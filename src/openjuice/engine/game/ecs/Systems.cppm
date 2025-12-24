@@ -10,22 +10,22 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Systems;
+export module openjuice.engine.game.ecs:Systems;
 
 #define SYSTEMS_DEPRECATION_MESSAGE "Outdated ECS system handling, use openjuice::engine::game::ecs::Registry instead"
 
 import std;
 import stdx;
 
+import :Components;
+import :Registry;
+
 import openjuice.engine.card.Card;
 import openjuice.engine.game.Dice;
-import openjuice.engine.game.ecs.Components;
-import openjuice.engine.game.ecs.Registry;
 
 using std::mem::SharedPointer;
 
 using openjuice::engine::card::Card;
-using openjuice::engine::game::ecs::EntityId;
 
 using namespace openjuice::engine::game::ecs::components;
 
@@ -55,7 +55,7 @@ export namespace systems {
          *
          * @throws NullPointerException if there is an error obtaining a component
          */
-        void handleDeath(EntityId deadEntity, EntityId killer) throws(NullPointerException) {
+        void handleDeath(EntityId deadEntity, EntityId killer) throws (NullPointerException) {
             SharedPointer<StarComponent> deadStars = COORDINATOR->getComponent<StarComponent>(deadEntity);
             SharedPointer<StarComponent> killerStars = COORDINATOR->getComponent<StarComponent>(killer);
 
@@ -98,7 +98,7 @@ export namespace systems {
          * @throws NullPointerException if there is an error obtaining a component
          */
         [[nodiscard]] 
-        bool applyDamage(EntityId target, u8 amount, EntityId source) throws(NullPointerException) {
+        bool applyDamage(EntityId target, u8 amount, EntityId source) throws (NullPointerException) {
             SharedPointer<HealthComponent> health = COORDINATOR->getComponent<HealthComponent>(target);
             if (!health) {
                 throw NullPointerException("Error obtaining health component!");
@@ -165,7 +165,7 @@ export namespace systems {
          * @throws NullPointerException if there is an error obtaining a component
          */
         [[nodiscard]]
-        u8 calculateDamage(EntityId attacker, EntityId defender) throws(NullPointerException) {
+        u8 calculateDamage(EntityId attacker, EntityId defender) throws (NullPointerException) {
             SharedPointer<UnitComponent> attackerUnit = COORDINATOR->getComponent<UnitComponent>(attacker);
             SharedPointer<UnitComponent> defenderUnit = COORDINATOR->getComponent<UnitComponent>(defender);
 
@@ -213,7 +213,7 @@ export namespace systems {
          * @throws NullPointerException if the damage system is not initialised
          */
         [[nodiscard]] 
-        bool executeBattle(EntityId attacker, EntityId defender) throws(NullPointerException) {
+        bool executeBattle(EntityId attacker, EntityId defender) throws (NullPointerException) {
             if (!damageSystem) {
                 throw NullPointerException("Damage system not initialised!");
             }
@@ -341,7 +341,7 @@ export namespace systems {
          *
          * @throws NullPointerException 
          */
-        void executeBattle() throws(NullPointerException) {
+        void executeBattle() throws (NullPointerException) {
             if (!battleSystem) {
                 throw NullPointerException("Battle system not initialised!");
             }

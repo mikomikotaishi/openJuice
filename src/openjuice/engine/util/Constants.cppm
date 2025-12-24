@@ -1,6 +1,6 @@
 /**
  * @file Constants.cppm
- * @module openjuice.engine.util.Constants
+ * @module openjuice.engine.util:Constants
  * @brief Definition of the Constants static class.
  *
  * This file contains the definition of the Constants static class, which provides predefined constants.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Constants;
+export module openjuice.engine.util:Constants;
 
 import std;
 
@@ -24,6 +24,12 @@ export class Constants {
 private:
     UTILITY_CLASS(Constants);
 public:
+    #ifndef NDEBUG
+    static constexpr bool ENABLE_SOURCE_LOCATION = true;
+    #else
+    static constexpr bool ENABLE_SOURCE_LOCATION = false;
+    #endif
+
     // Paths
     static constexpr StringView MAPS_DIR = "./maps"; ///< The maps directory path.
     static constexpr StringView PATH_DEBUGFILE = "./userdata/debug.txt"; ///< The debug file path.

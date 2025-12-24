@@ -1,6 +1,6 @@
 /**
  * @file PrincesssPrivilege.cppm
- * @module openjuice.card.standard.expansion.PrincesssPrivilege
+ * @module openjuice.card.standard.expansion:PrincesssPrivilege
  * @brief Implementation of the PrincesssPrivilege class.
  *
  * This file contains the implementation of the PrincesssPrivilege class, which represents the card "Princess's Privilege" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.PrincesssPrivilege;
+export module openjuice.card.standard.expansion:PrincesssPrivilege;
 
 import std;
 

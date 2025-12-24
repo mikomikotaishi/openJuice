@@ -8,15 +8,15 @@
 
 export module openjuice.card;
 
-export import openjuice.card.BossCardFactory;
-export import openjuice.card.BountyHuntCardFactory;
-export import openjuice.card.CharacterSpecificCardFactory;
-export import openjuice.card.CoopCardFactory;
-export import openjuice.card.GenericCardFactory;
-export import openjuice.card.HyperCardFactory;
-export import openjuice.card.MushroomCardFactory;
-export import openjuice.card.SeasonalCardFactory;
-export import openjuice.card.StandardCardFactory;
+export import :BossCardFactory;
+export import :BountyHuntCardFactory;
+export import :CharacterSpecificCardFactory;
+export import :CoopCardFactory;
+export import :GenericCardFactory;
+export import :HyperCardFactory;
+export import :MushroomCardFactory;
+export import :SeasonalCardFactory;
+export import :StandardCardFactory;
 export import openjuice.card.boss;
 export import openjuice.card.bountyhunt;
 export import openjuice.card.character;

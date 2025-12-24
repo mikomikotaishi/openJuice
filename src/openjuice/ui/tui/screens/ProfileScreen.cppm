@@ -1,5 +1,6 @@
 /**
  * @file ProfileScreen.cppm
+ * @module openjuice.ui.tui.screens:ProfileScreen
  * @brief Definition of the ProfileScreen class.
  *
  * This file contains the definition of the ProfileScreen class.
@@ -9,13 +10,12 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.Screens:ProfileScreen;
+export module openjuice.ui.tui.screens:ProfileScreen;
 
 import std;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.ProfileManager;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.game;
+import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
 
 import ftxui;

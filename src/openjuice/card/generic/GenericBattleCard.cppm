@@ -1,6 +1,6 @@
 /**
  * @file GenericBattleCard.cppm
- * @module openjuice.card.generic.GenericBattleCard
+ * @module openjuice.card.generic:GenericBattleCard
  * @brief Implementation of the GenericBattleCard class.
  *
  * This file contains the implementation of the GenericBattleCard class, which represents a generic Battle card.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.generic.GenericBattleCard;
+export module openjuice.card.generic:GenericBattleCard;
 
 import std;
 

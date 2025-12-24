@@ -1,6 +1,6 @@
 /**
  * @file SeasonalCardFactory.cppm
- * @module openjuice.card.SeasonalCardFactory
+ * @module openjuice.card:SeasonalCardFactory
  * @brief Implementation of the SeasonalCardFactory class.
  *
  * This file contains the implementation of the SeasonalCardFactory class, which is used to create SeasonalCard objects.
@@ -10,14 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.SeasonalCardFactory;
+export module openjuice.card:SeasonalCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.seasonal;
 
 using std::mem::SharedPointer;

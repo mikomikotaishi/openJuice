@@ -1,6 +1,6 @@
 /**
  * @file SeasonalGuardianOfBloomingFlowers.cppm
- * @module openjuice.card.coop.seasonal.SeasonalGuardianOfBloomingFlowers
+ * @module openjuice.card.coop.seasonal:SeasonalGuardianOfBloomingFlowers
  * @brief Implementation of the SeasonalGuardianOfBloomingFlowers class.
  *
  * This file contains the implementation of the SeasonalGuardianOfBloomingFlowers class, which represents the card "Guardian of Blooming Flowers" (seasonal) in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.seasonal.SeasonalGuardianOfBloomingFlowers;
+export module openjuice.card.coop.seasonal:SeasonalGuardianOfBloomingFlowers;
 
 import std;
 

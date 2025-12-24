@@ -1,6 +1,6 @@
 /**
  * @file Seagull.cppm
- * @module openjuice.unit.enemies.Seagull
+ * @module openjuice.unit.enemies:Seagull
  * @brief Implementation of the Seagull class.
  *
  * This file contains the implementation of the Seagull class, which represents a basic enemy in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.enemies.Seagull;
+export module openjuice.unit.enemies:Seagull;
 
 import std;
 
-import openjuice.engine.unit.BasicEnemy;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::BasicEnemy;
 

@@ -1,6 +1,6 @@
 /**
  * @file FinalBattle.cppm
- * @module openjuice.card.standard.base.FinalBattle
+ * @module openjuice.card.standard.base:FinalBattle
  * @brief Implementation of the FinalBattle class.
  *
  * This file contains the implementation of the FinalBattle class, which represents the card "Final Battle" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.FinalBattle;
+export module openjuice.card.standard.base:FinalBattle;
 
 import std;
 

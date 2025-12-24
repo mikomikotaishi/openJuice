@@ -1,6 +1,6 @@
 /**
  * @file TextManagerError.cppm
- * @module openjuice.engine.managers.TextManager:TextManagerError
+ * @module openjuice.engine.managers:TextManagerError
  * @brief Definition of the TextManagerError enum class.
  *
  * This file contains the definition of the TextManagerError enum class, which possible errors during text manager loading.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.managers.TextManager:TextManagerError;
+export module openjuice.engine.managers:TextManagerError;
 
 import std;
 
@@ -30,7 +30,7 @@ export enum class TextManagerError: u8 {
     INVALID_KEY, ///< The key did not map anywhere
     FILE_NOT_FOUND, ///< No such file was found
     FILE_OPEN_FAILURE, ///< The file could not be opened
-    FILE_READ_FAILURE ///< The file failed to parse
+    FILE_READ_FAILURE, ///< The file failed to parse
 };
 
 END_MODULE_NAMESPACE();

@@ -1,6 +1,6 @@
 /**
  * @file QuickRestoration.cppm
- * @module openjuice.card.standard.acceleration.QuickRestoration
+ * @module openjuice.card.standard.acceleration:QuickRestoration
  * @brief Implementation of the QuickRestoration class.
  *
  * This file contains the implementation of the QuickRestoration class, which represents the card "Quick Restoration" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.acceleration.QuickRestoration;
+export module openjuice.card.standard.acceleration:QuickRestoration;
 
 import std;
 

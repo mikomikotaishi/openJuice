@@ -1,6 +1,6 @@
 /**
  * @file SealedMemories.cppm
- * @module openjuice.card.standard.mixedbooster.SealedMemories
+ * @module openjuice.card.standard.mixedbooster:SealedMemories
  * @brief Implementation of the SealedMemories class.
  *
  * This file contains the implementation of the SealedMemories class, which represents the card "Sealed Memories" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.mixedbooster.SealedMemories;
+export module openjuice.card.standard.mixedbooster:SealedMemories;
 
 import std;
 

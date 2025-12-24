@@ -1,6 +1,6 @@
 /**
  * @file GenericBoostCard.cppm
- * @module openjuice.card.generic.GenericBoostCard
+ * @module openjuice.card.generic:GenericBoostCard
  * @brief Implementation of the GenericBoostCard class.
  *
  * This file contains the implementation of the GenericBoostCard class, which represents a generic Boost card.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.generic.GenericBoostCard;
+export module openjuice.card.generic:GenericBoostCard;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file BrutalPrank.cppm
- * @module openjuice.card.standard.acceleration.BrutalPrank
+ * @module openjuice.card.standard.acceleration:BrutalPrank
  * @brief Implementation of the BrutalPrank class.
  *
  * This file contains the implementation of the BrutalPrank class, which represents the card "Brutal Prank" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.acceleration.BrutalPrank;
+export module openjuice.card.standard.acceleration:BrutalPrank;
 
 import std;
 

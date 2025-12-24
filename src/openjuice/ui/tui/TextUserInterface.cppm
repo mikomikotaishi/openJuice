@@ -1,6 +1,6 @@
 /**
  * @file TextUserInterface.cppm
- * @module openjuice.ui.tui.TextUserInterface
+ * @module openjuice.ui.tui:TextUserInterface
  * @brief Text user interface implementation
  */
 
@@ -8,18 +8,18 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.TextUserInterface;
+export module openjuice.ui.tui:TextUserInterface;
 
 import std;
 import stdx;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.managers.TextManager;
+import :TUIScreenFactory;
+
+import openjuice.engine.game;
+import openjuice.engine.managers;
 import openjuice.ui.UserInterface;
-import openjuice.ui.tui.Screens;
 import openjuice.ui.tui.TUIScreen;
-import openjuice.ui.tui.TUIScreenFactory;
-import openjuice.ui.tui.TUIUtils;
+import openjuice.ui.tui.screens;
 
 import ftxui;
 

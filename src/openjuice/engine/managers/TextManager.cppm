@@ -1,6 +1,6 @@
 /**
  * @file TextManager.cppm
- * @module openjuice.engine.managers.TextManager
+ * @module openjuice.engine.managers:TextManager
  * @brief Module file for managing parsing text from files.
  *
  * This file contains the implementation of the TextManager class.
@@ -13,16 +13,15 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.managers.TextManager;
+export module openjuice.engine.managers:TextManager;
 
+import :GlobalSettings;
 export import :TextManagerError;
 
 import std;
 import stdx;
 
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.util.Constants;
-import openjuice.engine.util.Misc;
+import openjuice.engine.util;
 
 using std::collections::HashMap;
 using std::collections::Vector;

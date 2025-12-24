@@ -1,6 +1,6 @@
 /**
  * @file Extension.cppm
- * @module openjuice.card.standard.acceleration.Extension
+ * @module openjuice.card.standard.acceleration:Extension
  * @brief Implementation of the Extension class.
  *
  * This file contains the implementation of the Extension class, which represents the card "Extension" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.acceleration.Extension;
+export module openjuice.card.standard.acceleration:Extension;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file LegendaryMushroomCard.cppm
- * @module openjuice.engine.card.mushroom.LegendaryMushroomCard
+ * @module openjuice.engine.card.mushroom:LegendaryMushroomCard
  * @brief Definition of the LegendaryMushroomCard abstract class.
  *
  * This file contains the definition of the LegendaryMushroomCard abstract class, which represents a Legendary Mushroom card in the game.
@@ -10,14 +10,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.mushroom.LegendaryMushroomCard;
+export module openjuice.engine.card.mushroom:LegendaryMushroomCard;
 
 import std;
 
 import openjuice.engine.card.Card;
-import openjuice.engine.card.CardTypes;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.TextManager;
+import openjuice.engine.card.cardtypes;
+import openjuice.engine.card.spawntypes;
+import openjuice.engine.managers;
 
 using std::meta::IsBaseOfValue;
 

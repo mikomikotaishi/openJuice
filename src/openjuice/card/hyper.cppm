@@ -8,114 +8,114 @@
 
 export module openjuice.card.hyper;
 
-export import openjuice.card.hyper.ProtagonistsPrivilege; // 1
-export import openjuice.card.hyper.X16BigRocket; // 2
-export import openjuice.card.hyper.HyperMode; // 3
-export import openjuice.card.hyper.Accelerator; // 4
-export import openjuice.card.hyper.PresentForYou; // 5
-export import openjuice.card.hyper.AirStrike; // 6
-export import openjuice.card.hyper.BindingChains; // 7
-export import openjuice.card.hyper.Ubiquitous; // 8
-export import openjuice.card.hyper.MagicalInferno; // 9
-export import openjuice.card.hyper.ChristmasInferno; // 10
-export import openjuice.card.hyper.BlueCrowTheSecond; // 11
-export import openjuice.card.hyper.ExtraordinarySpecs; // 12
-export import openjuice.card.hyper.MagicalMassacre; // 13
-export import openjuice.card.hyper.Gamble; // 14
-// export import openjuice.card.hyper.GoldenEgg; // 15
-// export import openjuice.card.hyper.ReflectiveShell; // 16
-// export import openjuice.card.hyper.JonathanRush; // 17
-// export import openjuice.card.hyper.BannedForLife; // 18
-// export import openjuice.card.hyper.TurboCharged; // 19
-// export import openjuice.card.hyper.ImmovableObject; // 20
-// export import openjuice.card.hyper.BeyondHell; // 21
-// export import openjuice.card.hyper.DeployBits; // 22
-// export import openjuice.card.hyper.SweetGuardian; // 23
-// export import openjuice.card.hyper.BigBangBell; // 24
-// export import openjuice.card.hyper.CastOff; // 25
-// export import openjuice.card.hyper.PlushieMaster; // 26
-// export import openjuice.card.hyper.Blazing; // 27
-// export import openjuice.card.hyper.SelfDestruct; // 28
-// export import openjuice.card.hyper.CrystalBarrier; // 29
-// export import openjuice.card.hyper.SubspaceTunnel; // 30
-// export import openjuice.card.hyper.DeltaField; // 31
-// export import openjuice.card.hyper.WhimsicalWindmill; // 32
-// export import openjuice.card.hyper.AwakeningOfTalent; // 33
-// export import openjuice.card.hyper.StarBlastingFuse; // 34
-// export import openjuice.card.hyper.MeltingMemories; // 35
-// export import openjuice.card.hyper.SantasJob; // 36
-// export import openjuice.card.hyper.AnotherUltimateWeapon; // 37
-// export import openjuice.card.hyper.EvilSpyWorkPreparation; // 38
-// export import openjuice.card.hyper.WarudaMachineBlastOff; // 39
-// export import openjuice.card.hyper.FinalSurgery; // 40
-// export import openjuice.card.hyper.Overseer; // 41
-// export import openjuice.card.hyper.WitchsHairLock; // 43
-// export import openjuice.card.hyper.SolidWitch; // 44
-// export import openjuice.card.hyper.EvilMastermind; // 45
-// export import openjuice.card.hyper.MiracleRedBeanIceCream; // 46
-// export import openjuice.card.hyper.MagicalRevenge; // 47
-// export import openjuice.card.hyper.RevivalOfStars; // 48
-// export import openjuice.card.hyper.StealthOn; // 49
-// export import openjuice.card.hyper.DoPiratesFlyInTheSky; // 50
-// export import openjuice.card.hyper.WhiteChristmasher; // 51
-// export import openjuice.card.hyper.CookingTime; // 52
-// export import openjuice.card.hyper.MiracleWalker; // 53
-// export import openjuice.card.hyper.BranchExplosionStrategy; // 54
-// export import openjuice.card.hyper.ExtendedPhotonRifle; // 55
-// export import openjuice.card.hyper.LeapThroughSpaceMarking; // 56
-// export import openjuice.card.hyper.SpecialStage; // 57
-// export import openjuice.card.hyper.YuukiHand; // 58
-// export import openjuice.card.hyper.Rival; // 59
-// export import openjuice.card.hyper.ObserverOfEternity; // 60
-// export import openjuice.card.hyper.ReproductionOfRecords; // 61
-// export import openjuice.card.hyper.ElliesMiracle; // 62
-// export import openjuice.card.hyper.LulusLuckyEgg; // 63
-// export import openjuice.card.hyper.RocketCannon; // 64
-// export import openjuice.card.hyper.FullSpeedAlicianrone; // 65
-// export import openjuice.card.hyper.BeastWitch; // 66
-// export import openjuice.card.hyper.IntelligenceOfficer; // 67
-// export import openjuice.card.hyper.RagingMadness; // 68
-// export import openjuice.card.hyper.SaintEyes; // 69
-// export import openjuice.card.hyper.ChefICouldUseSomeHelp; // 70
-// export import openjuice.card.hyper.SafeJourney; // 71
-// export import openjuice.card.hyper.GuidanceOfTheWeathercock; // 72
-// export import openjuice.card.hyper.Upshift; // 73
-// export import openjuice.card.hyper.ZealousSalesman; // 74
-// export import openjuice.card.hyper.DanceInTheMoonlitNight; // 75
-// export import openjuice.card.hyper.NewNobility; // 76
-// export import openjuice.card.hyper.TwilightColoredDream; // 77
-// export import openjuice.card.hyper.LittleMagnum; // 78
-// export import openjuice.card.hyper.IdealWorld; // 79
-// export import openjuice.card.hyper.StarCollector; // 80
-// export import openjuice.card.hyper.TorrentOfMagic; // 81
-// export import openjuice.card.hyper.GoodestBoy; // 82
-// export import openjuice.card.hyper.SweetParadise; // 83
-// export import openjuice.card.hyper.SweetMakersMagic; // 84
-// export import openjuice.card.hyper.OperationAMountainOfSweets; // 85
-// export import openjuice.card.hyper.ThreatsToMySlumber; // 86
-// export import openjuice.card.hyper.MakeBelievePrisonBreak; // 87
-// export import openjuice.card.hyper.MotherPower; // 88
-// export import openjuice.card.hyper.LuluIsAnUnluckyDragon; // 89
-// export import openjuice.card.hyper.ElliesHyperMiracle; // 90
-// export import openjuice.card.hyper.ExProtagonistsMomentOfGlory; // 91
-// export import openjuice.card.hyper.AllGunsAtTheReady; // 92
-// export import openjuice.card.hyper.HeartOfResistance; // 93
-// export import openjuice.card.hyper.SuperYouthTime; // 94
-// export import openjuice.card.hyper.IllGetALittleIntoIt; // 95
-// export import openjuice.card.hyper.HypeBringer; // 96
-// export import openjuice.card.hyper.IntellectualSoundingBluff; // 97
-// export import openjuice.card.hyper.PreciseDiceRolls; // 98
-// export import openjuice.card.hyper.DanceLongHairedBeasts; // 1026
-// export import openjuice.card.hyper.InvisibleBomb; // 1034
-// export import openjuice.card.hyper.EvilSpyWorkExecution; // 1038
-// export import openjuice.card.hyper.FlyingPirate; // 1050
-// export import openjuice.card.hyper.TrueWhiteChristmasher; // 1051
-// export import openjuice.card.hyper.RbitHobbyShop; // 1054
-// export import openjuice.card.hyper.LeapThroughSpace; // 1056
-// export import openjuice.card.hyper.AngelHand; // 1058
-// export import openjuice.card.hyper.DevilHand; // 1059
-// export import openjuice.card.hyper.BigRocketCannon; // 1064
-// export import openjuice.card.hyper.ManagerICouldUseSomeHelp; // 1070
-// export import openjuice.card.hyper.Affluence; // 1076
-// export import openjuice.card.hyper.SweetIndulgence; // 1083
-// export import openjuice.card.hyper.WhenMySlumberBreaks; // 1086
+export import :ProtagonistsPrivilege; // 1
+export import :X16BigRocket; // 2
+export import :HyperMode; // 3
+export import :Accelerator; // 4
+export import :PresentForYou; // 5
+export import :AirStrike; // 6
+export import :BindingChains; // 7
+export import :Ubiquitous; // 8
+export import :MagicalInferno; // 9
+export import :ChristmasInferno; // 10
+export import :BlueCrowTheSecond; // 11
+export import :ExtraordinarySpecs; // 12
+export import :MagicalMassacre; // 13
+export import :Gamble; // 14
+// export import :GoldenEgg; // 15
+// export import :ReflectiveShell; // 16
+// export import :JonathanRush; // 17
+// export import :BannedForLife; // 18
+// export import :TurboCharged; // 19
+// export import :ImmovableObject; // 20
+// export import :BeyondHell; // 21
+// export import :DeployBits; // 22
+// export import :SweetGuardian; // 23
+// export import :BigBangBell; // 24
+// export import :CastOff; // 25
+// export import :PlushieMaster; // 26
+// export import :Blazing; // 27
+// export import :SelfDestruct; // 28
+// export import :CrystalBarrier; // 29
+// export import :SubspaceTunnel; // 30
+// export import :DeltaField; // 31
+// export import :WhimsicalWindmill; // 32
+// export import :AwakeningOfTalent; // 33
+// export import :StarBlastingFuse; // 34
+// export import :MeltingMemories; // 35
+// export import :SantasJob; // 36
+// export import :AnotherUltimateWeapon; // 37
+// export import :EvilSpyWorkPreparation; // 38
+// export import :WarudaMachineBlastOff; // 39
+// export import :FinalSurgery; // 40
+// export import :Overseer; // 41
+// export import :WitchsHairLock; // 43
+// export import :SolidWitch; // 44
+// export import :EvilMastermind; // 45
+// export import :MiracleRedBeanIceCream; // 46
+// export import :MagicalRevenge; // 47
+// export import :RevivalOfStars; // 48
+// export import :StealthOn; // 49
+// export import :DoPiratesFlyInTheSky; // 50
+// export import :WhiteChristmasher; // 51
+// export import :CookingTime; // 52
+// export import :MiracleWalker; // 53
+// export import :BranchExplosionStrategy; // 54
+// export import :ExtendedPhotonRifle; // 55
+// export import :LeapThroughSpaceMarking; // 56
+// export import :SpecialStage; // 57
+// export import :YuukiHand; // 58
+// export import :Rival; // 59
+// export import :ObserverOfEternity; // 60
+// export import :ReproductionOfRecords; // 61
+// export import :ElliesMiracle; // 62
+// export import :LulusLuckyEgg; // 63
+// export import :RocketCannon; // 64
+// export import :FullSpeedAlicianrone; // 65
+// export import :BeastWitch; // 66
+// export import :IntelligenceOfficer; // 67
+// export import :RagingMadness; // 68
+// export import :SaintEyes; // 69
+// export import :ChefICouldUseSomeHelp; // 70
+// export import :SafeJourney; // 71
+// export import :GuidanceOfTheWeathercock; // 72
+// export import :Upshift; // 73
+// export import :ZealousSalesman; // 74
+// export import :DanceInTheMoonlitNight; // 75
+// export import :NewNobility; // 76
+// export import :TwilightColoredDream; // 77
+// export import :LittleMagnum; // 78
+// export import :IdealWorld; // 79
+// export import :StarCollector; // 80
+// export import :TorrentOfMagic; // 81
+// export import :GoodestBoy; // 82
+// export import :SweetParadise; // 83
+// export import :SweetMakersMagic; // 84
+// export import :OperationAMountainOfSweets; // 85
+// export import :ThreatsToMySlumber; // 86
+// export import :MakeBelievePrisonBreak; // 87
+// export import :MotherPower; // 88
+// export import :LuluIsAnUnluckyDragon; // 89
+// export import :ElliesHyperMiracle; // 90
+// export import :ExProtagonistsMomentOfGlory; // 91
+// export import :AllGunsAtTheReady; // 92
+// export import :HeartOfResistance; // 93
+// export import :SuperYouthTime; // 94
+// export import :IllGetALittleIntoIt; // 95
+// export import :HypeBringer; // 96
+// export import :IntellectualSoundingBluff; // 97
+// export import :PreciseDiceRolls; // 98
+// export import :DanceLongHairedBeasts; // 1026
+// export import :InvisibleBomb; // 1034
+// export import :EvilSpyWorkExecution; // 1038
+// export import :FlyingPirate; // 1050
+// export import :TrueWhiteChristmasher; // 1051
+// export import :RbitHobbyShop; // 1054
+// export import :LeapThroughSpace; // 1056
+// export import :AngelHand; // 1058
+// export import :DevilHand; // 1059
+// export import :BigRocketCannon; // 1064
+// export import :ManagerICouldUseSomeHelp; // 1070
+// export import :Affluence; // 1076
+// export import :SweetIndulgence; // 1083
+// export import :WhenMySlumberBreaks; // 1086

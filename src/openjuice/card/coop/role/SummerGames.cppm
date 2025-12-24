@@ -1,6 +1,6 @@
 /**
  * @file SummerGames.cppm
- * @module openjuice.card.coop.role.SummerGames
+ * @module openjuice.card.coop.role:SummerGames
  * @brief Implementation of the SummerGames class.
  *
  * This file contains the implementation of the SummerGames class, which represents the card "Summer Games" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.coop.role.SummerGames;
+export module openjuice.card.coop.role:SummerGames;
 
 import std;
 

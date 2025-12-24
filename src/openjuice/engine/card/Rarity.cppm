@@ -29,9 +29,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  */
 export enum class Rarity: u8 {
     NONE, ///< No rarity (for hyper cards).
-    COMMON, ///< COMMON rarity.
-    UNCOMMON, ///< UNCOMMON rarity.
-    RARE ///< RARE rarity.
+    COMMON, ///< Common rarity.
+    UNCOMMON, ///< Uncommon rarity.
+    RARE, ///< Rare rarity.
 };
 
 END_MODULE_NAMESPACE();

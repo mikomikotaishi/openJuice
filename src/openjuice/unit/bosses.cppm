@@ -8,6 +8,6 @@
 
 export module openjuice.unit.bosses;
 
-export import openjuice.unit.bosses.FlyingCastle; // 1
-export import openjuice.unit.bosses.ShifuRobot; // 2
-export import openjuice.unit.bosses.StoreManager; // 3
+export import :FlyingCastle; // 1
+export import :ShifuRobot; // 2
+export import :StoreManager; // 3

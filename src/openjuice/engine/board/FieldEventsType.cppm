@@ -1,6 +1,6 @@
 /**
  * @file FieldEventsType.cppm
- * @module openjuice.engine.board.FieldEventsType
+ * @module openjuice.engine.board:FieldEventsType
  * @brief Definition of the FieldEventsType enum class.
  *
  * This file contains the definition of the FieldEventsType enum class, which represents field event types.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.board.FieldEventsType;
+export module openjuice.engine.board:FieldEventsType;
 
 import std;
 
@@ -61,7 +61,7 @@ export enum class FieldEventsType: u8 {
     CHAOS_BATTLEFIELD, ///< All panels become Player Encounter panels, disables Home panel stop options, until end of Chapter (every 10 chapters)
     STARVATION, ///< All players gain amount of stars equal to current HP, then every player's HP becomes 1 (on chapter 1, then every 8 chapters) 
     OVERINDULGENCE, ///< All Bonus and Drop panels become Heal panels, lasting for 3 Chapters (every 6 chapters)
-    CONVERGENCE ///< Curent field changes to another random field (every 6 chapters)
+    CONVERGENCE, ///< Curent field changes to another random field (every 6 chapters)
 };
 
 END_MODULE_NAMESPACE();

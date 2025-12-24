@@ -8,9 +8,13 @@
 
 export module openjuice.engine.game.ecs;
 
-export import openjuice.engine.game.ecs.Components;
-export import openjuice.engine.game.ecs.Entity;
-export import openjuice.engine.game.ecs.IComponent;
-export import openjuice.engine.game.ecs.Meta;
-export import openjuice.engine.game.ecs.PolymorphicStorage;
-export import openjuice.engine.game.ecs.Registry;
+export import :Components;
+export import :Entity;
+export import :EntityManager;
+export import :IComponent;
+export import :Meta;
+export import :PolymorphicStorage;
+export import :Registry;
+export import :StorageManager;
+export import :Systems;
+export import :ThreadPool;

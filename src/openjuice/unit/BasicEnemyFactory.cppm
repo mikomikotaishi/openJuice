@@ -1,6 +1,6 @@
 /**
  * @file BasicEnemyFactory.cppm
- * @module openjuice.unit.BasicEnemyFactory
+ * @module openjuice.unit:BasicEnemyFactory
  * @brief Implementation of the BasicEnemyFactory class.
  *
  * This file contains the implementation of the BasicEnemyFactory class, which is used to create BasicEnemy objects.
@@ -10,13 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.BasicEnemyFactory;
+export module openjuice.unit:BasicEnemyFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.unit.BasicEnemy;
+import openjuice.engine.managers;
+import openjuice.engine.unit;
 import openjuice.unit.enemies;
 
 using std::mem::SharedPointer;

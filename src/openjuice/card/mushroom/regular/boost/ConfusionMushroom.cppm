@@ -1,6 +1,6 @@
 /**
  * @file ConfusionMushroom.cppm
- * @module openjuice.card.mushroom.regular.boost.ConfusionMushroom
+ * @module openjuice.card.mushroom.regular.boost:ConfusionMushroom
  * @brief Implementation of the ConfusionMushroom class.
  *
  * This file contains the implementation of the ConfusionMushroom class, which is a
@@ -11,7 +11,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.mushroom.regular.boost.ConfusionMushroom;
+export module openjuice.card.mushroom.regular.boost:ConfusionMushroom;
 
 import std;
 

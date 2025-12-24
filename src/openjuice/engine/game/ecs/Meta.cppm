@@ -1,6 +1,6 @@
 /**
  * @file Meta.cppm
- * @module openjuice.engine.game.ecs.Meta
+ * @module openjuice.engine.game.ecs:Meta
  * @brief Module of the ECS registry.
  *
  * This file contains the definitions for the ECS metaprogramming utilities.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.ecs.Meta;
+export module openjuice.engine.game.ecs:Meta;
 
 import std;
 

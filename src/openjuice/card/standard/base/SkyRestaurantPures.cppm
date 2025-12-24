@@ -1,6 +1,6 @@
 /**
  * @file SkyRestaurantPures.cppm
- * @module openjuice.card.standard.base.SkyRestaurantPures
+ * @module openjuice.card.standard.base:SkyRestaurantPures
  * @brief Implementation of the SkyRestaurantPures class.
  *
  * This file contains the implementation of the SkyRestaurantPures class, which represents the card "Sky Restaurant 'Pures'" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.base.SkyRestaurantPures;
+export module openjuice.card.standard.base:SkyRestaurantPures;
 
 import std;
 

@@ -1,12 +1,12 @@
 /**
- * @file CardTypes.cppm
- * @module openjuice.engine.card.CardTypes
+ * @file cardtypes.cppm
+ * @module openjuice.engine.card.cardtypes
  * @brief Import of card classification type module partitions.
  *
  * This file imports the module partitions for different card types.
  */
 
-export module openjuice.engine.card.CardTypes;
+export module openjuice.engine.card.cardtypes;
 
 export import :BannerCard;
 export import :BattleCard;

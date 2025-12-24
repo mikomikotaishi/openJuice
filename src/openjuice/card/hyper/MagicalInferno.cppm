@@ -1,6 +1,6 @@
 /**
  * @file MagicalInferno.cppm
- * @module openjuice.card.hyper.MagicalInferno
+ * @module openjuice.card.hyper:MagicalInferno
  * @brief Implementation of the MagicalInferno class.
  *
  * This file contains the implementation of the MagicalInferno class, which represents the card "Magical Inferno" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.hyper.MagicalInferno;
+export module openjuice.card.hyper:MagicalInferno;
 
 import std;
 

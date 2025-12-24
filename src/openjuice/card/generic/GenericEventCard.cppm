@@ -1,6 +1,6 @@
 /**
  * @file GenericEventCard.cppm
- * @module openjuice.card.generic.GenericEventCard
+ * @module openjuice.card.generic:GenericEventCard
  * @brief Implementation of the GenericEventCard class.
  *
  * This file contains the implementation of the GenericEventCard class, which represents a generic Event card.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.generic.GenericEventCard;
+export module openjuice.card.generic:GenericEventCard;
 
 import std;
 

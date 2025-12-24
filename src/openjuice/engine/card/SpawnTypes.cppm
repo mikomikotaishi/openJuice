@@ -1,12 +1,12 @@
 /**
- * @file SpawnTypes.cppm
- * @module openjuice.engine.card.SpawnTypes
+ * @file spawntypes.cppm
+ * @module openjuice.engine.card.spawntypes
  * @brief Import of card spawn type module partitions.
  *
  * This file imports the module partitions for different card types.
  */
 
-export module openjuice.engine.card.SpawnTypes;
+export module openjuice.engine.card.spawntypes;
 
 export import :BossCard;
 export import :BountyHuntCard;

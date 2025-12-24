@@ -1,6 +1,6 @@
 /**
  * @file QP.cppm
- * @module openjuice.unit.characters.maincharacters.QP
+ * @module openjuice.unit.characters.maincharacters:QP
  * @brief Implementation of the QP class.
  *
  * This file contains the implementation of the QP class, which represents a character in the game.
@@ -10,11 +10,11 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.characters.maincharacters.QP;
+export module openjuice.unit.characters.maincharacters:QP;
 
 import std;
 
-import openjuice.engine.unit.MainCharacter;
+import openjuice.engine.unit;
 
 using openjuice::engine::unit::CharacterDifficulty;
 using openjuice::engine::unit::MainCharacter;

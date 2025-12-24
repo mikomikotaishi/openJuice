@@ -1,6 +1,6 @@
 /**
  * @file ReverseAttributeField.cppm
- * @module openjuice.card.standard.expansion.ReverseAttributeField
+ * @module openjuice.card.standard.expansion:ReverseAttributeField
  * @brief Implementation of the ReverseAttributeField class.
  *
  * This file contains the implementation of the ReverseAttributeField class, which represents the card "Reverse Attribute Field" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.ReverseAttributeField;
+export module openjuice.card.standard.expansion:ReverseAttributeField;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file BossEnemyFactory.cppm
- * @module openjuice.unit.BossEnemyFactory
+ * @module openjuice.unit:BossEnemyFactory
  * @brief Implementation of the BossEnemyFactory class.
  *
  * This file contains the implementation of the BossEnemyFactory class, which is used to create BossEnemy objects.
@@ -10,13 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.unit.BossEnemyFactory;
+export module openjuice.unit:BossEnemyFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.engine.unit.BossEnemy;
+import openjuice.engine.managers;
+import openjuice.engine.unit;
 import openjuice.unit.bosses;
 
 using std::mem::SharedPointer;

@@ -1,6 +1,6 @@
 /**
  * @file Engine.cppm
- * @module openjuice.engine.game.Engine
+ * @module openjuice.engine:Engine
  * @brief Engine implementation with threaded UI and game logic
  * 
  * This file contains the implementation of the game engine which manages
@@ -12,18 +12,14 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.Engine;
+export module openjuice.engine:Engine;
 
 import std;
 import stdx;
 
-import openjuice.engine.game.Game;
-import openjuice.engine.game.ecs.Registry;
-import openjuice.engine.managers.DiscordManager;
-import openjuice.engine.managers.GlobalSettings;
-import openjuice.ui.UserInterface;
-import openjuice.ui.cli.CommandLineInterface;
-import openjuice.ui.tui.TextUserInterface;
+import openjuice.engine.game;
+import openjuice.engine.managers;
+import openjuice.ui;
 
 using std::concurrent::JoiningThread;
 using std::concurrent::StopToken;
@@ -39,6 +35,7 @@ using std::time::SystemClock;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
+using openjuice::engine::game::Game;
 using openjuice::engine::game::ecs::RegistryError;
 using openjuice::engine::managers::DiscordManager;
 using openjuice::engine::managers::GlobalSettings;
@@ -46,18 +43,7 @@ using openjuice::ui::cli::CommandLineInterface;
 using openjuice::ui::tui::TextUserInterface;
 using openjuice::ui::UserInterface;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
-
-/**
- * @enum LaunchMode
- * @brief Launch modes for the game engine
- * 
- * Specifies which user interface should be used when running the game.
- */
-export enum class LaunchMode: u8 {
-    CLI, ///< Command Line Interface mode
-    TUI  ///< Text User Interface mode
-};
+BEGIN_MODULE_NAMESPACE(openjuice::engine);
 
 /**
  * @class Engine
@@ -68,6 +54,17 @@ export enum class LaunchMode: u8 {
  * to ensure responsive gameplay even during computation-heavy operations.
  */
 export class Engine {
+public:
+    /**
+     * @enum LaunchMode
+     * @brief Launch modes for the game engine
+     * 
+     * Specifies which user interface should be used when running the game.
+     */
+    enum class LaunchMode: u8 {
+        CLI, ///< Command Line Interface mode
+        TUI,  ///< Text User Interface mode
+    };
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Engine"); ///< The logger instance.
 

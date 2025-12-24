@@ -1,6 +1,6 @@
 /**
  * @file ShieldCounter.cppm
- * @module openjuice.card.standard.mixedbooster.ShieldCounter
+ * @module openjuice.card.standard.mixedbooster:ShieldCounter
  * @brief Implementation of the ShieldCounter class.
  *
  * This file contains the implementation of the ShieldCounter class, which represents the card "Shield Counter" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.mixedbooster.ShieldCounter;
+export module openjuice.card.standard.mixedbooster:ShieldCounter;
 
 import std;
 

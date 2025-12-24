@@ -1,6 +1,6 @@
 /**
  * @file OhMyFriend.cppm
- * @module openjuice.card.standard.expansion.OhMyFriend
+ * @module openjuice.card.standard.expansion:OhMyFriend
  * @brief Implementation of the OhMyFriend class.
  *
  * This file contains the implementation of the OhMyFriend class, which represents the card "Oh My Friend" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.OhMyFriend;
+export module openjuice.card.standard.expansion:OhMyFriend;
 
 import std;
 

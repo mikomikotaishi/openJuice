@@ -1,6 +1,6 @@
 /**
  * @file GenericTrapCard.cppm
- * @module openjuice.card.generic.GenericTrapCard
+ * @module openjuice.card.generic:GenericTrapCard
  * @brief Implementation of the GenericTrapCard class.
  *
  * This file contains the implementation of the GenericTrapCard class, which represents a generic Trap card.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.generic.GenericTrapCard;
+export module openjuice.card.generic:GenericTrapCard;
 
 import std;
 

@@ -1,6 +1,6 @@
 /**
  * @file ForcedRevival.cppm
- * @module openjuice.card.standard.expansion.ForcedRevival
+ * @module openjuice.card.standard.expansion:ForcedRevival
  * @brief Implementation of the ForcedRevival class.
  *
  * This file contains the implementation of the ForcedRevival class, which represents the card "Forced Revival" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.ForcedRevival;
+export module openjuice.card.standard.expansion:ForcedRevival;
 
 import std;
 

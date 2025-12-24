@@ -8,9 +8,9 @@
 
 export module openjuice.card.generic;
 
-export import openjuice.card.generic.GenericBattleCard; // 1
-export import openjuice.card.generic.GenericBoostCard; // 2
-export import openjuice.card.generic.GenericTrapCard; // 3
-export import openjuice.card.generic.GenericEventCard; // 4
-export import openjuice.card.generic.GenericGiftCard; // 5
-export import openjuice.card.generic.GenericBannerCard; // 6
+export import :GenericBattleCard; // 1
+export import :GenericBoostCard; // 2
+export import :GenericTrapCard; // 3
+export import :GenericEventCard; // 4
+export import :GenericGiftCard; // 5
+export import :GenericBannerCard; // 6

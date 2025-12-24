@@ -1,6 +1,6 @@
 /**
  * @file IFinalOnly.cppm
- * @module openjuice.engine.util.Interfaces:IFinalOnly
+ * @module openjuice.engine.util:IFinalOnly
  * @brief Definition of the IFinalOnly marker interface.
  *
  * This file contains the definition of the IFinalOnly marker interface, which denotes that only final classes should be concrete.
@@ -10,13 +10,13 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.util.Interfaces:IFinalOnly;
+export module openjuice.engine.util:IFinalOnly;
 
 import std;
 
 using std::meta::IsBaseOfValue;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::util::interfaces);
+BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 /**
  * @interface IFinalOnly

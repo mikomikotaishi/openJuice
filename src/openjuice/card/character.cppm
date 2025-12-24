@@ -8,6 +8,6 @@
 
 export module openjuice.card.character;
 
-export import openjuice.card.character.MiosChristmasCake; // 1
-export import openjuice.card.character.Freight; // 2
-export import openjuice.card.character.RedAndBlue; // 3
+export import :MiosChristmasCake; // 1
+export import :Freight; // 2
+export import :RedAndBlue; // 3

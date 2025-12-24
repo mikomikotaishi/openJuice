@@ -8,8 +8,8 @@
 
 export module openjuice.engine.board;
 
-export import openjuice.engine.board.Board;
-export import openjuice.engine.board.BoardInfo;
-export import openjuice.engine.board.BoardLibrary;
-export import openjuice.engine.board.FieldEventsType;
-export import openjuice.engine.board.Panel;
+export import :Board;
+export import :BoardInfo;
+export import :BoardLibrary;
+export import :FieldEventsType;
+export import :Panel;

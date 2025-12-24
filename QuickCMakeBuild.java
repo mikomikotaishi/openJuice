@@ -38,6 +38,7 @@
  *
  * @author mikomikotaishi
  */
+package openjuice.build;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -62,9 +63,12 @@ record Pair<T, U>(T first, U second) {}
 /**
  * Class used to call CMake build.
  */
-@Command(name = "QuickCMakeBuild", mixinStandardHelpOptions = true, 
-        description = "Build script for openJuice project",
-        version = "0.0.1")
+@Command(
+    name = "QuickCMakeBuild",
+    mixinStandardHelpOptions = true, 
+    description = "Build script for openJuice project",
+    version = "0.0.1"
+)
 public class QuickCMakeBuild implements Callable<Integer> {
     private static final int DEFAULT_CONSOLE_WIDTH = 80;
     private static final String ANSI_PATTERN = "\\x1B(?:[@-Z\\\\-_]|\\[[0-?]*[ -/]*[@-~])";
@@ -83,15 +87,24 @@ public class QuickCMakeBuild implements Callable<Integer> {
     /**
      * ANSI codes.
      */
-    private static class ANSI {
-        private ANSI() {}
+    public enum ANSI {
+        RESET("\033[0m"),
+        RED("\033[31m"),
+        GREEN("\033[32m"),
+        YELLOW("\033[33m"),
+        BLUE("\033[34m"),
+        CLEAR_LINE("\033[K");
 
-        public static final String RESET = "\033[0m";
-        public static final String RED = "\033[31m";
-        public static final String GREEN = "\033[32m";
-        public static final String YELLOW = "\033[33m";
-        public static final String BLUE = "\033[34m";
-        public static final String CLEAR_LINE = "\033[K";
+        private final String code;
+
+        private ANSI(String code) {
+            this.code = code;
+        }
+
+        @Override
+        public String toString() {
+            return code;
+        }
     }
 
     /**
@@ -598,9 +611,9 @@ public class QuickCMakeBuild implements Callable<Integer> {
             while ((line = reader.readLine()) != null) {
                 if (verbose) {
                     System.out.println(line);
-                } else if (line.startsWith("-- Configuring done") || 
-                            line.startsWith("-- Generating done") || 
-                            line.startsWith("-- Build files have been written")) {
+                } else if (line.startsWith("-- Configuring done")
+                    || line.startsWith("-- Generating done")
+                    || line.startsWith("-- Build files have been written")) {
                     System.out.printf("%s%s%s%n", ANSI.GREEN, line, ANSI.RESET);
                 }
             }

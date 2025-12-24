@@ -1,6 +1,6 @@
 /**
  * @file SuperAllOutMode.cppm
- * @module openjuice.card.standard.expansion.SuperAllOutMode
+ * @module openjuice.card.standard.expansion:SuperAllOutMode
  * @brief Implementation of the SuperAllOutMode class.
  *
  * This file contains the implementation of the SuperAllOutMode class, which represents the card "Super All-Out Mode" in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.card.standard.expansion.SuperAllOutMode;
+export module openjuice.card.standard.expansion:SuperAllOutMode;
 
 import std;
 

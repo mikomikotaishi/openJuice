@@ -143,8 +143,7 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
-set(STDLIB_NO_RESERVED_STD_MODULE OFF CACHE BOOL "Use reserved module names std.* and std::* namespace and suppress related warnings" FORCE)
-set(STDLIB_EXTENSIONS ON CACHE BOOL "Enable the stdx.* modules" FORCE)
+set(STDLIBX_EXTENSIONS ON CACHE BOOL "Enable the stdx.* modules" FORCE)
 
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
@@ -155,25 +154,15 @@ set(FTXUI_BUILD_MODULES ON CACHE BOOL "Enable FTXUI module support")
 set(TOMLPLUSPLUS_BUILD_MODULES ON CACHE BOOL "Enable tomlplusplus module support")
 
 FetchContent_Declare(
-    stdlib
-    GIT_REPOSITORY https://github.com/mikomikotaishi/stdlib.git
+    stdlibx
+    GIT_REPOSITORY https://github.com/mikomikotaishi/stdlibx.git
     GIT_TAG main
 )
 
 FetchContent_Declare(
-    boost-asio
-    GIT_REPOSITORY https://github.com/boostorg/asio.git
-    GIT_TAG develop
-)
-FetchContent_Declare(
-    boost-regex
-    GIT_REPOSITORY https://github.com/boostorg/regex.git
-    GIT_TAG develop
-)
-FetchContent_Declare(
-    boost-system
-    GIT_REPOSITORY https://github.com/boostorg/system.git
-    GIT_TAG develop
+    asio
+    GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
+    GIT_TAG master
 )
 FetchContent_Declare(
     ftxui
@@ -195,6 +184,11 @@ FetchContent_Declare(
     URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
 )
 FetchContent_Declare(
+    re2
+    GIT_REPOSITORY https://github.com/google/re2.git
+    GIT_TAG main
+)
+FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG        master
@@ -211,14 +205,12 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(
-    stdlib
-    boost-asio
-    boost-regex 
-    boost-system
+    stdlibx
     ftxui
     ftxui-grid-container
     ftxui-ip-input 
     nlohmann-json
+    re2
     SFML 
     SQLiteCpp
     tomlplusplus
@@ -230,7 +222,7 @@ add_subdirectory(src)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
     target_link_libraries(openJuice PRIVATE 
-        stdlib
+        stdlibx
         modules
         ftxui-modules
         nlohmann_json
@@ -239,7 +231,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
     )
 else()
     target_link_libraries(openJuice PRIVATE 
-        stdlib
+        stdlibx
         modules
         ftxui-modules
         sfml

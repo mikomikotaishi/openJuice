@@ -1,6 +1,6 @@
 /**
  * @file GiftCard.cppm
- * @module openjuice.engine.card.CardTypes:GiftCard
+ * @module openjuice.engine.card.cardtypes:GiftCard
  * @brief Definition of the GiftCard abstract class.
  *
  * This file contains the definition of the GiftCard abstract class, which represents a Gift card in the game.
@@ -10,7 +10,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.card.CardTypes:GiftCard;
+export module openjuice.engine.card.cardtypes:GiftCard;
 
 import std;
 

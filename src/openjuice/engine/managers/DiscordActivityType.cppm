@@ -1,6 +1,6 @@
 /**
  * @file DiscordActivityType.cppm
- * @module openjuice.engine.managers.DiscordManager:DiscordActivityType
+ * @module openjuice.engine.managers:DiscordActivityType
  * @brief Definition of the DiscordActivityType enum class.
  *
  * This file contains the definition of the DiscordActivityType enum class, which represents Discord activity status types.
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.managers.DiscordManager:DiscordActivityType;
+export module openjuice.engine.managers:DiscordActivityType;
 
 import std;
 
@@ -30,7 +30,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
 export enum class DiscordActivityType: u8 {
     IN_MENU, ///< Status is on menu
     IN_GAME, ///< Status is in game
-    PAUSED ///< Status is paused
+    PAUSED, ///< Status is paused
 };
 
 END_MODULE_NAMESPACE();

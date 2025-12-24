@@ -8,5 +8,5 @@
 
 export module openjuice.card.mushroom.legendary;
 
-export import openjuice.card.mushroom.legendary.LegendaryStarsMushroom;
-export import openjuice.card.mushroom.legendary.LegendaryWinsMushroom;
+export import :LegendaryStarsMushroom;
+export import :LegendaryWinsMushroom;

@@ -1,6 +1,6 @@
 /**
  * @file HyperCardFactory.cppm
- * @module openjuice.card.HyperCardFactory
+ * @module openjuice.card:HyperCardFactory
  * @brief Implementation of the HyperCardFactory class.
  *
  * This file contains the implementation of the HyperCardFactory class, which is used to create HyperCard objects.
@@ -11,14 +11,13 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.card.HyperCardFactory;
+export module openjuice.card:HyperCardFactory;
 
 import std;
 import stdx;
 
-import openjuice.engine.card.Card;
-import openjuice.engine.card.SpawnTypes;
-import openjuice.engine.managers.GlobalSettings;
+import openjuice.engine.card;
+import openjuice.engine.managers;
 import openjuice.card.hyper;
 
 using std::mem::SharedPointer;
