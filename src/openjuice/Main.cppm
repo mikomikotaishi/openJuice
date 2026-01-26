@@ -55,14 +55,24 @@ public:
     /**
      * @brief The main function of the openJuice application.
      *
-     * @param args Vector of command line arguments
+     * @param args Array of command line arguments
      */
-    static void main(const Vector<String>& args) {
+    static void main(Span<String> args) {
         InputParser inputs(args);
         if (Optional<Engine::LaunchMode> lm = getLaunch(inputs.handleInputs()); lm.has_value()) {
             Engine eng(*lm);
             eng.init();
         }
+    }
+
+    /**
+     * @brief The main function of the openJuice application.
+     *
+     * @param args Array of command line arguments
+     */
+    static void main(Span<char*> args) {
+        Vector<String> sargs(args.begin(), args.end());
+        main(Span<String>(sargs));
     }
 };
 

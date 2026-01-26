@@ -17,10 +17,6 @@ import std;
 import openjuice.engine.card;
 
 using openjuice::engine::card::Card;
-using openjuice::engine::card::CardType;
-using openjuice::engine::card::DeckPointError;
-using openjuice::engine::card::SpawnType;
-using openjuice::engine::card::Rarity;
 
 using namespace openjuice::engine::card::cardtypes;
 using namespace openjuice::engine::card::spawntypes;
@@ -40,13 +36,13 @@ export class SakisCookie final: public BoostCard, public StandardCard {
 public:
     static constexpr u16 ID = 2; ///< The id of this specific card
 private:
-    static constexpr CardType CARD_TYPE = CardType::BOOST; ///< The card type of this specific card
-    static constexpr SpawnType SPAWN_TYPE = SpawnType::STANDARD; ///< The spawn type of this specific card
-    static constexpr Optional<Rarity> RARITY = Rarity::COMMON; ///< The rarity of this specific card
+    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
+    static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::COMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 3; ///< The cost of this specific card
     static constexpr u8 LEVEL = 1; ///< The level of this specific card
     static constexpr Optional<u8> LIMIT = 3; ///< The limit of this specific card
-    static constexpr Expected<u8, DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
+    static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
     
     CARD_METADATA("CARD_BOOST_COOKIE", "CARD_ARTIST_TORI");
     IMPLEMENT_NOOP();

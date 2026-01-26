@@ -2,8 +2,7 @@
  * @file asio.cppm
  * @module asio
  * @brief File containing the module declaration for asio
- * This module re-exports tomlplusplus to asio for convenience, and 
- * re-aliases all tomlplusplus types to PascalCase.
+ * This module re-aliases all asio types to PascalCase.
  */
 
 module;
@@ -69,13 +68,51 @@ export namespace asio {
 
         template <typename ProAlloc>
         using Allocator = asio::execution::allocator_t<ProAlloc>;
-
         using Blocking = asio::execution::blocking_t;
-
-        using BlockingPossibly = asio::execution::blocking_t::possibly_t;
+        using BlockingPossibly = asio::execution::detail::blocking_t<>::possibly_t;
+        using BlockingNever = asio::execution::detail::blocking_t<>::never_t;
+        using BlockingAlways = asio::execution::detail::blocking_t<>::always_t;
+        using BlockingAdaptation = asio::execution::blocking_adaptation_t;
+        using BlockingAdaptationDisallowed = asio::execution::detail::blocking_adaptation_t<>::disallowed_t;
+        using BlockingAdaptationAllowed = asio::execution::detail::blocking_adaptation_t<>::allowed_t;
+        using Context = asio::execution::context_t;
+        template <typename U>
+        using ContextAs = asio::execution::context_as_t<U>;
+        using Mapping = asio::execution::mapping_t;
+        using MappingThread = asio::execution::detail::mapping_t<>::thread_t;
+        using MappingNewThread = asio::execution::detail::mapping_t<>::new_thread_t;
+        using MappingOther = asio::execution::detail::mapping_t<>::other_t;
+        using Occupancy = asio::execution::occupancy_t;
+        using OutstandingWork = asio::execution::outstanding_work_t;
+        using OutstandingWorkUntracked = asio::execution::detail::outstanding_work_t<>::untracked_t;
+        using OutstandingWorkTracked = asio::execution::detail::outstanding_work_t<>::tracked_t;
+        template <typename InnerProperty>
+        using PreferOnly = asio::execution::prefer_only<InnerProperty>;
+        using Relationship = asio::execution::relationship_t;
+        using RelationshipFork = asio::execution::detail::relationship_t<>::fork_t;
+        using RelationshipContinuation = asio::execution::detail::relationship_t<>::continuation_t;
 
         constexpr Allocator ALLOCATOR = asio::execution::allocator;
         constexpr Blocking BLOCKING = asio::execution::blocking;
+        constexpr BlockingAdaptation BLOCKING_ADAPTATION = asio::execution::blocking_adaptation;
+        const BlockingAdaptationDisallowed DISALLOWED = asio::execution::detail::blocking_adaptation_t<>::disallowed;
+        const BlockingAdaptationAllowed ALLOWED = asio::execution::detail::blocking_adaptation_t<>::allowed;
+        constexpr Context CONTEXT = asio::execution::context;
+        template <typename U>
+        constexpr ContextAs CONTEXT_AS = asio::execution::context_as<U>;
+        constexpr Mapping MAPPING = asio::execution::mapping;
+        const MappingThread MAPPING_THREAD = asio::execution::detail::mapping_t<>::thread;
+        const MappingNewThread MAPPING_NEW_THREAD = asio::execution::detail::mapping_t<>::new_thread;
+        const MappingOther MAPPING_OTHER = asio::execution::detail::mapping_t<>::other;
+        constexpr Occupancy OCCUPANCY = asio::execution::occupancy;
+        constexpr OutstandingWork OUTSTANDING_WORK = asio::execution::outstanding_work;
+        const OutstandingWorkUntracked OUTSTANDING_WORK_UNTRACKED = asio::execution::detail::outstanding_work_t<>::untracked;
+        const OutstandingWorkTracked OUTSTANDING_WORK_TRACKED = asio::execution::detail::outstanding_work_t<>::tracked;
+        template <typename InnerProperty>
+        constexpr PreferOnly<InnerProperty> PREFER_ONLY = asio::execution::prefer_only<InnerProperty>{};
+        constexpr Relationship RELATIONSHIP = asio::execution::relationship;
+        const RelationshipFork RELATIONSHIP_FORK = asio::execution::detail::relationship_t<>::fork;
+        const RelationshipContinuation RELATIONSHIP_CONTINUATION = asio::execution::detail::relationship_t<>::continuation;
     }
 
     using AnyCompletionExecutor = asio::any_completion_executor;
@@ -119,6 +156,12 @@ export namespace asio {
     using ThreadPoolExecutor = asio::thread_pool::executor_type;
     // using YieldContext = asio::yield_context;
 
+    template <typename... Sigs>
+    using AnyCompletionHandler = asio::any_completion_handler<Sigs...>;
+    template <typename T, typename... Sigs>
+    using AnyCompletionHandlerAllocator = asio::any_completion_handler_allocator<T, Sigs...>;
+
+
     namespace generic {
         using DatagramProtocol = asio::generic::datagram_protocol;
         using DatagramProtocolEndpoint = asio::generic::datagram_protocol::endpoint;
@@ -137,31 +180,31 @@ export namespace asio {
 
     namespace ip {
         using Address = asio::ip::address;
-        using AddressV4 = asio::ip::address_v4;
-        using AddressV4Iterator = asio::ip::address_v4_iterator;
-        using AddressV4Range = asio::ip::address_v4_range;
-        using AddressV6 = asio::ip::address_v6;
-        using AddressV6Iterator = asio::ip::address_v6_iterator;
-        using AddressV6Range = asio::ip::address_v6_range;
+        using IPv4Address = asio::ip::address_v4;
+        using IPv4AddressIterator = asio::ip::address_v4_iterator;
+        using IPv4AddressRange = asio::ip::address_v4_range;
+        using IPv6Address = asio::ip::address_v6;
+        using IPv6AddressIterator = asio::ip::address_v6_iterator;
+        using IPv6AddressRange = asio::ip::address_v6_range;
         using BadAddressCastException = asio::ip::bad_address_cast;
         using ICMP = asio::ip::icmp;
         using ICMPEndpoint = asio::ip::icmp::endpoint;
         using ICMPResolver = asio::ip::icmp::resolver;
         using ICMPSocket = asio::ip::icmp::socket;
-        using NetworkV4 = asio::ip::network_v4;
-        using NetworkV6 = asio::ip::network_v6;
+        using IPv4NetworkAddress = asio::ip::network_v4;
+        using IPv6NetworkAddress = asio::ip::network_v6;
         using ResolverBase = asio::ip::resolver_base;
         using ResolverQueryBase = asio::ip::resolver_query_base;
-        using TCP = asio::ip::tcp;
-        using TCPAcceptor = asio::ip::tcp::acceptor;
-        using TCPEndpoint = asio::ip::tcp::endpoint;
-        using TCPIOStream = asio::ip::tcp::iostream;
-        using TCPResolver = asio::ip::tcp::resolver;
-        using TCPSocket = asio::ip::tcp::socket;
-        using UDP = asio::ip::udp;
-        using UDPEndpoint = asio::ip::udp::endpoint;
-        using UDPResolver = asio::ip::udp::resolver;
-        using UDPSocket = asio::ip::udp::socket;
+        using Tcp = asio::ip::tcp;
+        using TcpAcceptor = asio::ip::tcp::acceptor;
+        using TcpEndpoint = asio::ip::tcp::endpoint;
+        using TcpIOStream = asio::ip::tcp::iostream;
+        using TcpResolver = asio::ip::tcp::resolver;
+        using TcpSocket = asio::ip::tcp::socket;
+        using Udp = asio::ip::udp;
+        using UdpEndpoint = asio::ip::udp::endpoint;
+        using UdpResolver = asio::ip::udp::resolver;
+        using UdpSocket = asio::ip::udp::socket;
         using V4Mapped = asio::ip::v4_mapped_t;
 
         using asio::ip::host_name;
@@ -202,6 +245,39 @@ export namespace asio {
 
     using asio::async_connect;
     using asio::connect;
+
+    namespace local {
+        #ifdef _POSIX_VERSION
+        using SequencePacketProtocol = asio::local::seq_packet_protocol;
+        using SequencePacketProtocolAcceptor = asio::local::seq_packet_protocol::acceptor;
+        using SequencePacketProtocolEndpoint = asio::local::seq_packet_protocol::endpoint;
+        using SequencePacketProtocolSocket = asio::local::seq_packet_protocol::socket;
+        using StreamProtocol = asio::local::stream_protocol;
+        using StreamProtocolAcceptor = asio::local::stream_protocol::acceptor;
+        using StreamProtocolEndpoint = asio::local::stream_protocol::endpoint;
+        using StreamProtocolInputOutputStream = asio::local::stream_protocol::iostream;
+        using StreamProtocolSocket = asio::local::stream_protocol::socket;
+        using DatagramProtocol = asio::local::datagram_protocol;
+        using DatagramProtocolEndpoint = asio::local::datagram_protocol::endpoint;
+        using DatagramProtocolSocket = asio::local::datagram_protocol::socket;
+
+        using local::connect_pair;
+        #endif
+    }
+
+    namespace posix {
+        #ifdef _POSIX_VERSION
+        using Descriptor = asio::posix::descriptor;
+        using DescriptorBase = asio::posix::descriptor_base;
+        using StreamDescriptor = asio::posix::stream_descriptor;
+
+        template <typename Exec = AnyIOExecutor>
+        using BasicDescriptor = asio::posix::basic_descriptor<Exec>;
+
+        template <typename Exec = AnyIOExecutor>
+        using BasicStreamDescriptor = asio::posix::basic_stream_descriptor<Exec>;
+        #endif
+    }
 
     namespace windows {
         #ifdef WIN32

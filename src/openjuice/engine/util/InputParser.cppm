@@ -23,6 +23,9 @@ import std;
 import :Misc;
 
 using std::collections::Vector;
+using std::ranges::views::Iota;
+using std::ranges::views::TakeWhile;
+using std::ranges::views::Transform;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
@@ -40,39 +43,8 @@ class [[deprecated(INPUTPARSER_DEPRECATION_MESSAGE)]] InputParserBase {
 private:
     Vector<String> args; ///< Vector of command line arguments.
     Vector<String> envs; ///< Vector of environment variables.
-
-    /**
-     * @brief Convert a string to an integer, if possible.
-     *
-     * @param s The string to convert.
-     * @return The integer, if conversion succeeds.
-     */
-    [[nodiscard]]
-    Optional<i32> parseInteger(StringView s) {
-        try {
-            return std::text::string::stoi(String{s});
-        } catch (...) {
-            return nullopt;
-        }
-    }
 public:
-    /**
-     * @brief Constructor that initialises the parser with command line arguments.
-     *
-     * @param argc Number of command line arguments.
-     * @param argv Array of command line arguments.
-     * @param envp Array of environment variable arguments.
-     */
-    explicit InputParserBase(Span<char*> args, char* envp[] = nullptr):
-        args{Vector<String>(args.begin() + 1, args.end())} {
-        if (envp) {
-            for (char** env = envp; *env; ++env) {
-                envs.emplace_back(*env);
-            }
-        }
-    }
-
-    /**
+        /**
      * @brief Constructor that initialises the parser with command line arguments.
      *
      * @param args Vector of command line arguments
@@ -81,43 +53,35 @@ public:
     explicit InputParserBase(const Vector<String>& args, char* envp[] = nullptr):
         args{args} {
         if (envp) {
-            for (char** env = envp; *env; ++env) {
-                envs.emplace_back(*env);
-            }
+            std::ranges::for_each(
+                Iota(0uz)
+                    | Transform([envp](auto i) -> char* { return envp[i]; })
+                    | TakeWhile([](auto p) -> bool { return p != nullptr; }),
+                [this](auto env) -> void { envs.emplace_back(env); }
+            );
         }
     }
 
     /**
-     * @brief Constructor that initializes the parser with command line arguments and valid options.
+     * @brief Constructor that initialises the parser with command line arguments.
      *
-     * @param argc Number of command line arguments.
-     * @param argv Array of command line arguments.
+     * @param args Array of command line arguments (String)
      * @param envp Array of environment variable arguments.
-     * @param validOptions Vector of valid options.
-     *
-     * @throws InvalidArgumentException if an invalid argument is found
      */
-    explicit InputParserBase(Span<char*> args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws (InvalidArgumentException): 
-        args{Vector<String>(args.begin() + 1, args.end())} {
-        bool foundValue = false;
-        if (envp) {
-            for (char** env = envp; *env; ++env) {
-                envs.emplace_back(*env);
-            }
-        }
-        for (const String& arg: args) {
-            if (std::ranges::contains(validOptions, arg)) {
-                if (parseInteger(arg) && !foundValue) {
-                    foundValue = true;
-                    continue;
-                }
-                throw InvalidArgumentException(std::fmt::format("Invalid option: {}", arg));
-            }
-        }
-    }
+    explicit InputParserBase(Span<String> args, char* envp[] = nullptr):
+        InputParserBase(args.empty() ? Vector<String>() : Vector<String>(args.begin() + 1, args.end()), envp, Vector<String>()) {}
 
     /**
-     * @brief Constructor that initializes the parser with command line arguments and valid options.
+     * @brief Constructor that initialises the parser with command line arguments.
+     *
+     * @param args Array of command line arguments (char*)
+     * @param envp Array of environment variable arguments.
+     */
+    explicit InputParserBase(Span<char*> args, char* envp[] = nullptr):
+        InputParserBase(args.empty() ? Vector<String>() : Vector<String>(args.begin() + 1, args.end()), envp, Vector<String>()) {}
+
+    /**
+     * @brief Constructor that initialises the parser with command line arguments and valid options.
      *
      * @param args Vector of command line arguments.
      * @param envp Array of environment variable arguments.
@@ -128,13 +92,16 @@ public:
         args{args} {
         bool foundValue = false;
         if (envp) {
-            for (char** env = envp; *env; ++env) {
-                envs.emplace_back(*env);
-            }
+            std::ranges::for_each(
+                Iota(0uz)
+                    | Transform([envp](auto i) -> char* { return envp[i]; })
+                    | TakeWhile([](auto p) -> bool { return p != nullptr; }),
+                [this](auto env) -> void { envs.emplace_back(env); }
+            );
         }
         for (const String& arg: args) {
             if (std::ranges::contains(validOptions, arg)) {
-                if (parseInteger(arg) && !foundValue) {
+                if (Integer::parse(arg) && !foundValue) {
                     foundValue = true;
                     continue;
                 }
@@ -142,6 +109,30 @@ public:
             }
         }
     }
+
+    /**
+     * @brief Constructor that initializes the parser with command line arguments and valid options.
+     *
+     * @param args Array of command line arguments (String).
+     * @param envp Array of environment variable arguments.
+     * @param validOptions Vector of valid options.
+     *
+     * @throws InvalidArgumentException if an invalid argument is found
+     */
+    explicit InputParserBase(Span<String> args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws (InvalidArgumentException):
+        InputParserBase(args.empty() ? Vector<String>() : Vector<String>(args.begin() + 1, args.end()), envp, validOptions) {}
+
+    /**
+     * @brief Constructor that initializes the parser with command line arguments and valid options.
+     *
+     * @param args Array of command line arguments (char*).
+     * @param envp Array of environment variable arguments.
+     * @param validOptions Vector of valid options.
+     *
+     * @throws InvalidArgumentException if an invalid argument is found
+     */
+    explicit InputParserBase(Span<char*> args, char* envp[] = nullptr, const Vector<String>& validOptions = {}) throws (InvalidArgumentException): 
+        InputParserBase(args.empty() ? Vector<String>() : Vector<String>(args.begin() + 1, args.end()), envp, validOptions) {}
 
     /**
      * @brief Gets the value of a specified option.
@@ -188,6 +179,16 @@ private:
         "-c"  // Custom option
     }; ///< Vector of valid command line options.
 public:
+    /**
+     * @brief Constructor that initialises the parser with command line arguments.
+     *
+     * @param argc Number of command line arguments.
+     * @param argv Array of command line arguments.
+     * @param envp Array of environment variable arguments.
+     */
+    explicit InputParser(Span<String> args, char* envp[] = nullptr):
+        InputParserBase(args, envp, validOptions) {}
+
     /**
      * @brief Constructor that initialises the parser with command line arguments.
      *

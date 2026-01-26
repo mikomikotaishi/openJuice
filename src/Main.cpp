@@ -11,6 +11,8 @@ import stdx;
 import openjuice;
 
 using std::collections::Vector;
+using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::Main;
@@ -25,8 +27,9 @@ using openjuice::engine::util::Constants;
  * @return Exit code
  */
 int main(int argc, char* argv[]) {
+    const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("::main()");
     try {
-        Vector<String> args(argv + 1, argv + argc);
+        Span<char*> args(argv + 1, argv + argc);
         GlobalSettings::getInstance()
             .setProgramName(argv[0])
             .setProgramArgs(args);
@@ -35,10 +38,10 @@ int main(int argc, char* argv[]) {
             .init(Constants::PATH_DEBUGFILE);
         Main::main(args);
     } catch (const Exception& e) {
-        LoggerFactory::instance().of("::main()")->error("An error occured: {}", e.what());
+        LOGGER->error("An error occured: {}", e.what());
         return EXIT_FAILURE;
     } catch (...) {
-        LoggerFactory::instance().of("::main()")->error("An unknown error occured.");
+        LOGGER->error("An unknown error occured.");
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

@@ -20,7 +20,6 @@ import openjuice.engine.util;
 using std::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::managers::TextManagerError;
 using openjuice::engine::util::IFinalOnly;
 using openjuice::engine::util::IKeyQueryable;
 
@@ -72,9 +71,9 @@ public:
      * @return The name of the character.
      */
     [[nodiscard]]
-    StringView getName() const noexcept {
+    String getName() const noexcept {
         return TextManager::getInstance()
-            .getUnitName(UNIT_KEY);
+            .getUnitName(UNIT_KEY)
             .value_or("");
     }
 
@@ -84,9 +83,9 @@ public:
      * @return The description of the unit.
      */
     [[nodiscard]]
-    StringView getDescription() const noexcept {
+    String getDescription() const noexcept {
         return TextManager::getInstance()
-            .getUnitDescription(UNIT_KEY);
+            .getUnitDescription(UNIT_KEY)
             .value_or("");
     }
 
@@ -96,9 +95,9 @@ public:
      * @return The unit artist name.
      */
     [[nodiscard]]
-    StringView getArtistName() const noexcept {
+    String getArtistName() const noexcept {
         return TextManager::getInstance()
-            .getCardArtistName(ARTIST_KEY);
+            .getCardArtistName(ARTIST_KEY)
             .value_or("");
     }
 
@@ -108,9 +107,9 @@ public:
      * @return The unit voice actor name.
      */
     [[nodiscard]]
-    StringView getVoiceActorName() const noexcept {
+    String getVoiceActorName() const noexcept {
         return TextManager::getInstance()
-            .getVoiceActorName(VOICEACTOR_KEY);
+            .getVoiceActorName(VOICEACTOR_KEY)
             .value_or("");
     }
 };

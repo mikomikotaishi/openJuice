@@ -13,6 +13,7 @@ module;
 export module openjuice.ui.tui.screens:TitleScreen;
 
 import std;
+import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
@@ -22,11 +23,12 @@ import ftxui;
 
 using std::collections::Vector;
 using std::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::managers::TextManagerError;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TUIScreen;
 
@@ -42,10 +44,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  */
 export class TitleScreen final: public TUIScreen {
 private:
-    bool exitSelected = false; ///< Whether the entire application should exit
-    bool initialised = false; ///< Whether the screen has been initialised
-    i32 selectedOption = 0; ///< The current option selected
-    Vector<StringView> menuOptions = {
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TitleScreen"); ///< The logger instance.
+
+    Component menu; ///< The menu UI component
+    Vector<String> menuOptions = {
         getTextManager().getMenuScreenText("MAINMENU_NEWGAME")
             .value_or("New game"), // New game
         getTextManager().getMenuScreenText("MAINMENU_LOADGAME")
@@ -56,7 +58,9 @@ private:
             .value_or("Exit") // Exit game
     }; ///< The list of menu options
 
-    Component menu; ///< The menu UI component
+    i32 selectedOption = 0; ///< The current option selected
+    bool exitSelected = false; ///< Whether the entire application should exit
+    bool initialised = false; ///< Whether the screen has been initialised
 
     /**
      * @brief Creates the screen component
@@ -72,11 +76,15 @@ private:
             if ((event.is_mouse() && event.mouse().button == Mouse::Left) || (event == Event::Return)) {
                 switch (selectedOption) {
                     case 0: // New Game
-                        ProfileManager::getInstance().resetProfile();
+                        if (Expected<void, ProfileManager::Error> result = ProfileManager::getInstance().resetProfile(); !result) {
+                            LOGGER->error("Failed to reset profile for new game: {}", result.error());
+                        }
                         screenSwitchCallback(ScreenType::MAIN_MENU);
                         return true;
                     case 1: // Continue
-                        ProfileManager::getInstance().loadProfile();
+                        if (Expected<void, ProfileManager::Error> result = ProfileManager::getInstance().loadProfile(); !result) {
+                            LOGGER->error("Failed to load profile for continue: {}", result.error());
+                        }
                         screenSwitchCallback(ScreenType::MAIN_MENU);
                         return true;
                     case 2: // Configuration

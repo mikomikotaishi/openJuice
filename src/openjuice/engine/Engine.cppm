@@ -36,7 +36,7 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::game::ecs::RegistryError;
+using openjuice::engine::game::ecs::Registry;
 using openjuice::engine::managers::DiscordManager;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::ui::cli::CommandLineInterface;
@@ -218,7 +218,7 @@ public:
             LOGGER->warn("Discord integration unsuccessful!");
         }
 
-        if (Expected<void, RegistryError> r = game->init(); !r) {
+        if (Expected<void, Registry::Error> r = game->init(); !r) {
             throw RuntimeException(std::fmt::format("Game failed to initialise: {}", r.error()));
         }
         

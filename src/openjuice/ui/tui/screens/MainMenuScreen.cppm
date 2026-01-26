@@ -48,9 +48,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  */
 export class MainMenuScreen final: public TUIScreen {
 private:
-    bool initialised = false; ///< Whether the screen has been initialised
-    i32 selectedOption = 0; ///< The current option selected
-    Vector<StringView> menuOptions = {
+    Component menu; ///< The menu UI component
+    Vector<String> menuOptions = {
         getTextManager().getMenuScreenText("PLAYMENU_FREEBATTLE")
             .value_or("Free battle"), // Multiplayer
         getTextManager().getMenuScreenText("PLAYMENU_CAMPAIGN")
@@ -72,7 +71,8 @@ private:
             .value_or("Exit") // Exit to title
     }; ///< The list of menu options
 
-    Component menu; ///< The menu UI component
+    i32 selectedOption = 0; ///< The current option selected
+    bool initialised = false; ///< Whether the screen has been initialised
 
     /**
      * @brief Creates the screen component

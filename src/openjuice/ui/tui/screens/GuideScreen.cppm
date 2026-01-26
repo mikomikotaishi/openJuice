@@ -26,7 +26,6 @@ using std::mem::SharedPointer;
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::managers::TextManagerError;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TUIScreen;
 

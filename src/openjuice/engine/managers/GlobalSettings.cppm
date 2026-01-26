@@ -129,6 +129,28 @@ public:
     }
 
     /**
+     * @brief Set the program arguments.
+     *
+     * @param args The arguments of the program to set.
+     * @return A reference to the object itself.
+     */
+    GlobalSettings& setProgramArgs(const Span<String> args) noexcept {
+        programArgs = Vector<String>(args.begin(), args.end());
+        return *this;
+    }
+
+    /**
+     * @brief Set the program arguments.
+     *
+     * @param args The arguments of the program to set (char* array).
+     * @return A reference to the object itself.
+     */
+    GlobalSettings& setProgramArgs(const Span<char*> args) noexcept {
+        programArgs = Vector<String>(args.begin(), args.end());
+        return *this;
+    }
+
+    /**
      * @brief Set the language.
      *
      * @param lang The language to set.

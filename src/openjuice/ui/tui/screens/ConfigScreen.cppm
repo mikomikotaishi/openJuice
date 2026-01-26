@@ -26,7 +26,6 @@ using std::mem::SharedPointer;
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::managers::TextManagerError;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TUIScreen;
 
@@ -42,9 +41,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  */
 export class ConfigScreen final: public TUIScreen {
 private:
-    bool initialised = false; ///< Whether the screen has been initialised
-    i32 selectedTab = 0; ///< The currently selected tab
-    Vector<StringView> tabNames = {
+    Component tabContainer; ///< Container for tab content
+    Component tabToggle; ///< Tab toggle component
+    Component okButton; ///< Save button component
+    Component backButton; ///< Back button component
+    Vector<String> tabNames = {
         getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
             .value_or("System"),
         getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
@@ -55,10 +56,8 @@ private:
             .value_or("Voice")
     }; ///< The list of tab names
 
-    Component tabContainer; ///< Container for tab content
-    Component tabToggle; ///< Tab toggle component
-    Component okButton; ///< Save button component
-    Component backButton; ///< Back button component
+    i32 selectedTab = 0; ///< The currently selected tab
+    bool initialised = false; ///< Whether the screen has been initialised
 
     /**
      * @brief Creates the screen component

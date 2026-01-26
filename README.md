@@ -39,6 +39,11 @@ cmake --build build
 ./openJuice 
 ```
 
+Or, if using the Makefile to streamline this process:
+```sh
+make build SANITIZERS=all
+```
+
 We have also written a Python script to simplify using CMake, which can be run with `./quick_cmake_build.py`. (Simply execute the script `quick_cmake_build.py` to compile the program with CMake.) If JBang is installed, `QuickCMakeBuild.java` can also be executed as a script. A file `QuickCMakeBuild.d` also exists but is experimental and untested.
 
 `quick_cmake_build.py` help:

@@ -16,7 +16,6 @@ module;
 export module openjuice.engine.managers:TextManager;
 
 import :GlobalSettings;
-export import :TextManagerError;
 
 import std;
 import stdx;
@@ -25,6 +24,9 @@ import openjuice.engine.util;
 
 using std::collections::HashMap;
 using std::collections::Vector;
+using std::fmt::FormatContext;
+using std::fmt::FormatParseContext;
+using std::fmt::Formatter;
 using std::fs::Path;
 using std::io::IOException;
 using std::io::InputFileStream;
@@ -82,6 +84,18 @@ public:
     static constexpr StringView PATH_VOICEACTORS_FILE = "./assets/define/{}/voiceactors.txt"; ///< File containing voice actor localisation.
 
     static constexpr StringView ORANGE_JUICE_WIKI_URL = Constants::ORANGE_JUICE_WIKI_URL; ///< The URL for the 100% Orange Juice! wiki
+
+    /**
+     * @enum Error
+     * @brief Enumeration of errors occuring in TextManager operations
+     */
+    enum class Error: u8 {
+        EMPTY_KEY, ///< The key was empty
+        INVALID_KEY, ///< The key did not map anywhere
+        FILE_NOT_FOUND, ///< No such file was found
+        FILE_OPEN_FAILURE, ///< The file could not be opened
+        FILE_READ_FAILURE, ///< The file failed to parse
+    };
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextManager"); ///< The logger instance.
 
@@ -131,22 +145,22 @@ private:
      *
      * @param filePath Path to the file.
      * @param targetMap The map to populate with key-value pairs.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseSimpleFormatFile(const Path& filePath, HashMap<String, String>& targetMap) noexcept {
+    Expected<void, ErrorDescription<Error>> parseSimpleFormatFile(const Path& filePath, HashMap<String, String>& targetMap) noexcept {
         if (!std::fs::exists(filePath)) {
-            return Unexpected<Error<TextManagerError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                TextManagerError::FILE_NOT_FOUND, 
+                Error::FILE_NOT_FOUND, 
                 std::fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
         if (!file.is_open()) {
-            return Unexpected<Error<TextManagerError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                TextManagerError::FILE_OPEN_FAILURE,
+                Error::FILE_OPEN_FAILURE,
                 std::fmt::format("Failed to open file {}", filePath.string())
             );
         }
@@ -176,26 +190,26 @@ private:
      * @brief Parses the cards file and populates card-related maps.
      *
      * @param filePath Path to the cards file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseCardsFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseCardsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing cards file: {}", filePath.string());
         #endif
 
         if (!std::fs::exists(filePath)) {
-            return Unexpected<Error<TextManagerError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                TextManagerError::FILE_NOT_FOUND, 
+                Error::FILE_NOT_FOUND, 
                 std::fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
         if (!file.is_open()) {
-            return Unexpected<Error<TextManagerError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                TextManagerError::FILE_OPEN_FAILURE,
+                Error::FILE_OPEN_FAILURE,
                 std::fmt::format("Failed to open file {}", filePath.string())
             );
         }
@@ -213,6 +227,7 @@ private:
 
             if (line[0] == '<' && line[line.length() - 1] == '>') {
                 if (!currentKey.empty()) {
+                    cardNames[currentKey] = currentName;
                     cardDescriptions[currentKey] = currentDescription;
                     cardFlavours[currentKey] = currentFlavor;
                 }
@@ -242,10 +257,10 @@ private:
      * @brief Parses the card artist names file and populates the cardArtistNames map.
      *
      * @param filePath Path to the card artist names file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseCardArtistNamesFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseCardArtistNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing card artist names file: {}", filePath.string());
         #endif
@@ -257,10 +272,10 @@ private:
      * @brief Parses the card artist names file and populates the commentTexts map.
      *
      * @param filePath Path to the comments file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseCommentsFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseCommentsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing comments file: {}", filePath.string());
         #endif
@@ -273,10 +288,10 @@ private:
      * @note It is NOT used for parsing user config files.
      *
      * @param filePath Path to the config texts file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseConfigFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseConfigFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing config texts file: {}", filePath.string());
         #endif
@@ -288,10 +303,10 @@ private:
      * @brief Parses the field names file and populates the fieldNames map.
      *
      * @param filePath Path to the field names file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseFieldNamesFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseFieldNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing field names file: {}", filePath.string());
         #endif
@@ -303,10 +318,10 @@ private:
      * @brief Parses the game messages file and populates the gameMessages map.
      *
      * @param filePath Path to the game messages file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseGameMessagesFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseGameMessagesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing game messages file: {}", filePath.string());
         #endif
@@ -318,10 +333,10 @@ private:
      * @brief Parses the game norma file and populates the gameNormaTexts map.
      *
      * @param filePath Path to the game norma file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseGameNormaFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseGameNormaFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing game norma texts file: {}", filePath.string());
         #endif
@@ -333,10 +348,10 @@ private:
      * @brief Parses the game system file and populates the gameSystemTexts map.
      *
      * @param filePath Path to the game system file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseGameSystemFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseGameSystemFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing game system texts file: {}", filePath.string());
         #endif
@@ -348,10 +363,10 @@ private:
      * @brief Parses the menu screens file and populates the menuScreenTexts map.
      *
      * @param filePath Path to the menu screens file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseMenuScreensFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseMenuScreensFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing menu screens texts file: {}", filePath.string());
         #endif
@@ -363,10 +378,10 @@ private:
      * @brief Parses the result file and populates the resultTexts map.
      *
      * @param filePath Path to the result file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseResultFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseResultFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing result texts file: {}", filePath.string());
         #endif
@@ -378,26 +393,26 @@ private:
      * @brief Parses the units file and populates the unitNames map.
      *
      * @param filePath Path to the units file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseUnitsFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseUnitsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing units file: {}", filePath.string());
         #endif
 
         if (!std::fs::exists(filePath)) {
-            return Unexpected<Error<TextManagerError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                TextManagerError::FILE_NOT_FOUND, 
+                Error::FILE_NOT_FOUND, 
                 std::fmt::format("Failed to find file {}", filePath.string())
             );
         }
         InputFileStream file(filePath);
         if (!file.is_open()) {
-            return Unexpected<Error<TextManagerError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                TextManagerError::FILE_OPEN_FAILURE,
+                Error::FILE_OPEN_FAILURE,
                 std::fmt::format("Failed to open file {}", filePath.string())
             );
         }
@@ -415,6 +430,7 @@ private:
             if (line[0] == '<' && line[line.length() - 1] == '>') {
                 if (!currentKey.empty() && !currentName.empty()) {
                     unitNames[currentKey] = currentName;
+                    unitDescriptions[currentKey] = currentDescription;
                 }
                 currentKey = openjuice::engine::util::misc::trimString(line.substr(1, line.length() - 2));
                 currentName = "";
@@ -438,10 +454,10 @@ private:
      * @brief Parses the voice actor names file and populates the voiceActorNames map.
      *
      * @param filePath Path to the voice actor names file.
-     * @return A TextManagerError representing the parsing failure, otherwise nothing.
+     * @return A Error representing the parsing failure, otherwise nothing.
      */
     [[nodiscard]]
-    Expected<void, Error<TextManagerError>> parseVoiceActorNamesFile(const Path& filePath) noexcept {
+    Expected<void, ErrorDescription<Error>> parseVoiceActorNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Parsing voice actor names file: {}", filePath.string());
         #endif
@@ -474,7 +490,7 @@ private:
         Path unitsFile(std::fmt::format(PATH_UNITS_FILE, gameLanguageCode));
         Path voiceActorsFile(std::fmt::format(PATH_VOICEACTORS_FILE, gameLanguageCode));
 
-        Vector<Expected<void, Error<TextManagerError>>> results{
+        Vector<Expected<void, ErrorDescription<Error>>> results{
             parseCardsFile(cardsFile),
             parseCardsFile(cards2File),
             parseCardArtistNamesFile(cardArtistsFile),
@@ -490,7 +506,7 @@ private:
             parseVoiceActorNamesFile(voiceActorsFile)
         };
 
-        for (const Expected<void, Error<TextManagerError>>& result: results) {
+        for (const Expected<void, ErrorDescription<Error>>& result: results) {
             if (!result.has_value()) {
                 LOGGER->warn(
                     "Failed to load file, error {}",
@@ -570,15 +586,15 @@ public:
      * @return The name, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getCardName(StringView key) const noexcept {
+    Expected<String, Error> getCardName(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = cardNames.find(String(key)); it != cardNames.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -589,15 +605,15 @@ public:
      * @return The description, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getCardDescription(StringView key) const noexcept {
+    Expected<String, Error> getCardDescription(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = cardDescriptions.find(String(key)); it != cardDescriptions.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -608,15 +624,15 @@ public:
      * @return The flavour text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getCardFlavour(StringView key) const noexcept {
+    Expected<String, Error> getCardFlavour(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = cardFlavours.find(String(key)); it != cardFlavours.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -627,15 +643,15 @@ public:
      * @return The card artist name, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getCardArtistName(StringView key) const noexcept {
+    Expected<String, Error> getCardArtistName(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = cardArtistNames.find(String(key)); it != cardArtistNames.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -646,15 +662,15 @@ public:
      * @return The comment text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getCommentText(StringView key) const noexcept {
+    Expected<String, Error> getCommentText(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = commentTexts.find(String(key)); it != commentTexts.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -665,15 +681,15 @@ public:
      * @return The config text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getConfigText(StringView key) const noexcept {
+    Expected<String, Error> getConfigText(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = configTexts.find(String(key)); it != configTexts.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -684,15 +700,15 @@ public:
      * @return The field name, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getFieldName(StringView key) const noexcept {
+    Expected<String, Error> getFieldName(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = fieldNames.find(String(key)); it != fieldNames.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -703,15 +719,15 @@ public:
      * @return The game message, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getGameMessage(StringView key) const noexcept {
+    Expected<String, Error> getGameMessage(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = gameMessages.find(String(key)); it != gameMessages.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -722,15 +738,15 @@ public:
      * @return The norma text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getGameNormaText(StringView key) const noexcept {
+    Expected<String, Error> getGameNormaText(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = gameNormaTexts.find(String(key)); it != gameNormaTexts.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -741,15 +757,15 @@ public:
      * @return The game system text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getGameSystemText(StringView key) const noexcept {
+    Expected<String, Error> getGameSystemText(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = gameSystemTexts.find(String(key)); it != gameSystemTexts.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -760,15 +776,15 @@ public:
      * @return The menu screen text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getMenuScreenText(StringView key) const noexcept {
+    Expected<String, Error> getMenuScreenText(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = menuScreenTexts.find(String(key)); it != menuScreenTexts.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -779,15 +795,15 @@ public:
      * @return The result text, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getResultText(StringView key) const noexcept {
+    Expected<String, Error> getResultText(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = resultTexts.find(String(key)); it != resultTexts.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -798,15 +814,15 @@ public:
      * @return The unit name, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getUnitName(StringView key) const noexcept {
+    Expected<String, Error> getUnitName(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = unitNames.find(String(key)); it != unitNames.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -817,15 +833,15 @@ public:
      * @return The unit description, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getUnitDescription(StringView key) const noexcept {
+    Expected<String, Error> getUnitDescription(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = unitDescriptions.find(String(key)); it != unitDescriptions.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 
@@ -836,17 +852,52 @@ public:
      * @return The voice actor name, otherwise the error representing the key failure.
      */
     [[nodiscard]]
-    Expected<StringView, TextManagerError> getVoiceActorName(StringView key) const noexcept {
+    Expected<String, Error> getVoiceActorName(StringView key) const noexcept {
         if (key.empty()) {
-            return Unexpected(TextManagerError::EMPTY_KEY);
+            return Unexpected(Error::EMPTY_KEY);
         }
 
         if (auto it = voiceActorNames.find(String(key)); it != voiceActorNames.end()) {
             return it->second;
         } else {
-            return Unexpected(TextManagerError::INVALID_KEY);
+            return Unexpected(Error::INVALID_KEY);
         }
     }
 };
 
 END_MODULE_NAMESPACE();
+
+using openjuice::engine::managers::TextManager;
+
+template <>
+struct Formatter<TextManager::Error> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(TextManager::Error err, FormatContext& ctx) {
+        StringView name;
+        switch (err) {
+            case TextManager::Error::EMPTY_KEY:
+                name = "Empty key"; 
+                break;
+            case TextManager::Error::INVALID_KEY:
+                name = "Invalid key"; 
+                break;
+            case TextManager::Error::FILE_NOT_FOUND:
+                name = "File not found"; 
+                break;
+            case TextManager::Error::FILE_OPEN_FAILURE:
+                name = "File open failure"; 
+                break;
+            case TextManager::Error::FILE_READ_FAILURE:
+                name = "File read failure"; 
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+SPECIALISE_FORMATTER(TextManager::Error);

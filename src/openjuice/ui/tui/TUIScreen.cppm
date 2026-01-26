@@ -24,7 +24,6 @@ using std::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::managers::TextManagerError;
 using openjuice::engine::util::IFinalOnly;
 
 using namespace ftxui;

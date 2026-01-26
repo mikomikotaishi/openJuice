@@ -9,24 +9,21 @@
 module;
 
 #include "Macros.hpp"
+#include "Rename.hpp"
 
 export module openjuice.engine.card.Card;
 
 import std;
 
-export import :CardType;
-export import :DeckPointError;
-export import :MushroomType;
-export import :Rarity;
-export import :SpawnType;
-
 import openjuice.engine.managers;
 import openjuice.engine.util;
 
+using std::fmt::FormatContext;
+using std::fmt::FormatParseContext;
+using std::fmt::Formatter;
 using std::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::managers::TextManagerError;
 using openjuice::engine::util::IFinalOnly;
 using openjuice::engine::util::IKeyQueryable;
 
@@ -42,14 +39,71 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  * @implements IKeyQueryable
  */
 export class [[nodiscard]] Card: public IFinalOnly, public IKeyQueryable {
+public:
+    /**
+     * @enum Type
+     * @brief Enumeration for card types.
+     * 
+     * The Card::Type enumeration defines the types of cards in the game.
+     */
+    enum class Type: u8 {
+        BATTLE = 1, ///< Battle card type.
+        BOOST, ///< Boost card type.
+        TRAP, ///< Trap card type.
+        EVENT, ///< Event card type.
+        GIFT, ///< Gift card type.
+        BANNER, ///< Banner card type.
+    };
+
+    /**
+     * @enum Spawn
+     * @brief Enumeration for card spawn types.
+     * 
+     * The Spawn enumeration defines the spawn types of cards in the game.
+     */
+    enum class Spawn: u8 {
+        STANDARD, ///< Standard spawn type.
+        HYPER, ///< Hyper spawn type.
+        CHARACTER_SPECIFIC, ///< Character-specific spawn type.
+        SEASONAL, ///< Seasonal spawn type.
+        MUSHROOM, ///< Mushroom spawn type.
+        COOP, ///< Co-op spawn type.
+        BOSS, ///< Boss spawn type.
+        BOUNTY_HUNT, ///< Bounty Hunt spawn type.
+        GENERIC, ///< Generic (placeholder) spawn type.
+    };
+
+    /**
+     * @enum Rarity
+     * @brief Enumeration for card rarities.
+     * 
+     * The Rarity enumeration defines the rarities of cards in the game.
+     */
+    enum class Rarity: u8 {
+        NONE, ///< No rarity (for hyper cards).
+        COMMON, ///< Common rarity.
+        UNCOMMON, ///< Uncommon rarity.
+        RARE, ///< Rare rarity.
+    };
+
+    /**
+     * @enum DeckPointError
+     * @brief Enumeration for deck point errors.
+     * 
+     * The DeckPointError enumeration defines the types of errors in retrieving deck points of a card.
+     */
+    enum class DeckPointError: u8 {
+        NOT_PLAYABLE_IN_COOP, ///< Card cannot be played in Co-op mode
+        NOT_STANDARD_CARD, ///< Card is not a Standard-type card
+    };
 private:
     const Expected<u8, DeckPointError> deckPoints; ///< The deck points of the card
     const Optional<Rarity> rarity; ///< The rarity of the card.
     const Optional<u16> cost; ///< The cost to play the card (nullopt if not constant)
     const Optional<u8> limitPerDeck; ///< The limit of the card per deck (nullopt if not a standard card)
     const u16 id; ///< The ID of the card.
-    const CardType cardType; ///< The card type of the card.
-    const SpawnType spawnType; ///< The spawn type of the card.
+    const Type cardType; ///< The card type of the card.
+    const Spawn spawnType; ///< The spawn type of the card.
     const u8 level; ///< The level of the card.
 protected:
     static constexpr StringView CARD_KEY = ""; ///< The key belonging to the card to query in TextManager
@@ -60,7 +114,7 @@ protected:
      */
     Card():
         deckPoints{0}, rarity{nullopt}, cost{nullopt}, limitPerDeck{0},
-        id{0}, cardType{static_cast<CardType>(0)}, spawnType{static_cast<SpawnType>(0)}, level{0} {}
+        id{0}, cardType{static_cast<Card::Type>(0)}, spawnType{static_cast<Spawn>(0)}, level{0} {}
 
     /**
      * @brief Virtual default destructor.
@@ -79,13 +133,13 @@ public:
      * @param limit The limit of the card per deck.
      * @param deckPoints The deck points of the card.
      */
-    Card(u16 id, CardType cardType, SpawnType spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
+    Card(u16 id, Type cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
         deckPoints{std::util::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
         id{id}, cardType{cardType}, spawnType{spawnType}, level{level} {}
 
     GETTER(u16, Id, id);
-    GETTER(CardType, CardType, cardType);
-    GETTER(SpawnType, SpawnType, spawnType);
+    GETTER(Type, Type, cardType);
+    GETTER(Spawn, Spawn, spawnType);
     GETTER(Optional<Rarity>, Rarity, rarity);
     GETTER(Optional<u16>, Cost, cost);
     GETTER(u8, Level, level);
@@ -116,9 +170,9 @@ public:
      * @return The name of the card.
      */
     [[nodiscard]]
-    virtual StringView getName() const noexcept {
+    virtual String getName() const noexcept {
         return TextManager::getInstance()
-            .getCardName(CARD_KEY);
+            .getCardName(CARD_KEY)
             .value_or("");
     }
 
@@ -127,9 +181,9 @@ public:
      * @return The description of the card.
      */
     [[nodiscard]]
-    virtual StringView getDescription() const noexcept {
+    virtual String getDescription() const noexcept {
         return TextManager::getInstance()
-            .getCardDescription(CARD_KEY);
+            .getCardDescription(CARD_KEY)
             .value_or("");
     }
 
@@ -138,9 +192,9 @@ public:
      * @return The flavour text of the card.
      */
     [[nodiscard]]
-    StringView getFlavour() const noexcept {
+    String getFlavour() const noexcept {
         return TextManager::getInstance()
-            .getCardFlavour(CARD_KEY);
+            .getCardFlavour(CARD_KEY)
             .value_or("");
     }
 
@@ -149,9 +203,9 @@ public:
      * @return The card artist name.
      */
     [[nodiscard]]
-    virtual StringView getArtistName() const noexcept {
+    virtual String getArtistName() const noexcept {
         return TextManager::getInstance()
-            .getCardArtistName(ARTIST_KEY);
+            .getCardArtistName(ARTIST_KEY)
             .value_or("");
     }
 };
@@ -166,3 +220,137 @@ export template <typename T>
 concept ExtendsCard = IsBaseOfValue<Card, T>;
 
 END_MODULE_NAMESPACE();
+
+using openjuice::engine::card::Card;
+
+template <>
+struct Formatter<Card::Type> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(Card::Type type, FormatContext& ctx) {
+        StringView name;
+        switch (type) {
+            case Card::Type::BATTLE:
+                name = "Battle";
+                break;
+            case Card::Type::BOOST:
+                name = "Boost";
+                break;
+            case Card::Type::TRAP:
+                name = "Trap";
+                break;
+            case Card::Type::EVENT:
+                name = "Event";
+                break;
+            case Card::Type::GIFT:
+                name = "Gift";
+                break;
+            case Card::Type::BANNER:
+                name = "Banner";
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+template <>
+struct Formatter<Card::Spawn> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(Card::Spawn type, FormatContext& ctx) {
+        StringView name;
+        switch (type) {
+            case Card::Spawn::STANDARD:
+                name = "Standard";
+                break;
+            case Card::Spawn::HYPER:
+                name = "Hyper";
+                break;
+            case Card::Spawn::CHARACTER_SPECIFIC:
+                name = "Character-specific";
+                break;
+            case Card::Spawn::SEASONAL:
+                name = "Seasonal";
+                break;
+            case Card::Spawn::MUSHROOM:
+                name = "Mushroom";
+                break;
+            case Card::Spawn::COOP:
+                name = "Co-op";
+                break;
+            case Card::Spawn::BOSS:
+                name = "Boss";
+                break;
+            case Card::Spawn::BOUNTY_HUNT:
+                name = "Bounty Hunt";
+                break;
+            case Card::Spawn::GENERIC:
+                name = "Generic";
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+template <>
+struct Formatter<Card::Rarity> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(Card::Rarity type, FormatContext& ctx) {
+        StringView name;
+        switch (type) {
+            case Card::Rarity::NONE:
+                name = "None";
+                break;
+            case Card::Rarity::COMMON:
+                name = "Common";
+                break;
+            case Card::Rarity::UNCOMMON:
+                name = "Uncommon";
+                break;
+            case Card::Rarity::RARE:
+                name = "Rare";
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+template <>
+struct Formatter<Card::DeckPointError> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(Card::DeckPointError err, FormatContext& ctx) {
+        StringView name;
+        switch (err) {
+            case Card::DeckPointError::NOT_PLAYABLE_IN_COOP:
+                name = "Not playable in co-op";
+                break;
+            case Card::DeckPointError::NOT_STANDARD_CARD:
+                name = "Not standard card";
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+SPECIALISE_FORMATTER(Card::Type);
+SPECIALISE_FORMATTER(Card::Spawn);
+SPECIALISE_FORMATTER(Card::Rarity);
+SPECIALISE_FORMATTER(Card::DeckPointError);

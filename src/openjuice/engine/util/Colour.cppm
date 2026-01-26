@@ -39,85 +39,14 @@ export struct [[nodiscard]] Colour {
     constexpr Colour(u8 r, u8 g, u8 b):
         r{r}, g{g}, b{b} {}
 
-    /**
-     * @brief Returns a black colour (0, 0, 0).
-     * 
-     * @return Black colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour black() noexcept {
-        return Colour(0, 0, 0);
-    }
-
-    /**
-     * @brief Returns a red colour (255, 0, 0).
-     * 
-     * @return Red colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour red() noexcept {
-        return Colour(255, 0, 0);
-    }
-
-    /**
-     * @brief Returns a green colour (0, 255, 0).
-     * 
-     * @return Green colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour green() noexcept {
-        return Colour(0, 255, 0);
-    }
-
-    /**
-     * @brief Returns a yellow colour (255, 255, 0).
-     * 
-     * @return Yellow colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour yellow() noexcept {
-        return Colour(255, 255, 0);
-    }
-
-    /**
-     * @brief Returns a blue colour (0, 0, 255).
-     * 
-     * @return Blue colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour blue() noexcept {
-        return Colour(0, 0, 255);
-    }
-
-    /**
-     * @brief Returns a magenta colour (255, 0, 255).
-     * 
-     * @return Magenta colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour magenta() noexcept {
-        return Colour(255, 0, 255);
-    }
-
-    /**
-     * @brief Returns a cyan colour (0, 255, 255).
-     * 
-     * @return Cyan colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour cyan() noexcept {
-        return Colour(0, 255, 255);
-    }
-
-    /**
-     * @brief Returns a white colour (255, 255, 255).
-     * 
-     * @return White colour.
-     */
-    [[nodiscard]]
-    static constexpr Colour white() noexcept {
-        return Colour(255, 255, 255);
-    }
+    static const Colour BLACK; ///< Predefined black colour.
+    static const Colour RED; ///< Predefined red colour.
+    static const Colour GREEN; ///< Predefined green colour.
+    static const Colour YELLOW; ///< Predefined yellow colour.
+    static const Colour BLUE; ///< Predefined blue colour.
+    static const Colour MAGENTA; ///< Predefined magenta colour.
+    static const Colour CYAN; ///< Predefined cyan colour.
+    static const Colour WHITE; ///< Predefined white colour.
 
     static constexpr StringView RESET_ANSI = "\033[0m"; ///< ANSI code to reset colour.
 
@@ -139,5 +68,14 @@ export struct [[nodiscard]] Colour {
     static constexpr StringView BOLD_CYAN_ANSI = "\033[1m\033[36m"; ///< ANSI code for bold cyan colour.
     static constexpr StringView BOLD_WHITE_ANSI = "\033[1m\033[37m"; ///< ANSI code for bold white colour.
 };
+
+inline constexpr Colour Colour::BLACK = Colour(0, 0, 0);
+inline constexpr Colour Colour::RED = Colour(255, 0, 0);
+inline constexpr Colour Colour::GREEN = Colour(0, 255, 0);
+inline constexpr Colour Colour::YELLOW = Colour(255, 255, 0);
+inline constexpr Colour Colour::BLUE = Colour(0, 0, 255);
+inline constexpr Colour Colour::MAGENTA = Colour(255, 0, 255);
+inline constexpr Colour Colour::CYAN = Colour(0, 255, 255);
+inline constexpr Colour Colour::WHITE = Colour(255, 255, 255);
 
 END_MODULE_NAMESPACE();

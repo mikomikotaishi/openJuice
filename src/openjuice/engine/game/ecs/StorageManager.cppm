@@ -46,6 +46,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  */
 export class StorageManager {
 private:
+    static inline u32 idCount = 0; ///< Global counter for assigning unique IDs to component types (shared across all instances).
     UniquePointer<PolymorphicStorage[]> storages; ///< Array of polymorphic storage containers, one per component type.
     UniquePointer<bool[]> mask; ///< Boolean mask tracking which component types are registered/active.
     UniquePointer<StorageId[]> entries; ///< Dense array of active component type IDs.
@@ -53,7 +54,6 @@ private:
     u32 capacity = 512; ///< The maximum number of component types that can be registered.
     u32 storageCapacity = 0; ///< The highest component type ID ever allocated.
     u32 entryCount = 0; ///< The number of registered component types currently active.
-    static inline u32 idCount = 0; ///< Global counter for assigning unique IDs to component types (shared across all instances).
 
     /**
      * @brief Retrieves a unique global ID for a component type.

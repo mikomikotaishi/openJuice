@@ -41,7 +41,6 @@ using openjuice::engine::board::Board;
 using openjuice::engine::entity::Player;
 using openjuice::engine::game::ecs::EntityId;
 using openjuice::engine::game::ecs::Registry;
-using openjuice::engine::game::ecs::RegistryError;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::unit::Playable;
 using openjuice::engine::util::Constants;
@@ -61,6 +60,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 export class Game {
 public:
     static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
+
+    using Phase = GamePhase;
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Game"); ///< The logger instance.
 
@@ -74,7 +75,7 @@ private:
     f32 deltaTime; ///< Delta time
     EntityId activeBattleAttacker = 0; ///< Battle attacker
     EntityId activeBattleDefender = 0; ///< Battle defender
-    GamePhase currentPhase = GamePhase::SETUP; ///< Current phase
+    Phase currentPhase = Phase::SETUP; ///< Current phase
     u8 currentPlayerIndex = 0; ///< Current player index
     u8 chapterNumber = 1; ///< Chapter number
     bool battleInProgress = false; ///< Battle in progress flag
@@ -91,7 +92,7 @@ private:
     }
 
 public:
-    PROPERTY(GamePhase, CurrentPhase, currentPhase);
+    PROPERTY(Phase, CurrentPhase, currentPhase);
     GETTER(u8, ChapterNumber, chapterNumber);
 
     /**
@@ -121,7 +122,7 @@ public:
      * @brief Initialise the game state and prepare for running
      */
     [[nodiscard]]
-    Expected<void, RegistryError> init() {
+    Expected<void, Registry::Error> init() {
         for (u8 i: IotaView(u8{0}, MAX_PLAYERS)) {
             Optional<EntityId> playerOpt = registry->entity(
                 PlayerTag(),
@@ -131,7 +132,7 @@ public:
             );
             
             if (!playerOpt.has_value()) {
-                return Unexpected(RegistryError::ENTITY_CREATE_FAILURE);
+                return Unexpected(Registry::Error::ENTITY_CREATE_FAILURE);
             }
             EntityId player = playerOpt.value();
             
@@ -220,7 +221,7 @@ public:
     void run() {
         LOGGER->info("Beginning game");
 
-        currentPhase = GamePhase::PLAYER_TURN;
+        currentPhase = Phase::PLAYER_TURN;
     }
 
     /**
@@ -280,7 +281,7 @@ public:
         activeBattleAttacker = attacker;
         activeBattleDefender = defender;
         battleInProgress = true;
-        currentPhase = GamePhase::BATTLE_PHASE;
+        currentPhase = Phase::BATTLE_PHASE;
 
         return true;
     }
@@ -303,7 +304,7 @@ public:
         battleInProgress = false;
         activeBattleAttacker = 0;
         activeBattleDefender = 0;
-        currentPhase = GamePhase::PLAYER_TURN;
+        currentPhase = Phase::PLAYER_TURN;
     }
 
     /**

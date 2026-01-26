@@ -132,16 +132,17 @@ export namespace components {
      * @implements IComponent
      */
     struct BattleStateComponent: public IComponent {
+        SharedPointer<Card> activeBattleCard = nullptr;
         DefenceChoice defenceChoice = DefenceChoice::DEFEND;
-        SharedPointer<Card> activeBattleCard;
 
         /**
          * @brief Construct a new Battle State Component object
          * 
          * @param choice 
+         * @param card 
          */
-        explicit BattleStateComponent(DefenceChoice choice):
-            defenceChoice{choice}, activeBattleCard{nullptr} {}
+        explicit BattleStateComponent(SharedPointer<Card> card, DefenceChoice choice):
+            activeBattleCard{card}, defenceChoice{choice} {}
         
         BattleStateComponent() = default;
     };

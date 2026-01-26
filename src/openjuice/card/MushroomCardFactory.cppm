@@ -24,8 +24,6 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::LegendaryMushroomColour;
-using openjuice::engine::card::MushroomColour;
 using openjuice::engine::card::mushroom::LegendaryMushroomCard;
 using openjuice::engine::card::spawntypes::MushroomCard;
 
@@ -55,7 +53,7 @@ public:
      * @return Shared pointer to the created MushroomCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<MushroomCard>> create(u8 id, MushroomColour colour) noexcept {
+    static Optional<SharedPointer<MushroomCard>> create(u8 id, MushroomCard::Colour colour) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Creating MushroomCard of ID: {}", id);
         #endif
@@ -125,7 +123,7 @@ public:
      * @return Shared pointer to the created LegendaryMushroomCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<LegendaryMushroomCard>> create(u8 id, LegendaryMushroomColour colour) noexcept {
+    static Optional<SharedPointer<LegendaryMushroomCard>> create(u8 id, LegendaryMushroomCard::Colour colour) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Creating LegendaryMushroomCard of ID: {}", id);
         #endif

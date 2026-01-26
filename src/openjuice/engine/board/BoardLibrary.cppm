@@ -12,10 +12,9 @@ module;
 #include <filesystem>
 
 #include "Macros.hpp"
+#include "Rename.hpp"
 
 export module openjuice.engine.board:BoardLibrary;
-
-export import :BoardLibraryError;
 
 import std;
 import stdx;
@@ -28,6 +27,9 @@ import openjuice.engine.util;
 import tomlpp;
 
 using std::collections::Vector;
+using std::fmt::FormatContext;
+using std::fmt::FormatParseContext;
+using std::fmt::Formatter;
 using std::fs::DirectoryEntry;
 using std::fs::DirectoryIterator;
 using std::mem::SharedPointer;
@@ -51,6 +53,17 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 export class BoardLibrary {
 public:
     static constexpr StringView MAPS_DIR = Constants::MAPS_DIR; ///< The maps directory path.
+
+    /**
+     * @enum Error
+     * @brief Enumeration of errors occuring in BoardLibrary operations
+     */
+    enum class Error: u8 {
+        DIRECTORY_NOT_FOUND, ///< The directory containing boards was not found
+        INVALID_TOML_ARRAY, ///< A TOML array was not valid or contained invalid data
+        INVALID_TOML_ARRAY_SIZE, ///< A TOML array had an invalid size
+        CORRUPTED_LIBRARY_TOML, ///< The TOML file storing the board library is corrupted or has invalid data
+    };
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BoardLibrary"); ///< The logger instance.
 
@@ -60,11 +73,11 @@ private:
      * @brief Private constructor to prevent instantiation.
      */
     BoardLibrary() {
-        if (Expected<void, Error<BoardLibraryError>> r = loadBoards(); r) {
+        if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r) {
             LOGGER->info("Successfully loaded {} boards!", boardList.size());
         } else {
             LOGGER->warn(
-                "Board libraries were not successfully initialised! Error: {}, {} boards successfully loaded",
+                "Board libraries were not successfully initialised! ErrorDescription: {}, {} boards successfully loaded",
                 r.error().message(),
                 boardList.size()
             );
@@ -103,15 +116,15 @@ public:
      * @param directory (Optional) The directory to load maps from.
      */
     [[nodiscard]]
-    Expected<void, Error<BoardLibraryError>> loadBoards(StringView directory = MAPS_DIR) {
+    Expected<void, ErrorDescription<Error>> loadBoards(StringView directory = MAPS_DIR) {
         #ifndef NDEBUG
         LOGGER->debug("Loading boards from directory: {}", directory);
         #endif
         
         if (!std::fs::exists(directory)) {
-            return Unexpected<Error<BoardLibraryError>>(
+            return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
-                BoardLibraryError::DIRECTORY_NOT_FOUND,
+                Error::DIRECTORY_NOT_FOUND,
                 std::fmt::format("The directory {} was not found!", directory)
             );
         }
@@ -126,9 +139,9 @@ public:
                 u8 boardHeight = data["height"].value_or<u8>(0);
 
                 if (boardId == 0 || boardName.empty() || boardWidth == 0 || boardHeight == 0) {
-                    return Unexpected<Error<BoardLibraryError>>(
+                    return Unexpected<ErrorDescription<Error>>(
                         Tags::IN_PLACE,
-                        BoardLibraryError::CORRUPTED_LIBRARY_TOML,
+                        Error::CORRUPTED_LIBRARY_TOML,
                         "Corrupted board library TOML file!"
                     );
                 }
@@ -140,9 +153,9 @@ public:
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {
-                                return Unexpected<Error<BoardLibraryError>>(
+                                return Unexpected<ErrorDescription<Error>>(
                                     Tags::IN_PLACE,
-                                    BoardLibraryError::INVALID_TOML_ARRAY_SIZE,
+                                    Error::INVALID_TOML_ARRAY_SIZE,
                                     std::fmt::format("Invalid homePanels size: expected 2, got {}", panel->size())
                                 );
                             }
@@ -158,17 +171,17 @@ public:
                             };
                             #endif
                         } else {
-                            return Unexpected<Error<BoardLibraryError>>(
+                            return Unexpected<ErrorDescription<Error>>(
                                 Tags::IN_PLACE,
-                                BoardLibraryError::INVALID_TOML_ARRAY,
+                                Error::INVALID_TOML_ARRAY,
                                 "Invalid homePanels format!"
                             );
                         }
                     }
                 } else {
-                    return Unexpected<Error<BoardLibraryError>>(
+                    return Unexpected<ErrorDescription<Error>>(
                         Tags::IN_PLACE,
-                        BoardLibraryError::INVALID_TOML_ARRAY,
+                        Error::INVALID_TOML_ARRAY,
                         "Invalid homePanels format!"
                     );
                 }
@@ -218,3 +231,35 @@ public:
 };
 
 END_MODULE_NAMESPACE();
+
+using openjuice::engine::board::BoardLibrary;
+
+template <>
+struct Formatter<BoardLibrary::Error> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(BoardLibrary::Error err, FormatContext& ctx) {
+        StringView name;
+        switch (err) {
+            case BoardLibrary::Error::DIRECTORY_NOT_FOUND:
+                name = "Directory not found"; 
+                break;
+            case BoardLibrary::Error::INVALID_TOML_ARRAY:
+                name = "Invalid TOML array"; 
+                break;
+            case BoardLibrary::Error::INVALID_TOML_ARRAY_SIZE:
+                name = "Invalid TOML array size"; 
+                break;
+            case BoardLibrary::Error::CORRUPTED_LIBRARY_TOML:
+                name = "Corrupted library TOML";
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+SPECIALISE_FORMATTER(BoardLibrary::Error);

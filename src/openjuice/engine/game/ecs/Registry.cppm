@@ -10,6 +10,7 @@
 module;
 
 #include "Macros.hpp"
+#include "Rename.hpp"
 
 export module openjuice.engine.game.ecs:Registry;
 
@@ -20,8 +21,10 @@ import :Meta;
 import :PolymorphicStorage;
 import :StorageManager;
 import :ThreadPool;
-export import :RegistryError;
 
+using std::fmt::FormatContext;
+using std::fmt::FormatParseContext;
+using std::fmt::Formatter;
 using std::mem::UniquePointer;
 using std::meta::IsPointerValue;
 using std::meta::RemoveConstVolatileReferenceType;
@@ -63,13 +66,23 @@ export {
  * - Optional components (Component*): nullptr if entity lacks the component
  */
 export class Registry {
+public:
+    /**
+     * @enum Error
+     * @brief Enumeration for registry errors.
+     * 
+     * The DeckPointError enumeration defines the types of errors on ECS registry operations.
+     */
+    enum class Error: u8 {
+        ENTITY_CREATE_FAILURE, ///< Failure to create an entity on the Registry
+    };
 private:
-    u32 capacity = 512; ///< The maximum number of entities that can exist simultaneously.
+    static inline StorageId idCount = 0; ///< Global counter for assigning unique storage IDs across component types.
     EntityManager entityManager; ///< Manages entity IDs and lifecycle.
     StorageManager storageManager; ///< Manages component storage and type information.
+    u32 capacity = 512; ///< The maximum number of entities that can exist simultaneously.
     u32 queryLevel = 0; ///< Nesting counter tracking active query contexts (for safety checks).
     bool parallelQueryRunning = false; ///< Indicates whether a parallel query is currently executing.
-    static inline StorageId idCount = 0; ///< Global counter for assigning unique storage IDs across component types.
 
     /**
      * @brief Retrieves the unique storage ID for a component type.
@@ -541,9 +554,9 @@ public:
      * @param capacity The maximum number of entities that can exist simultaneously.
      */
     explicit Registry(u32 capacity):
-        capacity{capacity},
         entityManager(capacity), 
-        storageManager(capacity) {}
+        storageManager(capacity),
+        capacity{capacity} {}
 
     /**
      * @brief Destroys the Registry.
@@ -1016,3 +1029,25 @@ public:
 };
 
 END_MODULE_NAMESPACE();
+
+using openjuice::engine::game::ecs::Registry;
+
+template <>
+struct Formatter<Registry::Error> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(Registry::Error err, FormatContext& ctx) {
+        StringView msg;
+        switch (err) {
+            case Registry::Error::ENTITY_CREATE_FAILURE:
+                msg = "Failed to create registry entity";
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", msg);
+    }
+};
+
+SPECIALISE_FORMATTER(Registry::Error);

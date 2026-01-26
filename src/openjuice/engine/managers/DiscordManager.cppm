@@ -9,10 +9,9 @@
 module;
 
 #include "Macros.hpp"
+#include "Rename.hpp"
 
 export module openjuice.engine.managers:DiscordManager;
-
-export import :DiscordActivityType;
 
 import std;
 import stdx;
@@ -21,6 +20,9 @@ import openjuice.engine.util;
 
 import discordpp;
 
+using std::fmt::FormatContext;
+using std::fmt::FormatParseContext;
+using std::fmt::Formatter;
 using std::mem::SharedPointer;
 using std::mem::UniquePointer;
 using std::sync::Mutex;
@@ -52,6 +54,18 @@ public:
     static constexpr StringView APPLICATION_NAME = Constants::DISCORD_APPLICATION_NAME; ///< The name of the application on Discord
     static constexpr StringView LARGE_IMAGE_KEY = Constants::DISCORD_LARGE_IMAGE_KEY; ///< The large image key on Discord
     static constexpr StringView SMALL_IMAGE_KEY = Constants::DISCORD_SMALL_IMAGE_KEY; ///< The small image key on Discord
+
+    /**
+     * @enum ActivityType
+     * @brief Enumeration for discord activity types.
+     * 
+     * The ActivityType enumeration defines the activity types that can be displayed in Discord.
+     */
+    enum class ActivityType: u8 {
+        IN_MENU, ///< Status is on menu
+        IN_GAME, ///< Status is in game
+        PAUSED, ///< Status is paused
+    };
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("DiscordManager"); ///< The logger instance.
 
@@ -59,7 +73,7 @@ private:
     String currentActivity; ///< Current activity
     UniquePointer<Client> client; ///< Discord SDK client
     u64 sessionStartTime; ///< Session start timestamp
-    DiscordActivityType currentActivityType; ///< Current activity type
+    ActivityType currentActivityType; ///< Current activity type
     bool isConnected = false; ///< Connection status
     bool isInitialised = false; ///< Initialisation status
 
@@ -110,7 +124,7 @@ public:
         sessionStartTime{static_cast<u64>(
             std::time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
         )},
-        currentActivityType{DiscordActivityType::IN_MENU} {}
+        currentActivityType{ActivityType::IN_MENU} {}
 
     /**
      * @brief Destructor of the DiscordManager
@@ -185,8 +199,37 @@ public:
         });
 
         currentActivity = "In Menu";
-        currentActivityType = DiscordActivityType::IN_MENU;
+        currentActivityType = ActivityType::IN_MENU;
     }
 };
 
 END_MODULE_NAMESPACE();
+
+using openjuice::engine::managers::DiscordManager;
+
+template <>
+struct Formatter<DiscordManager::ActivityType> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::Iterator format(DiscordManager::ActivityType type, FormatContext& ctx) {
+        StringView name;
+        switch (type) {
+            case DiscordManager::ActivityType::IN_MENU:
+                name = "In Menu";
+                break;
+            case DiscordManager::ActivityType::IN_GAME:
+                name = "In Game";
+                break;
+            case DiscordManager::ActivityType::PAUSED:
+                name = "Paused";
+                break;
+            default:
+                std::sys::unreachable();
+        }
+        return std::fmt::format_to(ctx.out(), "{}", name);
+    }
+};
+
+SPECIALISE_FORMATTER(DiscordManager::ActivityType);

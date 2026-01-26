@@ -23,7 +23,7 @@ using std::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::CardType;
+using openjuice::engine::card::Card;
 using openjuice::engine::card::spawntypes::GenericCard;
 
 using namespace openjuice::card::generic;
@@ -49,23 +49,23 @@ public:
      * @return Shared pointer to the created GenericCard object
      */
     [[nodiscard]]
-    static Optional<SharedPointer<GenericCard>> create(CardType type) noexcept {
+    static Optional<SharedPointer<GenericCard>> create(Card::Type type) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Creating GenericCard of type: {}", type);
         #endif
 
         switch (type) {
-            case CardType::BATTLE:
+            case Card::Type::BATTLE:
                 return std::mem::make_shared<GenericBattleCard>();
-            case CardType::BOOST:
+            case Card::Type::BOOST:
                 return std::mem::make_shared<GenericBoostCard>();
-            case CardType::TRAP:
+            case Card::Type::TRAP:
                 return std::mem::make_shared<GenericTrapCard>();
-            case CardType::EVENT:
+            case Card::Type::EVENT:
                 return std::mem::make_shared<GenericEventCard>();
-            case CardType::GIFT:
+            case Card::Type::GIFT:
                 return std::mem::make_shared<GenericGiftCard>();
-            case CardType::BANNER:
+            case Card::Type::BANNER:
                 return std::mem::make_shared<GenericBannerCard>();
             default:
                 std::sys::unreachable();

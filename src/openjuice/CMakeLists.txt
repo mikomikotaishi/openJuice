@@ -38,9 +38,6 @@ endif()
 
 target_link_libraries(modules PUBLIC 
     stdlibx
-    boost_asio_modules
-    boost_regex_modules
-    boost_system_modules
     discordpp
     ftxui-modules
     nlohmann_json_modules
@@ -51,9 +48,6 @@ target_link_libraries(modules PUBLIC
 target_include_directories(modules 
     PRIVATE 
     ${CMAKE_SOURCE_DIR}/include
-    ${boost-asio_SOURCE_DIR}/include
-    ${boost-regex_SOURCE_DIR}/include  
-    ${boost-system_SOURCE_DIR}/include
     ${tomlplusplus_INCLUDE_DIRS}
 )
 
