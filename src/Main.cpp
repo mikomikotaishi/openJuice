@@ -5,13 +5,12 @@
  * This file contains the main function of the openJuice application.
  */
 
-import std;
 import stdx;
 
 import openjuice;
 
-using std::collections::Vector;
-using std::mem::SharedPointer;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 

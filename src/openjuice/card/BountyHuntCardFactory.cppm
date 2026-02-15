@@ -12,14 +12,13 @@ module;
 
 export module openjuice.card:BountyHuntCardFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.card;
 import openjuice.engine.managers;
 import openjuice.card.bountyhunt;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -57,31 +56,31 @@ public:
             case 0:
                 return nullptr;
             // case AdventurersRadar::ID:
-            //     return std::mem::make_shared<AdventurersRadar>();
+            //     return stdx::mem::make_shared<AdventurersRadar>();
             // case CorrosionBlaster::ID:
-            //     return std::mem::make_shared<CorrosionBlaster>();
+            //     return stdx::mem::make_shared<CorrosionBlaster>();
             // case CursedSyrup::ID:
-            //     return std::mem::make_shared<CursedSyrup>();
+            //     return stdx::mem::make_shared<CursedSyrup>();
             // case FluffyShokupan::ID:
-            //     return std::mem::make_shared<FluffyShokupan>();
+            //     return stdx::mem::make_shared<FluffyShokupan>();
             // case HolyWater::ID:
-            //     return std::mem::make_shared<HolyWater>();
+            //     return stdx::mem::make_shared<HolyWater>();
             // case Lure::ID:
-            //     return std::mem::make_shared<Lure>();
+            //     return stdx::mem::make_shared<Lure>();
             // case PoisonBlaster::ID:
-            //     return std::mem::make_shared<PoisonBlaster>();
+            //     return stdx::mem::make_shared<PoisonBlaster>();
             // case Shokupan::ID:
-            //     return std::mem::make_shared<Shokupan>();
+            //     return stdx::mem::make_shared<Shokupan>();
             // case Slimebomb::ID:
-            //     return std::mem::make_shared<Slimebomb>();
+            //     return stdx::mem::make_shared<Slimebomb>();
             // case SmokeOfTheLostMemories::ID:
-            //     return std::mem::make_shared<SmokeOfTheLostMemories>();
+            //     return stdx::mem::make_shared<SmokeOfTheLostMemories>();
             // case SparkleBomb::ID:
-            //     return std::mem::make_shared<SparkleBomb>();
+            //     return stdx::mem::make_shared<SparkleBomb>();
             // case TeleportationPotion::ID:
-            //     return std::mem::make_shared<TeleportationPotion>();
+            //     return stdx::mem::make_shared<TeleportationPotion>();
             // case VenomBlaster::ID:
-            //     return std::mem::make_shared<VenomBlaster>();
+            //     return stdx::mem::make_shared<VenomBlaster>();
             default:
                 return nullopt;
         }

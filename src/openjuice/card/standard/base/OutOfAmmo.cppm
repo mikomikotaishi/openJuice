@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.base:OutOfAmmo;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

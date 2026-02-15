@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.acceleration:PresentThief;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

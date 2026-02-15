@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.mixedbooster:SealedMemories;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

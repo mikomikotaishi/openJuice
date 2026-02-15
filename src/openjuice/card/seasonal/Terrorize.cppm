@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.seasonal:Terrorize;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

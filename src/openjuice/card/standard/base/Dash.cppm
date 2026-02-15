@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.base:Dash;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.character:RedAndBlue;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

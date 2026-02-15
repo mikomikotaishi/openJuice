@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.generic:GenericEventCard;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 
@@ -34,7 +34,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::generic);
  */
 export class GenericEventCard final: public EventCard, public GenericCard {
 public:
-    static constexpr u8 ID = std::util::to_underlying(Card::Type::EVENT); ///< The id of this specific card
+    static constexpr u8 ID = stdx::util::to_underlying(Card::Type::EVENT); ///< The id of this specific card
 private:
     static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card

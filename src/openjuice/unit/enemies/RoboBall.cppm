@@ -12,7 +12,7 @@ module;
 
 export module openjuice.unit.enemies:RoboBall;
 
-import std;
+import stdx;
 
 import openjuice.engine.unit;
 

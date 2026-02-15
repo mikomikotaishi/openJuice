@@ -12,7 +12,7 @@ module;
 
 export module openjuice.engine.board:BoardInfo;
 
-import std;
+import stdx;
 
 import openjuice.engine.util;
 

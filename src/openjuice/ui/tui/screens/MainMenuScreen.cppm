@@ -12,7 +12,7 @@ module;
 
 export module openjuice.ui.tui.screens:MainMenuScreen;
 
-import std;
+import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
@@ -21,11 +21,11 @@ import openjuice.ui.tui.TUIScreen;
 
 import ftxui;
 
-using std::collections::Vector;
-using std::mem::SharedPointer;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
 
-namespace sys = std::sys;
-namespace util = std::util;
+namespace sys = stdx::sys;
+namespace util = stdx::util;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
@@ -115,7 +115,7 @@ private:
                                 case UrlOpenError::INVALID_URL:
                                     break;
                                 default:
-                                    std::sys::unreachable();
+                                    stdx::sys::unreachable();
                             }
                         }
                         return true;
@@ -129,7 +129,7 @@ private:
                         screenSwitchCallback(ScreenType::TITLE);
                         return true;
                     default:
-                        std::sys::unreachable();
+                        stdx::sys::unreachable();
                 }
             } else if (event == Event::Return) {
                 switch (selectedOption) {
@@ -161,7 +161,7 @@ private:
                                 case UrlOpenError::INVALID_URL:
                                     break;
                                 default:
-                                    std::sys::unreachable();
+                                    stdx::sys::unreachable();
                             }
                         }
                         return true;
@@ -175,7 +175,7 @@ private:
                         screenSwitchCallback(ScreenType::TITLE);
                         return true;
                     default:
-                        std::sys::unreachable();
+                        stdx::sys::unreachable();
                 }
             }
             return false;
@@ -205,7 +205,7 @@ public:
      * @param callback Function to call when switching screens
      */
     MainMenuScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(std::util::move(game), std::util::move(callback)) {
+        TUIScreen(stdx::util::move(game), stdx::util::move(callback)) {
         createComponent();
     }
 

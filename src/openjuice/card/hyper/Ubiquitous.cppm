@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.hyper:Ubiquitous;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

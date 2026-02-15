@@ -12,11 +12,11 @@ module;
 
 export module openjuice.engine.managers:GlobalSettings;
 
-import std;
+import stdx;
 
 import openjuice.engine.util;
 
-using std::collections::Vector;
+using stdx::collections::Vector;
 
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
@@ -102,7 +102,7 @@ public:
             case Language::KOREAN:
                 return "ko";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 

@@ -12,7 +12,7 @@ module;
 
 export module openjuice.unit.characters.maincharacters:Marc;
 
-import std;
+import stdx;
 
 import openjuice.engine.unit;
 

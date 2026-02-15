@@ -12,7 +12,7 @@ export module openjuice.ui.tui.TUIScreen;
 
 export import :ScreenType;
 
-import std;
+import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
@@ -20,7 +20,7 @@ import openjuice.engine.util;
 
 import ftxui;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::TextManager;

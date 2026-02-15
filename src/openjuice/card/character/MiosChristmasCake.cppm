@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.character:MiosChristmasCake;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

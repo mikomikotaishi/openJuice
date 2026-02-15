@@ -12,7 +12,7 @@ module;
 
 export module openjuice.engine.util:InvalidLanguageException;
 
-import std;
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
@@ -20,7 +20,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
  * @class InvalidLanguageException
  * @brief Exception class for invalid languages.
  *
- * @extends InvalidArgumentException (std::invalid_argument)
+ * @extends InvalidArgumentException (stdx::invalid_argument)
  * 
  * The InvalidLanguageException class is used to handle exceptions related to invalid languages.
  */

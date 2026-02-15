@@ -12,14 +12,13 @@ module;
 
 export module openjuice.unit:CharacterFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.managers;
 import openjuice.engine.unit;
 import openjuice.unit.characters;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -57,205 +56,205 @@ public:
                 return nullptr;
             // === Main characters ===
             case Kai::ID:
-                return std::mem::make_shared<Kai>();
+                return stdx::mem::make_shared<Kai>();
             case Marc::ID:
-                return std::mem::make_shared<Marc>();
+                return stdx::mem::make_shared<Marc>();
             case QP::ID:
-                return std::mem::make_shared<QP>();
+                return stdx::mem::make_shared<QP>();
             case Suguri::ID:
-                return std::mem::make_shared<Suguri>();
+                return stdx::mem::make_shared<Suguri>();
             // === Unlockable characters ===
             case Aru::ID:
-                return std::mem::make_shared<Aru>();
+                return stdx::mem::make_shared<Aru>();
             case Fernet::ID:
-                return std::mem::make_shared<Fernet>();
+                return stdx::mem::make_shared<Fernet>();
             case Hime::ID:
-                return std::mem::make_shared<Hime>();
+                return stdx::mem::make_shared<Hime>();
             case MariePoppo::ID:
-                return std::mem::make_shared<MariePoppo>();
+                return stdx::mem::make_shared<MariePoppo>();
             case Mio::ID:
-                return std::mem::make_shared<Mio>();
+                return stdx::mem::make_shared<Mio>();
             case MioFestive::ID:
-                return std::mem::make_shared<MioFestive>();
+                return stdx::mem::make_shared<MioFestive>();
             case Peat::ID:
-                return std::mem::make_shared<Peat>();
+                return stdx::mem::make_shared<Peat>();
             case Sora::ID:
-                return std::mem::make_shared<Sora>();
+                return stdx::mem::make_shared<Sora>();
             case Tomomo::ID:
-                return std::mem::make_shared<Tomomo>();
+                return stdx::mem::make_shared<Tomomo>();
             case Yuki::ID:
-                return std::mem::make_shared<Yuki>();
+                return stdx::mem::make_shared<Yuki>();
             // // === Store-unlocked characters ===
             // case Chicken::ID:
-            //     return std::mem::make_shared<Chicken>();
+            //     return stdx::mem::make_shared<Chicken>();
             // case RoboBall::ID:
-            //     return std::mem::make_shared<RoboBall>();
+            //     return stdx::mem::make_shared<RoboBall>();
             // case Seagull::ID:
-            //     return std::mem::make_shared<Seagull>();
+            //     return stdx::mem::make_shared<Seagull>();
             // case StoreManager::ID:
-            //     return std::mem::make_shared<StoreManager>();
+            //     return stdx::mem::make_shared<StoreManager>();
             // case ShifuRobot::ID:
-            //     return std::mem::make_shared<ShifuRobot>();
+            //     return stdx::mem::make_shared<ShifuRobot>();
             // case FlyingCastle::ID:
-            //     return std::mem::make_shared<FlyingCastle>();
+            //     return stdx::mem::make_shared<FlyingCastle>();
             // === DLC-unlocked characters ===
             // case Syura::ID:
-            //     return std::mem::make_shared<Syura>();
+            //     return stdx::mem::make_shared<Syura>();
             // case Nanako::ID:
-            //     return std::mem::make_shared<Nanako>();
+            //     return stdx::mem::make_shared<Nanako>();
             // case QPDangerous::ID:
-            //     return std::mem::make_shared<QPDangerous>();
+            //     return stdx::mem::make_shared<QPDangerous>();
             // case Saki::ID:
-            //     return std::mem::make_shared<Saki>();
+            //     return stdx::mem::make_shared<Saki>();
             // case Kyousuke::ID:
-            //     return std::mem::make_shared<Kyousuke>();
+            //     return stdx::mem::make_shared<Kyousuke>();
             // case Krilalaris::ID:
-            //     return std::mem::make_shared<Krilalaris>();
+            //     return stdx::mem::make_shared<Krilalaris>();
             // case Kae::ID:
-            //     return std::mem::make_shared<Kae>();
+            //     return stdx::mem::make_shared<Kae>();
             // case Alte::ID:
-            //     return std::mem::make_shared<Alte>();
+            //     return stdx::mem::make_shared<Alte>();
             // case Kyoko::ID:
-            //     return std::mem::make_shared<Kyoko>();
+            //     return stdx::mem::make_shared<Kyoko>();
             // case MariePoppoMixed::ID:
-            //     return std::mem::make_shared<MariePoppoMixed>();
+            //     return stdx::mem::make_shared<MariePoppoMixed>();
             // case Sham::ID:
-            //     return std::mem::make_shared<Sham>();
+            //     return stdx::mem::make_shared<Sham>();
             // case Sherry::ID:
-            //     return std::mem::make_shared<Sherry>();
+            //     return stdx::mem::make_shared<Sherry>();
             // case SoraMilitary::ID:
-            //     return std::mem::make_shared<SoraMilitary>();
+            //     return stdx::mem::make_shared<SoraMilitary>();
             // case StarBreaker::ID:
-            //     return std::mem::make_shared<StarBreaker>();
+            //     return stdx::mem::make_shared<StarBreaker>();
             // case SweetBreaker::ID:
-            //     return std::mem::make_shared<SweetBreaker>();
+            //     return stdx::mem::make_shared<SweetBreaker>();
             // case AruScramble::ID:
-            //     return std::mem::make_shared<AruScramble>();
+            //     return stdx::mem::make_shared<AruScramble>();
             // case Nath::ID:
-            //     return std::mem::make_shared<Nath>();
+            //     return stdx::mem::make_shared<Nath>();
             // case Tomato::ID:
-            //     return std::mem::make_shared<Tomato>();
+            //     return stdx::mem::make_shared<Tomato>();
             // case Mimyuu::ID:
-            //     return std::mem::make_shared<Mimyuu>();
+            //     return stdx::mem::make_shared<Mimyuu>();
             // case Kiriko::ID:
-            //     return std::mem::make_shared<Kiriko>();
+            //     return stdx::mem::make_shared<Kiriko>();
             // case NoName::ID:
-            //     return std::mem::make_shared<NoName>();
+            //     return stdx::mem::make_shared<NoName>();
             // case NoNameHead::ID:
-            //     return std::mem::make_shared<NoNameHead>();
+            //     return stdx::mem::make_shared<NoNameHead>();
             // case Ceoreparque::ID:
-            //     return std::mem::make_shared<Ceoreparque>();
+            //     return stdx::mem::make_shared<Ceoreparque>();
             // case Miusaki::ID:
-            //     return std::mem::make_shared<Miusaki>();
+            //     return stdx::mem::make_shared<Miusaki>();
             // case YukiDangerous::ID:
-            //     return std::mem::make_shared<YukiDangerous>();
+            //     return stdx::mem::make_shared<YukiDangerous>();
             // case TomomoCasual::ID:
-            //     return std::mem::make_shared<TomomoCasual>();
+            //     return stdx::mem::make_shared<TomomoCasual>();
             // case TomomoSweetEater::ID:
-            //     return std::mem::make_shared<TomomoSweetEater>();
+            //     return stdx::mem::make_shared<TomomoSweetEater>();
             // case SuguriVer2::ID:
-            //     return std::mem::make_shared<SuguriVer2>();
+            //     return stdx::mem::make_shared<SuguriVer2>();
             // case Tsih::ID:
-            //     return std::mem::make_shared<Tsih>();
+            //     return stdx::mem::make_shared<Tsih>();
             // case Tequila::ID:
-            //     return std::mem::make_shared<Tequila>();
+            //     return stdx::mem::make_shared<Tequila>();
             // case Mei::ID:
-            //     return std::mem::make_shared<Mei>();
+            //     return stdx::mem::make_shared<Mei>();
             // case Natsumi::ID:
-            //     return std::mem::make_shared<Natsumi>();
+            //     return stdx::mem::make_shared<Natsumi>();
             // case Nico::ID:
-            //     return std::mem::make_shared<Nico>();
+            //     return stdx::mem::make_shared<Nico>();
             // case Arthur::ID:
-            //     return std::mem::make_shared<Arthur>();
+            //     return stdx::mem::make_shared<Arthur>();
             // case Iru::ID:
-            //     return std::mem::make_shared<Iru>();
+            //     return stdx::mem::make_shared<Iru>();
             // case Mira::ID:
-            //     return std::mem::make_shared<Mira>();
+            //     return stdx::mem::make_shared<Mira>();
             // case Cuties::ID:
-            //     return std::mem::make_shared<Cuties>();
+            //     return stdx::mem::make_shared<Cuties>();
             // case Yuuki::ID:
-            //     return std::mem::make_shared<Yuuki>();
+            //     return stdx::mem::make_shared<Yuuki>();
             // case Islay::ID:
-            //     return std::mem::make_shared<Islay>();
+            //     return stdx::mem::make_shared<Islay>();
             // case Suguri46BillionYears::ID:
-            //     return std::mem::make_shared<Suguri46BillionYears>();
+            //     return stdx::mem::make_shared<Suguri46BillionYears>();
             // case Sumika::ID:
-            //     return std::mem::make_shared<Sumika>();
+            //     return stdx::mem::make_shared<Sumika>();
             // case Ellie::ID:
-            //     return std::mem::make_shared<Ellie>();
+            //     return stdx::mem::make_shared<Ellie>();
             // case Lulu::ID:
-            //     return std::mem::make_shared<Lulu>();
+            //     return stdx::mem::make_shared<Lulu>();
             // case MarcPilot::ID:
-            //     return std::mem::make_shared<MarcPilot>();
+            //     return stdx::mem::make_shared<MarcPilot>();
             // case Alicianrone::ID:
-            //     return std::mem::make_shared<Alicianrone>();
+            //     return stdx::mem::make_shared<Alicianrone>();
             // case Teotoratta::ID:
-            //     return std::mem::make_shraed<Teotoratta>();
+            //     return stdx::mem::make_shraed<Teotoratta>();
             // case Arnelle::ID:
-            //     return std::mem::make_shared<Arnelle>();
+            //     return stdx::mem::make_shared<Arnelle>();
             // case Maynie::ID:
-            //     return std::mem::make_shared<Maynie>();
+            //     return stdx::mem::make_shared<Maynie>();
             // case Kyupita::ID:
-            //     return std::mem::make_shared<Kyupita>();
+            //     return stdx::mem::make_shared<Kyupita>();
             // case Chris::ID:
-            //     return std::mem::make_shared<Chris>();
+            //     return stdx::mem::make_shared<Chris>();
             // case Halena::ID:
-            //     return std::mem::make_shared<Halena>();
+            //     return stdx::mem::make_shared<Halena>();
             // case Cook::ID:
-            //     return std::mem::make_shared<Cook>();
+            //     return stdx::mem::make_shared<Cook>();
             // case LoneRider::ID:
-            //     return std::mem::make_shared<LoneRider>();
+            //     return stdx::mem::make_shared<LoneRider>();
             // case Merchant::ID:
-            //     return std::mem::make_shared<Merchant>();
+            //     return stdx::mem::make_shared<Merchant>();
             // case HimeMoonlight::ID:
-            //     return std::mem::make_shared<HimeMoonlight>();
+            //     return stdx::mem::make_shared<HimeMoonlight>();
             // case FernetNoble::ID:
-            //     return std::mem::make_shared<FernetNoble>();
+            //     return stdx::mem::make_shared<FernetNoble>();
             // case Malt::ID:
-            //     return std::mem::make_shared<Malt>();
+            //     return stdx::mem::make_shared<Malt>();
             // case Mescal::ID:
-            //     return std::mem::make_shared<Mescal>();
+            //     return stdx::mem::make_shared<Mescal>();
             // case Shifu::ID:
-            //     return std::mem::make_shared<Shifu>();
+            //     return stdx::mem::make_shared<Shifu>();
             // case HoshinoReika::ID:
-            //     return std::mem::make_shared<HoshinoReika>();
+            //     return stdx::mem::make_shared<HoshinoReika>();
             // case Watty::ID:
-            //     return std::mem::make_shared<Watty>();
+            //     return stdx::mem::make_shared<Watty>();
             // case Pomeranius::ID:
-            //     return std::mem::make_shared<Pomeranius>();
+            //     return stdx::mem::make_shared<Pomeranius>();
             // case SweetCreator::ID:
-            //     return std::mem::make_shared<SweetCreator>();
+            //     return stdx::mem::make_shared<SweetCreator>();
             // case SakiSweetMaker::ID:
-            //     return std::mem::make_shared<SakiSweetMaker>();
+            //     return stdx::mem::make_shared<SakiSweetMaker>();
             // case NatsumiSweetBlogger::ID:
-            //     return std::mem::make_shared<NatsumiSweetBlogger>();
+            //     return stdx::mem::make_shared<NatsumiSweetBlogger>();
             // case KrilalarisPajamas::ID:
-            //     return std::mem::make_shared<KrilalarisPajamas>();
+            //     return stdx::mem::make_shared<KrilalarisPajamas>();
             // case MimyuuJailbird::ID:
-            //     return std::mem::make_shared<MimyuuJailbird>();
+            //     return stdx::mem::make_shared<MimyuuJailbird>();
             // case MotherPoppo::ID:
-            //     return std::mem::make_shared<MotherPoppo>();
+            //     return stdx::mem::make_shared<MotherPoppo>();
             // case DarkLulu::ID:
-            //     return std::mem::make_shared<DarkLulu>();
+            //     return stdx::mem::make_shared<DarkLulu>();
             // case HyperEllie::ID:
-            //     return std::mem::make_shared<HyperEllie>();
+            //     return stdx::mem::make_shared<HyperEllie>();
             // case KaiHero::ID:
-            //     return std::mem::make_shared<KaiHero>();
+            //     return stdx::mem::make_shared<KaiHero>();
             // case Grain::ID:
-            //     return std::mem::make_shared<Grain>();
+            //     return stdx::mem::make_shared<Grain>();
             // case Bourbon::ID:
-            //     return std::mem::make_shared<Bourbon>();
+            //     return stdx::mem::make_shared<Bourbon>();
             // case Poyo::ID:
-            //     return std::mem::make_shared<Poyo>();
+            //     return stdx::mem::make_shared<Poyo>();
             // case Chuu::ID:
-            //     return std::mem::make_shared<Chuu>();
+            //     return stdx::mem::make_shared<Chuu>();
             // case Haruka::ID:
-            //     return std::mem::make_shared<Haruka>();
+            //     return stdx::mem::make_shared<Haruka>();
             // case Kanata::ID:
-            //     return std::mem::make_shared<Kanata>();
+            //     return stdx::mem::make_shared<Kanata>();
             // === All characters released from 3.28.1 onwards ===
             // case MariPopomi::ID:
-            //     return std::mem::make_shared<MariPopomi>();
+            //     return stdx::mem::make_shared<MariPopomi>();
             default:
                 return nullopt;
         }

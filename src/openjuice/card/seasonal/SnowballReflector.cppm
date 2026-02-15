@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.seasonal:SnowballReflector;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

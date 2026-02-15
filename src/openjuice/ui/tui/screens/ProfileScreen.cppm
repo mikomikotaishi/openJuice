@@ -12,7 +12,7 @@ module;
 
 export module openjuice.ui.tui.screens:ProfileScreen;
 
-import std;
+import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
@@ -20,8 +20,8 @@ import openjuice.ui.tui.TUIScreen;
 
 import ftxui;
 
-using std::collections::Vector;
-using std::mem::SharedPointer;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
@@ -59,7 +59,7 @@ public:
      * @param callback Function to call when switching screens
      */
     ProfileScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(std::util::move(game), std::util::move(callback)) {
+        TUIScreen(stdx::util::move(game), stdx::util::move(callback)) {
         createComponent();
     }
 

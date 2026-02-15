@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.base:HolyNight;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

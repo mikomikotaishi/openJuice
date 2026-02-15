@@ -12,11 +12,11 @@ module;
 
 export module openjuice:Main;
 
-import std;
+import stdx;
 
 import openjuice.engine;
 
-using std::collections::Vector;
+using stdx::collections::Vector;
 
 using openjuice::engine::Engine;
 using openjuice::engine::util::GameExecuteMode;
@@ -48,7 +48,7 @@ private:
             case GameExecuteMode::HELP_MESSAGE:
                 return nullopt;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 public:

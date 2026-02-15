@@ -13,18 +13,18 @@ module;
 
 export module openjuice.engine.game.ecs:PolymorphicStorage;
 
-import std;
+import stdx;
 
 import :Meta;
 
-using std::mem::AlignValue;
-using std::mem::UniquePointer;
-using std::meta::EnableIfType;
-using std::meta::IsCopyConstructibleValue;
-using std::meta::IsEmptyValue;
-using std::meta::IsMoveConstructibleValue;
-using std::meta::IsPointerValue;
-using std::meta::RemoveReferenceType;
+using stdx::mem::AlignValue;
+using stdx::mem::UniquePointer;
+using stdx::meta::EnableIfType;
+using stdx::meta::IsCopyConstructibleValue;
+using stdx::meta::IsEmptyValue;
+using stdx::meta::IsMoveConstructibleValue;
+using stdx::meta::IsPointerValue;
+using stdx::meta::RemoveReferenceType;
 
 using openjuice::engine::game::ecs::meta::ComponentTypeInfo;
 
@@ -127,9 +127,9 @@ public:
      * @param other The PolymorphicStorage instance to copy from.
      */
     PolymorphicStorage(const PolymorphicStorage& other):
-        mask{other.populated ? std::mem::make_unique<bool[]>(other.capacity) : nullptr},
-        connector{other.populated ? std::mem::make_unique<EntityId[]>(other.capacity) : nullptr},
-        indices{other.populated ? std::mem::make_unique<u32[]>(other.capacity) : nullptr},
+        mask{other.populated ? stdx::mem::make_unique<bool[]>(other.capacity) : nullptr},
+        connector{other.populated ? stdx::mem::make_unique<EntityId[]>(other.capacity) : nullptr},
+        indices{other.populated ? stdx::mem::make_unique<u32[]>(other.capacity) : nullptr},
         eraseFn{other.populated ? other.eraseFn : nullptr},
         deleteFn{other.populated ? other.deleteFn : nullptr},
         copyFn{other.populated ? other.copyFn : nullptr},
@@ -158,9 +158,9 @@ public:
                 onDestroyDeleteFn = other.onDestroyDeleteFn;
             }
 
-            std::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
-            std::ranges::copy(Span<EntityId>(other.connector.get(), capacity), connector.get());
-            std::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
+            stdx::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
+            stdx::ranges::copy(Span<EntityId>(other.connector.get(), capacity), connector.get());
+            stdx::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
 
             for (usize i = 0; i < occupied; ++i) {
                 EntityId id = connector[i];
@@ -180,9 +180,9 @@ public:
      * @param other The PolymorphicStorage instance to move from.
      */
     PolymorphicStorage(PolymorphicStorage&& other):
-        mask{std::util::move(other.mask)},
-        connector{std::util::move(other.connector)},
-        indices{std::util::move(other.indices)},
+        mask{stdx::util::move(other.mask)},
+        connector{stdx::util::move(other.connector)},
+        indices{stdx::util::move(other.indices)},
         storage{other.storage},
         onConstructFn{other.onConstructFn},
         onDestroyFn{other.onDestroyFn},
@@ -253,14 +253,14 @@ public:
                     onDestroyDeleteFn = other.onDestroyDeleteFn;
                 }
 
-                mask = std::mem::make_unique<bool[]>(capacity);
-                std::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
+                mask = stdx::mem::make_unique<bool[]>(capacity);
+                stdx::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
 
-                connector = std::mem::make_unique<EntityId[]>(capacity);
-                std::ranges::copy(Span<EntityId>(other.connector.get(), capacity), connector.get());
+                connector = stdx::mem::make_unique<EntityId[]>(capacity);
+                stdx::ranges::copy(Span<EntityId>(other.connector.get(), capacity), connector.get());
 
-                indices = std::mem::make_unique<u32[]>(capacity);
-                std::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
+                indices = stdx::mem::make_unique<u32[]>(capacity);
+                stdx::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
 
                 for (usize i = 0; i < occupied; ++i) {
                     EntityId id = connector[i];
@@ -292,9 +292,9 @@ public:
                 storage = other.storage;
                 size = other.size;
                 alignment = other.alignment;
-                mask = std::util::move(other.mask);
-                connector = std::util::move(other.connector);
-                indices = std::util::move(other.indices);
+                mask = stdx::util::move(other.mask);
+                connector = stdx::util::move(other.connector);
+                indices = stdx::util::move(other.indices);
                 eraseFn = other.eraseFn;
                 deleteFn = other.deleteFn;
                 copyFn = other.copyFn;
@@ -392,7 +392,7 @@ public:
         if (onConstructFn) {
             onConstructDeleteFn(onConstructFn);
         }
-        onConstructFn = new Fn(std::util::forward<Fn>(fn));
+        onConstructFn = new Fn(stdx::util::forward<Fn>(fn));
         onConstructDeleteFn = [](void* fn) -> void {
             delete static_cast<Fn*>(fn);
         };
@@ -419,7 +419,7 @@ public:
         if (onDestroyFn) {
             onDestroyDeleteFn(onDestroyFn);
         }
-        onDestroyFn = new Fn(std::util::forward<Fn>(fn));
+        onDestroyFn = new Fn(stdx::util::forward<Fn>(fn));
         onDestroyDeleteFn = [](void* fn) -> void {
             delete static_cast<Fn*>(fn);
         };
@@ -495,9 +495,9 @@ public:
             ::operator delete(data, AlignValue{alignof(T)});
         };
 
-        mask = std::mem::make_unique<bool[]>(cap);
-        connector = std::mem::make_unique<EntityId[]>(cap);
-        indices = std::mem::make_unique<u32[]>(cap);
+        mask = stdx::mem::make_unique<bool[]>(cap);
+        connector = stdx::mem::make_unique<EntityId[]>(cap);
+        indices = stdx::mem::make_unique<u32[]>(cap);
 
         eraseFn = [](void* data, u32 index) -> void {
             if constexpr (!IsEmptyValue<T>) {
@@ -517,7 +517,7 @@ public:
 
         moveFn = [](void* origin, void* destination, u32 from, u32 to) -> void {
             if constexpr (IsCopyConstructibleValue<T>) {
-                new (static_cast<T*>(destination) + to) T(std::util::move(*(static_cast<T*>(origin) + from)));
+                new (static_cast<T*>(destination) + to) T(stdx::util::move(*(static_cast<T*>(origin) + from)));
             } else {
                 static_assert(false, "Error, trying to copy immovable type!");
             }
@@ -558,13 +558,13 @@ public:
             u32 next = occupied++;
             setConnectorTableId(next, index);
             cell = true;
-            T& val = *(new (static_cast<T*>(storage) + index) T(std::util::forward<Args>(args)...));
+            T& val = *(new (static_cast<T*>(storage) + index) T(stdx::util::forward<Args>(args)...));
             onConstruct(index);
             return val;
         } else {
             onDestroy(index);
             eraseFn(storage, index);
-            return *(new (static_cast<T*>(storage) + index) T(std::util::forward<Args>(args)...));
+            return *(new (static_cast<T*>(storage) + index) T(stdx::util::forward<Args>(args)...));
         }
     }
 

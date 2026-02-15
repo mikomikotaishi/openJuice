@@ -12,14 +12,13 @@ module;
 
 export module openjuice.card:GenericCardFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.card;
 import openjuice.engine.managers;
 import openjuice.card.generic;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -56,19 +55,19 @@ public:
 
         switch (type) {
             case Card::Type::BATTLE:
-                return std::mem::make_shared<GenericBattleCard>();
+                return stdx::mem::make_shared<GenericBattleCard>();
             case Card::Type::BOOST:
-                return std::mem::make_shared<GenericBoostCard>();
+                return stdx::mem::make_shared<GenericBoostCard>();
             case Card::Type::TRAP:
-                return std::mem::make_shared<GenericTrapCard>();
+                return stdx::mem::make_shared<GenericTrapCard>();
             case Card::Type::EVENT:
-                return std::mem::make_shared<GenericEventCard>();
+                return stdx::mem::make_shared<GenericEventCard>();
             case Card::Type::GIFT:
-                return std::mem::make_shared<GenericGiftCard>();
+                return stdx::mem::make_shared<GenericGiftCard>();
             case Card::Type::BANNER:
-                return std::mem::make_shared<GenericBannerCard>();
+                return stdx::mem::make_shared<GenericBannerCard>();
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 };

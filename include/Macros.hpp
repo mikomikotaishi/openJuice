@@ -357,7 +357,7 @@ private:
  */
 #define SPECIALISE_FORMATTER(Typename) \
     template <> \
-    struct std::fmt::formatter<Typename> : public Formatter<Typename> {};
+    struct stdx::fmt::formatter<Typename> : public Formatter<Typename> {};
 
 /**
  * @brief A utility to specialise a type in std::hash. 
@@ -368,7 +368,7 @@ private:
  */
 #define SPECIALISE_HASH(Typename) \
     template <> \
-    struct std::core::hash<Typename> : public Hash<Typename> {};
+    struct stdx::core::hash<Typename> : public Hash<Typename> {};
 
 #ifdef NDEBUG
 #define RELEASE_NOEXCEPT noexcept

@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.hyper:MagicalInferno;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

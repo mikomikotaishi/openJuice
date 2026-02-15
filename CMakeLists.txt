@@ -5,16 +5,18 @@ if(NOT CMAKE_BINARY_DIR)
     set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
 endif()
 
-# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
-
-set(CMAKE_CXX_STANDARD 23)
-# set(CMAKE_CXX_MODULE_STD ON)
-
 # Forcing Clang temporarily on Unix systems, will probably change this later once module support improves
+# Necessary as GCC has an error "c++: error: unrecognized command-line option ‘-stdlib=libstdc++’"
+# which I don't know how to fix
 if(UNIX)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 endif()
+
+# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
+
+set(CMAKE_CXX_STANDARD 23)
+# set(CMAKE_CXX_MODULE_STD ON)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)

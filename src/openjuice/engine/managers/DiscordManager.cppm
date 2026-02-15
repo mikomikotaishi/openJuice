@@ -13,22 +13,21 @@ module;
 
 export module openjuice.engine.managers:DiscordManager;
 
-import std;
 import stdx;
 
 import openjuice.engine.util;
 
 import discordpp;
 
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::mem::SharedPointer;
-using std::mem::UniquePointer;
-using std::sync::Mutex;
-using std::sync::ScopedLock;
-using std::time::SystemClock;
-using std::time::temporal::Milliseconds;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::mem::SharedPointer;
+using stdx::mem::UniquePointer;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
+using stdx::time::SystemClock;
+using stdx::time::temporal::Milliseconds;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -122,7 +121,7 @@ public:
      */
     DiscordManager():
         sessionStartTime{static_cast<u64>(
-            std::time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
+            stdx::time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
         )},
         currentActivityType{ActivityType::IN_MENU} {}
 
@@ -143,7 +142,7 @@ public:
         ScopedLock<Mutex> lock(discordMutex);
 
         try {
-            client = std::mem::make_unique<Client>();
+            client = stdx::mem::make_unique<Client>();
             client->SetApplicationId(APPLICATION_ID);
             client->SetStatusChangedCallback([this](Client::Status status, Client::Error error, i32 details) -> void {
                 switch (status) {
@@ -226,9 +225,9 @@ struct Formatter<DiscordManager::ActivityType> {
                 name = "Paused";
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

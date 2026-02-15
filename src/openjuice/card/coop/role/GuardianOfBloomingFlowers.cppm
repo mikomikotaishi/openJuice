@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.coop.role:GuardianOfBloomingFlowers;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

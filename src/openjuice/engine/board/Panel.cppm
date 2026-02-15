@@ -13,16 +13,16 @@ module;
 
 export module openjuice.engine.board:Panel;
 
-import std;
+import stdx;
 
 import openjuice.engine.util;
 
-using std::collections::BitSet;
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::mem::SharedPointer;
-using std::mem::WeakPointer;
+using stdx::collections::BitSet;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::mem::SharedPointer;
+using stdx::mem::WeakPointer;
 
 using openjuice::engine::util::Direction;
 
@@ -108,9 +108,9 @@ public:
      */
     void setNeighbour(Direction direction, const SharedPointer<Panel>& neighbour) RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        neighbours.at(std::util::to_underlying(direction)) = neighbour;
+        neighbours.at(stdx::util::to_underlying(direction)) = neighbour;
         #else
-        neighbours[std::util::to_underlying(direction)] = neighbour;
+        neighbours[stdx::util::to_underlying(direction)] = neighbour;
         #endif
     }
 
@@ -123,9 +123,9 @@ public:
     [[nodiscard]]
     SharedPointer<Panel> getNeighbour(Direction direction) const RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        return neighbours.at(std::util::to_underlying(direction)).lock();
+        return neighbours.at(stdx::util::to_underlying(direction)).lock();
         #else
-        return neighbours[std::util::to_underlying(direction)].lock();
+        return neighbours[stdx::util::to_underlying(direction)].lock();
         #endif
     }
 };
@@ -225,9 +225,9 @@ struct Formatter<Panel::Type> {
                 name = "Random";
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.generic:GenericBoostCard;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 
@@ -34,7 +34,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::generic);
  */
 export class GenericBoostCard final: public BoostCard, public GenericCard {
 public:
-    static constexpr u8 ID = std::util::to_underlying(Card::Type::BOOST); ///< The id of this specific card
+    static constexpr u8 ID = stdx::util::to_underlying(Card::Type::BOOST); ///< The id of this specific card
 private:
     static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card

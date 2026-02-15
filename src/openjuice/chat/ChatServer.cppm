@@ -12,14 +12,14 @@ module;
 
 export module openjuice.chat:ChatServer;
 
-import std;
+import stdx;
 
 import :ChatSession;
 
 #if 0
 
-using std::collections::Vector;
-using std::mem::SharedPointer;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
 
 using boost::asio::ip::tcp::Acceptor;
 using boost::asio::ip::tcp::Socket;
@@ -45,7 +45,7 @@ private:
         serverAcceptor.async_accept(
             [this](ErrorCode ec, Socket socket) -> void {
                 if (!ec) {
-                    std::mem::make_shared<ChatSession>(std::util::move(socket), clients)->start();
+                    stdx::mem::make_shared<ChatSession>(stdx::util::move(socket), clients)->start();
                 }
                 acceptConnection();
             }

@@ -12,11 +12,11 @@ module;
 
 export module openjuice.engine.unit:EventCharacter;
 
-import std;
+import stdx;
 
 import :Playable;
 
-using std::meta::IsBaseOfValue;
+using stdx::meta::IsBaseOfValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 

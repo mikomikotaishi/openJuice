@@ -12,11 +12,11 @@ module;
 
 export module openjuice.engine.unit:BasicEnemy;
 
-import std;
+import stdx;
 
 import :Enemy;
 
-using std::meta::IsBaseOfValue;
+using stdx::meta::IsBaseOfValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 

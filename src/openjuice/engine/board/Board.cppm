@@ -16,7 +16,7 @@ module;
 
 export module openjuice.engine.board:Board;
 
-import std;
+import stdx;
 
 import :BoardInfo;
 import :BoardLibrary;
@@ -24,12 +24,12 @@ import :Panel;
 
 import openjuice.engine.util;
 
-using std::collections::Queue;
-using std::collections::HashMap;
-using std::collections::Vector;
-using std::mem::SharedPointer;
-using std::mem::UniquePointer;
-using std::ranges::IotaView;
+using stdx::collections::Queue;
+using stdx::collections::HashMap;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
+using stdx::mem::UniquePointer;
+using stdx::ranges::IotaView;
 
 using openjuice::engine::board::BoardInfo;
 using openjuice::engine::board::Panel;
@@ -189,7 +189,7 @@ public:
             homePanels = boardData->getHomePanels();
 
             // Initialise the graph after the game board is set up
-            graph = std::mem::make_unique<Graph>(gameBoard);
+            graph = stdx::mem::make_unique<Graph>(gameBoard);
         } else {
             // Initialises to 0 at application startup - trivial case
             boardWidth = 0;

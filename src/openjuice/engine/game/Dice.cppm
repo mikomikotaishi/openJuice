@@ -10,14 +10,14 @@ module;
 
 export module openjuice.engine.game.Dice;
 
-import std;
+import stdx;
 
 import openjuice.engine.util;
 
-using std::collections::Deque;
-using std::collections::Vector;
-using std::sync::Mutex;
-using std::sync::ScopedLock;
+using stdx::collections::Deque;
+using stdx::collections::Vector;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
 
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::RandomNumberGenerator;

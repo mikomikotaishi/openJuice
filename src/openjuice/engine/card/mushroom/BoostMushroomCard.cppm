@@ -13,7 +13,7 @@ module;
 
 export module openjuice.engine.card.mushroom:BoostMushroomCard;
 
-import std;
+import stdx;
 
 import :BattleMushroomCard;
 
@@ -22,10 +22,10 @@ import openjuice.engine.card.cardtypes;
 import openjuice.engine.card.spawntypes;
 import openjuice.engine.managers;
 
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::meta::IsBaseOfValue;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::cardtypes::BoostCard;
 using openjuice::engine::card::spawntypes::MushroomCard;
@@ -51,7 +51,7 @@ public:
     * The Effect enumeration defines the types of possible mushroom cards of Boost type in the game.
     */
     enum class Effect: u8 {
-        NULL_BOOST = std::util::to_underlying(BattleMushroomCard::Effect::ROLL_SIX) + 1, ///< No effect (always appears)
+        NULL_BOOST = stdx::util::to_underlying(BattleMushroomCard::Effect::ROLL_SIX) + 1, ///< No effect (always appears)
         MOVE_UP, ///< Gain +1/2/3 MOV on next roll
         MOVE_DOWN, ///< Gain -1/2/3 MOV on next roll
         GAIN_STARS, ///< Gain Lvl x 1/2/3/4/5 stars
@@ -112,7 +112,7 @@ private:
             case Effect::WIN:
                 return "CARD_SHROOM_WIN";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 protected:
@@ -229,9 +229,9 @@ struct Formatter<BoostMushroomCard::Effect> {
                 name = "Gain Win";
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

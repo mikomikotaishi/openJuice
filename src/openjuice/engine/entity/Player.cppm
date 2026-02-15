@@ -12,16 +12,16 @@ module;
 
 export module openjuice.engine.entity:Player;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 import openjuice.engine.game.ecs;
 import openjuice.engine.unit;
 
-using std::collections::BitSet;
-using std::collections::Vector;
-using std::mem::SharedPointer;
-using std::meta::IsBaseOfValue;
+using stdx::collections::BitSet;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawntypes::MushroomCard;
@@ -134,7 +134,7 @@ public:
     [[nodiscard]]
     u8 getRecovery() const {
         SharedPointer<Unit> unit = getUnit();
-        SharedPointer<Playable> character = std::mem::dynamic_pointer_cast<Playable>(unit);
+        SharedPointer<Playable> character = stdx::mem::dynamic_pointer_cast<Playable>(unit);
         return character ? character->getRecovery() : 0;
     }
 

@@ -13,11 +13,11 @@ module;
 
 export module openjuice.engine.game.ecs:EntityManager;
 
-import std;
+import stdx;
 
 import :Meta;
 
-using std::mem::UniquePointer;
+using stdx::mem::UniquePointer;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 
@@ -71,10 +71,10 @@ public:
      * @param capacity The maximum number of entities that can exist simultaneously.
      */
     explicit EntityManager(u32 capacity):
-        mask{std::mem::make_unique<bool[]>(capacity)},
-        entries{std::mem::make_unique<EntityId[]>(capacity)},
-        indices{std::mem::make_unique<u32[]>(capacity)},
-        freeIds{std::mem::make_unique<u32[]>(capacity)},
+        mask{stdx::mem::make_unique<bool[]>(capacity)},
+        entries{stdx::mem::make_unique<EntityId[]>(capacity)},
+        indices{stdx::mem::make_unique<u32[]>(capacity)},
+        freeIds{stdx::mem::make_unique<u32[]>(capacity)},
         capacity{capacity} {}
 
     /**
@@ -86,18 +86,18 @@ public:
      * @param other The EntityManager instance to copy from.
      */
     EntityManager(const EntityManager& other):
-        mask{std::mem::make_unique<bool[]>(other.capacity)},
-        entries{std::mem::make_unique<EntityId[]>(other.capacity)},
-        indices{std::mem::make_unique<u32[]>(other.capacity)},
-        freeIds{std::mem::make_unique<u32[]>(other.capacity)},
+        mask{stdx::mem::make_unique<bool[]>(other.capacity)},
+        entries{stdx::mem::make_unique<EntityId[]>(other.capacity)},
+        indices{stdx::mem::make_unique<u32[]>(other.capacity)},
+        freeIds{stdx::mem::make_unique<u32[]>(other.capacity)},
         capacity{other.capacity},
         occupied{other.occupied},
         entryCount{other.entryCount},
         freeIdsCount{other.freeIdsCount} {
-        std::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
-        std::ranges::copy(Span<EntityId>(other.entries.get(), capacity), entries.get());
-        std::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
-        std::ranges::copy(Span<u32>(other.freeIds.get(), capacity), freeIds.get());
+        stdx::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
+        stdx::ranges::copy(Span<EntityId>(other.entries.get(), capacity), entries.get());
+        stdx::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
+        stdx::ranges::copy(Span<u32>(other.freeIds.get(), capacity), freeIds.get());
     }
 
     /**
@@ -109,10 +109,10 @@ public:
      * @param other The EntityManager instance to move from.
      */
     EntityManager(EntityManager&& other):
-        mask{std::util::move(other.mask)},
-        entries{std::util::move(other.entries)},
-        indices{std::util::move(other.indices)},
-        freeIds{std::util::move(other.freeIds)},
+        mask{stdx::util::move(other.mask)},
+        entries{stdx::util::move(other.entries)},
+        indices{stdx::util::move(other.indices)},
+        freeIds{stdx::util::move(other.freeIds)},
         capacity{other.capacity},
         occupied{other.occupied},
         entryCount{other.entryCount},
@@ -139,17 +139,17 @@ public:
             entryCount = other.entryCount;
             freeIdsCount = other.freeIdsCount;
 
-            mask = std::mem::make_unique<bool[]>(capacity);
-            std::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
+            mask = stdx::mem::make_unique<bool[]>(capacity);
+            stdx::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
 
-            entries = std::mem::make_unique<EntityId[]>(capacity);
-            std::ranges::copy(Span<EntityId>(other.entries.get(), capacity), entries.get());
+            entries = stdx::mem::make_unique<EntityId[]>(capacity);
+            stdx::ranges::copy(Span<EntityId>(other.entries.get(), capacity), entries.get());
 
-            indices = std::mem::make_unique<u32[]>(capacity);
-            std::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
+            indices = stdx::mem::make_unique<u32[]>(capacity);
+            stdx::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
 
-            freeIds = std::mem::make_unique<u32[]>(capacity);
-            std::ranges::copy(Span<u32>(other.freeIds.get(), capacity), freeIds.get());
+            freeIds = stdx::mem::make_unique<u32[]>(capacity);
+            stdx::ranges::copy(Span<u32>(other.freeIds.get(), capacity), freeIds.get());
         }
         return *this;
     }
@@ -170,10 +170,10 @@ public:
             entryCount = other.entryCount;
             freeIdsCount = other.freeIdsCount;
 
-            mask = std::util::move(other.mask);
-            entries = std::util::move(other.entries);
-            indices = std::util::move(other.indices);
-            freeIds = std::util::move(other.freeIds);
+            mask = stdx::util::move(other.mask);
+            entries = stdx::util::move(other.entries);
+            indices = stdx::util::move(other.indices);
+            freeIds = stdx::util::move(other.freeIds);
 
             other.capacity = 0;
             other.occupied = 0;
@@ -215,7 +215,7 @@ public:
      * Does not deallocate the underlying storage capacity.
      */
     void clear() noexcept {
-        std::ranges::fill(Span<bool>(mask.get(), capacity), false);
+        stdx::ranges::fill(Span<bool>(mask.get(), capacity), false);
         occupied = 0;
         entryCount = 0;
         freeIdsCount = 0;

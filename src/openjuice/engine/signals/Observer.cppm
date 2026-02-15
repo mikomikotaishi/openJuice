@@ -15,10 +15,10 @@ module;
 
 export module openjuice.engine.signals:Observer;
 
-import std;
+import stdx;
 
-using std::collections::Vector;
-using std::meta::IsBaseOfValue;
+using stdx::collections::Vector;
+using stdx::meta::IsBaseOfValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::signals);
 
@@ -71,7 +71,7 @@ public:
      * @param observer 
      */
     void detach(Observer* observer) {
-        std::ranges::remove(observers, observer);
+        stdx::ranges::remove(observers, observer);
     }
 
     /**

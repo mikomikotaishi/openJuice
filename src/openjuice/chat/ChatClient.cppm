@@ -12,17 +12,16 @@ module;
 
 export module openjuice.chat:ChatClient;
 
-import std;
 import stdx;
 
 import openjuice.engine.managers;
 
 #if 0
-using std::concurrent::JoiningThread;
-using std::io::Cin;
-using std::io::Cout;
-using std::io::InputStream;
-using std::io::Stderr;
+using stdx::concurrent::JoiningThread;
+using stdx::io::Cin;
+using stdx::io::Cout;
+using stdx::io::InputStream;
+using stdx::io::Stderr;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -52,7 +51,7 @@ private:
     void startChat() {
         LOGGER->info("Starting chat");
         String message;
-        while (std::io::getline(Cin, message)) {
+        while (stdx::io::getline(Cin, message)) {
             message += "\n";
             boost::asio::write(clientSocket, boost::asio::buffer(message));
         }
@@ -69,12 +68,12 @@ private:
                     boost::asio::read_until(clientSocket, buffer, '\n');
                     InputStream is(&buffer);
                     String message;
-                    std::io::getline(is, message);
-                    std::io::print("\n[CHAT] {}\n> ", message);
+                    stdx::io::getline(is, message);
+                    stdx::io::print("\n[CHAT] {}\n> ", message);
                     Cout.flush();
                 }
             } catch (...) {
-                std::io::println(Stderr, "Disconnected from server.");
+                stdx::io::println(Stderr, "Disconnected from server.");
             }
         });
     }
@@ -96,7 +95,7 @@ public:
     ChatClient(IOContext& ioContext, const String& host, i16 port):
         clientSocket(ioContext) {
         Resolver resolver(ioContext);
-        ResultsType endpoints = resolver.resolve(host, std::text::string::to_string(port));
+        ResultsType endpoints = resolver.resolve(host, stdx::text::string::to_string(port));
         boost::asio::connect(clientSocket, endpoints);
         startListening();
         startChat();

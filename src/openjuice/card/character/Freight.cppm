@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.character:Freight;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

@@ -12,11 +12,11 @@ module;
 
 export module openjuice.engine.unit:Playable;
 
-import std;
+import stdx;
 
 import :Unit;
 
-using std::meta::IsBaseOfValue;
+using stdx::meta::IsBaseOfValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 

@@ -10,13 +10,13 @@ module;
 
 export module openjuice.ui.UserInterface;
 
-import std;
+import stdx;
 
 import openjuice.engine.game;
 
-using std::mem::SharedPointer;
-using std::sync::AtomicBoolean;
-using std::sync::Mutex;
+using stdx::mem::SharedPointer;
+using stdx::sync::AtomicBoolean;
+using stdx::sync::Mutex;
 
 using openjuice::engine::game::Game;
 
@@ -39,7 +39,7 @@ public:
      * @param mutex Reference to mutex for thread-safe access
      */
     UserInterface(SharedPointer<Game> game, Mutex& mutex):
-        game{std::util::move(game)}, stateMutex{mutex} {}
+        game{stdx::util::move(game)}, stateMutex{mutex} {}
 
     virtual ~UserInterface() = default;
 

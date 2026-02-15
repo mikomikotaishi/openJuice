@@ -12,14 +12,13 @@ module;
 
 export module openjuice.unit:BossEnemyFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.managers;
 import openjuice.engine.unit;
 import openjuice.unit.bosses;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -56,11 +55,11 @@ public:
             case 0:
                 return nullptr;
             case FlyingCastle::ID:
-                return std::mem::make_shared<FlyingCastle>();
+                return stdx::mem::make_shared<FlyingCastle>();
             case ShifuRobot::ID:
-                return std::mem::make_shared<ShifuRobot>();
+                return stdx::mem::make_shared<ShifuRobot>();
             case StoreManager::ID:
-                return std::mem::make_shared<StoreManager>();
+                return stdx::mem::make_shared<StoreManager>();
             default:
                 return nullopt;
         }

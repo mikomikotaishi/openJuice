@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.seasonal:ChaosRoost;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

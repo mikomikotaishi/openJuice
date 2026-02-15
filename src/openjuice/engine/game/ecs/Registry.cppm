@@ -14,7 +14,7 @@ module;
 
 export module openjuice.engine.game.ecs:Registry;
 
-import std;
+import stdx;
 
 import :EntityManager;
 import :Meta;
@@ -22,19 +22,15 @@ import :PolymorphicStorage;
 import :StorageManager;
 import :ThreadPool;
 
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::mem::UniquePointer;
-using std::meta::IsPointerValue;
-using std::meta::RemoveConstVolatileReferenceType;
-using std::meta::RemovePointerType;
-using std::meta::RemoveReferenceType;
-using std::ranges::IotaView;
-
-namespace mem = std::mem;
-namespace ranges = std::ranges;
-namespace util = std::util;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::mem::UniquePointer;
+using stdx::meta::IsPointerValue;
+using stdx::meta::RemoveConstVolatileReferenceType;
+using stdx::meta::RemovePointerType;
+using stdx::meta::RemoveReferenceType;
+using stdx::ranges::IotaView;
 
 using openjuice::engine::game::ecs::meta::ComponentTypeInfo;
 using openjuice::engine::game::ecs::meta::EnsureComponentTypeInfo;
@@ -189,7 +185,7 @@ private:
         if constexpr (REQUIRED_COUNT > 0) {
             Array<PolymorphicStorage*, REQUIRED_COUNT> requiredStorages = {};
             populateRequiredArray<ArgsTpl, ArgsInds...>(requiredStorages);
-            PolymorphicStorage* smallest = *ranges::min_element(
+            PolymorphicStorage* smallest = *stdx::ranges::min_element(
                 requiredStorages,
                 [](PolymorphicStorage* a, PolymorphicStorage* b) -> bool {
                     return a->getOccupied() < b->getOccupied();
@@ -199,8 +195,8 @@ private:
                 [&](auto&&... storages) -> void {
                     for (EntityId id: *smallest) {
                         if ((requiredStorages[RequiredInds]->has(id) && ...)) {
-                            std::util::forward<Fn>(fn)(
-                                std::util::forward<Params>(params)..., 
+                            stdx::util::forward<Fn>(fn)(
+                                stdx::util::forward<Params>(params)..., 
                                 storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                             );
                         }
@@ -212,8 +208,8 @@ private:
             apply(
                 [&](auto&&... storages) -> void {
                     for (EntityId id: entityManager) {
-                        std::util::forward<Fn>(fn)(
-                            std::util::forward<Params>(params)..., 
+                        stdx::util::forward<Fn>(fn)(
+                            stdx::util::forward<Params>(params)..., 
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -265,7 +261,7 @@ private:
         if constexpr (REQUIRED_COUNT > 0) {
             Array<PolymorphicStorage*, REQUIRED_COUNT> requiredStorages = {};
             populateRequiredArray<ArgsTpl, ArgsInds...>(requiredStorages);
-            PolymorphicStorage* smallest = *ranges::min_element(
+            PolymorphicStorage* smallest = *stdx::ranges::min_element(
                 requiredStorages,
                 [](PolymorphicStorage* a, PolymorphicStorage* b) -> bool {
                     return a->getOccupied() < b->getOccupied();
@@ -279,7 +275,7 @@ private:
                                 EntityId id = smallest->get(i);
                                 if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                                     fn(
-                                        std::util::forward<Params>(params)...,
+                                        stdx::util::forward<Params>(params)...,
                                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                     );
                                 }
@@ -298,7 +294,7 @@ private:
                             for (usize i: IotaView(start, end)) {
                                 EntityId id = entityManager[i];
                                 fn(
-                                    std::util::forward<Params>(params)...,
+                                    stdx::util::forward<Params>(params)...,
                                     storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                 );
                             }
@@ -351,7 +347,7 @@ private:
         if constexpr (REQUIRED_COUNT > 0) {
             Array<PolymorphicStorage*, REQUIRED_COUNT> requiredStorages = {};
             populateRequiredArray<ArgsTpl, ArgsInds...>(requiredStorages);
-            PolymorphicStorage* smallest = *ranges::min_element(
+            PolymorphicStorage* smallest = *stdx::ranges::min_element(
                 requiredStorages,
                 [](PolymorphicStorage* a, PolymorphicStorage* b) -> bool {
                     return a->getOccupied() < b->getOccupied();
@@ -363,7 +359,7 @@ private:
                         if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                             fn(
                                 id,
-                                std::util::forward<Params>(params)...,
+                                stdx::util::forward<Params>(params)...,
                                 storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                             );
                         }
@@ -377,7 +373,7 @@ private:
                     for (EntityId id: entityManager) {
                         fn(
                             id,
-                            std::util::forward<Params>(params)...,
+                            stdx::util::forward<Params>(params)...,
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -429,7 +425,7 @@ private:
         if constexpr (REQUIRED_COUNT > 0) {
             Array<PolymorphicStorage*, REQUIRED_COUNT> requiredStorages = {};
             populateRequiredArray<ArgsTpl, ArgsInds...>(requiredStorages);
-            PolymorphicStorage* smallest = *ranges::min_element(
+            PolymorphicStorage* smallest = *stdx::ranges::min_element(
                 requiredStorages,
                 [](PolymorphicStorage* a, PolymorphicStorage* b) -> bool {
                     return a->getOccupied() < b->getOccupied();
@@ -444,7 +440,7 @@ private:
                                 if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                                     fn(
                                         id,
-                                        std::util::forward<Params>(params)...,
+                                        stdx::util::forward<Params>(params)...,
                                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                     );
                                 }
@@ -464,7 +460,7 @@ private:
                                 EntityId id = entityManager[i];
                                 fn(
                                     id,
-                                    std::util::forward<Params>(params)...,
+                                    stdx::util::forward<Params>(params)...,
                                     storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                 );
                             }
@@ -523,7 +519,7 @@ private:
                 [&](auto&&... storages) -> void {
                     if ((requiredStorages[RequiredInds]->has(id) && ...))  {
                         fn(
-                            std::util::forward<Params>(params)...,
+                            stdx::util::forward<Params>(params)...,
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -534,7 +530,7 @@ private:
             apply(
                 [&](auto&&... storages) -> void {
                     fn(
-                        std::util::forward<Params>(params)...,
+                        stdx::util::forward<Params>(params)...,
                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                     );
                 },
@@ -600,7 +596,7 @@ public:
         if (!id.has_value()) {
             return nullopt;
         }
-        (emplace<Args>(*id, std::util::forward<Args>(args)), ...);
+        (emplace<Args>(*id, stdx::util::forward<Args>(args)), ...);
         return id;
     }
 
@@ -619,7 +615,7 @@ public:
     template <ValidComponent T, typename... Args>
         requires ConstructibleFrom<T, Args...>
     T& emplace(EntityId id, Args&&... args) noexcept {
-        return storageManager.emplace<T>(id, std::util::forward<Args>(args)...);
+        return storageManager.emplace<T>(id, stdx::util::forward<Args>(args)...);
     }
 
     /**
@@ -811,7 +807,7 @@ public:
     void onConstruct(Fn&& fn) {
         using FnTraits = FunctionTraits<Fn>;
         using SecondArg = typename FnTraits::template ArgumentAt<1>;
-        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnConstruct(std::util::forward<Fn>(fn));
+        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnConstruct(stdx::util::forward<Fn>(fn));
     }
 
     /**
@@ -828,7 +824,7 @@ public:
     void onDestroy(Fn&& fn) {
         using FnTraits = FunctionTraits<Fn>;
         using SecondArg = typename FnTraits::template ArgumentAt<1>;
-        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnDestroy(std::util::forward<Fn>(fn));
+        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnDestroy(stdx::util::forward<Fn>(fn));
     }
 
     /**
@@ -863,7 +859,7 @@ public:
             for (StorageId s: storageManager) {
                 PolymorphicStorage& storage = storageManager.getStorage(s);
                 if (storage.has(id)) {
-                    std::util::forward<Fn>(fn)(std::util::forward<Params>(params)..., storage.getTypeInfo());
+                    stdx::util::forward<Fn>(fn)(stdx::util::forward<Params>(params)..., storage.getTypeInfo());
                 }
             }
         }
@@ -888,7 +884,7 @@ public:
             for (StorageId s: storageManager) {
                 PolymorphicStorage& storage = storageManager.getStorage(s);
                 if (storage.has(e)) {
-                    std::util::forward<Fn>(fn)(e, std::util::forward<Params>(params)..., storage.getTypeInfo());
+                    stdx::util::forward<Fn>(fn)(e, stdx::util::forward<Params>(params)..., storage.getTypeInfo());
                 }
             }
         }
@@ -916,24 +912,24 @@ public:
         ++queryLevel;
         if constexpr (QrTraits::IS_EMPTY) {
             for ([[maybe_unused]] EntityId _: entityManager) {
-                std::util::forward<Fn>(fn)(std::util::forward<Params>(params)...);
+                stdx::util::forward<Fn>(fn)(stdx::util::forward<Params>(params)...);
             }
         } else {
             if constexpr (QrTraits::PASSES_ENTITY_ID) {
                 querySelfImpl<Fn, typename QrTraits::NO_PARAMS_ARGS_COUNT>(
-                    std::util::forward<Fn>(fn),
+                    stdx::util::forward<Fn>(fn),
                     make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                     make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                    std::util::forward<Params>(params)...
+                    stdx::util::forward<Params>(params)...
                 );
             } else {
                 queryImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
-                    std::util::forward<Fn>(fn),
+                    stdx::util::forward<Fn>(fn),
                     make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                     make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                    std::util::forward<Params>(params)...
+                    stdx::util::forward<Params>(params)...
                 );
             }
         }
@@ -965,7 +961,7 @@ public:
             pool.execTask(
                 [&](usize start, usize end) -> void {
                     for ([[maybe_unused]] usize _: IotaView(start, end)) {
-                        fn(std::util::forward<Params>(params)...);
+                        fn(stdx::util::forward<Params>(params)...);
                     }
                 },
                 entityManager.getOccupied()
@@ -973,20 +969,20 @@ public:
         } else if constexpr (QrTraits::PASSES_ENTITY_ID) {
             querySelfParallelImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                 pool,
-                std::util::forward<Fn>(fn),
+                stdx::util::forward<Fn>(fn),
                 make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                 make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                 make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                std::util::forward<Params>(params)...
+                stdx::util::forward<Params>(params)...
             );
         } else {
             queryParallelImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                 pool,
-                std::util::forward<Fn>(fn),
+                stdx::util::forward<Fn>(fn),
                 make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                 make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                 make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                std::util::forward<Params>(params)...
+                stdx::util::forward<Params>(params)...
             );
         }
         --queryLevel;
@@ -1012,15 +1008,15 @@ public:
         using QrTraits = QueryTraits<Fn, 0, Params...>;
         if (entityManager.alive(id)) {
             if constexpr (QrTraits::ARGS_COUNT == QrTraits::PARAMS_COUNT) {
-                fn(std::util::forward<Params>(params)...);
+                fn(stdx::util::forward<Params>(params)...);
             } else {
                 queryWithImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                     id,
-                    std::util::forward<Fn>(fn),
+                    stdx::util::forward<Fn>(fn),
                     make_index_sequence<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     make_index_sequence<QrTraits::REQUIRED_COUNT>{},
                     make_index_sequence<QrTraits::OPTIONAL_COUNT>{},
-                    std::util::forward<Params>(params)...
+                    stdx::util::forward<Params>(params)...
                 );
             }
         }
@@ -1044,9 +1040,9 @@ struct Formatter<Registry::Error> {
             case Registry::Error::ENTITY_CREATE_FAILURE:
                 msg = "Failed to create registry entity";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", msg);
+        return stdx::fmt::format_to(ctx.out(), "{}", msg);
     }
 };
 

@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.coop.role:UltimateWeaponInTheSun;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

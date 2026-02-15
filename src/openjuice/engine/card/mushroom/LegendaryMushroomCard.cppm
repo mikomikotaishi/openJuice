@@ -13,17 +13,17 @@ module;
 
 export module openjuice.engine.card.mushroom:LegendaryMushroomCard;
 
-import std;
+import stdx;
 
 import openjuice.engine.card.Card;
 import openjuice.engine.card.cardtypes;
 import openjuice.engine.card.spawntypes;
 import openjuice.engine.managers;
 
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::meta::IsBaseOfValue;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::cardtypes::GiftCard;
 using openjuice::engine::card::spawntypes::MushroomCard;
@@ -88,7 +88,7 @@ private:
             case Effect::WINS:
                 return "CARD_SHROOM_LEGEND_WINS";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 
@@ -105,7 +105,7 @@ private:
             case Colour::PHANTOM_BLUE:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 
@@ -122,7 +122,7 @@ private:
             case Colour::PHANTOM_BLUE:
                 return "CARD_SHROOM_PHANTOMBLUE";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 protected:
@@ -206,9 +206,9 @@ struct Formatter<LegendaryMushroomCard::Colour> {
                 name = "Phantom Blue Mushroom";
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

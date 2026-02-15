@@ -10,5 +10,6 @@ export module openjuice.ui.tui;
 
 export import :TUIScreenFactory;
 export import :TextUserInterface;
+
 export import openjuice.ui.tui.TUIScreen;
 export import openjuice.ui.tui.screens;

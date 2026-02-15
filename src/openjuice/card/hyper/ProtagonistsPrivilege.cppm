@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.hyper:ProtagonistsPrivilege;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.base:NiceJingle;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

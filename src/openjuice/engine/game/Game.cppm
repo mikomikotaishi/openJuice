@@ -13,7 +13,6 @@ module;
 
 export module openjuice.engine.game.Game;
 
-import std;
 import stdx;
 
 import :GamePhase;
@@ -28,12 +27,12 @@ import openjuice.engine.unit;
 import openjuice.engine.util;
 import openjuice.unit;
 
-using std::collections::Vector;
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::mem::SharedPointer;
-using std::mem::UniquePointer;
-using std::ranges::IotaView;
+using stdx::collections::Vector;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::mem::SharedPointer;
+using stdx::mem::UniquePointer;
+using stdx::ranges::IotaView;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -99,9 +98,9 @@ public:
      * @brief Constructor for the Game class.
      */
     Game():
-        gameBoard{std::mem::make_shared<Board>(0)},
+        gameBoard{stdx::mem::make_shared<Board>(0)},
         playerEntities{{}},
-        registry{std::mem::make_unique<Registry>(1000)},
+        registry{stdx::mem::make_unique<Registry>(1000)},
         deltaTime{GlobalSettings::getInstance().getDeltaTime()} {
 
         #ifndef NDEBUG
@@ -179,13 +178,13 @@ public:
         if (Optional<SharedPointer<Playable>> ch = CharacterFactory::create(characterId); ch.has_value()) {
             character = *ch;
         } else {
-            throw OutOfRangeException(std::fmt::format("Error: {} is not a valid character ID!", characterId));
+            throw OutOfRangeException(stdx::fmt::format("Error: {} is not a valid character ID!", characterId));
         }
         
         registry->emplace<UnitComponent>(player, character);
         registry->emplace<HealthComponent>(player, character->getHealth(), character->getHealth());
 
-        SharedPointer<Player> playerWrapper = std::mem::make_shared<Player>(*registry, character);
+        SharedPointer<Player> playerWrapper = stdx::mem::make_shared<Player>(*registry, character);
 
         #ifndef NDEBUG
         players.at(playerNumber) = playerWrapper;
@@ -402,7 +401,7 @@ public:
      */
     [[nodiscard]]
     String toString() const {
-        String result = std::fmt::format(
+        String result = stdx::fmt::format(
             "Chapter: {} | Current Player: {} | Phase: {} | Battle: {}",
             chapterNumber,
             currentPlayerIndex,
@@ -411,7 +410,7 @@ public:
         );
 
         if (!statusMessage.empty()) {
-            result = std::fmt::format("{} | {}", result, statusMessage);
+            result = stdx::fmt::format("{} | {}", result, statusMessage);
         }
 
         return result;

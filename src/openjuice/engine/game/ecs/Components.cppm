@@ -12,16 +12,16 @@ module;
 
 export module openjuice.engine.game.ecs:Components;
 
-import std;
+import stdx;
 
 import :IComponent;
 
 import openjuice.engine.card;
 import openjuice.engine.unit;
 
-using std::collections::BitSet;
-using std::collections::Vector;
-using std::mem::SharedPointer;
+using stdx::collections::BitSet;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
 
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawntypes::MushroomCard;
@@ -120,7 +120,7 @@ export namespace components {
          * @param unitPointer 
          */
         explicit UnitComponent(SharedPointer<Unit> unitPointer):
-            unit{std::util::move(unitPointer)} {}
+            unit{stdx::util::move(unitPointer)} {}
         
         UnitComponent() = default;
     };

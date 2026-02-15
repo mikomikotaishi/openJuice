@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.base:BadPudding;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

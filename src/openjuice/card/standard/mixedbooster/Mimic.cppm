@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.mixedbooster:Mimic;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

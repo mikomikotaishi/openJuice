@@ -12,14 +12,13 @@ module;
 
 export module openjuice.chat:ChatSession;
 
-import std;
 import stdx;
 
 #if 0
 
-using std::collections::Vector;
-using std::mem::EnableSharedFromThis;
-using std::mem::SharedPointer;
+using stdx::collections::Vector;
+using stdx::mem::EnableSharedFromThis;
+using stdx::mem::SharedPointer;
 using stdx::linq::Query;
 
 using boost::asio::ip::tcp::Socket;
@@ -71,7 +70,7 @@ private:
                 if (!ec) {
                     String message = inputBuffer.substr(0, length);
                     inputBuffer.erase(0, length);
-                    std::io::print("Received: {}", message);
+                    stdx::io::print("Received: {}", message);
                     broadcast(message);
                     readMessage();
                 } else {
@@ -88,7 +87,7 @@ public:
      * @param clients The list of connected clients.
      */
     ChatSession(Socket socket, Vector<SharedPointer<ChatSession>>& clients):
-        sessionSocket{std::util::move(socket)}, clients{clients} {}
+        sessionSocket{stdx::util::move(socket)}, clients{clients} {}
     
     /**
      * @brief Start the chat session.

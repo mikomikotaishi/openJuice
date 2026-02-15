@@ -12,7 +12,7 @@ module;
 
 export module openjuice.unit.characters.maincharacters:MariePoppo;
 
-import std;
+import stdx;
 
 import openjuice.engine.unit;
 

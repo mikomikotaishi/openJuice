@@ -13,14 +13,14 @@ module;
 
 export module openjuice.engine.card.spawntypes:MushroomCard;
 
-import std;
+import stdx;
 
 import openjuice.engine.card.Card;
 
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::meta::IsBaseOfValue;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::Card;
 
@@ -95,7 +95,7 @@ protected:
             case MushroomCard::Colour::YELLOW:
                 return "CARD_SHROOM_YELLOW";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 
@@ -128,7 +128,7 @@ protected:
             case MushroomCard::Colour::YELLOW:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 };
@@ -186,9 +186,9 @@ struct Formatter<MushroomCard::Colour> {
                 name = "Yellow Mushroom";
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

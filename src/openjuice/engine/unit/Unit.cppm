@@ -12,12 +12,12 @@ module;
 
 export module openjuice.engine.unit:Unit;
 
-import std;
+import stdx;
 
 import openjuice.engine.managers;
 import openjuice.engine.util;
 
-using std::meta::IsBaseOfValue;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
 using openjuice::engine::util::IFinalOnly;

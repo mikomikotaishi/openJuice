@@ -10,19 +10,19 @@ module;
 
 export module openjuice.ui.cli:CommandLineInterface;
 
-import std;
+import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
 import openjuice.engine.util;
 import openjuice.ui.UserInterface;
 
-using std::collections::HashMap;
-using std::io::Cin;
-using std::io::Stderr;
-using std::mem::SharedPointer;
-using std::sync::Mutex;
-using std::sync::ScopedLock;
+using stdx::collections::HashMap;
+using stdx::io::Cin;
+using stdx::io::Stderr;
+using stdx::mem::SharedPointer;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::managers::GlobalSettings;
@@ -75,7 +75,7 @@ public:
      * @param mutex Reference to state mutex for synchronisation
      */
     CommandLineInterface(SharedPointer<Game> game, Mutex& mutex):
-        UserInterface(std::util::move(game), mutex) {}
+        UserInterface(stdx::util::move(game), mutex) {}
 
     /**
      * @brief
@@ -105,15 +105,15 @@ public:
      * @brief
      */
     void render() override {
-        std::io::println("Current game state: {}", game->toString());
+        stdx::io::println("Current game state: {}", game->toString());
     }
 
     /**
      * @brief Initialises the language for the command line interface.
      */
     static void initialiseLanguage() {
-        std::io::println("Enter your desired language:");
-        std::io::println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
+        stdx::io::println("Enter your desired language:");
+        stdx::io::println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
         
         static const HashMap<String, Pair<Language, StringView>> languageMap = {
             {"en", {Language::ENGLISH, "English selected"}},
@@ -128,10 +128,10 @@ public:
 
         String languageInput;
         while (true) {
-            std::io::getline(Cin, languageInput);
+            stdx::io::getline(Cin, languageInput);
             if (auto it = languageMap.find(languageInput); it != languageMap.end()) {
                 GlobalSettings::getInstance().setLanguage(it->second.first);
-                std::io::println("{}", it->second.second);
+                stdx::io::println("{}", it->second.second);
                 break;
             }
         }
@@ -142,27 +142,27 @@ public:
      * @brief Initialises the frame rate for the command line interface.
      */
     static void initialiseFrameRate() {
-        std::io::println("Enter your desired frame rate (fps) (1-600):");
-        std::io::println("Press Enter to use the default (60 fps).");
+        stdx::io::println("Enter your desired frame rate (fps) (1-600):");
+        stdx::io::println("Press Enter to use the default (60 fps).");
 
         String frameRateInput;
 
         while (true) {
-            std::io::getline(Cin, frameRateInput);
+            stdx::io::getline(Cin, frameRateInput);
             if (frameRateInput.empty()) {
                 GlobalSettings::getInstance().setFrameRate(60);
-                std::io::println("Frame rate: 60 frames per second (default)");
+                stdx::io::println("Frame rate: 60 frames per second (default)");
                 break;
             }
             usize pos = 0;
-            u64 frameRate = std::text::string::stoul(frameRateInput, &pos);
+            u64 frameRate = stdx::text::string::stoul(frameRateInput, &pos);
 
             if (pos == frameRateInput.size() && frameRate >= 1 && frameRate <= 600) {
                 GlobalSettings::getInstance().setFrameRate(static_cast<u16>(frameRate));
-                std::io::println("Frame rate: {} frames per second", frameRate);
+                stdx::io::println("Frame rate: {} frames per second", frameRate);
                 break;
             } else {
-                std::io::println(Stderr, "Invalid frame rate. Please enter a number between 1 and 600.");
+                stdx::io::println(Stderr, "Invalid frame rate. Please enter a number between 1 and 600.");
             }
         }
     }

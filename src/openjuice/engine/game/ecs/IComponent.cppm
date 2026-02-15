@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.game.ecs:IComponent;
 
-import std;
+import stdx;
 
-using std::meta::IsBaseOfValue;
+using stdx::meta::IsBaseOfValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 

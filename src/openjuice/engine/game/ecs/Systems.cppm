@@ -14,7 +14,6 @@ export module openjuice.engine.game.ecs:Systems;
 
 #define SYSTEMS_DEPRECATION_MESSAGE "Outdated ECS system handling, use openjuice::engine::game::ecs::Registry instead"
 
-import std;
 import stdx;
 
 import :Components;
@@ -23,7 +22,7 @@ import :Registry;
 import openjuice.engine.card.Card;
 import openjuice.engine.game.Dice;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 
 using openjuice::engine::card::Card;
 
@@ -200,7 +199,7 @@ export namespace systems {
                 defenceRoll = defenceRoll < 1 ? 1 : defenceRoll;
                 return attackRoll >= defenceRoll ? attackRoll : 0;
             }
-            std::sys::unreachable();
+            stdx::sys::unreachable();
         }
 
         /**

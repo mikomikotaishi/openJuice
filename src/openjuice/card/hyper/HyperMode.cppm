@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.hyper:HyperMode;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

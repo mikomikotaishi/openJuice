@@ -12,11 +12,11 @@ module;
 
 export module openjuice.engine.card.spawntypes:StandardCard;
 
-import std;
+import stdx;
 
 import openjuice.engine.card.Card;
 
-using std::meta::IsBaseOfValue;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::Card;
 

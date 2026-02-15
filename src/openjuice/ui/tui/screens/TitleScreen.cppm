@@ -12,17 +12,15 @@ module;
 
 export module openjuice.ui.tui.screens:TitleScreen;
 
-import std;
 import stdx;
-
 import openjuice.engine.game;
 import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
 
 import ftxui;
 
-using std::collections::Vector;
-using std::mem::SharedPointer;
+using stdx::collections::Vector;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -95,7 +93,7 @@ private:
                         screenSwitchCallback(ScreenType::EXIT);
                         return true;
                     default:
-                        std::sys::unreachable();
+                        stdx::sys::unreachable();
                 }
             }
             return false;
@@ -123,7 +121,7 @@ public:
      * @param callback Function to call when switching screens
      */
     TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(std::util::move(game), std::util::move(callback)) {
+        TUIScreen(stdx::util::move(game), stdx::util::move(callback)) {
         createComponent();
     }
 

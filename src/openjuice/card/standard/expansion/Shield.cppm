@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.expansion:Shield;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

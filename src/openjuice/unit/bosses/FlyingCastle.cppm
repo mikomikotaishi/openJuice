@@ -12,7 +12,7 @@ module;
 
 export module openjuice.unit.bosses:FlyingCastle;
 
-import std;
+import stdx;
 
 import openjuice.engine.unit;
 

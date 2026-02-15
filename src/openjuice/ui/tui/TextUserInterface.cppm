@@ -10,9 +10,7 @@ module;
 
 export module openjuice.ui.tui:TextUserInterface;
 
-import std;
 import stdx;
-
 import :TUIScreenFactory;
 
 import openjuice.engine.game;
@@ -23,11 +21,11 @@ import openjuice.ui.tui.screens;
 
 import ftxui;
 
-using std::collections::TreeMap;
-using std::mem::SharedPointer;
-using std::sync::Mutex;
-using std::sync::ScopedLock;
-using std::sys::Signal;
+using stdx::collections::TreeMap;
+using stdx::mem::SharedPointer;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
+using stdx::sys::Signal;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -200,7 +198,7 @@ public:
                     separator(),
                     hbox({
                         text(
-                            std::fmt::format(
+                            stdx::fmt::format(
                                 "{} {} ",
                                 exitDialogSelection 
                                     ? ">" 
@@ -212,7 +210,7 @@ public:
                         ) | (exitDialogSelection ? inverted : nothing),
                         text(" "),
                         text(
-                            std::fmt::format(
+                            stdx::fmt::format(
                                 "{} {} ",
                                 exitDialogSelection 
                                     ? " " 

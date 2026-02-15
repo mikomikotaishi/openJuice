@@ -12,7 +12,7 @@ module;
 
 export module openjuice.unit.characters.maincharacters:Yuki;
 
-import std;
+import stdx;
 
 import openjuice.engine.unit;
 

@@ -14,24 +14,23 @@ module;
 
 export module openjuice.engine:Engine;
 
-import std;
 import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
 import openjuice.ui;
 
-using std::concurrent::JoiningThread;
-using std::concurrent::StopToken;
-using std::mem::SharedPointer;
-using std::mem::UniquePointer;
-using std::sync::AtomicBoolean;
-using std::sync::ConditionVariable;
-using std::sync::Mutex;
-using std::sync::ScopedLock;
-using std::sync::UniqueLock;
-using std::time::Duration;
-using std::time::SystemClock;
+using stdx::mem::SharedPointer;
+using stdx::mem::UniquePointer;
+using stdx::sync::AtomicBoolean;
+using stdx::sync::ConditionVariable;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
+using stdx::sync::UniqueLock;
+using stdx::thread::JoiningThread;
+using stdx::thread::StopToken;
+using stdx::time::Duration;
+using stdx::time::SystemClock;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -104,7 +103,7 @@ private:
                 game->update(); 
             }
             
-            std::concurrent::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+            stdx::thread::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
         }
     }
     
@@ -121,13 +120,13 @@ private:
         UniquePointer<UserInterface> ui;
         switch (launchMode) {
             case LaunchMode::CLI:
-                ui = std::mem::make_unique<CommandLineInterface>(game, stateMutex);
+                ui = stdx::mem::make_unique<CommandLineInterface>(game, stateMutex);
                 break;
             case LaunchMode::TUI:
-                ui = std::mem::make_unique<TextUserInterface>(game, stateMutex);
+                ui = stdx::mem::make_unique<TextUserInterface>(game, stateMutex);
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
         
         ui->init();
@@ -154,11 +153,11 @@ private:
                         ui->render();
                     }
                     
-                    std::concurrent::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+                    stdx::thread::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
                 }
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
     }
 
@@ -169,8 +168,8 @@ public:
      * @param mode The launch mode determining which UI to initialise
      */
     explicit Engine(LaunchMode mode): 
-        game{std::mem::make_shared<Game>()},
-        discordManager{std::mem::make_unique<DiscordManager>()},
+        game{stdx::mem::make_shared<Game>()},
+        discordManager{stdx::mem::make_unique<DiscordManager>()},
         launchMode{mode} {
 
         #ifndef NDEBUG
@@ -219,7 +218,7 @@ public:
         }
 
         if (Expected<void, Registry::Error> r = game->init(); !r) {
-            throw RuntimeException(std::fmt::format("Game failed to initialise: {}", r.error()));
+            throw RuntimeException(stdx::fmt::format("Game failed to initialise: {}", r.error()));
         }
         
         gameThread = JoiningThread([this](StopToken token) -> void {

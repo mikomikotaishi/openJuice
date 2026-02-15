@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.coop.role:SummerGames;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

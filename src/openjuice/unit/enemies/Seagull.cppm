@@ -12,7 +12,7 @@ module;
 
 export module openjuice.unit.enemies:Seagull;
 
-import std;
+import stdx;
 
 import openjuice.engine.unit;
 

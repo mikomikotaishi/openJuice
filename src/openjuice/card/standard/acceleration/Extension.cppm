@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.acceleration:Extension;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

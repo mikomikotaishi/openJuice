@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.expansion:CloudOfSeagulls;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

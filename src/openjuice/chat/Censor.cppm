@@ -12,7 +12,6 @@ module;
 
 export module openjuice.chat:Censor;
 
-import std;
 import stdx;
 
 import openjuice.engine.managers;
@@ -20,8 +19,8 @@ import openjuice.engine.util;
 
 #if 0
 
-using std::collections::Vector;
-using std::io::InputFileStream;
+using stdx::collections::Vector;
+using stdx::io::InputFileStream;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -82,11 +81,11 @@ private:
      */
     void loadBlacklist(Language language) {
         LOGGER->info("Loading blacklist for language of value {}", static_cast<u8>(language));
-        String filename = std::fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
+        String filename = stdx::fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
         blacklist.clear();
         String word;
         InputFileStream file(filename);
-        while (std::io::getline(file, word)) {
+        while (stdx::io::getline(file, word)) {
             if (!word.empty()) {
                 blacklist.push_back(word);
             }
@@ -121,7 +120,7 @@ public:
     String censorMessage(const String& message) const {
         String censoredMessage = message;
         for (const String& word: blacklist) {
-            Regex pattern(std::fmt::format("\\b{}\\b", word), boost::regex_constants::icase);
+            Regex pattern(stdx::fmt::format("\\b{}\\b", word), boost::regex_constants::icase);
             String replacement(word.length(), censorChar);
             censoredMessage = boost::regex_replace(censoredMessage, pattern, replacement);
         }

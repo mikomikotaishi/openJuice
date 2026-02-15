@@ -12,14 +12,14 @@ module;
 
 export module openjuice.engine.util:RandomNumberGenerator;
 
-import std;
+import stdx;
 
-using std::random::MersenneTwister;
-using std::random::RandomDevice;
-using std::random::UniformIntegerDistribution;
-using std::random::UniformRealDistribution;
-using std::sync::Mutex;
-using std::sync::ScopedLock;
+using stdx::random::MersenneTwister;
+using stdx::random::RandomDevice;
+using stdx::random::UniformIntegerDistribution;
+using stdx::random::UniformRealDistribution;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 

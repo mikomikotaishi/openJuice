@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.hyper:X16BigRocket;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

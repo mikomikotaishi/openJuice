@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.coop.seasonal:SeasonalGuardianOfBloomingFlowers;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

@@ -13,13 +13,13 @@ module;
 
 export module openjuice.engine.game.ecs:ThreadPool;
 
-import std;
+import stdx;
 
-using std::concurrent::JoiningThread;
-using std::mem::AlignValue;
-using std::mem::UniquePointer;
-using std::ranges::IotaView;
-using std::sync::Barrier;
+using stdx::mem::AlignValue;
+using stdx::mem::UniquePointer;
+using stdx::ranges::IotaView;
+using stdx::sync::Barrier;
+using stdx::thread::JoiningThread;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 
@@ -65,8 +65,8 @@ public:
                 ? reinterpret_cast<JoiningThread*>(::operator new(sizeof(JoiningThread) * threadCount, AlignValue{alignof(JoiningThread)}))
                 : nullptr
         },
-        starts{std::mem::make_unique<usize[]>(threadCount + 1)},
-        ends{std::mem::make_unique<usize[]>(threadCount + 1)},
+        starts{stdx::mem::make_unique<usize[]>(threadCount + 1)},
+        ends{stdx::mem::make_unique<usize[]>(threadCount + 1)},
         threadCount{threadCount},
         taskCount{threadCount + 1} {
         for (u32 i: IotaView(0u, threadCount)) {
@@ -135,7 +135,7 @@ public:
      */
     template <typename Fn>
     void execTask(Fn&& query, usize work) {
-        task = std::util::forward<Fn>(query);
+        task = stdx::util::forward<Fn>(query);
         usize chunk = work / taskCount;
         usize tail = work - chunk * taskCount;
         for (u32 i: IotaView(0u, taskCount)) {

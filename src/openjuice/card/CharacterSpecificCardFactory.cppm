@@ -12,14 +12,13 @@ module;
 
 export module openjuice.card:CharacterSpecificCardFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.card;
 import openjuice.engine.managers;
 import openjuice.card.character;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -57,11 +56,11 @@ public:
             case 0:
                 return nullptr;
             case MiosChristmasCake::ID:
-                return std::mem::make_shared<MiosChristmasCake>();
+                return stdx::mem::make_shared<MiosChristmasCake>();
             case Freight::ID:
-                return std::mem::make_shared<Freight>();
+                return stdx::mem::make_shared<Freight>();
             case RedAndBlue::ID:
-                return std::mem::make_shared<RedAndBlue>();
+                return stdx::mem::make_shared<RedAndBlue>();
             default:
                 return nullopt;
         }

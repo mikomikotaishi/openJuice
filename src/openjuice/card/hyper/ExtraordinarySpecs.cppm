@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.hyper:ExtraordinarySpecs;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

@@ -12,13 +12,13 @@ module;
 
 export module openjuice.engine.entity:Mob;
 
-import std;
+import stdx;
 
 import openjuice.engine.game.ecs;
 import openjuice.engine.unit;
 
-using std::mem::SharedPointer;
-using std::meta::IsBaseOfValue;
+using stdx::mem::SharedPointer;
+using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::game::ecs::Entity;
 using openjuice::engine::game::ecs::Registry;

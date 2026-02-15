@@ -12,15 +12,15 @@ module;
 
 export module openjuice.engine.game.ecs:Meta;
 
-import std;
+import stdx;
 
-using std::mem::AlignValue;
-using std::meta::EnableIfType;
-using std::meta::IsConstValue;
-using std::meta::IsConvertible;
-using std::meta::IsPointerValue;
-using std::meta::IsSameValue;
-using std::meta::IsVolatileValue;
+using stdx::mem::AlignValue;
+using stdx::meta::EnableIfType;
+using stdx::meta::IsConstValue;
+using stdx::meta::IsConvertible;
+using stdx::meta::IsPointerValue;
+using stdx::meta::IsSameValue;
+using stdx::meta::IsVolatileValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 

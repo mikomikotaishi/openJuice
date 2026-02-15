@@ -12,7 +12,6 @@ module;
 
 export module openjuice.card:MushroomCardFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.card;
@@ -20,7 +19,7 @@ import openjuice.engine.card.mushroom;
 import openjuice.engine.managers;
 import openjuice.card.mushroom;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -62,53 +61,53 @@ public:
             case 0:
                 return nullptr;
             case NullBattleMushroom::ID:
-                return std::mem::make_shared<NullBattleMushroom>(colour);
+                return stdx::mem::make_shared<NullBattleMushroom>(colour);
             case AttackUpMushroom::ID:
-                return std::mem::make_shared<AttackUpMushroom>(colour);
+                return stdx::mem::make_shared<AttackUpMushroom>(colour);
             case AttackDownMushroom::ID:
-                return std::mem::make_shared<AttackDownMushroom>(colour);
+                return stdx::mem::make_shared<AttackDownMushroom>(colour);
             case DefenceUpMushroom::ID:
-                return std::mem::make_shared<DefenceUpMushroom>(colour);
+                return stdx::mem::make_shared<DefenceUpMushroom>(colour);
             case DefenceDownMushroom::ID:
-                return std::mem::make_shared<DefenceDownMushroom>(colour);
+                return stdx::mem::make_shared<DefenceDownMushroom>(colour);
             case EvadeUpMushroom::ID:
-                return std::mem::make_shared<EvadeUpMushroom>(colour);
+                return stdx::mem::make_shared<EvadeUpMushroom>(colour);
             case EvadeDownMushroom::ID:
-                return std::mem::make_shared<EvadeDownMushroom>(colour);
+                return stdx::mem::make_shared<EvadeDownMushroom>(colour);
             case HealMushroom::ID:
-                return std::mem::make_shared<HealMushroom>(colour);
+                return stdx::mem::make_shared<HealMushroom>(colour);
             case DamageMushroom::ID:
-                return std::mem::make_shared<DamageMushroom>(colour);
+                return stdx::mem::make_shared<DamageMushroom>(colour);
             case RollOneMushroom::ID:
-                return std::mem::make_shared<RollOneMushroom>(colour);
+                return stdx::mem::make_shared<RollOneMushroom>(colour);
             case RollSixMushroom::ID:
-                return std::mem::make_shared<RollSixMushroom>(colour);
+                return stdx::mem::make_shared<RollSixMushroom>(colour);
             case NullBoostMushroom::ID:
-                return std::mem::make_shared<NullBoostMushroom>(colour);
+                return stdx::mem::make_shared<NullBoostMushroom>(colour);
             case MoveUpMushroom::ID:
-                return std::mem::make_shared<MoveUpMushroom>(colour);
+                return stdx::mem::make_shared<MoveUpMushroom>(colour);
             case MoveDownMushroom::ID:
-                return std::mem::make_shared<MoveDownMushroom>(colour);
+                return stdx::mem::make_shared<MoveDownMushroom>(colour);
             case GainStarsMushroom::ID:
-                return std::mem::make_shared<GainStarsMushroom>(colour);
+                return stdx::mem::make_shared<GainStarsMushroom>(colour);
             case LoseStarsMushroom::ID:
-                return std::mem::make_shared<LoseStarsMushroom>(colour);
+                return stdx::mem::make_shared<LoseStarsMushroom>(colour);
             case HealthUpMushroom::ID:
-                return std::mem::make_shared<HealthUpMushroom>(colour);
+                return stdx::mem::make_shared<HealthUpMushroom>(colour);
             case HealthDownMushroom::ID:
-                return std::mem::make_shared<HealthDownMushroom>(colour);
+                return stdx::mem::make_shared<HealthDownMushroom>(colour);
             case FrostwalkerMushroom::ID:
-                return std::mem::make_shared<FrostwalkerMushroom>(colour);
+                return stdx::mem::make_shared<FrostwalkerMushroom>(colour);
             case WarpMushroom::ID:
-                return std::mem::make_shared<WarpMushroom>(colour);
+                return stdx::mem::make_shared<WarpMushroom>(colour);
             case ConfusionMushroom::ID:
-                return std::mem::make_shared<ConfusionMushroom>(colour);
+                return stdx::mem::make_shared<ConfusionMushroom>(colour);
             case DrawMushroom::ID:
-                return std::mem::make_shared<DrawMushroom>(colour);
+                return stdx::mem::make_shared<DrawMushroom>(colour);
             case DiscardMushroom::ID:
-                return std::mem::make_shared<DiscardMushroom>(colour);
+                return stdx::mem::make_shared<DiscardMushroom>(colour);
             case WinMushroom::ID:
-                return std::mem::make_shared<WinMushroom>(colour);
+                return stdx::mem::make_shared<WinMushroom>(colour);
             default:
                 return nullopt;
         }
@@ -132,9 +131,9 @@ public:
             case 0:
                 return nullptr;
             case LegendaryStarsMushroom::ID:
-                return std::mem::make_shared<LegendaryStarsMushroom>(colour);
+                return stdx::mem::make_shared<LegendaryStarsMushroom>(colour);
             case LegendaryWinsMushroom::ID:
-                return std::mem::make_shared<LegendaryWinsMushroom>(colour);
+                return stdx::mem::make_shared<LegendaryWinsMushroom>(colour);
             default:
                 return nullopt;
         }

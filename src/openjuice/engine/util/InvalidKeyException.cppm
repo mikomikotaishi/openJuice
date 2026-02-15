@@ -12,7 +12,7 @@ module;
 
 export module openjuice.engine.util:InvalidKeyException;
 
-import std;
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 

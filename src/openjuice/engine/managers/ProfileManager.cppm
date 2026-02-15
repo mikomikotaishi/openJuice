@@ -13,23 +13,22 @@ module;
 
 export module openjuice.engine.managers:ProfileManager;
 
-import std;
 import stdx;
 
 import openjuice.engine.util;
 
 import tomlpp;
 
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::fs::FileSystemException;
-using std::fs::Path;
-using std::io::IOException;
-using std::io::IOS;
-using std::io::IOState;
-using std::io::OutputFileStream;
-using std::mem::SharedPointer;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::fs::FileSystemException;
+using stdx::fs::Path;
+using stdx::io::IOException;
+using stdx::io::IOS;
+using stdx::io::IOState;
+using stdx::io::OutputFileStream;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -108,7 +107,7 @@ private:
      */
     ProfileManager() {
         try {
-            std::fs::create_directories(USERDATA_DIR);
+            stdx::fs::create_directories(USERDATA_DIR);
             if (Expected<void, Error> result = loadProfile(); !result) {
                 LOGGER->warn("Failed to load profile during initialisation");
             }
@@ -188,7 +187,7 @@ public:
      */
     [[nodiscard]]
     Expected<void, Error> loadProfile() noexcept {
-        if (!std::fs::exists(PATH_SAVEFILE)) {
+        if (!stdx::fs::exists(PATH_SAVEFILE)) {
             LOGGER->info("Save file not found, creating new profile");
             return saveProfile();
         }
@@ -233,7 +232,7 @@ public:
             LOGGER->info("Profile saved successfully for {}", currentProfile.getPlayerName());
             return {};
         } catch (const IOException& e) {
-            if (!std::fs::exists(PATH_SAVEFILE)) {
+            if (!stdx::fs::exists(PATH_SAVEFILE)) {
                 LOGGER->warn("Failed to save profile, file/directory does not exist: {}", e.what());
                 return Unexpected(Error::PROFILE_SAVE_LOCATION_INVALID);
             } else {
@@ -289,9 +288,9 @@ struct Formatter<ProfileManager::Error> {
                 name = "Profile save failed"; 
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

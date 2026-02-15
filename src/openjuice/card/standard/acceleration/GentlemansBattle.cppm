@@ -12,7 +12,7 @@ module;
 
 export module openjuice.card.standard.acceleration:GentlemansBattle;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 

@@ -16,9 +16,7 @@ module;
 
 export module openjuice.engine.board:BoardLibrary;
 
-import std;
 import stdx;
-
 import :BoardInfo;
 
 import openjuice.engine.managers;
@@ -26,14 +24,14 @@ import openjuice.engine.util;
 
 import tomlpp;
 
-using std::collections::Vector;
-using std::fmt::FormatContext;
-using std::fmt::FormatParseContext;
-using std::fmt::Formatter;
-using std::fs::DirectoryEntry;
-using std::fs::DirectoryIterator;
-using std::mem::SharedPointer;
-using std::ranges::IotaView;
+using stdx::collections::Vector;
+using stdx::fmt::FormatContext;
+using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
+using stdx::fs::DirectoryEntry;
+using stdx::fs::DirectoryIterator;
+using stdx::mem::SharedPointer;
+using stdx::ranges::IotaView;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -121,11 +119,11 @@ public:
         LOGGER->debug("Loading boards from directory: {}", directory);
         #endif
         
-        if (!std::fs::exists(directory)) {
+        if (!stdx::fs::exists(directory)) {
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::DIRECTORY_NOT_FOUND,
-                std::fmt::format("The directory {} was not found!", directory)
+                stdx::fmt::format("The directory {} was not found!", directory)
             );
         }
         for (const DirectoryEntry& entry: DirectoryIterator(directory)) {
@@ -149,14 +147,14 @@ public:
                 Array<Pair<u8, u8>, BoardInfo::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
-                    for (usize i: IotaView(0uz, std::math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
+                    for (usize i: IotaView(0uz, stdx::math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {
                                 return Unexpected<ErrorDescription<Error>>(
                                     Tags::IN_PLACE,
                                     Error::INVALID_TOML_ARRAY_SIZE,
-                                    std::fmt::format("Invalid homePanels size: expected 2, got {}", panel->size())
+                                    stdx::fmt::format("Invalid homePanels size: expected 2, got {}", panel->size())
                                 );
                             }
                             #ifndef NDEBUG
@@ -186,7 +184,7 @@ public:
                     );
                 }
 
-                boardList.push_back(std::mem::make_shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
+                boardList.push_back(stdx::mem::make_shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
             }
         }
 
@@ -256,9 +254,9 @@ struct Formatter<BoardLibrary::Error> {
                 name = "Corrupted library TOML";
                 break;
             default:
-                std::sys::unreachable();
+                stdx::sys::unreachable();
         }
-        return std::fmt::format_to(ctx.out(), "{}", name);
+        return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 

@@ -12,7 +12,6 @@ module;
 
 export module openjuice.engine.util:Misc;
 
-import std;
 import stdx;
 
 #ifdef _WIN32
@@ -23,10 +22,10 @@ using stdx::os::unix::STDOUT_FILENO;
 using stdx::os::unix::sys::TIOCGWINSZ;
 using stdx::os::unix::sys::WindowSize;
 #endif
-using std::time::LocalTime;
-using std::time::SystemClock;
-using std::time::TimePoint;
-using std::time::temporal::Seconds;
+using stdx::time::LocalTime;
+using stdx::time::SystemClock;
+using stdx::time::TimePoint;
+using stdx::time::temporal::Seconds;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
@@ -35,15 +34,15 @@ export namespace misc {
      * @brief Print the help message.
      */
     void printHelp() {
-        std::io::println("Help message");
+        stdx::io::println("Help message");
     }
 
     /**
      * @brief Print the credits message.
      */
     void printCredits() {
-        std::io::println("Version: 0.0.x");
-        std::io::println("Credits message");
+        stdx::io::println("Version: 0.0.x");
+        stdx::io::println("Credits message");
     }
 
     /**
@@ -295,7 +294,7 @@ export namespace misc {
         return Unexpected(UrlOpenError::UNSUPPORTED_PLATFORM);
         #endif
 
-        i32 result = std::sys::system(std::fmt::format("{} {}", startingCommand, url).c_str());
+        i32 result = stdx::sys::system(stdx::fmt::format("{} {}", startingCommand, url).c_str());
 
         if (result != 0) {
             return Unexpected(UrlOpenError::SYSTEM_CALL_FAILED);
@@ -340,8 +339,8 @@ export namespace misc {
     [[nodiscard]]
     String getCurrentTimeAsString() {
         TimePoint<SystemClock> now = SystemClock::now();
-        LocalTime<Seconds> currentTime = std::time::current_zone()->to_local(std::time::floor<Seconds>(now));
-        return std::fmt::format("{:%Y-%m-%d %H:%M:%S}", currentTime);
+        LocalTime<Seconds> currentTime = stdx::time::current_zone()->to_local(stdx::time::floor<Seconds>(now));
+        return stdx::fmt::format("{:%Y-%m-%d %H:%M:%S}", currentTime);
     }
 }
 

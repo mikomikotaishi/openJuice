@@ -12,14 +12,13 @@ module;
 
 export module openjuice.unit:BasicEnemyFactory;
 
-import std;
 import stdx;
 
 import openjuice.engine.managers;
 import openjuice.engine.unit;
 import openjuice.unit.enemies;
 
-using std::mem::SharedPointer;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -56,11 +55,11 @@ public:
             case 0:
                 return nullptr;
             case Chicken::ID:
-                return std::mem::make_shared<Chicken>();
+                return stdx::mem::make_shared<Chicken>();
             case RoboBall::ID:
-                return std::mem::make_shared<RoboBall>();
+                return stdx::mem::make_shared<RoboBall>();
             case Seagull::ID:
-                return std::mem::make_shared<Seagull>();
+                return stdx::mem::make_shared<Seagull>();
             default:
                 return nullopt;
         }

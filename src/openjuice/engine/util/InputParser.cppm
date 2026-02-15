@@ -18,14 +18,14 @@ export module openjuice.engine.util:InputParser;
 
 #define INPUTPARSER_DEPRECATION_MESSAGE "Do not use InputParser, instead use stdx::util::ArgumentParser as it is simpler."
 
-import std;
+import stdx;
 
 import :Misc;
 
-using std::collections::Vector;
-using std::ranges::views::Iota;
-using std::ranges::views::TakeWhile;
-using std::ranges::views::Transform;
+using stdx::collections::Vector;
+using stdx::ranges::views::Iota;
+using stdx::ranges::views::TakeWhile;
+using stdx::ranges::views::Transform;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
@@ -53,7 +53,7 @@ public:
     explicit InputParserBase(const Vector<String>& args, char* envp[] = nullptr):
         args{args} {
         if (envp) {
-            std::ranges::for_each(
+            stdx::ranges::for_each(
                 Iota(0uz)
                     | Transform([envp](auto i) -> char* { return envp[i]; })
                     | TakeWhile([](auto p) -> bool { return p != nullptr; }),
@@ -92,7 +92,7 @@ public:
         args{args} {
         bool foundValue = false;
         if (envp) {
-            std::ranges::for_each(
+            stdx::ranges::for_each(
                 Iota(0uz)
                     | Transform([envp](auto i) -> char* { return envp[i]; })
                     | TakeWhile([](auto p) -> bool { return p != nullptr; }),
@@ -100,12 +100,12 @@ public:
             );
         }
         for (const String& arg: args) {
-            if (std::ranges::contains(validOptions, arg)) {
+            if (stdx::ranges::contains(validOptions, arg)) {
                 if (Integer::parse(arg) && !foundValue) {
                     foundValue = true;
                     continue;
                 }
-                throw InvalidArgumentException(std::fmt::format("Invalid option: {}", arg));
+                throw InvalidArgumentException(stdx::fmt::format("Invalid option: {}", arg));
             }
         }
     }
@@ -142,7 +142,7 @@ public:
      */
     [[nodiscard]]
     String getOptionValue(StringView option) const noexcept {
-        if (auto it = std::ranges::find(args, option); it != args.end()) {
+        if (auto it = stdx::ranges::find(args, option); it != args.end()) {
             ++it;
             if (it != args.end()) {
                 return *it;
@@ -159,7 +159,7 @@ public:
      */
     [[nodiscard]]
     bool optionExists(const String& option) const noexcept {
-        return std::ranges::contains(args, option);
+        return stdx::ranges::contains(args, option);
     }
 };
 

@@ -13,7 +13,7 @@ module;
 
 export module openjuice.card.mushroom.legendary:LegendaryWinsMushroom;
 
-import std;
+import stdx;
 
 import openjuice.engine.card;
 
@@ -36,7 +36,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::legendary);
  */
 export class LegendaryWinsMushroom final: public LegendaryMushroomCard {
 public:
-    static constexpr u16 ID = std::util::to_underlying(LegendaryMushroomCard::Effect::WINS); ///< The ID of this specific card
+    static constexpr u16 ID = stdx::util::to_underlying(LegendaryMushroomCard::Effect::WINS); ///< The ID of this specific card
 private:
     static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
