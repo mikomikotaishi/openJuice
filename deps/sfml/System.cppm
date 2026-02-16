@@ -32,16 +32,16 @@ module;
 #include <SFML/System.hpp>
 #include <SFML/System/SuspendAwareClock.hpp>
 
-export module sfml.system;
-
-#ifdef SFML_SYSTEM_ANDROID
-export using ::ANativeActivity;
-#endif
+export module sfml:system;
 
 export namespace sfml {
+    #ifdef SFML_SYSTEM_ANDROID
+    using ::ANativeActivity;
+    #endif
+
     using sf::Angle;
     using sf::Clock;
-    using sf::Exception;
+    using SFMLException = sf::Exception;
     using sf::FileInputStream;
     using sf::InputStream;
     using sf::MemoryInputStream;

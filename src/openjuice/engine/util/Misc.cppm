@@ -22,9 +22,9 @@ using stdx::os::unix::STDOUT_FILENO;
 using stdx::os::unix::sys::TIOCGWINSZ;
 using stdx::os::unix::sys::WindowSize;
 #endif
+using stdx::time::Instant;
 using stdx::time::LocalTime;
 using stdx::time::SystemClock;
-using stdx::time::TimePoint;
 using stdx::time::temporal::Seconds;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
@@ -55,9 +55,9 @@ export namespace misc {
          * @brief Lambda to check if character is a format specifier
          */
         constexpr auto isFormatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u' ||
-                    c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G' ||
-                    c == 'a' || c == 'A' || c == 'c' || c == 's' || c == 'p' || c == 'n';
+            return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u'
+                || c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G'
+                || c == 'a' || c == 'A' || c == 'c' || c == 's' || c == 'p' || c == 'n';
         };
 
         /**
@@ -338,7 +338,7 @@ export namespace misc {
      */
     [[nodiscard]]
     String getCurrentTimeAsString() {
-        TimePoint<SystemClock> now = SystemClock::now();
+        Instant<SystemClock> now = SystemClock::now();
         LocalTime<Seconds> currentTime = stdx::time::current_zone()->to_local(stdx::time::floor<Seconds>(now));
         return stdx::fmt::format("{:%Y-%m-%d %H:%M:%S}", currentTime);
     }

@@ -7,20 +7,14 @@
 
 #pragma once
 
-#define THROWS_FALSE noexcept
-#define THROWS_TRUE noexcept(false)
-
-#define THROWS_SELECT(_1, NAME, ...) NAME
-#define THROWS_CHOOSE(...) THROWS_SELECT(__VA_ARGS__, THROWS_TRUE, THROWS_FALSE)
-
-#define throws(...) THROWS_CHOOSE(__VA_ARGS__)
+#define throws(...) noexcept(__VA_OPT__(!)true)
 
 #define extends public
 #define implements public
 
-#define NoReturn noreturn
-#define Deprecated deprecated
-#define Fallthrough fallthrough
+#define NoReturn [[noreturn]]
+#define Deprecated [[deprecated]]
+#define Fallthrough [[fallthrough]]
 #define MaybeUnused maybe_unused
 #define Likely likely
 #define Unlikely unlikely

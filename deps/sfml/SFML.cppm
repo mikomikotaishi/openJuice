@@ -28,20 +28,8 @@
 
 export module sfml;
 
-export import sfml.system;
-
-#ifdef BUILD_AUDIO_MODULE
-export import sfml.audio;
-#endif
-
-#ifdef BUILD_GRAPHICS_MODULE
-export import sfml.graphics;
-#endif
-
-#ifdef BUILD_NETWORK_MODULE
-export import sfml.network;
-#endif
-
-#ifdef BUILD_WINDOW_MODULE
-export import sfml.window;
-#endif
+export import :system;
+export import :audio;
+export import :graphics;
+export import :network;
+export import :window;

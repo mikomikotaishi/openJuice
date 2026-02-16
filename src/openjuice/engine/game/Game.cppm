@@ -227,6 +227,7 @@ public:
      * @brief Get current player.
      *
      * @return SharedPointer<Player> Current player object.
+     * @throws OutOfRangeException if currentPlayerIndex is out of range.
      */
     [[nodiscard]]
     SharedPointer<Player> getCurrentPlayer() const RELEASE_NOEXCEPT {
@@ -242,7 +243,6 @@ public:
      *
      * @param index Player index
      * @return Player object at index
-     *
      * @throws OutOfRangeException if index is out of range
      */
     [[nodiscard]]
@@ -387,11 +387,11 @@ public:
     /**
      * @brief Get the ECS registry
      *
-     * @return Pointer to the registry
+     * @return Reference to the registry
      */
     [[nodiscard]]
-    Registry* getRegistry() noexcept {
-        return registry.get();
+    Registry& getRegistry() noexcept {
+        return *registry;
     }
 
     /**

@@ -8,9 +8,6 @@
 
 module;
 
-// Standard library headers are necessary here - there is no workaround
-#include <vector>
-
 #include "Macros.hpp"
 
 export module openjuice.engine.signals:Observer;

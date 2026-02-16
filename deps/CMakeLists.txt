@@ -1,7 +1,6 @@
-add_subdirectory(asio)
+# add_subdirectory(asio)
 add_subdirectory(discordpp)
 add_subdirectory(nlohmann.json)
 add_subdirectory(re2)
 add_subdirectory(sfml)
-add_subdirectory(sqlitecpp)
 add_subdirectory(tomlpp)

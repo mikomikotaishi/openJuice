@@ -8,9 +8,6 @@
 
 module;
 
-// Standard library headers are necessary here - there is no workaround
-#include <filesystem>
-
 #include "Macros.hpp"
 #include "Rename.hpp"
 

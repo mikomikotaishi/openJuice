@@ -41,6 +41,7 @@ target_link_libraries(modules PUBLIC
     discordpp
     ftxui-modules
     nlohmann_json_modules
+    re2_module
     sfml
     tomlpp
 )

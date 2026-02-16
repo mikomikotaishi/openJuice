@@ -13,14 +13,14 @@ module;
 export module openjuice.chat:Censor;
 
 import stdx;
+import re2;
 
 import openjuice.engine.managers;
 import openjuice.engine.util;
 
-#if 0
-
 using stdx::collections::Vector;
 using stdx::io::InputFileStream;
+using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -29,7 +29,8 @@ using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
 using openjuice::engine::util::InvalidLanguageException;
 
-using boost::regex::Regex;
+using re2::RE2;
+using re2::StringPiece;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -50,10 +51,11 @@ private:
 
     /**
      * @brief Private constructor to prevent instantiation.
+     * 
      * @throws InvalidLanguageException if no valid language is found
      */
-    Censor():
-        gameLanguageCode{GlobalSettings::languageToString(GlobalSettings::getInstance().getLanguage())} {
+    Censor() throws (InvalidLanguageException):
+        gameLanguageCode{GlobalSettings::languageToCode(GlobalSettings::getInstance().getLanguage())} {
         Language gameLanguage = GlobalSettings::getInstance().getLanguage();
         switch (gameLanguage) {
             case Language::ENGLISH:
@@ -76,10 +78,11 @@ private:
 
     /**
      * @brief Load the blacklist for the specified language.
+     * 
      * @param language The language for which to load the blacklist.
      * @throws InvalidLanguageException if no valid language is found
      */
-    void loadBlacklist(Language language) {
+    void loadBlacklist(Language language) throws (InvalidLanguageException) {
         LOGGER->info("Loading blacklist for language of value {}", static_cast<u8>(language));
         String filename = stdx::fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
         blacklist.clear();
@@ -104,6 +107,7 @@ public:
 
     /**
      * @brief Get the singleton instance of Censor.
+     * 
      * @return The singleton instance.
      */
     static Censor& getInstance() {
@@ -113,21 +117,23 @@ public:
 
     /**
      * @brief Censor inappropriate words in a message.
+     * 
      * @param message The message to censor.
      * @return The censored message.
      */
     [[nodiscard]]
     String censorMessage(const String& message) const {
+        static RE2::Options options;
+        options.set_case_sensitive(false);
         String censoredMessage = message;
         for (const String& word: blacklist) {
-            Regex pattern(stdx::fmt::format("\\b{}\\b", word), boost::regex_constants::icase);
+            String pattern = stdx::fmt::format("\\b{}\\b", word);
+            RE2 regex(pattern, options);
             String replacement(word.length(), censorChar);
-            censoredMessage = boost::regex_replace(censoredMessage, pattern, replacement);
+            RE2::GlobalReplace(&censoredMessage, regex, replacement);
         }
         return censoredMessage;
     }
 };
 
 END_MODULE_NAMESPACE();
-
-#endif

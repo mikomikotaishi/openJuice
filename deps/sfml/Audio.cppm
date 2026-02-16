@@ -30,36 +30,105 @@ module;
 
 #include <SFML/Audio.hpp>
 
-export module sfml.audio;
+export module sfml:audio;
 
-export import sfml.system;
+export import :system;
 
-export namespace sfml {
+export namespace sfml::audio {
     using sf::InputSoundFile;
-    namespace Listener {
-        using sf::Listener::Cone;
+    
+    class Listener final {
+    public:
+        Listener() = delete;
 
-        using sf::Listener::setGlobalVolume;
-        using sf::Listener::getGlobalVolume;
-        using sf::Listener::setPosition;
-        using sf::Listener::getPosition;
-        using sf::Listener::setDirection;
-        using sf::Listener::getDirection;
-        using sf::Listener::setVelocity;
-        using sf::Listener::getVelocity;
-        using sf::Listener::setCone;
-        using sf::Listener::getCone;
-        using sf::Listener::setUpVector;
-        using sf::Listener::getUpVector;
-    }
+        using Cone = sf::Listener::Cone;
+
+        static void setGlobalVolume(float volume) {
+            sf::Listener::setGlobalVolume(volume);
+        }
+
+        [[nodiscard]]
+        static float getGlobalVolume() {
+            return sf::Listener::getGlobalVolume();
+        }
+
+        static void setPosition(const sf::Vector3f& position) {
+            sf::Listener::setPosition(position);
+        }
+
+        [[nodiscard]]
+        static sf::Vector3f getPosition() {
+            return sf::Listener::getPosition();
+        }
+
+        static void setDirection(const sf::Vector3f& direction) {
+            sf::Listener::setDirection(direction);
+        }
+
+        [[nodiscard]]
+        static sf::Vector3f getDirection() {
+            return sf::Listener::getDirection();
+        }
+
+        static void setVelocity(const sf::Vector3f& velocity) {
+            sf::Listener::setVelocity(velocity);
+        }
+
+        [[nodiscard]]
+        static sf::Vector3f getVelocity() {
+            return sf::Listener::getVelocity();
+        }
+
+        static void setCone(const Cone& cone) {
+            sf::Listener::setCone(cone);
+        }
+
+        [[nodiscard]]
+        static Cone getCone() {
+            return sf::Listener::getCone();
+        }
+
+        static void setUpVector(const sf::Vector3f& upVector) {
+            sf::Listener::setUpVector(upVector);
+        }
+
+        [[nodiscard]]
+        static sf::Vector3f getUpVector() {
+            return sf::Listener::getUpVector();
+        }
+    };
+
     using sf::Music;
     using sf::OutputSoundFile;
-    namespace PlaybackDevice {
-        using sf::PlaybackDevice::getAvailableDevices;
-        using sf::PlaybackDevice::getDefaultDevice;
-        using sf::PlaybackDevice::setDevice;
-        using sf::PlaybackDevice::getDevice;
-    }
+
+    class PlaybackDevice final {
+    public:
+        PlaybackDevice() = delete;
+
+        using Notification = sf::PlaybackDevice::Notification;
+        using NotificationCallback = sf::PlaybackDevice::NotificationCallback;
+
+        [[nodiscard]]
+        static std::vector<std::string> getAvailableDevices() {
+            return sf::PlaybackDevice::getAvailableDevices();
+        }
+
+        [[nodiscard]]
+        static std::optional<std::string> getDefaultDevice() {
+            return sf::PlaybackDevice::getDefaultDevice();
+        }
+
+        [[nodiscard]]
+        static bool setDevice(const std::string& name) {
+            return sf::PlaybackDevice::setDevice(name);
+        }
+
+        [[nodiscard]]
+        static std::optional<std::string> getDevice() {
+            return sf::PlaybackDevice::getDevice();
+        }
+    };
+
     using sf::Sound;
     using sf::SoundBuffer;
     using sf::SoundBufferRecorder;

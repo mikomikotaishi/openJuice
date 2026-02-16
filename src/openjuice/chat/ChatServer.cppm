@@ -13,17 +13,21 @@ module;
 export module openjuice.chat:ChatServer;
 
 import stdx;
+import sfml;
 
 import :ChatSession;
 
-#if 0
-
 using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
+using stdx::mem::UniquePointer;
+using stdx::net::BindException;
+using stdx::thread::JoiningThread;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
-using boost::asio::ip::tcp::Acceptor;
-using boost::asio::ip::tcp::Socket;
-using boost::system::ErrorCode;
+using sfml::net::Socket;
+using sfml::net::TcpListener;
+using sfml::net::TcpSocket;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -35,35 +39,57 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatServer {
 private:
-    Acceptor serverAcceptor; ///< Acceptor for incoming connections.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatServer"); ///< The logger instance.
+    TcpListener serverListener; ///< Listener for incoming connections.
     Vector<SharedPointer<ChatSession>> clients; ///< List of connected clients.
+    JoiningThread acceptThread; ///< Thread for accepting connections.
+    bool isRunning = false; ///< Server running status.
 
     /**
-     * @brief Accept an incoming connection.
+     * @brief Accept incoming connections.
      */
-    void acceptConnection() {
-        serverAcceptor.async_accept(
-            [this](ErrorCode ec, Socket socket) -> void {
-                if (!ec) {
-                    stdx::mem::make_shared<ChatSession>(stdx::util::move(socket), clients)->start();
-                }
-                acceptConnection();
+    void acceptConnections() {
+        while (isRunning) {
+            UniquePointer<TcpSocket> clientSocket = stdx::mem::make_unique<TcpSocket>();
+            
+            if (serverListener.accept(*clientSocket) == Socket::Status::Done) {
+                LOGGER->info("Client connected from {}", clientSocket->getRemoteAddress()->toString());
+                auto session = stdx::mem::make_shared<ChatSession>(stdx::util::move(clientSocket), clients);
+                session->start();
             }
-        );
+        }
     }
+
 public:
     /**
      * @brief Constructor to initialise a ChatServer object.
      *
-     * @param ioContext The IO context to use.
      * @param port The port to listen on.
+     * @throws BindException if the server fails to start
      */
-    ChatServer(IOContext& ioContext, i16 port):
-        serverAcceptor(ioContext, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), static_cast<u16>(port))) {
-        acceptConnection();
+    explicit ChatServer(u16 port) throws (BindException) {
+        if (serverListener.listen(port) != Socket::Status::Done) {
+            LOGGER->error("Failed to bind server to port {}", port);
+            throw BindException("Failed to start chat server");
+        }
+        
+        LOGGER->info("Chat server listening on port {}", port);
+        isRunning = true;
+        
+        // Start accepting connections in a separate thread
+        acceptThread = JoiningThread([this]() -> void {
+            acceptConnections();
+        });
+    }
+    
+    /**
+     * @brief Destructor to clean up resources.
+     */
+    ~ChatServer() {
+        isRunning = false;
+        serverListener.close();
+        acceptThread.request_stop();
     }
 };
 
 END_MODULE_NAMESPACE();
-
-#endif

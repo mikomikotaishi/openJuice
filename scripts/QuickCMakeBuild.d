@@ -794,6 +794,10 @@ class QuickCMakeBuild {
         StopWatch sw;
         sw.start();
         
+        if (baseName(getcwd()) == "scripts") {
+            chdir("..");
+        }
+        
         try {
             args = args[1..$];
             

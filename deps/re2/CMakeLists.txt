@@ -13,3 +13,5 @@ set_target_properties(re2_module PROPERTIES
     CXX_EXTENSIONS OFF 
     CXX_MODULE_DYNDEP OFF
 )
+
+target_link_libraries(re2_module PUBLIC re2)

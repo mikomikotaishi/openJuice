@@ -30,11 +30,11 @@ module;
 
 #include <SFML/Graphics.hpp>
 
-export module sfml.graphics;
+export module sfml:graphics;
 
-export import sfml.window;
+export import :window;
 
-export namespace sfml {
+export namespace sfml::graphics {
     using sf::BlendMode;
     using sf::CircleShape;
     using sf::Color;
@@ -42,7 +42,8 @@ export namespace sfml {
     using sf::CoordinateType;
     using sf::Drawable;
     using sf::Font;
-    namespace Glsl {
+
+    namespace glsl {
         using sf::Glsl::Vec2;
         using sf::Glsl::Ivec2;
         using sf::Glsl::Bvec2;
@@ -55,6 +56,7 @@ export namespace sfml {
         using sf::Glsl::Mat3;
         using sf::Glsl::Mat4;
     }
+
     using sf::Glyph;
     using sf::Image;
     using sf::PrimitiveType;

@@ -619,6 +619,9 @@ def main() -> int:
 
     @return int: Return code (0 for success, non-zero for failure).
     """
+    if os.path.basename(os.getcwd()) == "scripts":
+        os.chdir("..")
+    
     parser: ArgumentParser = ArgumentParser(description = "Build script for openJuice project.")
 
     operation_group: MutuallyExclusiveGroup = parser.add_mutually_exclusive_group()

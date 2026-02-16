@@ -13,16 +13,19 @@ module;
 export module openjuice.chat:ChatSession;
 
 import stdx;
-
-#if 0
+import sfml;
 
 using stdx::collections::Vector;
 using stdx::mem::EnableSharedFromThis;
 using stdx::mem::SharedPointer;
-using stdx::linq::Query;
+using stdx::mem::UniquePointer;
+using stdx::ranges::views::Filter;
+using stdx::thread::JoiningThread;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
-using boost::asio::ip::tcp::Socket;
-using boost::system::ErrorCode;
+using sfml::net::Socket;
+using sfml::net::TcpSocket;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -34,9 +37,12 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatSession: public EnableSharedFromThis<ChatSession> {
 private:
-    Socket sessionSocket; ///< Socket for the chat session.
+    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatSession"); ///< The logger instance.
+    UniquePointer<TcpSocket> sessionSocket; ///< Socket for the chat session.
     String inputBuffer; ///< Buffer for incoming messages.
     Vector<SharedPointer<ChatSession>>& clients; ///< List of connected clients.
+    JoiningThread sessionThread; ///< Thread for handling this session.
+    bool isActive = false; ///< Session active status.
 
     /**
      * @brief Broadcast a message to all clients.
@@ -45,7 +51,7 @@ private:
      */
     void broadcast(const String& msg) {
         for (SharedPointer<ChatSession>& client: clients) {
-            if (client != boost::asio::shared_from_this()) {
+            if (client.get() != this) {
                 client->deliver(msg);
             }
         }
@@ -55,29 +61,44 @@ private:
      * @brief Remove the client from the list of connected clients.
      */
     void removeClient() {
-        clients = Query::from(clients)
-            .where([self = boost::asio::shared_from_this()](const auto& c) -> bool { return c != self; })
-            .to<Vector>();
+        clients = clients
+            | Filter([this](const auto& c) -> bool { return c.get() != this; })
+            | stdx::ranges::to<Vector>();
     }
 
     /**
-     * @brief Read a message from the client.
+     * @brief Read messages from the client.
      */
-    void readMessage() {
-        SharedPointer<ChatSession> self(shared_from_this());
-        boost::asio::async_read_until(sessionSocket, boost::asio::dynamic_buffer(inputBuffer), '\n',
-            [this, self](ErrorCode ec, usize length) -> void {
-                if (!ec) {
-                    String message = inputBuffer.substr(0, length);
-                    inputBuffer.erase(0, length);
-                    stdx::io::print("Received: {}", message);
+    void readMessages() {
+        char buffer[1024];
+        
+        while (isActive) {
+            usize received = 0;
+            Socket::Status status = sessionSocket->receive(buffer, sizeof(buffer), received);
+            
+            if (status == Socket::Status::Done && received > 0) {
+                inputBuffer.append(buffer, received);
+                
+                // Process complete messages (delimited by newline)
+                usize pos;
+                while ((pos = inputBuffer.find('\n')) != String::npos) {
+                    String message = inputBuffer.substr(0, pos + 1);
+                    inputBuffer.erase(0, pos + 1);
+                    LOGGER->info("Received: {}", message);
                     broadcast(message);
-                    readMessage();
-                } else {
-                    removeClient();
                 }
+            } else if (status == Socket::Status::Disconnected) {
+                LOGGER->info("Client disconnected");
+                isActive = false;
+                removeClient();
+                break;
+            } else if (status == Socket::Status::Error) {
+                LOGGER->error("Socket error occurred");
+                isActive = false;
+                removeClient();
+                break;
             }
-        );
+        }
     }
 public:
     /**
@@ -86,15 +107,23 @@ public:
      * @param socket The socket for the chat session.
      * @param clients The list of connected clients.
      */
-    ChatSession(Socket socket, Vector<SharedPointer<ChatSession>>& clients):
-        sessionSocket{stdx::util::move(socket)}, clients{clients} {}
+    ChatSession(UniquePointer<TcpSocket> socket, Vector<SharedPointer<ChatSession>>& clients):
+        sessionSocket{stdx::util::move(socket)}, clients{clients} {
+        if (sessionSocket) {
+            sessionSocket->setBlocking(false);
+        }
+    }
     
     /**
      * @brief Start the chat session.
      */
     void start() {
-        clients.push_back(boost::asio::shared_from_this());
-        readMessage();
+        isActive = true;
+        
+        // Start reading messages in a separate thread
+        sessionThread = JoiningThread([this]() -> void {
+            readMessages();
+        });
     }
 
     /**
@@ -103,12 +132,23 @@ public:
      * @param msg The message to deliver.
      */
     void deliver(StringView msg) {
-        boost::asio::async_write(sessionSocket, boost::asio::buffer(msg),
-            [](ErrorCode, usize) -> void {}
-        );
+        if (sessionSocket && isActive) {
+            if (sessionSocket->send(msg.data(), msg.size()) != Socket::Status::Done) {
+                LOGGER->error("Failed to send message to client");
+            }
+        }
+    }
+    
+    /**
+     * @brief Destructor to clean up resources.
+     */
+    ~ChatSession() {
+        isActive = false;
+        if (sessionSocket) {
+            sessionSocket->disconnect();
+        }
+        sessionThread.request_stop();
     }
 };
 
 END_MODULE_NAMESPACE();
-
-#endif

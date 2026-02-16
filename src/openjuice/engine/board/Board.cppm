@@ -8,10 +8,6 @@
 
 module;
 
-// Standard library headers are necessary here - there is no workaround
-#include <cassert>
-#include <memory>
-
 #include "Macros.hpp"
 
 export module openjuice.engine.board:Board;

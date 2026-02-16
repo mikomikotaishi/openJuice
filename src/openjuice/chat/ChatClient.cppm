@@ -13,23 +13,23 @@ module;
 export module openjuice.chat:ChatClient;
 
 import stdx;
+import sfml;
 
 import openjuice.engine.managers;
 
-#if 0
-using stdx::concurrent::JoiningThread;
 using stdx::io::Cin;
 using stdx::io::Cout;
-using stdx::io::InputStream;
-using stdx::io::Stderr;
+using stdx::io::File;
+using stdx::mem::SharedPointer;
+using stdx::net::BindException;
+using stdx::net::UnknownHostException;
+using stdx::thread::JoiningThread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using IOContext = boost::asio::io_context;
-using Resolver = boost::asio::ip::tcp::resolver;
-using ResultsType = boost::asio::ip::tcp::resolver::results_type;
-using Socket = boost::asio::ip::tcp::socket;
-using StreamBuffer = boost::asio::streambuf;
+using sfml::net::IpAddress;
+using sfml::net::Socket;
+using sfml::net::TcpSocket;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -42,8 +42,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
 export class ChatClient {
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatClient"); ///< The logger instance.
-    Socket clientSocket; ///< Socket for the chat client.
+    TcpSocket clientSocket; ///< Socket for the chat client.
     JoiningThread listenerThread; ///< Listener thread for the chat client.
+    bool isConnected = false; ///< Connection status.
 
     /**
      * @brief Start the chat client.
@@ -51,9 +52,13 @@ private:
     void startChat() {
         LOGGER->info("Starting chat");
         String message;
-        while (stdx::io::getline(Cin, message)) {
+        while (isConnected && stdx::io::getline(Cin, message)) {
             message += "\n";
-            boost::asio::write(clientSocket, boost::asio::buffer(message));
+            if (clientSocket.send(message.c_str(), message.size()) != Socket::Status::Done) {
+                LOGGER->error("Failed to send message");
+                isConnected = false;
+                break;
+            }
         }
     }
 
@@ -63,17 +68,30 @@ private:
     void startListening() {
         listenerThread = JoiningThread([this]() -> void {
             try {
-                StreamBuffer buffer;
-                while (true) {
-                    boost::asio::read_until(clientSocket, buffer, '\n');
-                    InputStream is(&buffer);
-                    String message;
-                    stdx::io::getline(is, message);
-                    stdx::io::print("\n[CHAT] {}\n> ", message);
-                    Cout.flush();
+                char buffer[1024];
+                String messageBuffer;
+                while (isConnected) {
+                    usize received = 0;
+                    Socket::Status status = clientSocket.receive(buffer, sizeof(buffer), received);
+                    
+                    if (status == Socket::Status::Done && received > 0) {
+                        messageBuffer.append(buffer, received);
+
+                        usize pos;
+                        while ((pos = messageBuffer.find('\n')) != String::npos) {
+                            String message = messageBuffer.substr(0, pos);
+                            stdx::io::print("\n[CHAT] {}\n> ", message);
+                            Cout.flush();
+                            messageBuffer.erase(0, pos + 1);
+                        }
+                    } else if (status == Socket::Status::Disconnected) {
+                        isConnected = false;
+                        break;
+                    }
                 }
             } catch (...) {
-                stdx::io::println(Stderr, "Disconnected from server.");
+                stdx::io::println(File::stderr(), "Disconnected from server.");
+                isConnected = false;
             }
         });
     }
@@ -82,26 +100,48 @@ private:
      * @brief Stop listening for messages from the server.
      */
     void stopListening() {
+        isConnected = false;
+        clientSocket.disconnect();
         listenerThread.request_stop();
     }
 public:
     /**
      * @brief Constructor to initialise a ChatClient object.
      *
-     * @param ioContext The IO context to use.
      * @param host The host to connect to.
      * @param port The port to connect to.
+     * @throws BindException if the client fails to connect
+     * @throws UnknownHostException if the host is unknown
      */
-    ChatClient(IOContext& ioContext, const String& host, i16 port):
-        clientSocket(ioContext) {
-        Resolver resolver(ioContext);
-        ResultsType endpoints = resolver.resolve(host, stdx::text::string::to_string(port));
-        boost::asio::connect(clientSocket, endpoints);
+    ChatClient(StringView host, u16 port) throws (BindException, UnknownHostException) {
+        #warning "operator== must be in scope for ADL to work apparently"
+        using sfml::net::operator==; // Necessary for ADL apparently
+
+        const IpAddress serverAddress = IpAddress::resolve(host).value_or(IpAddress::Any);
+        if (serverAddress == IpAddress::Any) {
+            LOGGER->error("Unknown host: {}", host);
+            throw UnknownHostException("Failed to resolve host");
+        }
+        
+        if (clientSocket.connect(serverAddress, port) != Socket::Status::Done) {
+            LOGGER->error("Failed to connect to server at {}:{}", host, port);
+            throw BindException("Failed to connect to chat server");
+        }
+        
+        LOGGER->info("Connected to server at {}:{}", host, port);
+        isConnected = true;
+        clientSocket.setBlocking(false); // Non-blocking for listener thread
         startListening();
+        clientSocket.setBlocking(true); // Blocking for main chat
         startChat();
+    }
+    
+    /**
+     * @brief Destructor to clean up resources.
+     */
+    ~ChatClient() {
+        stopListening();
     }
 };
 
 END_MODULE_NAMESPACE();
-
-#endif

@@ -84,6 +84,8 @@ public class QuickCMakeBuild implements Callable<Integer> {
     private static final List<String> CMAKE_RECONFIGURE_COMMAND = Arrays.asList("cmake", "-S", ".", "-B", "build");
     private static final List<String> GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND = Arrays.asList("dot", "-Tpng", "graph.dot", "-o", "dependencies.png");
 
+    private static File workingDirectory = null;
+
     /**
      * ANSI codes.
      */
@@ -201,6 +203,9 @@ public class QuickCMakeBuild implements Callable<Integer> {
             System.out.println("Running command: " + String.join(" ", command));
         }
         ProcessBuilder pb = new ProcessBuilder(command);
+        if (workingDirectory != null) {
+            pb.directory(workingDirectory);
+        }
         
         if (!verbose && !captureOutput) {
             pb.redirectOutput(ProcessBuilder.Redirect.DISCARD);
@@ -249,8 +254,8 @@ public class QuickCMakeBuild implements Callable<Integer> {
     public static void cleanBuildDirectory(boolean verbose, boolean preserveDeps) throws InterruptedException {
         System.out.printf("%sCleaning%s build files...%n", ANSI.RED, ANSI.RESET);
         
-        Path buildDir = Paths.get("build");
-        Path srcBuildDir = Paths.get("src/build");
+        Path baseDir = workingDirectory != null ? workingDirectory.toPath() : Paths.get("");\n        Path buildDir = baseDir.resolve("build");
+        Path srcBuildDir = baseDir.resolve("src/build");
         
         if (!Files.exists(buildDir) && !Files.exists(srcBuildDir)) {
             System.out.println("No build directory found. Nothing to clean.");
@@ -484,6 +489,9 @@ public class QuickCMakeBuild implements Callable<Integer> {
         
         ProcessBuilder pb = new ProcessBuilder(cmakeCommand);
         pb.redirectErrorStream(false);
+        if (workingDirectory != null) {
+            pb.directory(workingDirectory);
+        }
         Process proc = pb.start();
         
         boolean inDownload = false;
@@ -604,6 +612,9 @@ public class QuickCMakeBuild implements Callable<Integer> {
         
         ProcessBuilder pb = new ProcessBuilder(cmakeCommand);
         pb.redirectErrorStream(true);
+        if (workingDirectory != null) {
+            pb.directory(workingDirectory);
+        }
         Process proc = pb.start();
         
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()))) {
@@ -718,6 +729,9 @@ public class QuickCMakeBuild implements Callable<Integer> {
 
         ProcessBuilder pb = new ProcessBuilder("cmake", "--build", "build");
         pb.redirectErrorStream(false);
+        if (workingDirectory != null) {
+            pb.directory(workingDirectory);
+        }
         Process proc = pb.start();
 
         try (
@@ -917,6 +931,12 @@ public class QuickCMakeBuild implements Callable<Integer> {
     @Override
     public Integer call() {
         long startTime = System.currentTimeMillis();
+        
+        Path currentDir = Paths.get("").toAbsolutePath();
+        if (currentDir.getFileName().toString().equals("scripts")) {
+            workingDirectory = currentDir.getParent().toFile();
+            System.out.println("Working directory set to: " + workingDirectory.getAbsolutePath());
+        }
         
         try {
             if (buildOperation.cleanall) {

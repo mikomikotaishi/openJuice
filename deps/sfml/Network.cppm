@@ -30,11 +30,11 @@ module;
 
 #include <SFML/Network.hpp>
 
-export module sfml.network;
+export module sfml:network;
 
-export import sfml.system;
+export import :system;
 
-export namespace sfml {
+export namespace sfml::net {
     using sf::Ftp;
     using sf::Http;
     using sf::IpAddress;

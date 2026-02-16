@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_MODULE_STD ON)
+
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+
 # Set default build directory if not specified
 if(NOT CMAKE_BINARY_DIR)
     set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
@@ -12,11 +18,6 @@ if(UNIX)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 endif()
-
-# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
-
-set(CMAKE_CXX_STANDARD 23)
-# set(CMAKE_CXX_MODULE_STD ON)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
@@ -49,8 +50,7 @@ set(CMAKE_CXX_MODULE_BMI_DIRECTORY "${CMAKE_BINARY_DIR}/.gens/openJuice/linux/x8
 
 function(configure_cpp_module_target target)
     set_target_properties(${target} PROPERTIES 
-        CXX_EXTENSIONS OFF 
-        CXX_MODULE_DYNDEP OFF
+        CXX_EXTENSIONS OFF
         CXX_MODULE_BMI_DIRECTORY "${CMAKE_CXX_MODULE_BMI_DIRECTORY}"
         CMAKE_CXX_STANDARD 23
         CMAKE_CXX_MODULE_STD ON
@@ -172,16 +172,6 @@ FetchContent_Declare(
     GIT_TAG main
 )
 FetchContent_Declare(
-    ftxui-grid-container
-    GIT_REPOSITORY https://github.com/mingsheng13/grid-container-ftxui.git
-    GIT_TAG master
-)
-FetchContent_Declare(
-    ftxui-ip-input
-    GIT_REPOSITORY https://github.com/mingsheng13/ip-input-ftxui.git
-    GIT_TAG main
-)
-FetchContent_Declare(
     nlohmann-json 
     URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
 )
@@ -196,11 +186,6 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 FetchContent_Declare(
-    SQLiteCpp
-    GIT_REPOSITORY https://github.com/SRombauts/SQLiteCpp.git
-    GIT_TAG        master
-)
-FetchContent_Declare(
     tomlplusplus
     GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
     GIT_TAG        master
@@ -209,12 +194,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(
     stdlibx
     ftxui
-    ftxui-grid-container
-    ftxui-ip-input 
     nlohmann-json
     re2
-    SFML 
-    SQLiteCpp
+    SFML
     tomlplusplus
 )
 
@@ -229,6 +211,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
         ftxui-modules
         nlohmann_json
         sfml
+        re2_module
         ${DISCORD_LIBRARY}
     )
 else()
@@ -237,6 +220,7 @@ else()
         modules
         ftxui-modules
         sfml
+        re2_module
     )
 endif()
 
