@@ -1,22 +1,19 @@
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
+message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_MODULE_STD ON)
 
-set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+if(CMAKE_VERSION VERSION_LESS_EQUAL "3.31.7")
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "0e5b6991-d74f-4b3d-a41c-cf096e0b2508")
+elseif(CMAKE_VERSION VERSION_LESS "4.3")
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+endif()
 
 # Set default build directory if not specified
 if(NOT CMAKE_BINARY_DIR)
     set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
-endif()
-
-# Forcing Clang temporarily on Unix systems, will probably change this later once module support improves
-# Necessary as GCC has an error "c++: error: unrecognized command-line option ‘-stdlib=libstdc++’"
-# which I don't know how to fix
-if(UNIX)
-    set(CMAKE_C_COMPILER "/usr/bin/clang")
-    set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
@@ -121,10 +118,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(ENABLE_SANITIZERS OFF)
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-stdlib=libstdc++>)
-    add_link_options(-stdlib=libstdc++)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-stdlib=libstdc++>)
     add_link_options(-stdlib=libstdc++)
     # add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-stdlib=libc++>)

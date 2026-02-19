@@ -22,7 +22,7 @@ using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::spawntypes::BountyHuntCard;
+using openjuice::engine::card::spawn::BountyHuntCard;
 
 // using namespace openjuice::card::bountyhunt;
 

@@ -23,7 +23,7 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::Card;
-using openjuice::engine::card::spawntypes::GenericCard;
+using openjuice::engine::card::spawn::GenericCard;
 
 using namespace openjuice::card::generic;
 

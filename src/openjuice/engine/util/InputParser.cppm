@@ -20,9 +20,8 @@ import stdx;
 import :Misc;
 
 using stdx::collections::Vector;
+using stdx::linq::Query;
 using stdx::ranges::views::Iota;
-using stdx::ranges::views::TakeWhile;
-using stdx::ranges::views::Transform;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
@@ -50,12 +49,13 @@ public:
     explicit InputParserBase(const Vector<String>& args, char* envp[] = nullptr):
         args{args} {
         if (envp) {
-            stdx::ranges::for_each(
-                Iota(0uz)
-                    | Transform([envp](auto i) -> char* { return envp[i]; })
-                    | TakeWhile([](auto p) -> bool { return p != nullptr; }),
-                [this](auto env) -> void { envs.emplace_back(env); }
-            );
+            auto query = Query(Iota(0uz))
+                .select([envp](auto i) -> char* { return envp[i]; })
+                .take_while([](auto p) -> bool { return p != nullptr; });
+
+            stdx::ranges::for_each(query, [this](auto env) -> void { 
+                envs.emplace_back(env); 
+            });
         }
     }
 
@@ -89,12 +89,13 @@ public:
         args{args} {
         bool foundValue = false;
         if (envp) {
-            stdx::ranges::for_each(
-                Iota(0uz)
-                    | Transform([envp](auto i) -> char* { return envp[i]; })
-                    | TakeWhile([](auto p) -> bool { return p != nullptr; }),
-                [this](auto env) -> void { envs.emplace_back(env); }
-            );
+            auto query = Query(Iota(0uz))
+                .select([envp](auto i) -> char* { return envp[i]; })
+                .take_while([](auto p) -> bool { return p != nullptr; });
+
+            stdx::ranges::for_each(query, [this](auto env) -> void { 
+                envs.emplace_back(env); 
+            });
         }
         for (const String& arg: args) {
             if (stdx::ranges::contains(validOptions, arg)) {

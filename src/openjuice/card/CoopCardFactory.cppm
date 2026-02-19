@@ -26,7 +26,7 @@ using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::spawntypes::CoopCard;
+using openjuice::engine::card::spawn::CoopCard;
 
 using namespace openjuice::card::coop;
 using namespace openjuice::card::coop::role;

@@ -24,7 +24,7 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::mushroom::LegendaryMushroomCard;
-using openjuice::engine::card::spawntypes::MushroomCard;
+using openjuice::engine::card::spawn::MushroomCard;
 
 using namespace openjuice::card::mushroom::legendary;
 using namespace openjuice::card::mushroom::regular::battle;

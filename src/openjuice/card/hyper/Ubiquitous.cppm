@@ -18,8 +18,8 @@ import openjuice.engine.card;
 
 using openjuice::engine::card::Card;
 
-using namespace openjuice::engine::card::cardtypes;
-using namespace openjuice::engine::card::spawntypes;
+using namespace openjuice::engine::card::spawn;
+using namespace openjuice::engine::card::type;
 
 BEGIN_MODULE_NAMESPACE(openjuice::card::hyper);
 

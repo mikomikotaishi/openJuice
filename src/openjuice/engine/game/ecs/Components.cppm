@@ -24,7 +24,7 @@ using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 
 using openjuice::engine::card::Card;
-using openjuice::engine::card::spawntypes::MushroomCard;
+using openjuice::engine::card::spawn::MushroomCard;
 using openjuice::engine::unit::Unit;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);

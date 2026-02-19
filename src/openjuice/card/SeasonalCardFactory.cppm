@@ -22,7 +22,7 @@ using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::spawntypes::SeasonalCard;
+using openjuice::engine::card::spawn::SeasonalCard;
 
 using namespace openjuice::card::seasonal;
 

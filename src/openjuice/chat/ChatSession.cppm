@@ -16,10 +16,10 @@ import stdx;
 import sfml;
 
 using stdx::collections::Vector;
+using stdx::linq::Query;
 using stdx::mem::EnableSharedFromThis;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
-using stdx::ranges::views::Filter;
 using stdx::thread::JoiningThread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -61,9 +61,9 @@ private:
      * @brief Remove the client from the list of connected clients.
      */
     void removeClient() {
-        clients = clients
-            | Filter([this](const auto& c) -> bool { return c.get() != this; })
-            | stdx::ranges::to<Vector>();
+        clients = Query(clients)
+            .where([this](const auto& c) -> bool { return c.get() != this; })
+            .to<Vector>();
     }
 
     /**

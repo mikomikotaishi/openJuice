@@ -26,7 +26,7 @@ using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::spawntypes::BossCard;
+using openjuice::engine::card::spawn::BossCard;
 
 // using namespace openjuice::card::boss;
 // using namespace openjuice::card::boss::hyper;

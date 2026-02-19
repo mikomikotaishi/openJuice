@@ -22,7 +22,7 @@ using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::card::spawntypes::StandardCard;
+using openjuice::engine::card::spawn::StandardCard;
 
 using namespace openjuice::card::standard::acceleration;
 using namespace openjuice::card::standard::base;

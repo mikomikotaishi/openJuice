@@ -17,7 +17,7 @@ import stdx;
 
 import openjuice.engine.util;
 
-import tomlpp;
+import marzer.toml;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
@@ -34,10 +34,10 @@ using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::util::Constants;
 
-using tomlpp::NodeView;
-using tomlpp::TomlNode;
-using tomlpp::TomlParseException;
-using tomlpp::TomlTable;
+using marzer::toml::NodeView;
+using marzer::toml::TomlNode;
+using marzer::toml::TomlParseException;
+using marzer::toml::TomlTable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::managers);
 
@@ -193,7 +193,7 @@ public:
         }
 
         try {
-            TomlTable data = tomlpp::parse_file(PATH_SAVEFILE);
+            TomlTable data = marzer::toml::parse_file(PATH_SAVEFILE);
             
             if (!deserialise(data).has_value()) {
                 LOGGER->error("Failed to deserialise profile data");

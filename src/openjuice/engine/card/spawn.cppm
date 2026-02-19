@@ -1,9 +1,9 @@
 /**
- * @file MushroomCard.cppm
- * @module openjuice.engine.card.spawntypes:MushroomCard
- * @brief Definition of the MushroomCard abstract class.
+ * @file spawn.cppm
+ * @module openjuice.engine.card.spawn
+ * @brief Import of card spawn type module partitions.
  *
- * This file contains the definition of the MushroomCard abstract class, which represents a Mushroom card in the game.
+ * This file imports the module partitions for different card types.
  */
 
 module;
@@ -11,7 +11,7 @@ module;
 #include "Macros.hpp"
 #include "Rename.hpp"
 
-export module openjuice.engine.card.spawntypes:MushroomCard;
+export module openjuice.engine.card.spawn;
 
 import stdx;
 
@@ -24,7 +24,103 @@ using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::Card;
 
-BEGIN_MODULE_NAMESPACE(openjuice::engine::card::spawntypes);
+BEGIN_MODULE_NAMESPACE(openjuice::engine::card::spawn);
+
+/**
+ * @class BossCard
+ * @brief Abstract class representing a Boss card.
+ *
+ * @extends Card
+ * 
+ * The BossCard abstract class extends the Card abstract class and represents a Boss card with specific attributes.
+ */
+export class BossCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for BossCard.
+     */
+    BossCard() = default;
+};
+
+/**
+ * @class BountyHuntCard
+ * @brief Abstract class representing a Bounty Hunt card.
+ *
+ * @extends Card
+ * 
+ * The BountyHuntCard abstract class extends the Card abstract class and represents a Bounty Hunt card with specific attributes.
+ */
+export class BountyHuntCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for BountyHuntCard.
+     */
+    BountyHuntCard() = default;
+};
+
+/**
+ * @class CharacterSpecificCard
+ * @brief Abstract class representing a Hyper card.
+ *
+ * @extends Card
+ * 
+ * The CharacterSpecificCard abstract class extends the Card abstract class and represents a Hyper card with specific attributes.
+ */
+export class CharacterSpecificCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for CharacterSpecificCard.
+     */
+    CharacterSpecificCard() = default;
+};
+
+/**
+ * @class CoopCard
+ * @brief Abstract class representing a Co-op card.
+ *
+ * @extends Card
+ * 
+ * The CoopCard abstract class extends the Card abstract class and represents a Co-op card with specific attributes.
+ */
+export class CoopCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for CoopCard.
+     */
+    CoopCard() = default;
+};
+
+/**
+ * @class GenericCard
+ * @brief Abstract class representing a Generic (placeholder) card.
+ *
+ * @extends Card
+ * 
+ * The GenericCard abstract class extends the Card abstract class and represents a Generic (placeholder) card.
+ */
+export class GenericCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for GenericCard.
+     */
+    GenericCard() = default;
+};
+
+/**
+ * @class HyperCard
+ * @brief Abstract class representing a Hyper card.
+ *
+ * @extends Card
+ * 
+ * The HyperCard abstract class extends the Card abstract class and represents a Hyper card with specific attributes.
+ */
+export class HyperCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for HyperCard.
+     */
+    HyperCard() = default;
+};
 
 /**
  * @class MushroomCard
@@ -134,6 +230,92 @@ protected:
 };
 
 /**
+ * @class SeasonalCard
+ * @brief Abstract class representing a Seasonal card.
+ *
+ * @extends Card
+ * 
+ * The SeasonalCard abstract class extends the Card abstract class and represents a Seasonal card with specific attributes.
+ */
+export class SeasonalCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for SeasonalCard.
+     */
+    SeasonalCard() = default;
+};
+
+/**
+ * @class StandardCard
+ * @brief Abstract class representing a Standard card.
+ *
+ * @extends Card
+ * 
+ * The StandardCard abstract class extends the Card abstract class and represents a Standard card with specific attributes.
+ */
+export class StandardCard: virtual public Card {
+protected:
+    /**
+     * @brief Default constructor for StandardCard.
+     */
+    StandardCard() = default;
+};
+
+/**
+ * @concept ExtendsBossCard
+ * @brief Concept that checks if a type extends the BossCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsBossCard = IsBaseOfValue<BossCard, T>;
+
+/**
+ * @concept ExtendsBountyHuntCard
+ * @brief Concept that checks if a type extends the BountyHuntCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsBountyHuntCard = IsBaseOfValue<BountyHuntCard, T>;
+
+/**
+ * @concept ExtendsCharacterSpecificCard
+ * @brief Concept that checks if a type extends the CharacterSpecificCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsCharacterSpecificCard = IsBaseOfValue<CharacterSpecificCard, T>;
+
+/**
+ * @concept ExtendsCoopCard
+ * @brief Concept that checks if a type extends the CoopCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsCoopCard = IsBaseOfValue<CoopCard, T>;
+
+/**
+ * @concept ExtendsGenericCard
+ * @brief Concept that checks if a type extends the GenericCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsGenericCard = IsBaseOfValue<GenericCard, T>;
+
+/**
+ * @concept ExtendsHyperCard
+ * @brief Concept that checks if a type extends the HyperCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsHyperCard = IsBaseOfValue<HyperCard, T>;
+
+/**
  * @concept ExtendsMushroomCard
  * @brief Concept that checks if a type extends the MushroomCard class.
  *
@@ -142,9 +324,27 @@ protected:
 export template <typename T>
 concept ExtendsMushroomCard = IsBaseOfValue<MushroomCard, T>;
 
+/**
+ * @concept ExtendsSeasonalCard
+ * @brief Concept that checks if a type extends the SeasonalCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsSeasonalCard = IsBaseOfValue<SeasonalCard, T>;
+
+/**
+ * @concept ExtendsStandardCard
+ * @brief Concept that checks if a type extends the StandardCard class.
+ *
+ * @tparam T the type to check against
+ */
+export template <typename T>
+concept ExtendsStandardCard = IsBaseOfValue<StandardCard, T>;
+
 END_MODULE_NAMESPACE();
 
-using openjuice::engine::card::spawntypes::MushroomCard;
+using openjuice::engine::card::spawn::MushroomCard;
 
 template <>
 struct Formatter<MushroomCard::Colour> {

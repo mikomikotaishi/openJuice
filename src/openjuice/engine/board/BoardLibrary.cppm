@@ -19,7 +19,7 @@ import :BoardInfo;
 import openjuice.engine.managers;
 import openjuice.engine.util;
 
-import tomlpp;
+import marzer.toml;
 
 using stdx::collections::Vector;
 using stdx::fmt::FormatContext;
@@ -34,8 +34,8 @@ using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::util::Constants;
 
-using tomlpp::TomlArray;
-using tomlpp::TomlTable;
+using marzer::toml::TomlArray;
+using marzer::toml::TomlTable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
@@ -126,7 +126,7 @@ public:
         for (const DirectoryEntry& entry: DirectoryIterator(directory)) {
             if (entry.is_regular_file() && entry.path().extension() == ".toml") {
                 String boardPath = entry.path().string();
-                TomlTable data = tomlpp::parse_file(boardPath);
+                TomlTable data = marzer::toml::parse_file(boardPath);
 
                 u32 boardId = data["id"].value_or<u32>(0);
                 String boardName = data["name"].value_or<String>("");
