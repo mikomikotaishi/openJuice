@@ -105,6 +105,8 @@ export import :Gamble; // 14
 // export import :HypeBringer; // 96
 // export import :IntellectualSoundingBluff; // 97
 // export import :PreciseDiceRolls; // 98
+// export import :BecauseImATeacher; // 99
+// export import :HardworkingGyaruStudentCouncilPresident; // 100
 // export import :DanceLongHairedBeasts; // 1026
 // export import :InvisibleBomb; // 1034
 // export import :EvilSpyWorkExecution; // 1038

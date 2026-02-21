@@ -7,6 +7,8 @@ target_sources(nlohmann_json_modules
 
 configure_cpp_module_target(nlohmann_json_modules)
 
+target_link_libraries(nlohmann_json_modules PUBLIC nlohmann_json::nlohmann_json stdlibx)
+
 ## Ignore module circular dependencies, remove when CMake fixes this
 set_target_properties(nlohmann_json_modules PROPERTIES 
     CXX_STANDARD 23 

@@ -58,6 +58,7 @@ compile_commands.json
 # Program specific
 bin/
 build/
+build*/
 userdata/
 modules_cache/
 .build_cache/

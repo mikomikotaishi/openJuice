@@ -169,13 +169,13 @@ def main() -> int:
     @return 0 on success, 1 on error
     """
 
-    script_dir: Path = Path(__file__).parent.absolute()
+    project_root = Path(__file__).resolve().parent.parent
     
     log("Discord SDK Update Script")
-    log(f"Project root: {script_dir}")
+    log(f"Project root: {project_root}")
     
     try:
-        return update_discord_sdk(script_dir)
+        return update_discord_sdk(project_root)
     except KeyboardInterrupt:
         log("Update cancelled by user")
         return 1

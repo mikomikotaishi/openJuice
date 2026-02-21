@@ -253,9 +253,13 @@ public:
             //     return stdx::mem::make_shared<HypeBringer>();
             // case IntellectualSoundingBluff::ID:
             //     return stdx::mem::make_shared<IntellectualSoundingBluff>();
-            // === All cards released from 3.28.1 onwards ===
-            // case 98:
+            // === 3.28.1 onwards ===
+            // case PreciseDiceRolls::ID:
             //     return stdx::mem::make_shared<PreciseDiceRolls>();
+            // case BecauseImATeacher::ID:
+            //     return stdx::mem::make_shared<BecauseImATeacher>();
+            // case HardworkingGyaruStudentCouncilPresident::ID:
+            //     return stdx::mem::make_shared<HardworkingGyaruStudentCouncilPresident>();
             // === Hyper cards part of another hyper card ===
             // case DanceLongHairedBeasts::ID:
             //     return stdx::mem::make_shared<DanceLongHairedBeasts>();

@@ -5,7 +5,7 @@
 
 # Project configuration
 PROJECT_NAME := openJuice
-BUILD_DIR := build
+BUILD_DIR ?= build
 INSTALL_PREFIX := $(HOME)/.local
 BIN_DIR := $(INSTALL_PREFIX)/bin
 CMAKE_GENERATOR := Ninja
@@ -105,6 +105,10 @@ help:
 	@printf "  $(YELLOW)clean$(RESET)         - Clean build directory\n"
 	@printf "  $(YELLOW)rebuild$(RESET)       - Clean and build\n"
 	@printf "  $(YELLOW)configure$(RESET)     - Configure CMake build system\n"
+	@printf "\n"
+	@printf "$(BOLD)Build Options:$(RESET)\n"
+	@printf "  $(YELLOW)BUILD_DIR$(RESET)     - Specify build directory (default: build)\n"
+	@printf "    Example: make build BUILD_DIR=mybuild\n"
 	@printf "\n"
 	@printf "$(BOLD)Install Targets:$(RESET)\n"
 	@printf "  $(YELLOW)install$(RESET)       - Install to $(INSTALL_PREFIX)/bin\n"

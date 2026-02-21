@@ -144,7 +144,7 @@ public:
                 Array<Pair<u8, u8>, BoardInfo::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
-                    for (usize i: IotaView(0uz, stdx::math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
+                    for (usize i: IotaView(0uz, Math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {

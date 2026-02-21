@@ -165,10 +165,32 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI.git
     GIT_TAG main
 )
-FetchContent_Declare(
-    nlohmann-json 
-    URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
-)
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    FetchContent_Declare(
+        nlohmann-json 
+        URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+    )
+else()
+    FetchContent_Declare(
+        nlohmann-json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG develop
+    )
+endif()
+
+# Check if Abseil is available, fetch if not (required by RE2)
+find_package(absl QUIET)
+if(NOT absl_FOUND)
+    message(STATUS "Abseil not found, fetching via FetchContent")
+    FetchContent_Declare(
+        abseil-cpp
+        GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
+        GIT_TAG 20260107.1
+        GIT_SHALLOW TRUE
+    )
+    set(ABSL_PROPAGATE_CXX_STD ON CACHE BOOL "Use C++23 standard for Abseil")
+endif()
+
 FetchContent_Declare(
     re2
     GIT_REPOSITORY https://github.com/google/re2.git
@@ -177,22 +199,35 @@ FetchContent_Declare(
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG        master
+    GIT_TAG master
 )
 FetchContent_Declare(
     tomlplusplus
     GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
-    GIT_TAG        master
+    GIT_TAG master
 )
 
-FetchContent_MakeAvailable(
-    stdlibx
-    ftxui
-    nlohmann-json
-    re2
-    SFML
-    tomlplusplus
-)
+# Make dependencies available, including Abseil if it was fetched
+if(NOT absl_FOUND)
+    FetchContent_MakeAvailable(
+        stdlibx
+        abseil-cpp
+        ftxui
+        nlohmann-json
+        re2
+        SFML
+        tomlplusplus
+    )
+else()
+    FetchContent_MakeAvailable(
+        stdlibx
+        ftxui
+        nlohmann-json
+        re2
+        SFML
+        tomlplusplus
+    )
+endif()
 
 add_subdirectory(deps)
 

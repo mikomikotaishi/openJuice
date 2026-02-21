@@ -34,6 +34,10 @@ export module sfml:window;
 
 export import :system;
 
+import stdx;
+
+using stdx::collections::Vector;
+
 export namespace sfml {
     using ::VkInstance;
     using ::VkSurfaceKHR;
@@ -67,32 +71,32 @@ export namespace sfml {
         using Axis = sf::Joystick::Axis;
 
         [[nodiscard]]
-        static bool isConnected(unsigned int joystick) {
+        static bool isConnected(u32 joystick) {
             return sf::Joystick::isConnected(joystick);
         }
 
         [[nodiscard]]
-        static unsigned int getButtonCount(unsigned int joystick) {
+        static u32 getButtonCount(u32 joystick) {
             return sf::Joystick::getButtonCount(joystick);
         }
 
         [[nodiscard]]
-        static bool hasAxis(unsigned int joystick, Axis axis) {
+        static bool hasAxis(u32 joystick, Axis axis) {
             return sf::Joystick::hasAxis(joystick, axis);
         }
 
         [[nodiscard]]
-        static bool isButtonPressed(unsigned int joystick, unsigned int button) {
+        static bool isButtonPressed(u32 joystick, u32 button) {
             return sf::Joystick::isButtonPressed(joystick, button);
         }
 
         [[nodiscard]]
-        static float getAxisPosition(unsigned int joystick, Axis axis) {
+        static float getAxisPosition(u32 joystick, Axis axis) {
             return sf::Joystick::getAxisPosition(joystick, axis);
         }
 
         [[nodiscard]]
-        static Identification getIdentification(unsigned int joystick) {
+        static Identification getIdentification(u32 joystick) {
             return sf::Joystick::getIdentification(joystick);
         }
 
@@ -185,19 +189,19 @@ export namespace sfml {
 
         [[deprecated("Use sf::Event::TouchBegan and sf::Event::TouchEnded")]]
         [[nodiscard]]
-        static bool isDown(unsigned int finger) {
+        static bool isDown(u32 finger) {
             return sf::Touch::isDown(finger);
         }
 
         [[deprecated("Use position member of sf::Event::TouchBegan, sf::Event::TouchEnded and sf::Event::TouchMoved")]]
         [[nodiscard]]
-        static sf::Vector2i getPosition(unsigned int finger) {
+        static sf::Vector2i getPosition(u32 finger) {
             return sf::Touch::getPosition(finger);
         }
 
         [[deprecated("Use position member of sf::Event::TouchBegan, sf::Event::TouchEnded and sf::Event::TouchMoved")]]
         [[nodiscard]]
-        static sf::Vector2i getPosition(unsigned int finger, const sf::WindowBase& relativeTo) {
+        static sf::Vector2i getPosition(u32 finger, const sf::WindowBase& relativeTo) {
             return sf::Touch::getPosition(finger, relativeTo);
         }
     };
@@ -218,7 +222,7 @@ export namespace sfml {
         }
 
         [[nodiscard]]
-        static const std::vector<const char*>& getGraphicsRequiredInstanceExtensions() {
+        static const Vector<const char*>& getGraphicsRequiredInstanceExtensions() {
             return sf::Vulkan::getGraphicsRequiredInstanceExtensions();
         }
     };

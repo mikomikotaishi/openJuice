@@ -15,7 +15,7 @@ export module openjuice.engine.game.ecs:ThreadPool;
 
 import stdx;
 
-using stdx::mem::AlignValue;
+using stdx::alloc::AlignValue;
 using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
 using stdx::sync::Barrier;

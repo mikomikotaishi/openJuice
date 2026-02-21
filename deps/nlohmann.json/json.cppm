@@ -10,25 +10,33 @@ module;
 
 export module me.nlohmann.json;
 
+import stdx;
+
+using stdx::alloc::Allocator;
+using stdx::collections::TreeMap;
+using stdx::collections::Vector;
+
 /**
  * @namespace me::nlohmann::json
  * @brief The nlohmann.json nlohmann:: namespace
+ * Must be renamed to me::nlohmann::json to avoid conflicting by declaring namespace nlohmann::json
+ * as json is already a class in namespace nlohmann.
  */
 export namespace me::nlohmann::json {
     template <typename T = void, typename Err = void>
     using AdlSerializer = ::nlohmann::adl_serializer<T, Err>;
 
     template <
-        template <typename U, typename V, typename... Args> class ObjectType = std::map,
-        template <typename U, typename... Args> class ArrayType = std::vector,
-        class StringType = std::string, 
+        template <typename U, typename V, typename... Args> class ObjectType = TreeMap,
+        template <typename U, typename... Args> class ArrayType = Vector,
+        class StringType = String, 
         class BooleanType = bool,
-        class NumberIntegerType = std::int64_t,
-        class NumberUnsignedType = std::uint64_t,
-        class NumberFloatType = double,
-        template <typename U> class AllocatorType = std::allocator,
-        template <typename T, typename Err = void> class JSONSerializer = ::nlohmann::adl_serializer,
-        class BinaryType = std::vector<std::uint8_t>, // cppcheck-suppress syntaxError
+        class NumberIntegerType = i64,
+        class NumberUnsignedType = u64,
+        class NumberFloatType = f64,
+        template <typename U> class AllocatorType = Allocator,
+        template <typename T, typename Err = void> class JSONSerializer = AdlSerializer,
+        class BinaryType = Vector<u8>, // cppcheck-suppress syntaxError
         class CustomBaseClass = void
     >
     using BasicJson = ::nlohmann::basic_json<
@@ -50,8 +58,8 @@ export namespace me::nlohmann::json {
 
     using Json = ::nlohmann::json;
     
-    template <class Key, class T, class IgnoredLess, class Allocator>
-    using OrderedMap = ::nlohmann::ordered_map<Key, T, IgnoredLess, Allocator>;
+    template <class Key, class T, class IgnoredLess, class Alloc>
+    using OrderedMap = ::nlohmann::ordered_map<Key, T, IgnoredLess, Alloc>;
 
     using OrderedJson = ::nlohmann::ordered_json;
 

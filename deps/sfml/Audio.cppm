@@ -34,6 +34,10 @@ export module sfml:audio;
 
 export import :system;
 
+import stdx;
+
+using stdx::collections::Vector;
+
 export namespace sfml::audio {
     using sf::InputSoundFile;
     
@@ -43,12 +47,12 @@ export namespace sfml::audio {
 
         using Cone = sf::Listener::Cone;
 
-        static void setGlobalVolume(float volume) {
+        static void setGlobalVolume(f32 volume) {
             sf::Listener::setGlobalVolume(volume);
         }
 
         [[nodiscard]]
-        static float getGlobalVolume() {
+        static f32 getGlobalVolume() {
             return sf::Listener::getGlobalVolume();
         }
 
@@ -109,22 +113,22 @@ export namespace sfml::audio {
         using NotificationCallback = sf::PlaybackDevice::NotificationCallback;
 
         [[nodiscard]]
-        static std::vector<std::string> getAvailableDevices() {
+        static Vector<stdx::core::String> getAvailableDevices() {
             return sf::PlaybackDevice::getAvailableDevices();
         }
 
         [[nodiscard]]
-        static std::optional<std::string> getDefaultDevice() {
+        static Optional<stdx::core::String> getDefaultDevice() {
             return sf::PlaybackDevice::getDefaultDevice();
         }
 
         [[nodiscard]]
-        static bool setDevice(const std::string& name) {
+        static bool setDevice(const stdx::core::String& name) {
             return sf::PlaybackDevice::setDevice(name);
         }
 
         [[nodiscard]]
-        static std::optional<std::string> getDevice() {
+        static Optional<stdx::core::String> getDevice() {
             return sf::PlaybackDevice::getDevice();
         }
     };

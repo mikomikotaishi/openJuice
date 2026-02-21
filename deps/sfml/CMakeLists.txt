@@ -14,6 +14,7 @@ target_link_libraries(sfml
     SFML::Network 
     SFML::System 
     SFML::Window
+    stdlibx
 )
 
 ## Ignore module circular dependencies, remove when CMake fixes this

@@ -255,6 +255,10 @@ public:
             // === All characters released from 3.28.1 onwards ===
             // case MariPopomi::ID:
             //     return stdx::mem::make_shared<MariPopomi>();
+            // case Kurie::ID:
+            //     return stdx::mem::make_shared<Kurie>();
+            // case Mimomo::ID:
+            //     return stdx::mem::make_shared<Mimomo>();
             default:
                 return nullopt;
         }

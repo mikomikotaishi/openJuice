@@ -14,7 +14,7 @@ export module openjuice.engine.game.ecs:Meta;
 
 import stdx;
 
-using stdx::mem::AlignValue;
+using stdx::alloc::AlignValue;
 using stdx::meta::EnableIfType;
 using stdx::meta::IsConstValue;
 using stdx::meta::IsConvertible;

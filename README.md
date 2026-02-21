@@ -20,9 +20,7 @@ The official repository cannot be legally included in this repository, but local
 Audio files are not included either.
 
 ## Build:
-Requires C++23, and a build system such as CMake (minimum version 3.30) or XMake. The program has its own bindings for the standard library.
-
-Note: please compile with Clang for now (as it looks like GCC still has problems compiling modules).
+Requires C++23, and a build system such as CMake (minimum version 3.30) or XMake. The project has not yet been tested for GCC or MSVC, so we recommend only compiling with Clang for now. 
 
 A Makefile can be used for running the CMake scripts automatically.
 
@@ -133,7 +131,6 @@ This project uses the following external libraries:
 - [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)
 - [re2](https://github.com/google/re2) (`re2`)
 - [SFML](https://github.com/SFML/SFML) (`sfml`)
-- [SQLiteCpp](https://github.com/SRombauts/SQLiteCpp) (`sqlite`)
 - [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)
 
 ECS adapted from [kawa_ecs](https://github.com/superPuero/kawa_ecs) (`kawa::ecs`).

@@ -3,7 +3,7 @@
  * @module openjuice.unit.characters.maincharacters
  * @brief Import of all main characters.
  *
- * This file imports the modules for all main caracters.
+ * This file imports the modules for all main characters.
  */
 
 export module openjuice.unit.characters.maincharacters;
@@ -106,3 +106,5 @@ export import :Yuki; // 14
 // export import :Haruka; // 96
 // export import :Kanata; // 97
 // export import :MariPopomi; // 98
+// export import :Kurie; // 99
+// export import :Mimomo; // 100

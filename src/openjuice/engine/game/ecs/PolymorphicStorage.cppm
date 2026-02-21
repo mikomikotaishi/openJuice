@@ -17,7 +17,7 @@ import stdx;
 
 import :Meta;
 
-using stdx::mem::AlignValue;
+using stdx::alloc::AlignValue;
 using stdx::mem::UniquePointer;
 using stdx::meta::EnableIfType;
 using stdx::meta::IsCopyConstructibleValue;

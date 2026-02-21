@@ -31,7 +31,7 @@ success() {
 }
 
 # Get script directory (project root)
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SOURCE_DIR="$PROJECT_ROOT/discord_social_sdk"
 TARGET_DIR="$PROJECT_ROOT/lib/discord"
 
