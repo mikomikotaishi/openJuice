@@ -8,11 +8,16 @@ This project is written independently for fun and as a learning project, and not
 
 Tested for Linux. Windows and MacOS support untested.
 
-Localisation is taken from [100-Orange-Juice-Public-Defines](https://github.com/FruitbatFactory/100-Orange-Juice-Public-Defines/), the official public repository for localisation assets.
-
-> **WARNING:** This program uses a heavily modified version of the standard library, with several symbols renamed or put in different namespaces.
+> **NOTICE:** This project is an independent implementation and is not affiliated with Fruitbat Factory or *100% Orange Juice*. Users are responsible for ensuring they have the legal right to use any data loaded into this engine.
 
 [![GPLv3](https://img.shields.io/badge/license-GPLv3-green)](#)
+
+## Notice
+Localisation files are not included. Users must supply localisation data in the format shown by [100-Orange-Juice-Public-Defines](https://github.com/FruitbatFactory/100-Orange-Juice-Public-Defines/).
+
+The official repository cannot be legally included in this repository, but localisation files match this format and are expected to be in a directory called `./assets/define`. This project does not distribute or endorse any specific data source.
+
+Audio files are not included either.
 
 ## Build:
 Requires C++23, and a build system such as CMake (minimum version 3.30) or XMake. The program has its own bindings for the standard library.

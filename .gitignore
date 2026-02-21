@@ -4,6 +4,10 @@
 compile_commands.json
 /.envrc
 
+# Assets
+/assets
+/assets-testing
+
 # IDEs
 /.vs/
 /.vscode/
@@ -63,7 +67,6 @@ debug.txt
 run-clang-tidy.py
 
 # Temporary
-/assets-testing
 /blacklist/blacklist*
 libSDL3_*.so
 libSDL3*.so*
