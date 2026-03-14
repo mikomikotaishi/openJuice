@@ -102,7 +102,7 @@ public:
             case Language::KOREAN:
                 return "ko";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 

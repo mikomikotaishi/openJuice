@@ -25,6 +25,13 @@
 #define Reproducible reproducible
 
 /**
+ * @brief Utility macro to import the stdx::core namespace within the module.
+ */
+#define STDLIBX_STDX_PREPARE_IMPORT_CORE() \
+    namespace stdx::core {} \
+    using namespace stdx::core;
+
+/**
  * @brief A utility to begin a namespace matching the current module name.
  * 
  * @param Name The name of the namespace to begin, which should match the module.
@@ -372,4 +379,8 @@ private:
 #define RELEASE_NOEXCEPT
 #define RELEASE_INLINE
 #define RELEASE_CONSTEXPR
+#endif
+
+#ifdef __GNUC__
+STDLIBX_STDX_PREPARE_IMPORT_CORE();
 #endif

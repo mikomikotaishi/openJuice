@@ -20,9 +20,7 @@ The official repository cannot be legally included in this repository, but local
 Audio files are not included either.
 
 ## Build:
-Requires C++23, and a build system such as CMake (minimum version 3.30) or XMake. The project has not yet been tested for GCC or MSVC, so we recommend only compiling with Clang for now. 
-
-A Makefile can be used for running the CMake scripts automatically.
+Requires C++26, and a build system such as CMake (minimum version 3.30) or XMake. The project has not yet been tested for GCC or MSVC, so we recommend only compiling with Clang for now. 
 
 ### CMake
 > **Info:** Requires CMake ≥3.30 and the Ninja build system.
@@ -30,7 +28,12 @@ A Makefile can be used for running the CMake scripts automatically.
 
 Any way of calling CMake is fine. 
 
-The simplest way to build the project is:
+The simplest way to build the project is using the Makefile, which calls CMake:
+```sh
+make build SANITIZERS=all
+```
+
+Or, by manually calling CMake:
 ```sh
 # Sets source directory to current directory, build directory to ./build/, and generates Ninja build system files
 cmake -S . -B build -G Ninja
@@ -42,12 +45,7 @@ cmake --build build
 ./openJuice 
 ```
 
-Or, if using the Makefile to streamline this process:
-```sh
-make build SANITIZERS=all
-```
-
-We have also written a Python script to simplify using CMake, which can be run with `./quick_cmake_build.py`. (Simply execute the script `quick_cmake_build.py` to compile the program with CMake.) If JBang is installed, `QuickCMakeBuild.java` can also be executed as a script. A file `QuickCMakeBuild.d` also exists but is experimental and untested.
+We have also written a Python script to simplify using CMake, which can be run with `./quick_cmake_build.py`. (Simply execute the script `quick_cmake_build.py` to compile the program with CMake.) If [JBang](https://github.com/jbangdev/jbang) is installed, `QuickCMakeBuild.java` can also be executed as a script.
 
 `quick_cmake_build.py` help:
 ```
@@ -120,12 +118,10 @@ To be written.
 * Continue documentation (Doxygen)
 * Implement online multiplayer functionality
 * Implement a game AI
-* Re-order the class fields to be in order of size, to benefit from padding
 
 ## Dependencies
 This project uses the following external libraries:
 - [stdlib](https://github.com/mikomikotaishi/stdlib) (`std`)
-- [asio](https://github.com/chriskohlhoff/asio/) (`asio`)
 - [Discord Social SDK](https://discord.com/developers/social-sdk) (`discordpp`)
 - [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (`ftxui`)
 - [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)

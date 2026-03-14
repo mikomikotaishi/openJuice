@@ -1,14 +1,31 @@
-cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.30 FATAL_ERROR)
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_MODULE_STD ON)
 
 if(CMAKE_VERSION VERSION_LESS_EQUAL "3.31.7")
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "0e5b6991-d74f-4b3d-a41c-cf096e0b2508")
-elseif(CMAKE_VERSION VERSION_LESS "4.3")
+elseif(CMAKE_VERSION VERSION_LESS_EQUAL "4.2.3")
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+else()
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
+endif()
+
+option(BUILD_STATIC_LIBS "Build static libraries instead of shared" OFF)
+
+set(STDLIB "default" CACHE STRING "C++ standard library to use (default, libstdc++, libc++)")
+set_property(CACHE STDLIB PROPERTY STRINGS "default" "libstdc++" "libc++")
+
+# CXX compile flags must be set BEFORE project() so that CMake's import-std
+# detection finds the correct standard library module source (e.g. libc++'s
+# std.cppm instead of libstdc++'s std.cc). Linker flags are applied after
+# project() to avoid breaking the C compiler test.
+if(STDLIB STREQUAL "libc++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+elseif(STDLIB STREQUAL "libstdc++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
 endif()
 
 # Set default build directory if not specified
@@ -16,15 +33,24 @@ if(NOT CMAKE_BINARY_DIR)
     set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
+if(BUILD_STATIC_LIBS)
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
+
+    if(WIN32)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+    else()
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+    endif()
     
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
     set(CMAKE_SKIP_BUILD_RPATH TRUE)
     set(CMAKE_INSTALL_RPATH "")
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
     
-    message(STATUS "Configuring for static linking (single executable)")
+    message(STATUS "Configuring for static library build")
+else()
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" FORCE)
+    message(STATUS "Configuring for shared library build")
 endif()
 
 if(UNIX)
@@ -43,14 +69,14 @@ project(openJuice
     VERSION 0.0.1
 )
 
-set(CMAKE_CXX_MODULE_BMI_DIRECTORY "${CMAKE_BINARY_DIR}/.gens/openJuice/linux/x86_64/release/rules/bmi/cache/modules/4bddce1b")
+# set(CMAKE_CXX_MODULE_BMI_DIRECTORY "${CMAKE_BINARY_DIR}/.gens/openJuice/linux/x86_64/release/rules/bmi/cache/modules/4bddce1b")
 
 function(configure_cpp_module_target target)
-    set_target_properties(${target} PROPERTIES 
+    set_target_properties(${target} PROPERTIES
         CXX_EXTENSIONS OFF
         CXX_MODULE_BMI_DIRECTORY "${CMAKE_CXX_MODULE_BMI_DIRECTORY}"
-        CMAKE_CXX_STANDARD 23
-        CMAKE_CXX_MODULE_STD ON
+        CXX_STANDARD ${CMAKE_CXX_STANDARD}
+        CXX_MODULE_STD ON
     )
 endfunction()
 
@@ -62,6 +88,36 @@ option(USE_SANITIZER_UNDEFINED "Enable undefined behaviour sanitiser" OFF)
 option(USE_SANITIZER_THREAD "Enable thread sanitiser" OFF)
 option(USE_SANITIZER_MEMORY "Enable memory sanitiser" OFF)
 option(USE_SANITIZER_LEAK "Enable leak sanitiser" OFF)
+
+set(COMPILER_APPLE_CLANG OFF)
+set(COMPILER_CLANG OFF)
+set(COMPILER_GCC OFF)
+set(COMPILER_MSVC OFF)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    set(COMPILER_APPLE_CLANG ON)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(COMPILER_CLANG ON)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(COMPILER_GCC ON)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(COMPILER_MSVC ON)
+endif()
+
+set(ARCH_X86_64 OFF)
+set(ARCH_X86 OFF)
+set(ARCH_ARM64 OFF)
+set(ARCH_ARM OFF)
+
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
+    set(ARCH_X86_64 ON)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|x86")
+    set(ARCH_X86 ON)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+    set(ARCH_ARM64 ON)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm|armv7l")
+    set(ARCH_ARM ON)
+endif()
 
 function(add_sanitisers target)
     if(NOT ENABLE_SANITIZERS)
@@ -118,17 +174,44 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(ENABLE_SANITIZERS OFF)
 endif()
 
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-stdlib=libstdc++>)
-    add_link_options(-stdlib=libstdc++)
-    # add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-stdlib=libc++>)
-    # add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-I/usr/include/c++/v1>)
-    # add_link_options(-stdlib=libc++)
-    # add_link_options(-lc++abi)
+    if(STDLIB STREQUAL "libc++")
+        message(STATUS "Standard library: libc++")
+        add_link_options(-stdlib=libc++)
+    elseif(STDLIB STREQUAL "libstdc++")
+        message(STATUS "Standard library: libstdc++")
+        add_link_options(-stdlib=libstdc++)
+    else()
+        if(APPLE)
+            message(STATUS "Standard library: libc++ (default on macOS)")
+        elseif(UNIX)
+            message(STATUS "Standard library: libstdc++ (default on Linux)")
+        else()
+            message(STATUS "Standard library: compiler default")
+        endif()
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    if(STDLIB STREQUAL "default")
+        message(STATUS "Standard library: libstdc++ (GCC default)")
+    else()
+        message(WARNING "STDLIB option '${STDLIB}' is not applicable with GCC (always uses libstdc++)")
+    endif()
+elseif(MSVC)
+    if(STDLIB STREQUAL "default")
+        message(STATUS "Standard library: MSVC STL (default)")
+    else()
+        message(WARNING "STDLIB option '${STDLIB}' is not applicable with MSVC")
+    endif()
+else()
+    if(NOT STDLIB STREQUAL "default")
+        message(WARNING "STDLIB option '${STDLIB}' may not be supported with ${CMAKE_CXX_COMPILER_ID}")
+    else()
+        message(STATUS "Standard library: compiler default")
+    endif()
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -138,8 +221,6 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-
-set(STDLIBX_EXTENSIONS ON CACHE BOOL "Enable the stdx.* modules" FORCE)
 
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
@@ -155,11 +236,11 @@ FetchContent_Declare(
     GIT_TAG main
 )
 
-FetchContent_Declare(
-    asio
-    GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
-    GIT_TAG master
-)
+# FetchContent_Declare(
+#     asio
+#     GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
+#     GIT_TAG asio-1-38-0
+# )
 FetchContent_Declare(
     ftxui
     GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI.git
@@ -188,18 +269,18 @@ if(NOT absl_FOUND)
         GIT_TAG 20260107.1
         GIT_SHALLOW TRUE
     )
-    set(ABSL_PROPAGATE_CXX_STD ON CACHE BOOL "Use C++23 standard for Abseil")
+    set(ABSL_PROPAGATE_CXX_STD ON CACHE BOOL "Propagate project C++ standard to Abseil")
 endif()
 
 FetchContent_Declare(
     re2
     GIT_REPOSITORY https://github.com/google/re2.git
-    GIT_TAG main
+    GIT_TAG 2025-11-05
 )
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG master
+    GIT_TAG 3.1.0
 )
 FetchContent_Declare(
     tomlplusplus

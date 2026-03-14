@@ -28,8 +28,7 @@ if(WIN32)
 endif()
 
 ## Ignore module circular dependencies, remove when CMake fixes this
-set_target_properties(asio_module PROPERTIES 
-    CXX_STANDARD 23 
-    CXX_EXTENSIONS OFF 
+set_target_properties(asio_module PROPERTIES
+    CXX_EXTENSIONS OFF
     CXX_MODULE_DYNDEP OFF
 )

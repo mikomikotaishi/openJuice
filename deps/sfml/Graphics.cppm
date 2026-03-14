@@ -30,6 +30,8 @@ module;
 
 #include <SFML/Graphics.hpp>
 
+#include "Macros.hpp"
+
 export module sfml:graphics;
 
 export import :window;

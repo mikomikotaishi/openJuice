@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.util:Language;
 
@@ -47,7 +46,7 @@ struct Formatter<Language> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Language lang, FormatContext& ctx) {
+    static FormatContext::iterator format(Language lang, FormatContext& ctx) {
         StringView name;
         switch (lang) {
             case Language::ENGLISH:
@@ -78,7 +77,7 @@ struct Formatter<Language> {
                 name = "Korean";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -8,7 +8,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.managers:TextManager;
 
@@ -871,7 +870,7 @@ struct Formatter<TextManager::Error> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(TextManager::Error err, FormatContext& ctx) {
+    static FormatContext::iterator format(TextManager::Error err, FormatContext& ctx) {
         StringView name;
         switch (err) {
             case TextManager::Error::EMPTY_KEY:
@@ -890,7 +889,7 @@ struct Formatter<TextManager::Error> {
                 name = "File read failure"; 
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

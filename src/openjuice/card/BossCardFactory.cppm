@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.card:BossCardFactory;
 
@@ -22,6 +21,7 @@ import openjuice.card.boss;
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -62,7 +62,7 @@ private:
             case BossCardFactory::SecondaryType::HYPER:
                 return "Hyper";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 public:
@@ -85,267 +85,267 @@ public:
                         return nullptr;
                     // Big the Haruo's cards
                     // case Doze::ID:
-                    //     return stdx::mem::make_shared<Doze>();
+                    //     return Pointers::shared<Doze>();
                     // case GroupUp::ID:
-                    //     return stdx::mem::make_shared<GroupUp>();
+                    //     return Pointers::shared<GroupUp>();
                     // case Peck::ID:
-                    //     return stdx::mem::make_shared<Peck>();
+                    //     return Pointers::shared<Peck>();
                     // case Flight::ID:
-                    //     return stdx::mem::make_shared<Flight>();
+                    //     return Pointers::shared<Flight>();
                     // case ChickenAttack::ID:
-                    //     return stdx::mem::make_shared<ChickenAttack>();
+                    //     return Pointers::shared<ChickenAttack>();
                     // case PiyoMarch::ID:
-                    //     return stdx::mem::make_shared<PiyoMarch>();
+                    //     return Pointers::shared<PiyoMarch>();
                     // case Regeneration::ID:
-                    //     return stdx::mem::make_shared<Regeneration>();
+                    //     return Pointers::shared<Regeneration>();
                     // case Present::ID:
-                    //     return stdx::mem::make_shared<Present>();
+                    //     return Pointers::shared<Present>();
                     // case HeadlessChicken::ID:
-                    //     return stdx::mem::make_shared<HeadlessChicken>();
+                    //     return Pointers::shared<HeadlessChicken>();
                     // case CallOfTheChicken::ID:
-                    //     return stdx::mem::make_shared<CallOfTheChicken>();
+                    //     return Pointers::shared<CallOfTheChicken>();
                     // case ChickenRun::ID:
-                    //     return stdx::mem::make_shared<ChickenRun>();
+                    //     return Pointers::shared<ChickenRun>();
                     // case HenPecked::ID:
-                    //     return stdx::mem::make_shared<HenPecked>();
+                    //     return Pointers::shared<HenPecked>();
                     // case SecondWing::ID:
-                    //     return stdx::mem::make_shared<SecondWing>();
+                    //     return Pointers::shared<SecondWing>();
                     // case Swarm::ID:
-                    //     return stdx::mem::make_shared<Swarm>();
+                    //     return Pointers::shared<Swarm>();
                     // case FinalWarning::ID:
-                    //     return stdx::mem::make_shared<FinalWarning>();
+                    //     return Pointers::shared<FinalWarning>();
                     // case SavageTalons::ID:
-                    //     return stdx::mem::make_shared<SavageTalons>();
+                    //     return Pointers::shared<SavageTalons>();
                     // case BeakOfTheGodbird::ID:
-                    //     return stdx::mem::make_shared<BeakOfTheGodbird>();
+                    //     return Pointers::shared<BeakOfTheGodbird>();
                     // M10 Robot's cards
                     // case Malfunction::ID:
-                    //     return stdx::mem::make_shared<Malfunction>();
+                    //     return Pointers::shared<Malfunction>();
                     // case QuickRepair::ID:
-                    //     return stdx::mem::make_shared<QuickRepair>();
+                    //     return Pointers::shared<QuickRepair>();
                     // case BalanceCurrents::ID:
-                    //     return stdx::mem::make_shared<BalanceCurrents>();
+                    //     return Pointers::shared<BalanceCurrents>();
                     // case ImmovableObject::ID:
-                    //     return stdx::mem::make_shared<ImmovableObject>();
+                    //     return Pointers::shared<ImmovableObject>();
                     // case Turbo::ID:
-                    //     return stdx::mem::make_shared<Turbo>();
+                    //     return Pointers::shared<Turbo>();
                     // case AssaultField::ID:
-                    //     return stdx::mem::make_shared<AssaultField>();
+                    //     return Pointers::shared<AssaultField>();
                     // case EvasionDown::ID:
-                    //     return stdx::mem::make_shared<EvasionDown>();
+                    //     return Pointers::shared<EvasionDown>();
                     // case RoboBeam::ID:
-                    //     return stdx::mem::make_shared<RoboBeam>();
+                    //     return Pointers::shared<RoboBeam>();
                     // case DefenseDown::ID:
-                    //     return stdx::mem::make_shared<DefenseDown>();
+                    //     return Pointers::shared<DefenseDown>();
                     // case Engage::ID:
-                    //     return stdx::mem::make_shared<Engage>();
+                    //     return Pointers::shared<Engage>();
                     // case SelfDestruction::ID:
-                    //     return stdx::mem::make_shared<SelfDestruction>();
+                    //     return Pointers::shared<SelfDestruction>();
                     // case HealthDown::ID:
-                    //     return stdx::mem::make_shared<HealthDown>();
+                    //     return Pointers::shared<HealthDown>();
                     // case EMP::ID:
-                    //     return stdx::mem::make_shared<EMP>();
+                    //     return Pointers::shared<EMP>();
                     // case SolidWitch::ID:
-                    //     return stdx::mem::make_shared<SolidWitch>();
+                    //     return Pointers::shared<SolidWitch>();
                     // case AttackDown::ID:
-                    //     return stdx::mem::make_shared<AttackDown>();
+                    //     return Pointers::shared<AttackDown>();
                     // case ImaginaryNumbers::ID:
-                    //     return stdx::mem::make_shared<ImaginaryNumbers>();
+                    //     return Pointers::shared<ImaginaryNumbers>();
                     // case ScrambledDeltaField::ID:
-                    //     return stdx::mem::make_shared<ScrambledDeltaField>();
+                    //     return Pointers::shared<ScrambledDeltaField>();
                     // case RecoveryMode::ID:
-                    //     return stdx::mem::make_shared<RecoveryMode>();
+                    //     return Pointers::shared<RecoveryMode>();
                     // Star Devourer's cards
                     // case Nap::ID:
-                    //     return stdx::mem::make_shared<Nap>();
+                    //     return Pointers::shared<Nap>();
                     // case Elusive::ID:
-                    //     return stdx::mem::make_shared<Elusive>();
+                    //     return Pointers::shared<Elusive>();
                     // case StarMania::ID:
-                    //     return stdx::mem::make_shared<StarMania>();
+                    //     return Pointers::shared<StarMania>();
                     // case PoppoTax::ID:
-                    //     return stdx::mem::make_shared<PoppoTax>();
+                    //     return Pointers::shared<PoppoTax>();
                     // case Ubiquitous::ID:
-                    //     return stdx::mem::make_shared<Ubiquitous>();
+                    //     return Pointers::shared<Ubiquitous>();
                     // case Snatcher::ID:
-                    //     return stdx::mem::make_shared<Snatcher>();
+                    //     return Pointers::shared<Snatcher>();
                     // case SkyRestaurantPoppoEvent::ID:
-                    //     return stdx::mem::make_shared<SkyRestaurantPoppoEvent>();
+                    //     return Pointers::shared<SkyRestaurantPoppoEvent>();
                     // case SkyRestaurantPoppoTrap::ID:
-                    //     return stdx::mem::make_shared<SkyRestaurantPoppoTrap>();
+                    //     return Pointers::shared<SkyRestaurantPoppoTrap>();
                     // case HighwayRobbery::ID:
-                    //     return stdx::mem::make_shared<HighwayRobbery>();
+                    //     return Pointers::shared<HighwayRobbery>();
                     // case Greed::ID:
-                    //     return stdx::mem::make_shared<Greed>();
+                    //     return Pointers::shared<Greed>();
                     // case WarpPhenomenon::ID:
-                    //     return stdx::mem::make_shared<WarpPhenomenon>();
+                    //     return Pointers::shared<WarpPhenomenon>();
                     // case Poppoformation::ID:
-                    //     return stdx::mem::make_shared<Poppoformation>();
+                    //     return Pointers::shared<Poppoformation>();
                     // case Temptation::ID:
-                    //     return stdx::mem::make_shared<Temptation>();
+                    //     return Pointers::shared<Temptation>();
                     // case PoppoGalaxy::ID:
-                    //     return stdx::mem::make_shared<PoppoGalaxy>();
+                    //     return Pointers::shared<PoppoGalaxy>();
                     // case DeathAndTaxes::ID:
-                    //     return stdx::mem::make_shared<DeathAndTaxes>();
+                    //     return Pointers::shared<DeathAndTaxes>();
                     // case ValueJudgement::ID:
-                    //     return stdx::mem::make_shared<ValueJudgement>();
+                    //     return Pointers::shared<ValueJudgement>();
                     // case RansomNoteEvent::ID:
-                    //     return stdx::mem::make_shared<RansomNoteEvent>();
+                    //     return Pointers::shared<RansomNoteEvent>();
                     // case RansomNoteGift::ID:
-                    //     return stdx::mem::make_shared<RansomNoteGift>();
+                    //     return Pointers::shared<RansomNoteGift>();
                     // case Poppocalypse::ID:
-                    //     return stdx::mem::make_shared<Poppocalypse>();
+                    //     return Pointers::shared<Poppocalypse>();
                     // Summer Beast's cards
                     // case Rest::ID:
-                    //     return stdx::mem::make_shared<Rest>();
+                    //     return Pointers::shared<Rest>();
                     // case Chase::ID:
-                    //     return stdx::mem::make_shared<Chase>();
+                    //     return Pointers::shared<Chase>();
                     // case Play::ID:
-                    //     return stdx::mem::make_shared<Play>();
+                    //     return Pointers::shared<Play>();
                     // case TireOut::ID:
-                    //     return stdx::mem::make_shared<TireOut>();
+                    //     return Pointers::shared<TireOut>();
                     // case PuddingSeeker::ID:
-                    //     return stdx::mem::make_shared<PuddingSeeker>();
+                    //     return Pointers::shared<PuddingSeeker>();
                     // case Birds::ID:
-                    //     return stdx::mem::make_shared<Birds>();
+                    //     return Pointers::shared<Birds>();
                     // case SeagullFriend::ID:
-                    //     return stdx::mem::make_shared<SeagullFriend>();
+                    //     return Pointers::shared<SeagullFriend>();
                     // case DanceOfTheSeagulls::ID:
-                    //     return stdx::mem::make_shared<DanceOfTheSeagulls>();
+                    //     return Pointers::shared<DanceOfTheSeagulls>();
                     // case PlayTag::ID:
-                    //     return stdx::mem::make_shared<PlayTag>();
+                    //     return Pointers::shared<PlayTag>();
                     // case HideAndSeek::ID:
-                    //     return stdx::mem::make_shared<HideAndSeek>();
+                    //     return Pointers::shared<HideAndSeek>();
                     // case SplashWater::ID:
-                    //     return stdx::mem::make_shared<SplashWater>();
+                    //     return Pointers::shared<SplashWater>();
                     // case PsychedUp::ID:
-                    //     return stdx::mem::make_shared<PsychedUp>();
+                    //     return Pointers::shared<PsychedUp>();
                     // case PlayWithBirds::ID:
-                    //     return stdx::mem::make_shared<PlayWithBirds>();
+                    //     return Pointers::shared<PlayWithBirds>();
                     // case Exhaustion::ID:
-                    //     return stdx::mem::make_shared<Exhaustion>();
+                    //     return Pointers::shared<Exhaustion>();
                     // case SeagullMaster::ID:
-                    //     return stdx::mem::make_shared<SeagullMaster>();
+                    //     return Pointers::shared<SeagullMaster>();
                     // case WatermelonSplitting::ID:
-                    //     return stdx::mem::make_shared<WatermelonSplitting>();
+                    //     return Pointers::shared<WatermelonSplitting>();
                     // case PuddingBreak::ID:
-                    //     return stdx::mem::make_shared<PuddingBreak>();
+                    //     return Pointers::shared<PuddingBreak>();
                     // case HypeItUp::ID:
-                    //     return stdx::mem::make_shared<HypeItUp>();
+                    //     return Pointers::shared<HypeItUp>();
                     // case SandwichThieves::ID:
-                    //     return stdx::mem::make_shared<SandwichThieves>();
+                    //     return Pointers::shared<SandwichThieves>();
                     // Big the Jonathan's cards
                     // case Snacks::ID:
-                    //     return stdx::mem::make_shared<Snacks>();
+                    //     return Pointers::shared<Snacks>();
                     // case Screech::ID:
-                    //     return stdx::mem::make_shared<Screech>();
+                    //     return Pointers::shared<Screech>();
                     // case Rake::ID:
-                    //     return stdx::mem::make_shared<Rake>();
+                    //     return Pointers::shared<Rake>();
                     // case CloudOfSeagulls::ID:
-                    //     return stdx::mem::make_shared<CloudOfSeagulls>();
+                    //     return Pointers::shared<CloudOfSeagulls>();
                     // case Rush::ID:
-                    //     return stdx::mem::make_shared<Rush>();
+                    //     return Pointers::shared<Rush>();
                     // case ChaseAround::ID:
-                    //     return stdx::mem::make_shared<ChaseAround>();
+                    //     return Pointers::shared<ChaseAround>();
                     // case Quake::ID:
-                    //     return stdx::mem::make_shared<Quake>();
+                    //     return Pointers::shared<Quake>();
                     // case AirRaid::ID:
-                    //     return stdx::mem::make_shared<AirRaid>();
+                    //     return Pointers::shared<AirRaid>();
                     // case DoubleRush::ID:
-                    //     return stdx::mem::make_shared<DoubleRush>();
+                    //     return Pointers::shared<DoubleRush>();
                     // case Swipe::ID:
-                    //     return stdx::mem::make_shared<Swipe>();
+                    //     return Pointers::shared<Swipe>();
                     // case Hunt::ID:
-                    //     return stdx::mem::make_shared<Hunt>();
+                    //     return Pointers::shared<Hunt>();
                     // case FalseHope::ID:
-                    //     return stdx::mem::make_shared<FalseHope>();
+                    //     return Pointers::shared<FalseHope>();
                     // case Snatch::ID:
-                    //     return stdx::mem::make_shared<Snatch>();
+                    //     return Pointers::shared<Snatch>();
                     // case AirStrike::ID:
-                    //     return stdx::mem::make_shared<AirStrike>();
+                    //     return Pointers::shared<AirStrike>();
                     // case MegaRush::ID:
-                    //     return stdx::mem::make_shared<MegaRush>();
+                    //     return Pointers::shared<MegaRush>();
                     // case Frantic::ID:
-                    //     return stdx::mem::make_shared<Frantic>();
+                    //     return Pointers::shared<Frantic>();
                     // case WaveOfDespair::ID:
-                    //     return stdx::mem::make_shared<WaveOfDespair>();
+                    //     return Pointers::shared<WaveOfDespair>();
                     // case AuraOfTerror::ID:
-                    //     return stdx::mem::make_shared<AuraOfTerror>();
+                    //     return Pointers::shared<AuraOfTerror>();
                     // RoPoChi's cards
                     // case IdentityCrisis::ID:
-                    //     return stdx::mem::make_shared<IdentityCrisis>();
+                    //     return Pointers::shared<IdentityCrisis>();
                     // case RoboTax::ID:
-                    //     return stdx::mem::make_shared<RoboTax>();
+                    //     return Pointers::shared<RoboTax>();
                     // case Pluck::ID:
-                    //     return stdx::mem::make_shared<Pluck>();
+                    //     return Pointers::shared<Pluck>();
                     // case Catcher::ID:
-                    //     return stdx::mem::make_shared<Catcher>();
+                    //     return Pointers::shared<Catcher>();
                     // case BalanceCurrency::ID:
-                    //     return stdx::mem::make_shared<BalanceCurrency>();
+                    //     return Pointers::shared<BalanceCurrency>();
                     // case PoppoMarch::ID:
-                    //     return stdx::mem::make_shared<PoppoMarch>();
+                    //     return Pointers::shared<PoppoMarch>();
                     // case PremiumRegeneration::ID:
-                    //     return stdx::mem::make_shared<PremiumRegeneration>();
+                    //     return Pointers::shared<PremiumRegeneration>();
                     // case WirelessChicken::ID:
-                    //     return stdx::mem::make_shared<WirelessChicken>();
+                    //     return Pointers::shared<WirelessChicken>();
                     // case RoPoBarrage::ID:
-                    //     return stdx::mem::make_shared<RoPoBarrage>();
+                    //     return Pointers::shared<RoPoBarrage>();
                     // case DelusionalNumbers::ID:
-                    //     return stdx::mem::make_shared<DelusionalNumbers>();
+                    //     return Pointers::shared<DelusionalNumbers>();
                     // case SecondWing::ID:
-                    //     return stdx::mem::make_shared<SecondWing>();
+                    //     return Pointers::shared<SecondWing>();
                     // case PoBomber::ID:
-                    //     return stdx::mem::make_shared<PoBomber>();
+                    //     return Pointers::shared<PoBomber>();
                     // case InvisibleBomb::ID:
-                    //     return stdx::mem::make_shared<InvisibleBomb>();
+                    //     return Pointers::shared<InvisibleBomb>();
                     // case TurboChicken::ID:
-                    //     return stdx::mem::make_shared<TurboChicken>();
+                    //     return Pointers::shared<TurboChicken>();
                     // case PoppoUniverse::ID:
-                    //     return stdx::mem::make_shared<PoppoUniverse>();
+                    //     return Pointers::shared<PoppoUniverse>();
                     // case Poppocare::ID:
-                    //     return stdx::mem::make_shared<Poppocare>();
+                    //     return Pointers::shared<Poppocare>();
                     // case RefinedTalons::ID:
-                    //     return stdx::mem::make_shared<RefinedTalons>();
+                    //     return Pointers::shared<RefinedTalons>();
                     // case BeakOfTheDemiBird::ID:
-                    //     return stdx::mem::make_shared<BeakOfTheDemiBird>();
+                    //     return Pointers::shared<BeakOfTheDemiBird>();
                     // case BigPosSpecial::ID:
-                    //     return stdx::mem::make_shared<BigPosSpecial>();
+                    //     return Pointers::shared<BigPosSpecial>();
                     // Swimming Coach's cards
                     // case Float::ID:
-                    //     return stdx::mem::make_shared<Float>();
+                    //     return Pointers::shared<Float>();
                     // case Whirl::ID:
-                    //     return stdx::mem::make_shared<Whirl>();
+                    //     return Pointers::shared<Whirl>();
                     // case BubbleBath::ID:
-                    //     return stdx::mem::make_shared<BubbleBath>();
+                    //     return Pointers::shared<BubbleBath>();
                     // case EntryFee::ID:
-                    //     return stdx::mem::make_shared<EntryFee>();
+                    //     return Pointers::shared<EntryFee>();
                     // case GulpOfWater::ID:
-                    //     return stdx::mem::make_shared<GulpOfWater>();
+                    //     return Pointers::shared<GulpOfWater>();
                     // case Coaching::ID:
-                    //     return stdx::mem::make_shared<Coaching>();
+                    //     return Pointers::shared<Coaching>();
                     // case Confiscate::ID:
-                    //     return stdx::mem::make_shared<Confiscate>();
+                    //     return Pointers::shared<Confiscate>();
                     // case Shock::ID:
-                    //     return stdx::mem::make_shared<Shock>();
+                    //     return Pointers::shared<Shock>();
                     // case GoFaster::ID:
-                    //     return stdx::mem::make_shared<GoFaster>();
+                    //     return Pointers::shared<GoFaster>();
                     // case Respite::ID:
-                    //     return stdx::mem::make_shared<Respite>();
+                    //     return Pointers::shared<Respite>();
                     // case PaceUp::ID:
-                    //     return stdx::mem::make_shared<PaceUp>();
+                    //     return Pointers::shared<PaceUp>();
                     // case Hustle::ID:
-                    //     return stdx::mem::make_shared<Hustle>();
+                    //     return Pointers::shared<Hustle>();
                     // case Motivate::ID:
-                    //     return stdx::mem::make_shared<Motivate>();
+                    //     return Pointers::shared<Motivate>();
                     // case TropicalCyclone::ID:
-                    //     return stdx::mem::make_shared<TropicalCyclone>();
+                    //     return Pointers::shared<TropicalCyclone>();
                     // case Butterfly::ID:
-                    //     return stdx::mem::make_shared<Butterfly>();
+                    //     return Pointers::shared<Butterfly>();
                     // case Zap::ID:
-                    //     return stdx::mem::make_shared<Zap>();
+                    //     return Pointers::shared<Zap>();
                     // case Encourage::ID:
-                    //     return stdx::mem::make_shared<Encourage>();
+                    //     return Pointers::shared<Encourage>();
                     // case MovingTheGoalpost::ID:
-                    //     return stdx::mem::make_shared<MovingTheGoalpost>();
+                    //     return Pointers::shared<MovingTheGoalpost>();
                     default:
                         return nullopt;
                 }
@@ -354,37 +354,37 @@ public:
                     case 0:
                         return nullptr;
                     // case Roost::ID:
-                    //     return stdx::mem::make_shared<Roost>();
+                    //     return Pointers::shared<Roost>();
                     // case HyperRoost::ID:
-                    //     return stdx::mem::make_shared<HyperRoost>();
+                    //     return Pointers::shared<HyperRoost>();
                     // case Protect::ID:
-                    //     return stdx::mem::make_shared<Protect>();
+                    //     return Pointers::shared<Protect>();
                     // case PerfectReflectiveShell::ID:
-                    //     return stdx::mem::make_shared<PerfectReflectiveShell>();
+                    //     return Pointers::shared<PerfectReflectiveShell>();
                     // case FromTheAbyss::ID:
-                    //     return stdx::mem::make_shared<FromTheAbyss>();
+                    //     return Pointers::shared<FromTheAbyss>();
                     // case HypeMode::ID:
-                    //     return stdx::mem::make_shared<HypeMode>();
+                    //     return Pointers::shared<HypeMode>();
                     // case Rampage::ID:
-                    //     return stdx::mem::make_shared<Rampage>();
+                    //     return Pointers::shared<Rampage>();
                     // case HyperRampage::ID:
-                    //     return stdx::mem::make_shared<HyperRampage>();
+                    //     return Pointers::shared<HyperRampage>();
                     // case Launch::ID:
-                    //     return stdx::mem::make_shared<Launch>();
+                    //     return Pointers::shared<Launch>();
                     // case Dive::ID:
-                    //     return stdx::mem::make_shared<Dive>();
+                    //     return Pointers::shared<Dive>();
                     // case RoostBoost::ID:
-                    //     return stdx::mem::make_shared<RoostBoost>();
+                    //     return Pointers::shared<RoostBoost>();
                     // case PoTect::ID:
-                    //     return stdx::mem::make_shared<PoTect>();
+                    //     return Pointers::shared<PoTect>();
                     // case Goalpost::ID:
-                    //     return stdx::mem::make_shared<Goalpost>();
+                    //     return Pointers::shared<Goalpost>();
                     // case BalloonJerk::ID:
-                    //     return stdx::mem::make_shared<BalloonJerk>();
+                    //     return Pointers::shared<BalloonJerk>();
                     // case SwimmingRinger::ID:
-                    //     return stdx::mem::make_shared<SwimmingRinger>();
+                    //     return Pointers::shared<SwimmingRinger>();
                     // case HomeSweeper::ID:
-                    //     return stdx::mem::make_shared<HomeSweeper>();
+                    //     return Pointers::shared<HomeSweeper>();
                     default:
                         return nullopt;
                 }
@@ -404,7 +404,7 @@ struct Formatter<BossCardFactory::SecondaryType> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(BossCardFactory::SecondaryType type, FormatContext& ctx) {
+    static FormatContext::iterator format(BossCardFactory::SecondaryType type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case BossCardFactory::SecondaryType::STANDARD:
@@ -414,7 +414,7 @@ struct Formatter<BossCardFactory::SecondaryType> {
                 name = "Hyper";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

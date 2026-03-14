@@ -12,6 +12,8 @@ module;
 #include <toml++/toml.hpp>
 #endif
 
+#include "Macros.hpp"
+
 export module marzer.toml;
 
 #ifdef TOMLPLUSPLUS_BUILD_MODULES

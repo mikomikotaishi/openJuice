@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.board:FieldEventsType;
 
@@ -74,7 +73,7 @@ struct Formatter<FieldEventsType> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(FieldEventsType type, FormatContext& ctx) {
+    static FormatContext::iterator format(FieldEventsType type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             // Placeholders
@@ -171,7 +170,7 @@ struct Formatter<FieldEventsType> {
                 break;
                 
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

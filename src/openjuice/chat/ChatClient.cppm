@@ -20,6 +20,7 @@ import openjuice.engine.managers;
 using stdx::io::Cin;
 using stdx::io::Cout;
 using stdx::io::File;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::net::BindException;
 using stdx::net::UnknownHostException;
@@ -27,6 +28,7 @@ using stdx::thread::JoiningThread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
+using sfml::net::Dns;
 using sfml::net::IpAddress;
 using sfml::net::Socket;
 using sfml::net::TcpSocket;
@@ -52,7 +54,11 @@ private:
     void startChat() {
         LOGGER->info("Starting chat");
         String message;
-        while (isConnected && stdx::io::getline(Cin, message)) {
+        while (isConnected) {
+            message = System::in.readln();
+            if (message.empty()) {
+                break;
+            }
             message += "\n";
             if (clientSocket.send(message.c_str(), message.size()) != Socket::Status::Done) {
                 LOGGER->error("Failed to send message");
@@ -80,8 +86,8 @@ private:
                         usize pos;
                         while ((pos = messageBuffer.find('\n')) != String::npos) {
                             String message = messageBuffer.substr(0, pos);
-                            stdx::io::print("\n[CHAT] {}\n> ", message);
-                            Cout.flush();
+                            System::out.print("\n[CHAT] {}\n> ", message);
+                            System::out.flush();
                             messageBuffer.erase(0, pos + 1);
                         }
                     } else if (status == Socket::Status::Disconnected) {
@@ -90,7 +96,7 @@ private:
                     }
                 }
             } catch (...) {
-                stdx::io::println(File::stderr(), "Disconnected from server.");
+                System::err.println("Disconnected from server.");
                 isConnected = false;
             }
         });
@@ -114,18 +120,20 @@ public:
      * @throws UnknownHostException if the host is unknown
      */
     ChatClient(StringView host, u16 port) throws (BindException, UnknownHostException) {
-        #warning "operator== must be in scope for ADL to work apparently"
-        using sfml::net::operator==; // Necessary for ADL apparently
-
-        const IpAddress serverAddress = IpAddress::resolve(host).value_or(IpAddress::Any);
-        if (serverAddress == IpAddress::Any) {
-            LOGGER->error("Unknown host: {}", host);
+        try {
+            const IpAddress serverAddress = Dns::resolve(host).value_or({IpAddress::Any}).at(0);
+            if (serverAddress == IpAddress::Any) {
+                LOGGER->error("Unknown host: {}", host);
+                throw UnknownHostException("Failed to resolve host");
+            }
+            
+            if (clientSocket.connect(serverAddress, port) != Socket::Status::Done) {
+                LOGGER->error("Failed to connect to server at {}:{}", host, port);
+                throw BindException("Failed to connect to chat server");
+            }
+        } catch (const OutOfRangeException& e) {
+            LOGGER->error("Failed to resolve host: {}", e.what());
             throw UnknownHostException("Failed to resolve host");
-        }
-        
-        if (clientSocket.connect(serverAddress, port) != Socket::Status::Done) {
-            LOGGER->error("Failed to connect to server at {}:{}", host, port);
-            throw BindException("Failed to connect to chat server");
         }
         
         LOGGER->info("Connected to server at {}:{}", host, port);

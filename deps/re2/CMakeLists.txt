@@ -8,9 +8,8 @@ target_sources(re2_module
 configure_cpp_module_target(re2_module)
 
 ## Ignore module circular dependencies, remove when CMake fixes this
-set_target_properties(re2_module PROPERTIES 
-    CXX_STANDARD 23 
-    CXX_EXTENSIONS OFF 
+set_target_properties(re2_module PROPERTIES
+    CXX_EXTENSIONS OFF
     CXX_MODULE_DYNDEP OFF
 )
 

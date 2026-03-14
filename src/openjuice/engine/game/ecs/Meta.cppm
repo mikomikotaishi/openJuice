@@ -172,32 +172,32 @@ export namespace meta {
     };
 
     template <typename T>
-    struct RemoveSuffixConstVolatile<T const&> {
+    struct RemoveSuffixConstVolatile<const T&> {
         using Type = T&;
     };
 
     template <typename T>
-    struct RemoveSuffixConstVolatile<T volatile&> {
+    struct RemoveSuffixConstVolatile<volatile T&> {
         using Type = T&;
     };
 
     template <typename T>
-    struct RemoveSuffixConstVolatile<T const volatile&> {
+    struct RemoveSuffixConstVolatile<const volatile T&> {
         using Type = T&;
     };
 
     template <typename T>
-    struct RemoveSuffixConstVolatile<T const*> {
+    struct RemoveSuffixConstVolatile<const T*> {
         using Type = T*;
     };
 
     template <typename T>
-    struct RemoveSuffixConstVolatile<T volatile*> {
+    struct RemoveSuffixConstVolatile<volatile T*> {
         using Type = T*;
     };
 
     template <typename T>
-    struct RemoveSuffixConstVolatile<T const volatile*> {
+    struct RemoveSuffixConstVolatile<const volatile T*> {
         using Type = T*;
     };
 
@@ -334,7 +334,7 @@ export namespace meta {
     template <typename Tpl, usize Start, usize End, typename = void>
     struct SubTuple {
         using InternalTuple = decltype([]<usize... I>(IndexSequence<I...>) -> Tuple<TupleElementType<Start + I, Tpl>...>
-            {}(make_index_sequence<End - Start>{})
+            {}(IndexSequenceOf<End - Start>{})
         ); ///< The extracted sub-tuple type.
     };
 
@@ -409,7 +409,7 @@ export namespace meta {
     struct CollectPairs {
         static constexpr bool VALUE = []<usize... I>(IndexSequence<I...>) -> bool {
             return (P<TupleElementType<I, Tpl1>, TupleElementType<I, Tpl2>>::VALUE && ...);
-        }(make_index_sequence<TupleSizeValue<Tpl1>>{}); ///< True if P holds for all pairs.
+        }(IndexSequenceOf<TupleSizeValue<Tpl1>>{}); ///< True if P holds for all pairs.
     };
 
     /**

@@ -115,7 +115,7 @@ private:
                                 case UrlOpenError::INVALID_URL:
                                     break;
                                 default:
-                                    stdx::sys::unreachable();
+                                    System::unreachable();
                             }
                         }
                         return true;
@@ -129,7 +129,7 @@ private:
                         screenSwitchCallback(ScreenType::TITLE);
                         return true;
                     default:
-                        stdx::sys::unreachable();
+                        System::unreachable();
                 }
             } else if (event == Event::Return) {
                 switch (selectedOption) {
@@ -161,7 +161,7 @@ private:
                                 case UrlOpenError::INVALID_URL:
                                     break;
                                 default:
-                                    stdx::sys::unreachable();
+                                    System::unreachable();
                             }
                         }
                         return true;
@@ -175,7 +175,7 @@ private:
                         screenSwitchCallback(ScreenType::TITLE);
                         return true;
                     default:
-                        stdx::sys::unreachable();
+                        System::unreachable();
                 }
             }
             return false;
@@ -205,7 +205,7 @@ public:
      * @param callback Function to call when switching screens
      */
     MainMenuScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(stdx::util::move(game), stdx::util::move(callback)) {
+        TUIScreen(System::move(game), System::move(callback)) {
         createComponent();
     }
 

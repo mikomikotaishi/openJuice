@@ -7,7 +7,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.ui.tui.TUIScreen:ScreenType;
 
@@ -59,7 +58,7 @@ struct Formatter<ScreenType> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(const ScreenType& st, FormatContext& ctx) {
+    static FormatContext::iterator format(const ScreenType& st, FormatContext& ctx) {
         StringView name;
         switch (st) {
             case ScreenType::EXIT:
@@ -132,7 +131,7 @@ struct Formatter<ScreenType> {
                 name = "Pause";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.card.mushroom;
 
@@ -106,7 +105,7 @@ private:
             case Effect::ROLL_SIX:
                 return "CARD_SHROOM_ROLLSIX";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 protected:
@@ -240,7 +239,7 @@ private:
             case Effect::WIN:
                 return "CARD_SHROOM_WIN";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 protected:
@@ -352,7 +351,7 @@ private:
             case Effect::WINS:
                 return "CARD_SHROOM_LEGEND_WINS";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 
@@ -369,7 +368,7 @@ private:
             case Colour::PHANTOM_BLUE:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 
@@ -386,7 +385,7 @@ private:
             case Colour::PHANTOM_BLUE:
                 return "CARD_SHROOM_PHANTOMBLUE";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 protected:
@@ -480,7 +479,7 @@ struct Formatter<BattleMushroomCard::Effect> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(BattleMushroomCard::Effect type, FormatContext& ctx) {
+    static FormatContext::iterator format(BattleMushroomCard::Effect type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case BattleMushroomCard::Effect::NULL_BATTLE:
@@ -529,7 +528,7 @@ struct Formatter<BoostMushroomCard::Effect> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(BoostMushroomCard::Effect type, FormatContext& ctx) {
+    static FormatContext::iterator format(BoostMushroomCard::Effect type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case BoostMushroomCard::Effect::NULL_BOOST:
@@ -584,7 +583,7 @@ struct Formatter<LegendaryMushroomCard::Colour> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(LegendaryMushroomCard::Colour type, FormatContext& ctx) {
+    static FormatContext::iterator format(LegendaryMushroomCard::Colour type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case LegendaryMushroomCard::Colour::LEGENDARY_RED:
@@ -606,7 +605,7 @@ struct Formatter<LegendaryMushroomCard::Effect> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(LegendaryMushroomCard::Effect type, FormatContext& ctx) {
+    static FormatContext::iterator format(LegendaryMushroomCard::Effect type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case LegendaryMushroomCard::Effect::STARS:

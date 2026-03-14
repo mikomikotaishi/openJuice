@@ -120,7 +120,7 @@ export namespace components {
          * @param unitPointer 
          */
         explicit UnitComponent(SharedPointer<Unit> unitPointer):
-            unit{stdx::util::move(unitPointer)} {}
+            unit{System::move(unitPointer)} {}
         
         UnitComponent() = default;
     };

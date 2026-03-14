@@ -18,6 +18,7 @@ import openjuice.engine.managers;
 import openjuice.engine.unit;
 import openjuice.unit.bosses;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -55,11 +56,11 @@ public:
             case 0:
                 return nullptr;
             case FlyingCastle::ID:
-                return stdx::mem::make_shared<FlyingCastle>();
+                return Pointers::shared<FlyingCastle>();
             case ShifuRobot::ID:
-                return stdx::mem::make_shared<ShifuRobot>();
+                return Pointers::shared<ShifuRobot>();
             case StoreManager::ID:
-                return stdx::mem::make_shared<StoreManager>();
+                return Pointers::shared<StoreManager>();
             default:
                 return nullopt;
         }

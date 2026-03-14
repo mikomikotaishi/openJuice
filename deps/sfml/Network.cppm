@@ -30,21 +30,100 @@ module;
 
 #include <SFML/Network.hpp>
 
+#include "Macros.hpp"
+
 export module sfml:network;
 
 export import :system;
+
+import stdx;
+
+using stdx::collections::Vector;
+
+export namespace sf {
+    using sf::operator==;
+    using sf::operator!=;
+    using sf::operator<;
+    using sf::operator>;
+    using sf::operator<=;
+    using sf::operator>=;
+    using sf::operator>>;
+    using sf::operator<<;
+}
 
 export namespace sfml::net {
     using sf::Ftp;
     using sf::Http;
     using sf::IpAddress;
     using sf::Packet;
+    using sf::Sftp;
     using sf::Socket;
     using sf::SocketHandle;
     using sf::SocketSelector;
     using sf::TcpListener;
     using sf::TcpSocket;
     using sf::UdpSocket;
+
+    class Dns final {
+    public:
+        Dns() = delete;
+
+        using MxRecord = sf::Dns::MxRecord;
+        using SrvRecord = sf::Dns::SrvRecord;
+
+        [[nodiscard]]
+        static Optional<Vector<sf::IpAddress>> resolve(
+            const sf::String& hostname,
+            const Vector<sf::IpAddress>& servers = {},
+            Optional<sf::Time> timeout = sf::seconds(1)
+        ) {
+            return sf::Dns::resolve(hostname, servers, timeout);
+        }
+
+        [[nodiscard]]
+        static Vector<String> queryNs(
+            const sf::String& hostname,
+            const Vector<sf::IpAddress>& servers = {},
+            Optional<sf::Time> timeout = sf::seconds(1)
+        ) {
+            return sf::Dns::queryNs(hostname, servers, timeout);
+        }
+
+        [[nodiscard]]
+        static Vector<MxRecord> queryMx(
+            const sf::String& hostname,
+            const Vector<sf::IpAddress>& servers = {},
+            Optional<sf::Time> timeout = sf::seconds(1)
+        ) {
+            return sf::Dns::queryMx(hostname, servers, timeout);
+        }
+
+        [[nodiscard]]
+        static Vector<SrvRecord> querySrv(
+            const sf::String& hostname,
+            const Vector<sf::IpAddress>& servers = {},
+            Optional<sf::Time> timeout = sf::seconds(1)
+        ) {
+            return sf::Dns::querySrv(hostname, servers, timeout);
+        }
+
+        [[nodiscard]]
+        static Vector<Vector<sf::String>> queryTxt(
+            const sf::String& hostname,
+            const Vector<sf::IpAddress>& servers = {},
+            Optional<sf::Time> timeout = sf::seconds(1)
+        ) {
+            return sf::Dns::queryTxt(hostname, servers, timeout);
+        }
+
+        [[nodiscard]]
+        static Optional<sf::IpAddress> getPublicAddress(
+            Optional<Time> timeout = nullopt,
+            sf::IpAddress::Type type = sf::IpAddress::Type::IpV4
+        ) {
+            return sf::Dns::getPublicAddress(timeout, type);
+        }
+    };
 
     using sf::operator==;
     using sf::operator!=;

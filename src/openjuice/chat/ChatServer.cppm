@@ -18,6 +18,7 @@ import sfml;
 import :ChatSession;
 
 using stdx::collections::Vector;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::net::BindException;
@@ -50,11 +51,11 @@ private:
      */
     void acceptConnections() {
         while (isRunning) {
-            UniquePointer<TcpSocket> clientSocket = stdx::mem::make_unique<TcpSocket>();
+            UniquePointer<TcpSocket> clientSocket = Pointers::unique<TcpSocket>();
             
             if (serverListener.accept(*clientSocket) == Socket::Status::Done) {
                 LOGGER->info("Client connected from {}", clientSocket->getRemoteAddress()->toString());
-                auto session = stdx::mem::make_shared<ChatSession>(stdx::util::move(clientSocket), clients);
+                SharedPointer<ChatSession> session = Pointers::shared<ChatSession>(System::move(clientSocket), clients);
                 session->start();
             }
         }

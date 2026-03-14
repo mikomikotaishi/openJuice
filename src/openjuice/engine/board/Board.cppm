@@ -185,7 +185,7 @@ public:
             homePanels = boardData->getHomePanels();
 
             // Initialise the graph after the game board is set up
-            graph = stdx::mem::make_unique<Graph>(gameBoard);
+            graph = Pointers::unique<Graph>(gameBoard);
         } else {
             // Initialises to 0 at application startup - trivial case
             boardWidth = 0;

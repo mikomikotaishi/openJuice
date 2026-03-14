@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.card.spawn;
 
@@ -191,7 +190,7 @@ protected:
             case MushroomCard::Colour::YELLOW:
                 return "CARD_SHROOM_YELLOW";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 
@@ -224,7 +223,7 @@ protected:
             case MushroomCard::Colour::YELLOW:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 };
@@ -352,7 +351,7 @@ struct Formatter<MushroomCard::Colour> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(MushroomCard::Colour type, FormatContext& ctx) {
+    static FormatContext::iterator format(MushroomCard::Colour type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case MushroomCard::Colour::BLUE:

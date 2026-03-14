@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.card:CoopCardFactory;
 
@@ -22,6 +21,7 @@ import openjuice.card.coop;
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -66,7 +66,7 @@ private:
             case CoopCardFactory::SecondaryType::SEASONAL:
                 return "Seasonal";
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 public:
@@ -96,15 +96,15 @@ public:
                     case 0:
                         return nullptr;
                     case UltimateWeaponInTheSun::ID:
-                        return stdx::mem::make_shared<UltimateWeaponInTheSun>();
+                        return Pointers::shared<UltimateWeaponInTheSun>();
                     case LifeguardOnTheWhiteBeach::ID:
-                        return stdx::mem::make_shared<LifeguardOnTheWhiteBeach>();
+                        return Pointers::shared<LifeguardOnTheWhiteBeach>();
                     case GuardianOfBloomingFlowers::ID:
-                        return stdx::mem::make_shared<GuardianOfBloomingFlowers>();
+                        return Pointers::shared<GuardianOfBloomingFlowers>();
                     case UnforgivingAvenger::ID:
-                        return stdx::mem::make_shared<UnforgivingAvenger>();
+                        return Pointers::shared<UnforgivingAvenger>();
                     case SummerGames::ID:
-                        return stdx::mem::make_shared<SummerGames>();
+                        return Pointers::shared<SummerGames>();
                     default:
                         return nullopt;
                 }
@@ -113,18 +113,18 @@ public:
                     case 0:
                         return nullptr;
                     case SeasonalUltimateWeaponInTheSun::ID:
-                        return stdx::mem::make_shared<SeasonalUltimateWeaponInTheSun>();
+                        return Pointers::shared<SeasonalUltimateWeaponInTheSun>();
                     case SeasonalLifeguardOnTheWhiteBeach::ID:
-                        return stdx::mem::make_shared<SeasonalLifeguardOnTheWhiteBeach>();
+                        return Pointers::shared<SeasonalLifeguardOnTheWhiteBeach>();
                     case SeasonalGuardianOfBloomingFlowers::ID:
-                        return stdx::mem::make_shared<SeasonalGuardianOfBloomingFlowers>();
+                        return Pointers::shared<SeasonalGuardianOfBloomingFlowers>();
                     case SeasonalUnforgivingAvenger::ID:
-                        return stdx::mem::make_shared<SeasonalUnforgivingAvenger>();
+                        return Pointers::shared<SeasonalUnforgivingAvenger>();
                     default:
                         return nullopt;
                 }
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 };
@@ -139,7 +139,7 @@ struct Formatter<CoopCardFactory::SecondaryType> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(CoopCardFactory::SecondaryType type, FormatContext& ctx) {
+    static FormatContext::iterator format(CoopCardFactory::SecondaryType type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case CoopCardFactory::SecondaryType::STANDARD:
@@ -152,7 +152,7 @@ struct Formatter<CoopCardFactory::SecondaryType> {
                 name = "Seasonal";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

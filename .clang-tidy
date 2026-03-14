@@ -1,35 +1,74 @@
 ---
-Checks: "*,
-        -*-macro-usage,
-        -*-magic-numbers,
-        -*-narrowing-conversions
-        -*-unnecessary-value-param,
-        -*-uppercase-literal-suffix,
-        -abseil-*,
-        -altera-*,
-        -android-*,
-        -bugprone-easily-swappable-parameters,
-        -cppcoreguidelines-non-private-member-variables-in-classes,
-        -cppcoreguidelines-pro-type-union-access,
-        -fuchsia-*,
-        -google-*,
-        -hicpp-signed-bitwise,
-        -llvm*,
-        -misc-no-recursion,
-        -misc-non-private-member-variables-in-classes,
-        -modernize-use-nodiscard,
-        -modernize-use-trailing-return-type,
-        -readability-avoid-const-params-in-decls,
-        -readability-else-after-return,
-        -readability-identifier-length,
-        -readability-implicit-bool-conversion,
-        -readability-non-const-parameter,
-        -readability-simplify-boolean-expr,
-        -readability-static-accessed-through-instance,
-        -readability-use-anyofallof,
-        -readability-avoid-nested-conditional-operator,
-        -zircon-*,
-"
+Checks: >-
+  *,
+  -*-macro-usage,
+  -*-narrowing-conversions,
+  -*-unnecessary-value-param,
+  -*-uppercase-literal-suffix,
+  -abseil-*,
+  -altera-*,
+  -android-*,
+  -bugprone-easily-swappable-parameters,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-pro-type-union-access,
+  -fuchsia-*,
+  -google-*,
+  -hicpp-signed-bitwise,
+  -llvm-*,
+  -misc-no-recursion,
+  -misc-non-private-member-variables-in-classes,
+  -modernize-use-trailing-return-type,
+  -portability-avoid-pragma-once,
+  -readability-avoid-const-params-in-decls,
+  -readability-else-after-return,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-non-const-parameter,
+  -readability-simplify-boolean-expr,
+  -readability-static-accessed-through-instance,
+  -readability-use-anyofallof,
+  -readability-avoid-nested-conditional-operator,
+  -zircon-*,
+
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 FormatStyle:     none
+CheckOptions:
+  - key: readability-identifier-naming.TypedefCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.VariableCase
+    value: camelBack
+  - key: readability-identifier-naming.ParameterCase
+    value: camelBack
+  - key: readability-identifier-naming.FunctionCase
+    value: camelBack
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberCase
+    value: camelBack
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.ClassConstantCase
+    value: UPPER_CASE
+  - key: misc-assert-side-effect.CheckFunctionCalls
+    value: 1
+  - key: misc-assert-side-effect.AssertMacros
+    value: 'ASSERT,VERIFY,assert,ensure'
+  - key: cppcoreguidelines-pro-type-reinterpret-cast
+    value: 1
+  - key: cppcoreguidelines-pro-type-static-cast-downcast
+    value: 1
+  - key: cppcoreguidelines-pro-bounds-array-to-pointer-decay
+    value: 1
+  - key: cppcoreguidelines-narrowing-conversions
+    value: 1
+  - key: readability-magic-numbers.IgnoredNumbers
+    value: '0,1,-1'
+ExtraOptions:
+  - -std=c++26
+  - -fmodules-ts
+  - -fmodules

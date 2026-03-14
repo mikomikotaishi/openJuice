@@ -19,6 +19,7 @@ import openjuice.engine.card.mushroom;
 import openjuice.engine.managers;
 import openjuice.card.mushroom;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -61,53 +62,53 @@ public:
             case 0:
                 return nullptr;
             case NullBattleMushroom::ID:
-                return stdx::mem::make_shared<NullBattleMushroom>(colour);
+                return Pointers::shared<NullBattleMushroom>(colour);
             case AttackUpMushroom::ID:
-                return stdx::mem::make_shared<AttackUpMushroom>(colour);
+                return Pointers::shared<AttackUpMushroom>(colour);
             case AttackDownMushroom::ID:
-                return stdx::mem::make_shared<AttackDownMushroom>(colour);
+                return Pointers::shared<AttackDownMushroom>(colour);
             case DefenceUpMushroom::ID:
-                return stdx::mem::make_shared<DefenceUpMushroom>(colour);
+                return Pointers::shared<DefenceUpMushroom>(colour);
             case DefenceDownMushroom::ID:
-                return stdx::mem::make_shared<DefenceDownMushroom>(colour);
+                return Pointers::shared<DefenceDownMushroom>(colour);
             case EvadeUpMushroom::ID:
-                return stdx::mem::make_shared<EvadeUpMushroom>(colour);
+                return Pointers::shared<EvadeUpMushroom>(colour);
             case EvadeDownMushroom::ID:
-                return stdx::mem::make_shared<EvadeDownMushroom>(colour);
+                return Pointers::shared<EvadeDownMushroom>(colour);
             case HealMushroom::ID:
-                return stdx::mem::make_shared<HealMushroom>(colour);
+                return Pointers::shared<HealMushroom>(colour);
             case DamageMushroom::ID:
-                return stdx::mem::make_shared<DamageMushroom>(colour);
+                return Pointers::shared<DamageMushroom>(colour);
             case RollOneMushroom::ID:
-                return stdx::mem::make_shared<RollOneMushroom>(colour);
+                return Pointers::shared<RollOneMushroom>(colour);
             case RollSixMushroom::ID:
-                return stdx::mem::make_shared<RollSixMushroom>(colour);
+                return Pointers::shared<RollSixMushroom>(colour);
             case NullBoostMushroom::ID:
-                return stdx::mem::make_shared<NullBoostMushroom>(colour);
+                return Pointers::shared<NullBoostMushroom>(colour);
             case MoveUpMushroom::ID:
-                return stdx::mem::make_shared<MoveUpMushroom>(colour);
+                return Pointers::shared<MoveUpMushroom>(colour);
             case MoveDownMushroom::ID:
-                return stdx::mem::make_shared<MoveDownMushroom>(colour);
+                return Pointers::shared<MoveDownMushroom>(colour);
             case GainStarsMushroom::ID:
-                return stdx::mem::make_shared<GainStarsMushroom>(colour);
+                return Pointers::shared<GainStarsMushroom>(colour);
             case LoseStarsMushroom::ID:
-                return stdx::mem::make_shared<LoseStarsMushroom>(colour);
+                return Pointers::shared<LoseStarsMushroom>(colour);
             case HealthUpMushroom::ID:
-                return stdx::mem::make_shared<HealthUpMushroom>(colour);
+                return Pointers::shared<HealthUpMushroom>(colour);
             case HealthDownMushroom::ID:
-                return stdx::mem::make_shared<HealthDownMushroom>(colour);
+                return Pointers::shared<HealthDownMushroom>(colour);
             case FrostwalkerMushroom::ID:
-                return stdx::mem::make_shared<FrostwalkerMushroom>(colour);
+                return Pointers::shared<FrostwalkerMushroom>(colour);
             case WarpMushroom::ID:
-                return stdx::mem::make_shared<WarpMushroom>(colour);
+                return Pointers::shared<WarpMushroom>(colour);
             case ConfusionMushroom::ID:
-                return stdx::mem::make_shared<ConfusionMushroom>(colour);
+                return Pointers::shared<ConfusionMushroom>(colour);
             case DrawMushroom::ID:
-                return stdx::mem::make_shared<DrawMushroom>(colour);
+                return Pointers::shared<DrawMushroom>(colour);
             case DiscardMushroom::ID:
-                return stdx::mem::make_shared<DiscardMushroom>(colour);
+                return Pointers::shared<DiscardMushroom>(colour);
             case WinMushroom::ID:
-                return stdx::mem::make_shared<WinMushroom>(colour);
+                return Pointers::shared<WinMushroom>(colour);
             default:
                 return nullopt;
         }
@@ -131,9 +132,9 @@ public:
             case 0:
                 return nullptr;
             case LegendaryStarsMushroom::ID:
-                return stdx::mem::make_shared<LegendaryStarsMushroom>(colour);
+                return Pointers::shared<LegendaryStarsMushroom>(colour);
             case LegendaryWinsMushroom::ID:
-                return stdx::mem::make_shared<LegendaryWinsMushroom>(colour);
+                return Pointers::shared<LegendaryWinsMushroom>(colour);
             default:
                 return nullopt;
         }

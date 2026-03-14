@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.card.Card;
 
@@ -134,7 +133,7 @@ public:
      * @param deckPoints The deck points of the card.
      */
     Card(u16 id, Type cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
-        deckPoints{stdx::util::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
+        deckPoints{System::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
         id{id}, cardType{cardType}, spawnType{spawnType}, level{level} {}
 
     GETTER(u16, Id, id);
@@ -229,7 +228,7 @@ struct Formatter<Card::Type> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Card::Type type, FormatContext& ctx) {
+    static FormatContext::iterator format(Card::Type type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case Card::Type::BATTLE:
@@ -251,7 +250,7 @@ struct Formatter<Card::Type> {
                 name = "Banner";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -263,7 +262,7 @@ struct Formatter<Card::Spawn> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Card::Spawn type, FormatContext& ctx) {
+    static FormatContext::iterator format(Card::Spawn type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case Card::Spawn::STANDARD:
@@ -294,7 +293,7 @@ struct Formatter<Card::Spawn> {
                 name = "Generic";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -306,7 +305,7 @@ struct Formatter<Card::Rarity> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Card::Rarity type, FormatContext& ctx) {
+    static FormatContext::iterator format(Card::Rarity type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case Card::Rarity::NONE:
@@ -322,7 +321,7 @@ struct Formatter<Card::Rarity> {
                 name = "Rare";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -334,7 +333,7 @@ struct Formatter<Card::DeckPointError> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Card::DeckPointError err, FormatContext& ctx) {
+    static FormatContext::iterator format(Card::DeckPointError err, FormatContext& ctx) {
         StringView name;
         switch (err) {
             case Card::DeckPointError::NOT_PLAYABLE_IN_COOP:
@@ -344,7 +343,7 @@ struct Formatter<Card::DeckPointError> {
                 name = "Not standard card";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.board:Panel;
 
@@ -140,7 +139,7 @@ struct Formatter<Panel::Type> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Panel::Type type, FormatContext& ctx) {
+    static FormatContext::iterator format(Panel::Type type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case Panel::Type::HOME:
@@ -225,7 +224,7 @@ struct Formatter<Panel::Type> {
                 name = "Random";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

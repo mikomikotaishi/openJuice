@@ -32,7 +32,18 @@ module;
 #include <SFML/System.hpp>
 #include <SFML/System/SuspendAwareClock.hpp>
 
+#include "Macros.hpp"
+
 export module sfml:system;
+
+export namespace sf {
+    using sf::operator==;
+    using sf::operator!=;
+    using sf::operator<;
+    using sf::operator>;
+    using sf::operator<=;
+    using sf::operator>=;
+}
 
 export namespace sfml {
     #ifdef SFML_SYSTEM_ANDROID
@@ -45,9 +56,6 @@ export namespace sfml {
     using sf::FileInputStream;
     using sf::InputStream;
     using sf::MemoryInputStream;
-    #ifdef SFML_SYSTEM_ANDROID
-    using sf::getNativeActivity;
-    #endif
     using sf::U8StringCharTraits;
     using sf::String;
     using sf::U8String;
@@ -65,10 +73,18 @@ export namespace sfml {
     using sf::Vector3i;
     using sf::Vector3f;
 
+    #ifdef SFML_SYSTEM_ANDROID
+    using sf::getNativeActivity;
+    #endif
+
     using sf::degrees;
     using sf::radians;
     using sf::err;
     using sf::sleep;
+
+    using sf::seconds;
+    using sf::milliseconds;
+    using sf::microseconds;
 
     constexpr inline int VERSION_MAJOR = SFML_VERSION_MAJOR;
     constexpr inline int VERSION_MINOR = SFML_VERSION_MINOR;

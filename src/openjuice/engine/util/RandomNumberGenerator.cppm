@@ -14,13 +14,6 @@ export module openjuice.engine.util:RandomNumberGenerator;
 
 import stdx;
 
-using stdx::random::MersenneTwister;
-using stdx::random::RandomDevice;
-using stdx::random::UniformIntegerDistribution;
-using stdx::random::UniformRealDistribution;
-using stdx::sync::Mutex;
-using stdx::sync::ScopedLock;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 /**
@@ -31,8 +24,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
  */
 export class RandomNumberGenerator final {
 private:
-    static inline Mutex rngMutex; ///< Mutex for thread-safe access to the RNG.
-    static inline MersenneTwister rng{RandomDevice{}()}; ///< Mersenne Twister random number generator.
+    static thread_local inline Random rand = Random(); ///< Mersenne Twister random number generator.
 
     /**
      * @brief Private constructor to prevent instantiation.
@@ -58,9 +50,7 @@ public:
      */
     [[nodiscard]]
     static i32 getRandomInteger(i32 min, i32 max) noexcept {
-        ScopedLock<Mutex> lock(rngMutex);
-        UniformIntegerDistribution<i32> dist(min, max);
-        return dist(rng);
+        return rand.next(min, max);
     }
 
     /**
@@ -72,9 +62,7 @@ public:
      */
     [[nodiscard]]
     static f64 getRandomReal(f64 min, f64 max) noexcept {
-        ScopedLock<Mutex> lock(rngMutex);
-        UniformRealDistribution<f64> dist(min, max);
-        return dist(rng);
+        return rand.next(min, max);
     }
 };
 

@@ -183,7 +183,7 @@ public:
      * @param callback Function to call when switching screens
      */
     ConfigScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(stdx::util::move(game), stdx::util::move(callback)) {
+        TUIScreen(System::move(game), System::move(callback)) {
         createComponent();
     }
 

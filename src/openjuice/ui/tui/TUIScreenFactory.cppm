@@ -19,6 +19,7 @@ import openjuice.engine.managers;
 import openjuice.ui.tui.TUIScreen;
 import openjuice.ui.tui.screens;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -57,49 +58,49 @@ public:
 
         switch (type) {
             case ScreenType::LOADING:
-                return stdx::mem::make_shared<LoadingScreen>(game, callback);
+                return Pointers::shared<LoadingScreen>(game, callback);
             case ScreenType::TITLE:
-                return stdx::mem::make_shared<TitleScreen>(game, callback);
+                return Pointers::shared<TitleScreen>(game, callback);
             case ScreenType::MAIN_MENU:
-                return stdx::mem::make_shared<MainMenuScreen>(game, callback);
+                return Pointers::shared<MainMenuScreen>(game, callback);
             case ScreenType::SINGLEPLAYER_LOBBY_SELECT:
-                return stdx::mem::make_shared<SingleplayerLobbySelectScreen>(game, callback);
+                return Pointers::shared<SingleplayerLobbySelectScreen>(game, callback);
             case ScreenType::SINGLEPLAYER_CUSTOM:
-                return stdx::mem::make_shared<SingleplayerCustomScreen>(game, callback);
+                return Pointers::shared<SingleplayerCustomScreen>(game, callback);
             case ScreenType::SINGLEPLAYER_CAMPAIGN_SELECT:
-                return stdx::mem::make_shared<SingleplayerCampaignSelectScreen>(game, callback);
+                return Pointers::shared<SingleplayerCampaignSelectScreen>(game, callback);
             case ScreenType::MULTIPLAYER_LOBBY_SELECT:
-                return stdx::mem::make_shared<MultiplayerLobbySelectScreen>(game, callback);
+                return Pointers::shared<MultiplayerLobbySelectScreen>(game, callback);
             case ScreenType::MULTIPLAYER_CUSTOM:
-                return stdx::mem::make_shared<MultiplayerCustomScreen>(game, callback);
+                return Pointers::shared<MultiplayerCustomScreen>(game, callback);
             case ScreenType::SINGLEPLAYER_GAME_LOBBY:
-                return stdx::mem::make_shared<SingleplayerGameLobbyScreen>(game, callback);
+                return Pointers::shared<SingleplayerGameLobbyScreen>(game, callback);
             case ScreenType::MULTIPLAYER_GAME_LOBBY:
-                return stdx::mem::make_shared<MultiplayerGameLobbyScreen>(game, callback);
+                return Pointers::shared<MultiplayerGameLobbyScreen>(game, callback);
             case ScreenType::CHARACTER_SELECT:
-                return stdx::mem::make_shared<CharacterSelectScreen>(game, callback);
+                return Pointers::shared<CharacterSelectScreen>(game, callback);
             case ScreenType::CARD_SELECT:
-                return stdx::mem::make_shared<CardSelectScreen>(game, callback);
+                return Pointers::shared<CardSelectScreen>(game, callback);
             case ScreenType::GAMEPLAY:
-                return stdx::mem::make_shared<GameplayScreen>(game, callback);
+                return Pointers::shared<GameplayScreen>(game, callback);
             case ScreenType::GAME_RESULTS:
-                return stdx::mem::make_shared<GameResultsScreen>(game, callback);
+                return Pointers::shared<GameResultsScreen>(game, callback);
             case ScreenType::SHOP:
-                return stdx::mem::make_shared<ShopScreen>(game, callback);
+                return Pointers::shared<ShopScreen>(game, callback);
             case ScreenType::PROFILE:
-                return stdx::mem::make_shared<ProfileScreen>(game, callback);
+                return Pointers::shared<ProfileScreen>(game, callback);
             case ScreenType::OJDEX:
-                return stdx::mem::make_shared<OJDexScreen>(game, callback);
+                return Pointers::shared<OJDexScreen>(game, callback);
             case ScreenType::GUIDE:
-                return stdx::mem::make_shared<GuideScreen>(game, callback);
+                return Pointers::shared<GuideScreen>(game, callback);
             case ScreenType::CONFIG:
-                return stdx::mem::make_shared<ConfigScreen>(game, callback);
+                return Pointers::shared<ConfigScreen>(game, callback);
             case ScreenType::CREDITS:
-                return stdx::mem::make_shared<CreditsScreen>(game, callback);
+                return Pointers::shared<CreditsScreen>(game, callback);
             case ScreenType::PAUSE:
-                return stdx::mem::make_shared<PauseScreen>(game, callback);
+                return Pointers::shared<PauseScreen>(game, callback);
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 };

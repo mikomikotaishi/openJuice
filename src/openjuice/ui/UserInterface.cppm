@@ -39,7 +39,7 @@ public:
      * @param mutex Reference to mutex for thread-safe access
      */
     UserInterface(SharedPointer<Game> game, Mutex& mutex):
-        game{stdx::util::move(game)}, stateMutex{mutex} {}
+        game{System::move(game)}, stateMutex{mutex} {}
 
     virtual ~UserInterface() = default;
 

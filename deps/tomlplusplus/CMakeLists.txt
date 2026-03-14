@@ -8,6 +8,11 @@ target_sources(tomlpp
 
 configure_cpp_module_target(tomlpp)
 
+target_include_directories(tomlpp
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
 target_link_libraries(tomlpp 
     PRIVATE tomlplusplus_modules
 )
@@ -17,8 +22,7 @@ target_compile_definitions(tomlpp
 )
 
 ## Ignore module circular dependencies, remove when CMake fixes this
-set_target_properties(tomlpp PROPERTIES 
-    CXX_STANDARD 23 
-    CXX_EXTENSIONS OFF 
+set_target_properties(tomlpp PROPERTIES
+    CXX_EXTENSIONS OFF
     CXX_MODULE_DYNDEP OFF
 )

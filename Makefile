@@ -158,14 +158,22 @@ configure:
 .PHONY: build
 build: configure
 	@START_TIME=$$(date +%s); \
-	printf "$(BOLD)$(BLUE)Building $(PROJECT_NAME)...$(RESET)\n"; \
-	cmake --build $(BUILD_DIR); \
+	printf "$(BOLD)$(BLUE)Building $(PROJECT_NAME) library...$(RESET)\n"; \
+	BUILD_EXIT=0; cmake --build $(BUILD_DIR) || BUILD_EXIT=$$?; \
 	END_TIME=$$(date +%s); ELAPSED=$$(($$END_TIME - $$START_TIME)); \
 	if [ $$ELAPSED -ge 60 ]; then \
 		MINUTES=$$(($$ELAPSED / 60)); SECONDS=$$(($$ELAPSED % 60)); \
-		printf "$(GREEN)✓ Build complete in $${MINUTES}m $${SECONDS}s$(RESET)\n"; \
+		if [ $$BUILD_EXIT -ne 0 ]; then \
+			printf "$(RED)✗ Build failed in $${MINUTES}m $${SECONDS}s$(RESET)\n"; exit $$BUILD_EXIT; \
+		else \
+			printf "$(GREEN)✓ Build complete in $${MINUTES}m $${SECONDS}s$(RESET)\n"; \
+		fi; \
 	else \
-		printf "$(GREEN)✓ Build complete in $${ELAPSED}s$(RESET)\n"; \
+		if [ $$BUILD_EXIT -ne 0 ]; then \
+			printf "$(RED)✗ Build failed in $${ELAPSED}s$(RESET)\n"; exit $$BUILD_EXIT; \
+		else \
+			printf "$(GREEN)✓ Build complete in $${ELAPSED}s$(RESET)\n"; \
+		fi; \
 	fi
 
 # Clean build directory
@@ -186,13 +194,21 @@ clean:
 rebuild:
 	@START_TIME=$$(date +%s); \
 	$(MAKE) clean; \
-	$(MAKE) build; \
+	BUILD_EXIT=0; $(MAKE) build || BUILD_EXIT=$$?; \
 	END_TIME=$$(date +%s); ELAPSED=$$(($$END_TIME - $$START_TIME)); \
 	if [ $$ELAPSED -ge 60 ]; then \
 		MINUTES=$$(($$ELAPSED / 60)); SECONDS=$$(($$ELAPSED % 60)); \
-		printf "$(GREEN)✓ Rebuild complete in $${MINUTES}m $${SECONDS}s$(RESET)\n"; \
+		if [ $$BUILD_EXIT -ne 0 ]; then \
+			printf "$(RED)✗ Rebuild failed in $${MINUTES}m $${SECONDS}s$(RESET)\n"; exit $$BUILD_EXIT; \
+		else \
+			printf "$(GREEN)✓ Rebuild complete in $${MINUTES}m $${SECONDS}s$(RESET)\n"; \
+		fi; \
 	else \
-		printf "$(GREEN)✓ Rebuild complete in $${ELAPSED}s$(RESET)\n"; \
+		if [ $$BUILD_EXIT -ne 0 ]; then \
+			printf "$(RED)✗ Rebuild failed in $${ELAPSED}s$(RESET)\n"; exit $$BUILD_EXIT; \
+		else \
+			printf "$(GREEN)✓ Rebuild complete in $${ELAPSED}s$(RESET)\n"; \
+		fi; \
 	fi
 
 # Install the application

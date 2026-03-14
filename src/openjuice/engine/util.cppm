@@ -13,7 +13,6 @@ export import :Constants;
 export import :Direction;
 export import :IFinalOnly;
 export import :IKeyQueryable;
-export import :InputParser;
 export import :InvalidIDException;
 export import :InvalidKeyException;
 export import :InvalidLanguageException;

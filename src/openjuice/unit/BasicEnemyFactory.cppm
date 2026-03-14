@@ -18,6 +18,7 @@ import openjuice.engine.managers;
 import openjuice.engine.unit;
 import openjuice.unit.enemies;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -55,11 +56,11 @@ public:
             case 0:
                 return nullptr;
             case Chicken::ID:
-                return stdx::mem::make_shared<Chicken>();
+                return Pointers::shared<Chicken>();
             case RoboBall::ID:
-                return stdx::mem::make_shared<RoboBall>();
+                return Pointers::shared<RoboBall>();
             case Seagull::ID:
-                return stdx::mem::make_shared<Seagull>();
+                return Pointers::shared<Seagull>();
             default:
                 return nullopt;
         }

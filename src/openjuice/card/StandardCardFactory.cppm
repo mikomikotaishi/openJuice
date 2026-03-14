@@ -18,6 +18,7 @@ import openjuice.engine.card;
 import openjuice.engine.managers;
 import openjuice.card.standard;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -66,240 +67,240 @@ public:
                 return nullptr;
             // === Base Pack cards ===
             case Dash::ID:
-                return stdx::mem::make_shared<Dash>();
+                return Pointers::shared<Dash>();
             case SakisCookie::ID:
-                return stdx::mem::make_shared<SakisCookie>();
+                return Pointers::shared<SakisCookie>();
             case FlipOut::ID:
-                return stdx::mem::make_shared<FlipOut>();
+                return Pointers::shared<FlipOut>();
             case NiceJingle::ID:
-                return stdx::mem::make_shared<NiceJingle>();
+                return Pointers::shared<NiceJingle>();
             case NicePresent::ID:
-                return stdx::mem::make_shared<NicePresent>();
+                return Pointers::shared<NicePresent>();
             case Pudding::ID:
-                return stdx::mem::make_shared<Pudding>();
+                return Pointers::shared<Pudding>();
             case ImOnFire::ID:
-                return stdx::mem::make_shared<ImOnFire>();
+                return Pointers::shared<ImOnFire>();
             case Rbits::ID:
-                return stdx::mem::make_shared<Rbits>();
+                return Pointers::shared<Rbits>();
             case RainbowColoredCircle::ID:
-                return stdx::mem::make_shared<RainbowColoredCircle>();
+                return Pointers::shared<RainbowColoredCircle>();
             case FinalBattle::ID:
-                return stdx::mem::make_shared<FinalBattle>();
+                return Pointers::shared<FinalBattle>();
             case BadPudding::ID:
-                return stdx::mem::make_shared<BadPudding>();
+                return Pointers::shared<BadPudding>();
             case MimyuusHammer::ID:
-                return stdx::mem::make_shared<MimyuusHammer>();
+                return Pointers::shared<MimyuusHammer>();
             case DangerousPudding::ID:
-                return stdx::mem::make_shared<DangerousPudding>();
+                return Pointers::shared<DangerousPudding>();
             case Assault::ID:
-                return stdx::mem::make_shared<Assault>();
+                return Pointers::shared<Assault>();
             case SkyRestaurantPures::ID:
-                return stdx::mem::make_shared<SkyRestaurantPures>();
+                return Pointers::shared<SkyRestaurantPures>();
             case HereAndThere::ID:
-                return stdx::mem::make_shared<HereAndThere>();
+                return Pointers::shared<HereAndThere>();
             case HolyNight::ID:
-                return stdx::mem::make_shared<HolyNight>();
+                return Pointers::shared<HolyNight>();
             case OutOfAmmo::ID:
-                return stdx::mem::make_shared<OutOfAmmo>();
+                return Pointers::shared<OutOfAmmo>();
             case GiftExchange::ID:
-                return stdx::mem::make_shared<GiftExchange>();
+                return Pointers::shared<GiftExchange>();
             case LittleWar::ID:
-                return stdx::mem::make_shared<LittleWar>();
+                return Pointers::shared<LittleWar>();
             // === Expansion Pack cards ===
             case LongDistanceShot::ID:
-                return stdx::mem::make_shared<LongDistanceShot>();
+                return Pointers::shared<LongDistanceShot>();
             case StiffCrystal::ID:
-                return stdx::mem::make_shared<StiffCrystal>();
+                return Pointers::shared<StiffCrystal>();
             case Extend::ID:
-                return stdx::mem::make_shared<Extend>();
+                return Pointers::shared<Extend>();
             case PrincesssPrivilege::ID:
-                return stdx::mem::make_shared<PrincesssPrivilege>();
+                return Pointers::shared<PrincesssPrivilege>();
             case BigMagnum::ID:
-                return stdx::mem::make_shared<BigMagnum>();
+                return Pointers::shared<BigMagnum>();
             case Shield::ID:
-                return stdx::mem::make_shared<Shield>();
+                return Pointers::shared<Shield>();
             case ReverseAttributeField::ID:
-                return stdx::mem::make_shared<ReverseAttributeField>();
+                return Pointers::shared<ReverseAttributeField>();
             case PiggyBank::ID:
-                return stdx::mem::make_shared<PiggyBank>();
+                return Pointers::shared<PiggyBank>();
             case Invasion::ID:
-                return stdx::mem::make_shared<Invasion>();
+                return Pointers::shared<Invasion>();
             case GoAway::ID:
-                return stdx::mem::make_shared<GoAway>();
+                return Pointers::shared<GoAway>();
             case Heat300::ID:
-                return stdx::mem::make_shared<Heat300>();
+                return Pointers::shared<Heat300>();
             case TragedyInTheDeadOfNight::ID:
-                return stdx::mem::make_shared<TragedyInTheDeadOfNight>();
+                return Pointers::shared<TragedyInTheDeadOfNight>();
             case Exchange::ID:
-                return stdx::mem::make_shared<Exchange>();
+                return Pointers::shared<Exchange>();
             case Flamethrower::ID:
-                return stdx::mem::make_shared<Flamethrower>();
+                return Pointers::shared<Flamethrower>();
             case ForTheFutureOfTheToyStore::ID:
-                return stdx::mem::make_shared<ForTheFutureOfTheToyStore>();
+                return Pointers::shared<ForTheFutureOfTheToyStore>();
             case CloudOfSeagulls::ID:
-                return stdx::mem::make_shared<CloudOfSeagulls>();
+                return Pointers::shared<CloudOfSeagulls>();
             case WeAreWaruda::ID:
-                return stdx::mem::make_shared<WeAreWaruda>();
+                return Pointers::shared<WeAreWaruda>();
             case Dinner::ID:
-                return stdx::mem::make_shared<Dinner>();
+                return Pointers::shared<Dinner>();
             case SuperAllOutMode::ID:
-                return stdx::mem::make_shared<SuperAllOutMode>();
+                return Pointers::shared<SuperAllOutMode>();
             case ForcedRevival::ID:
-                return stdx::mem::make_shared<ForcedRevival>();
+                return Pointers::shared<ForcedRevival>();
             case OhMyFriend::ID:
-                return stdx::mem::make_shared<OhMyFriend>();
+                return Pointers::shared<OhMyFriend>();
             case SealedGuardian::ID:
-                return stdx::mem::make_shared<SealedGuardian>();
+                return Pointers::shared<SealedGuardian>();
             // === Mixed Booster Pack cards ===
             case LonelyChariot::ID:
-                return stdx::mem::make_shared<LonelyChariot>();
+                return Pointers::shared<LonelyChariot>();
             case Ambush::ID:
-                return stdx::mem::make_shared<Ambush>();
+                return Pointers::shared<Ambush>();
             case PassionateResearch::ID:
-                return stdx::mem::make_shared<PassionateResearch>();
+                return Pointers::shared<PassionateResearch>();
             case PresidentsPrivilege::ID:
-                return stdx::mem::make_shared<PresidentsPrivilege>();
+                return Pointers::shared<PresidentsPrivilege>();
             case Mimic::ID:
-                return stdx::mem::make_shared<Mimic>();
+                return Pointers::shared<Mimic>();
             case TacticalRetreat::ID:
-                return stdx::mem::make_shared<TacticalRetreat>();
+                return Pointers::shared<TacticalRetreat>();
             case ShieldCounter::ID:
-                return stdx::mem::make_shared<ShieldCounter>();
+                return Pointers::shared<ShieldCounter>();
             case PiyopiyoProcession::ID:
-                return stdx::mem::make_shared<PiyopiyoProcession>();
+                return Pointers::shared<PiyopiyoProcession>();
             case SealedMemories::ID:
-                return stdx::mem::make_shared<SealedMemories>();
+                return Pointers::shared<SealedMemories>();
             case MixPhenomenon::ID:
-                return stdx::mem::make_shared<MixPhenomenon>();
+                return Pointers::shared<MixPhenomenon>();
             case ScarySolicitation::ID:
-                return stdx::mem::make_shared<ScarySolicitation>();
+                return Pointers::shared<ScarySolicitation>();
             // === Acceleration Pack cards ===
             case CompletionReward::ID:
-                return stdx::mem::make_shared<CompletionReward>();
+                return Pointers::shared<CompletionReward>();
             case GentlemansBattle::ID:
-                return stdx::mem::make_shared<GentlemansBattle>();
+                return Pointers::shared<GentlemansBattle>();
             case AccelHyper::ID:
-                return stdx::mem::make_shared<AccelHyper>();
+                return Pointers::shared<AccelHyper>();
             case Extension::ID:
-                return stdx::mem::make_shared<Extension>();
+                return Pointers::shared<Extension>();
             case QuickRestoration::ID:
-                return stdx::mem::make_shared<QuickRestoration>();
+                return Pointers::shared<QuickRestoration>();
             case BrutalPrank::ID:
-                return stdx::mem::make_shared<BrutalPrank>();
+                return Pointers::shared<BrutalPrank>();
             case PresentThief::ID:
-                return stdx::mem::make_shared<PresentThief>();
+                return Pointers::shared<PresentThief>();
             case PlayOfTheGods::ID:
-                return stdx::mem::make_shared<PlayOfTheGods>();
+                return Pointers::shared<PlayOfTheGods>();
             case ScrambledEve::ID:
-                return stdx::mem::make_shared<ScrambledEve>();
+                return Pointers::shared<ScrambledEve>();
             case StarBlastingLight::ID:
-                return stdx::mem::make_shared<StarBlastingLight>();
+                return Pointers::shared<StarBlastingLight>();
             case UnluckyCharm::ID:
-                return stdx::mem::make_shared<UnluckyCharm>();
+                return Pointers::shared<UnluckyCharm>();
             case WindyEnchantment::ID:
-                return stdx::mem::make_shared<WindyEnchantment>();
+                return Pointers::shared<WindyEnchantment>();
             // // === Community Pack 1 cards ===
             // case TreasureThief::ID:
-            //     return stdx::mem::make_shared<TreasureThief>();
+            //     return Pointers::shared<TreasureThief>();
             // case DarkSideOfBusiness::ID:
-            //     return stdx::mem::make_shared<DarkSideOfBusiness>();
+            //     return Pointers::shared<DarkSideOfBusiness>();
             // case Wanted::ID:
-            //     return stdx::mem::make_shared<Wanted>();
+            //     return Pointers::shared<Wanted>();
             // case PartyTime::ID:
-            //     return stdx::mem::make_shared<PartyTime>();
+            //     return Pointers::shared<PartyTime>();
             // case LostChild::ID:
-            //     return stdx::mem::make_shared<LostChild>();
+            //     return Pointers::shared<LostChild>();
             // case PriceOfPower::ID:
-            //     return stdx::mem::make_shared<PriceOfPower>();
+            //     return Pointers::shared<PriceOfPower>();
             // /// === Community Pack 2 cards ===
             // case PathBlockers::ID:
-            //     return stdx::mem::make_shared<PathBlockers>();
+            //     return Pointers::shared<PathBlockers>();
             // case DesperateModification::ID:
-            //     return stdx::mem::make_shared<DesperateModification>();
+            //     return Pointers::shared<DesperateModification>();
             // case Poppoformation::ID:
-            //     return stdx::mem::make_shared<Poppoformation>();
+            //     return Pointers::shared<Poppoformation>();
             // case AcceleratingSky::ID:
-            //     return stdx::mem::make_shared<AcceleratingSky>();
+            //     return Pointers::shared<AcceleratingSky>();
             // case PoppoTheSnatcher::ID:
-            //     return stdx::mem::make_shared<PoppoTheSnatcher>();
+            //     return Pointers::shared<PoppoTheSnatcher>();
             // case Bloodlust::ID:
-            //     return stdx::mem::make_shared<Bloodlust>();
+            //     return Pointers::shared<Bloodlust>();
             // // === Pudding Pack cards ===
             // case BackdoorTrade::ID:
-            //     return stdx::mem::make_shared<BackdoorTrade>();
+            //     return Pointers::shared<BackdoorTrade>();
             // case SinkOrSwim::ID:
-            //     return stdx::mem::make_shared<SinkOrSwim>();
+            //     return Pointers::shared<SinkOrSwim>();
             // case SeriousBattle::ID:
-            //     return stdx::mem::make_shared<SeriousBattle>();
+            //     return Pointers::shared<SeriousBattle>();
             // case PortablePudding::ID:
-            //     return stdx::mem::make_shared<PortablePudding>();
+            //     return Pointers::shared<PortablePudding>();
             // case IWannaSeeYou::ID:
-            //     return stdx::mem::make_shared<IWannaSeeYou>();
+            //     return Pointers::shared<IWannaSeeYou>();
             // case Encore::ID:
-            //     return stdx::mem::make_shared<Encore>();
+            //     return Pointers::shared<Encore>();
             // case SweetDestroyer::ID:
-            //     return stdx::mem::make_shared<SweetDestroyer>();
+            //     return Pointers::shared<SweetDestroyer>();
             // case SereneHush::ID:
-            //     return stdx::mem::make_shared<SereneHush>();
+            //     return Pointers::shared<SereneHush>();
             // case UnpaidWork::ID:
-            //     return stdx::mem::make_shared<UnpaidWork>();
+            //     return Pointers::shared<UnpaidWork>();
             // case IndiscriminateFireSupport::ID:
-            //     return stdx::mem::make_shared<IndiscriminateFireSupport>();
+            //     return Pointers::shared<IndiscriminateFireSupport>();
             // case LuckyCharm::ID:
-            //     return stdx::mem::make_shared<LuckyCharm>();
+            //     return Pointers::shared<LuckyCharm>();
             // case MetallicMonocoque::ID:
-            //     return stdx::mem::make_shared<MetallicMonocoque>();
+            //     return Pointers::shared<MetallicMonocoque>();
             // // === Community Pack 3 cards ===
             // case Overtime::ID:
-            //     return stdx::mem::make_shared<Overtime>();
+            //     return Pointers::shared<Overtime>();
             // case DeceptiveDisarming::ID:
-            //     return stdx::mem::make_shared<DeceptiveDisarming>();
+            //     return Pointers::shared<DeceptiveDisarming>();
             // case BanaNana::ID:
-            //     return stdx::mem::make_shared<BanaNana>();
+            //     return Pointers::shared<BanaNana>();
             // case PetSnacks::ID:
-            //     return stdx::mem::make_shared<PetSnacks>();
+            //     return Pointers::shared<PetSnacks>();
             // case HomeImprovement::ID:
-            //     return stdx::mem::make_shared<HomeImprovement>();
+            //     return Pointers::shared<HomeImprovement>();
             // case LuckySevens::ID:
-            //     return stdx::mem::make_shared<LuckySevens>();
+            //     return Pointers::shared<LuckySevens>();
             // // === Community Pack 4 cards ===
             // case WarpControl::ID:
-            //     return stdx::mem::make_shared<WarpControl>();
+            //     return Pointers::shared<WarpControl>();
             // case MyWildFriends::ID:
-            //     return stdx::mem::make_shared<MyWildFriends>();
+            //     return Pointers::shared<MyWildFriends>();
             // case ContestOfCuteness::ID:
-            //     return stdx::mem::make_shared<ContestOfCuteness>();
+            //     return Pointers::shared<ContestOfCuteness>();
             // case BankOfPoppo::ID:
-            //     return stdx::mem::make_shared<BankOfPoppo>();
+            //     return Pointers::shared<BankOfPoppo>();
             // case Rebellion::ID:
-            //     return stdx::mem::make_shared<Rebellion>();
+            //     return Pointers::shared<Rebellion>();
             // case NanakosBit::ID:
-            //     return stdx::mem::make_shared<NanakosBit>();
+            //     return Pointers::shared<NanakosBit>();
             // // === Extracurricular Pack cards ===
             // case FullBurst::ID:
-            //     return stdx::mem::make_shared<FullBurst>();
+            //     return Pointers::shared<FullBurst>();
             // case ChefsSpecial::ID:
-            //     return stdx::mem::make_shared<ChefsSpecial>();
+            //     return Pointers::shared<ChefsSpecial>();
             // case GoWithTheFlow::ID:
-            //     return stdx::mem::make_shared<GoWithTheFlow>();
+            //     return Pointers::shared<GoWithTheFlow>();
             // case MousseTheThief::ID:
-            //     return stdx::mem::make_shared<MousseTheThief>();
+            //     return Pointers::shared<MousseTheThief>();
             // case ComingBackStronger::ID:
-            //     return stdx::mem::make_shared<ComingBackStronger>();
+            //     return Pointers::shared<ComingBackStronger>();
             // case ExtremeAlteration::ID:
-            //     return stdx::mem::make_shared<ExtremeAlteration>();
+            //     return Pointers::shared<ExtremeAlteration>();
             // case TheGreatestTroublemakerEver::ID:
-            //     return stdx::mem::make_shared<TheGreatestTroublemakerEver>();
+            //     return Pointers::shared<TheGreatestTroublemakerEver>();
             // case LookHowLongMyArmsAndLegsAreNow::ID:
-            //     return stdx::mem::make_shared<LookHowLongMyArmsAndLegsAreNow>();
+            //     return Pointers::shared<LookHowLongMyArmsAndLegsAreNow>();
             // case WereTickedOff::ID:
-            //     return stdx::mem::make_shared<WereTickedOff>();
+            //     return Pointers::shared<WereTickedOff>();
             // case ProtectionFee::ID:
-            //     return stdx::mem::make_shared<ProtectionFee>();
+            //     return Pointers::shared<ProtectionFee>();
             // case FluffyAndFuzzy::ID:
-            //     return stdx::mem::make_shared<FluffyAndFuzzy>();
+            //     return Pointers::shared<FluffyAndFuzzy>();
             // case FeelTheRushWithAnEnergyDrink::ID:
-            //     return stdx::mem::make_shared<FeelTheRushWithAnEnergyDrink>();
+            //     return Pointers::shared<FeelTheRushWithAnEnergyDrink>();
 
             default:
                 return nullopt;

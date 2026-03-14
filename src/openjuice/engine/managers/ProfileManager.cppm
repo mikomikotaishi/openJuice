@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.managers:ProfileManager;
 
@@ -266,7 +265,7 @@ struct Formatter<ProfileManager::Error> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(ProfileManager::Error err, FormatContext& ctx) {
+    static FormatContext::iterator format(ProfileManager::Error err, FormatContext& ctx) {
         StringView name;
         switch (err) {
             case ProfileManager::Error::DESERIALISATION_FAILED:
@@ -288,7 +287,7 @@ struct Formatter<ProfileManager::Error> {
                 name = "Profile save failed"; 
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

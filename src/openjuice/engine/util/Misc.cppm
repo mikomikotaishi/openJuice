@@ -14,18 +14,18 @@ export module openjuice.engine.util:Misc;
 
 import stdx;
 
-#ifdef _WIN32
-using stdx::os::windows::ConsoleScreenBufferInfo;
-using stdx::os::windows::STD_OUTPUT_HANDLE;
-#elifdef __unix__
-using stdx::os::unix::STDOUT_FILENO;
-using stdx::os::unix::sys::TIOCGWINSZ;
-using stdx::os::unix::sys::WindowSize;
-#endif
+using stdx::process::Command;
+using stdx::process::ExitStatus;
 using stdx::time::Instant;
 using stdx::time::LocalTime;
+using stdx::time::Seconds;
 using stdx::time::SystemClock;
-using stdx::time::temporal::Seconds;
+
+#ifdef __unix__
+using stdx::os::unix::sys::WindowSize;
+#endif
+
+using namespace stdx::os;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
@@ -34,15 +34,15 @@ export namespace misc {
      * @brief Print the help message.
      */
     void printHelp() {
-        stdx::io::println("Help message");
+        System::out.println("Help message");
     }
 
     /**
      * @brief Print the credits message.
      */
     void printCredits() {
-        stdx::io::println("Version: 0.0.x");
-        stdx::io::println("Credits message");
+        System::out.println("Version: 0.0.x");
+        System::out.println("Credits message");
     }
 
     /**
@@ -122,8 +122,8 @@ export namespace misc {
         static constexpr i64 M = 4294967291;
         i64 total = 0;
         i64 currentMultiplier = 1;
-        for (usize i = 0; s[i] != '\0'; ++i) {
-            total = (total + currentMultiplier * s[i]) % M;
+        for (char ch: s) {
+            total = (total + currentMultiplier * static_cast<i64>(ch)) % M;
             currentMultiplier = (currentMultiplier * P) % M;
         }
         return static_cast<usize>(total);
@@ -285,18 +285,19 @@ export namespace misc {
         }
 
         #if defined(_WIN32) || defined(_WIN64)
-        String startingCommand = "start";
+        StringView opener = "start";
         #elif defined(__linux__)
-        String startingCommand = "xdg-open";
+        StringView opener = "xdg-open";
         #elif defined(__APPLE__) || defined(__MACH__)
-        String startingCommand = "open";
+        StringView opener = "open";
         #else
         return Unexpected(UrlOpenError::UNSUPPORTED_PLATFORM);
         #endif
 
-        i32 result = stdx::sys::system(stdx::fmt::format("{} {}", startingCommand, url).c_str());
-
-        if (result != 0) {
+        Expected<ExitStatus, ErrorCode> result = Command::from(opener)
+            .arg(url)
+            .status();
+        if (!result || !result->success()) {
             return Unexpected(UrlOpenError::SYSTEM_CALL_FAILED);
         }
 
@@ -314,7 +315,7 @@ export namespace misc {
         i32 cols = 0;
         #ifdef _WIN32
         ConsoleScreenBufferInfo cbsi;
-        if (stdx::os::windows::GetConsoleScreenBufferInfo(stdx::os::windows::GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+        if (win32::GetConsoleScreenBufferInfo(win32::GetStdHandle(win32::STD_OUTPUT_HANDLE), &csbi)) {
             rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
             cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
         } else {
@@ -322,7 +323,7 @@ export namespace misc {
         }
         #else
         WindowSize w;
-        if (stdx::os::unix::sys::ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0) {
+        if (unix::sys::ioctl(unix::STDOUT_FILENO, unix::sys::TIOCGWINSZ, &w) == 0) {
             rows = w.ws_row;
             cols = w.ws_col;
         } else {
@@ -330,17 +331,6 @@ export namespace misc {
         }
         #endif
         return Pair<i32, i32>(rows, cols);
-    }
-
-    /**
-     * @brief Get the current time as a string.
-     * @return The current time formatted as a string.
-     */
-    [[nodiscard]]
-    String getCurrentTimeAsString() {
-        Instant<SystemClock> now = SystemClock::now();
-        LocalTime<Seconds> currentTime = stdx::time::current_zone()->to_local(stdx::time::floor<Seconds>(now));
-        return stdx::fmt::format("{:%Y-%m-%d %H:%M:%S}", currentTime);
     }
 }
 

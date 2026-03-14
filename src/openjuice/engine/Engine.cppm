@@ -20,6 +20,7 @@ import openjuice.engine.game;
 import openjuice.engine.managers;
 import openjuice.ui;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::sync::AtomicBoolean;
@@ -30,7 +31,6 @@ using stdx::sync::UniqueLock;
 using stdx::thread::JoiningThread;
 using stdx::thread::StopToken;
 using stdx::time::Duration;
-using stdx::time::SystemClock;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -103,7 +103,7 @@ private:
                 game->update(); 
             }
             
-            stdx::thread::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+            stdx::thread::current::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
         }
     }
     
@@ -120,13 +120,13 @@ private:
         UniquePointer<UserInterface> ui;
         switch (launchMode) {
             case LaunchMode::CLI:
-                ui = stdx::mem::make_unique<CommandLineInterface>(game, stateMutex);
+                ui = Pointers::unique<CommandLineInterface>(game, stateMutex);
                 break;
             case LaunchMode::TUI:
-                ui = stdx::mem::make_unique<TextUserInterface>(game, stateMutex);
+                ui = Pointers::unique<TextUserInterface>(game, stateMutex);
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         
         ui->init();
@@ -153,11 +153,11 @@ private:
                         ui->render();
                     }
                     
-                    stdx::thread::this_thread::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+                    stdx::thread::current::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
                 }
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
     }
 
@@ -168,8 +168,8 @@ public:
      * @param mode The launch mode determining which UI to initialise
      */
     explicit Engine(LaunchMode mode): 
-        game{stdx::mem::make_shared<Game>()},
-        discordManager{stdx::mem::make_unique<DiscordManager>()},
+        game{Pointers::shared<Game>()},
+        discordManager{Pointers::unique<DiscordManager>()},
         launchMode{mode} {
 
         #ifndef NDEBUG

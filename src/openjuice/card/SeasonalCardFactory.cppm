@@ -18,6 +18,7 @@ import openjuice.engine.card;
 import openjuice.engine.managers;
 import openjuice.card.seasonal;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -56,29 +57,29 @@ public:
             case 0:
                 return nullptr;
             case SweetBattle::ID:
-                return stdx::mem::make_shared<SweetBattle>();
+                return Pointers::shared<SweetBattle>();
             case SnowballReflector::ID:
-                return stdx::mem::make_shared<SnowballReflector>();
+                return Pointers::shared<SnowballReflector>();
             case GrownupSnowballFight::ID:
-                return stdx::mem::make_shared<GrownupSnowballFight>();
+                return Pointers::shared<GrownupSnowballFight>();
             case MiosFalseCake::ID:
-                return stdx::mem::make_shared<MiosFalseCake>();
+                return Pointers::shared<MiosFalseCake>();
             case ChaoticLaunch::ID:
-                return stdx::mem::make_shared<ChaoticLaunch>();
+                return Pointers::shared<ChaoticLaunch>();
             case ChaosRoost::ID:
-                return stdx::mem::make_shared<ChaosRoost>();
+                return Pointers::shared<ChaosRoost>();
             case ChaosProtect::ID:
-                return stdx::mem::make_shared<ChaosProtect>();
+                return Pointers::shared<ChaosProtect>();
             case FromTheChaoticAbyss::ID:
-                return stdx::mem::make_shared<FromTheChaoticAbyss>();
+                return Pointers::shared<FromTheChaoticAbyss>();
             case ChaoticRampage::ID:
-                return stdx::mem::make_shared<ChaoticRampage>();
+                return Pointers::shared<ChaoticRampage>();
             case ChaosRoulette::ID:
-                return stdx::mem::make_shared<ChaosRoulette>();
+                return Pointers::shared<ChaosRoulette>();
             case ChaoticPool::ID:
-                return stdx::mem::make_shared<ChaoticPool>();
+                return Pointers::shared<ChaoticPool>();
             case HoldTheGremlin::ID:
-                return stdx::mem::make_shared<HoldTheGremlin>();
+                return Pointers::shared<HoldTheGremlin>();
             default:
                 return nullopt;
         }

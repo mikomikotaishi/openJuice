@@ -16,9 +16,8 @@ target_sources(discordpp
 
 configure_cpp_module_target(discordpp)
 
-set_target_properties(discordpp PROPERTIES 
-    CXX_STANDARD 23 
-    CXX_EXTENSIONS OFF 
+set_target_properties(discordpp PROPERTIES
+    CXX_EXTENSIONS OFF
     CXX_MODULE_DYNDEP OFF
 )
 if(WIN32)

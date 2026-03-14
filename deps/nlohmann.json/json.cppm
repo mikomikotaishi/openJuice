@@ -8,6 +8,8 @@ module;
 
 #include <nlohmann/json.hpp>
 
+#include "Macros.hpp"
+
 export module me.nlohmann.json;
 
 import stdx;
@@ -27,31 +29,19 @@ export namespace me::nlohmann::json {
     using AdlSerializer = ::nlohmann::adl_serializer<T, Err>;
 
     template <
-        template <typename U, typename V, typename... Args> class ObjectType = TreeMap,
-        template <typename U, typename... Args> class ArrayType = Vector,
-        class StringType = String, 
-        class BooleanType = bool,
-        class NumberIntegerType = i64,
-        class NumberUnsignedType = u64,
-        class NumberFloatType = f64,
-        template <typename U> class AllocatorType = Allocator,
-        template <typename T, typename Err = void> class JSONSerializer = AdlSerializer,
-        class BinaryType = Vector<u8>, // cppcheck-suppress syntaxError
-        class CustomBaseClass = void
+        template <typename U, typename V, typename... Args> class Obj = TreeMap,
+        template <typename U, typename... Args> class Arr = Vector,
+        class Str = String, 
+        class Bool = bool,
+        class Int = i64,
+        class Uint = u64,
+        class Flt = f64,
+        template <typename U> class Alloc = Allocator,
+        template <typename T, typename Err = void> class JsonSerializer = AdlSerializer,
+        class BinaryType = Vector<u8>,
+        class CustomBase = void
     >
-    using BasicJson = ::nlohmann::basic_json<
-        ObjectType, 
-        ArrayType, 
-        StringType, 
-        BooleanType, 
-        NumberIntegerType, 
-        NumberUnsignedType, 
-        NumberFloatType, 
-        AllocatorType, 
-        JSONSerializer, 
-        BinaryType, 
-        CustomBaseClass
-    >;
+    using BasicJson = ::nlohmann::basic_json<Obj, Arr, Str, Bool, Int, Uint, Flt, Alloc, JsonSerializer, BinaryType, CustomBase>;
 
     template <typename RefStringType>
     using JsonPointer = ::nlohmann::json_pointer<RefStringType>;
@@ -102,4 +92,14 @@ export namespace me::nlohmann::json {
     using JsonBinary = ::nlohmann::basic_json<>::binary_t;
     using JsonObjectComparator = ::nlohmann::basic_json<>::object_comparator_t;
     using JsonDefaultObjectComparator = ::nlohmann::basic_json<>::default_object_comparator_t;
+}
+
+
+/**
+ * @namespace me::nlohmann::json::literals::json_literals
+ * @brief The nlohmann.json namespace nlohmann::literals::
+ */
+export namespace me::nlohmann::json::inline literals::inline json_literals {
+    using ::nlohmann::literals::json_literals::operator""_json;
+    using ::nlohmann::literals::json_literals::operator""_json_pointer;
 }

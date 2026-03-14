@@ -16,6 +16,7 @@ export module openjuice.engine.game.ecs:ThreadPool;
 import stdx;
 
 using stdx::alloc::AlignValue;
+using stdx::mem::Pointers;
 using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
 using stdx::sync::Barrier;
@@ -65,8 +66,8 @@ public:
                 ? reinterpret_cast<JoiningThread*>(::operator new(sizeof(JoiningThread) * threadCount, AlignValue{alignof(JoiningThread)}))
                 : nullptr
         },
-        starts{stdx::mem::make_unique<usize[]>(threadCount + 1)},
-        ends{stdx::mem::make_unique<usize[]>(threadCount + 1)},
+        starts{Pointers::unique<usize[]>(threadCount + 1)},
+        ends{Pointers::unique<usize[]>(threadCount + 1)},
         threadCount{threadCount},
         taskCount{threadCount + 1} {
         for (u32 i: IotaView(0u, threadCount)) {
@@ -135,7 +136,7 @@ public:
      */
     template <typename Fn>
     void execTask(Fn&& query, usize work) {
-        task = stdx::util::forward<Fn>(query);
+        task = System::forward<Fn>(query);
         usize chunk = work / taskCount;
         usize tail = work - chunk * taskCount;
         for (u32 i: IotaView(0u, taskCount)) {

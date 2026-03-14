@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.util:Direction;
 
@@ -44,7 +43,7 @@ struct Formatter<Direction> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(Direction dir, FormatContext& ctx) {
+    static FormatContext::iterator format(Direction dir, FormatContext& ctx) {
         StringView name;
         switch (dir) {
             case Direction::UP:
@@ -60,7 +59,7 @@ struct Formatter<Direction> {
                 name = "Down";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

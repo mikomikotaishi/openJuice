@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.board:BoardLibrary;
 
@@ -27,6 +26,7 @@ using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
 using stdx::fs::DirectoryEntry;
 using stdx::fs::DirectoryIterator;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::ranges::IotaView;
 using stdx::util::logging::Logger;
@@ -181,7 +181,7 @@ public:
                     );
                 }
 
-                boardList.push_back(stdx::mem::make_shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
+                boardList.push_back(Pointers::shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
             }
         }
 
@@ -235,7 +235,7 @@ struct Formatter<BoardLibrary::Error> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(BoardLibrary::Error err, FormatContext& ctx) {
+    static FormatContext::iterator format(BoardLibrary::Error err, FormatContext& ctx) {
         StringView name;
         switch (err) {
             case BoardLibrary::Error::DIRECTORY_NOT_FOUND:
@@ -251,7 +251,7 @@ struct Formatter<BoardLibrary::Error> {
                 name = "Corrupted library TOML";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -7,6 +7,11 @@ target_sources(sfml
 
 configure_cpp_module_target(sfml)
 
+target_include_directories(sfml
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
 target_link_libraries(sfml
     PUBLIC
     SFML::Audio 
@@ -18,8 +23,7 @@ target_link_libraries(sfml
 )
 
 ## Ignore module circular dependencies, remove when CMake fixes this
-set_target_properties(sfml PROPERTIES 
-    CXX_STANDARD 23 
-    CXX_EXTENSIONS OFF 
+set_target_properties(sfml PROPERTIES
+    CXX_EXTENSIONS OFF
     CXX_MODULE_DYNDEP OFF
 )

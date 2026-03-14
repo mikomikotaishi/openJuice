@@ -13,13 +13,13 @@ module;
 export module openjuice.chat:Censor;
 
 import stdx;
-import re2;
+import google.re2;
 
 import openjuice.engine.managers;
 import openjuice.engine.util;
 
 using stdx::collections::Vector;
-using stdx::io::InputFileStream;
+using stdx::io::Scanner;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -27,10 +27,9 @@ using stdx::util::logging::LoggerFactory;
 using openjuice::engine::managers::GlobalSettings;
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
-using openjuice::engine::util::InvalidLanguageException;
 
-using re2::RE2;
-using re2::StringPiece;
+using google::re2::RE2;
+using google::re2::StringPiece;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -51,10 +50,8 @@ private:
 
     /**
      * @brief Private constructor to prevent instantiation.
-     * 
-     * @throws InvalidLanguageException if no valid language is found
      */
-    Censor() throws (InvalidLanguageException):
+    Censor():
         gameLanguageCode{GlobalSettings::languageToCode(GlobalSettings::getInstance().getLanguage())} {
         Language gameLanguage = GlobalSettings::getInstance().getLanguage();
         switch (gameLanguage) {
@@ -71,7 +68,7 @@ private:
                 censorChar = '#';
                 break;
             default:
-                throw InvalidLanguageException("Invalid language code");
+                System::unreachable();
         }
         loadBlacklist(gameLanguage);
     }
@@ -86,11 +83,12 @@ private:
         LOGGER->info("Loading blacklist for language of value {}", static_cast<u8>(language));
         String filename = stdx::fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
         blacklist.clear();
-        String word;
-        InputFileStream file(filename);
-        while (stdx::io::getline(file, word)) {
-            if (!word.empty()) {
-                blacklist.push_back(word);
+        Scanner file(filename);
+        
+        while (file.has_next()) {
+            Optional<String> word = file.next();
+            if (word.has_value() && !word.value().empty()) {
+                blacklist.push_back(*word);
             }
         }
     }

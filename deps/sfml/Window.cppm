@@ -30,6 +30,8 @@ module;
 
 #include <SFML/Window.hpp>
 
+#include "Macros.hpp"
+
 export module sfml:window;
 
 export import :system;

@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.game.Game:GamePhase;
 
@@ -44,7 +43,7 @@ struct Formatter<GamePhase> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(GamePhase phase, FormatContext& ctx) {
+    static FormatContext::iterator format(GamePhase phase, FormatContext& ctx) {
         StringView name;
         switch (phase) {
             case GamePhase::SETUP:
@@ -66,7 +65,7 @@ struct Formatter<GamePhase> {
                 name = "Paused"; 
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

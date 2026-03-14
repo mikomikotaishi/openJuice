@@ -17,6 +17,7 @@ import stdx;
 
 import :Meta;
 
+using stdx::mem::Pointers;
 using stdx::mem::UniquePointer;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
@@ -71,10 +72,10 @@ public:
      * @param capacity The maximum number of entities that can exist simultaneously.
      */
     explicit EntityManager(u32 capacity):
-        mask{stdx::mem::make_unique<bool[]>(capacity)},
-        entries{stdx::mem::make_unique<EntityId[]>(capacity)},
-        indices{stdx::mem::make_unique<u32[]>(capacity)},
-        freeIds{stdx::mem::make_unique<u32[]>(capacity)},
+        mask{Pointers::unique<bool[]>(capacity)},
+        entries{Pointers::unique<EntityId[]>(capacity)},
+        indices{Pointers::unique<u32[]>(capacity)},
+        freeIds{Pointers::unique<u32[]>(capacity)},
         capacity{capacity} {}
 
     /**
@@ -86,10 +87,10 @@ public:
      * @param other The EntityManager instance to copy from.
      */
     EntityManager(const EntityManager& other):
-        mask{stdx::mem::make_unique<bool[]>(other.capacity)},
-        entries{stdx::mem::make_unique<EntityId[]>(other.capacity)},
-        indices{stdx::mem::make_unique<u32[]>(other.capacity)},
-        freeIds{stdx::mem::make_unique<u32[]>(other.capacity)},
+        mask{Pointers::unique<bool[]>(other.capacity)},
+        entries{Pointers::unique<EntityId[]>(other.capacity)},
+        indices{Pointers::unique<u32[]>(other.capacity)},
+        freeIds{Pointers::unique<u32[]>(other.capacity)},
         capacity{other.capacity},
         occupied{other.occupied},
         entryCount{other.entryCount},
@@ -109,10 +110,10 @@ public:
      * @param other The EntityManager instance to move from.
      */
     EntityManager(EntityManager&& other):
-        mask{stdx::util::move(other.mask)},
-        entries{stdx::util::move(other.entries)},
-        indices{stdx::util::move(other.indices)},
-        freeIds{stdx::util::move(other.freeIds)},
+        mask{System::move(other.mask)},
+        entries{System::move(other.entries)},
+        indices{System::move(other.indices)},
+        freeIds{System::move(other.freeIds)},
         capacity{other.capacity},
         occupied{other.occupied},
         entryCount{other.entryCount},
@@ -139,16 +140,16 @@ public:
             entryCount = other.entryCount;
             freeIdsCount = other.freeIdsCount;
 
-            mask = stdx::mem::make_unique<bool[]>(capacity);
+            mask = Pointers::unique<bool[]>(capacity);
             stdx::ranges::copy(Span<bool>(other.mask.get(), capacity), mask.get());
 
-            entries = stdx::mem::make_unique<EntityId[]>(capacity);
+            entries = Pointers::unique<EntityId[]>(capacity);
             stdx::ranges::copy(Span<EntityId>(other.entries.get(), capacity), entries.get());
 
-            indices = stdx::mem::make_unique<u32[]>(capacity);
+            indices = Pointers::unique<u32[]>(capacity);
             stdx::ranges::copy(Span<u32>(other.indices.get(), capacity), indices.get());
 
-            freeIds = stdx::mem::make_unique<u32[]>(capacity);
+            freeIds = Pointers::unique<u32[]>(capacity);
             stdx::ranges::copy(Span<u32>(other.freeIds.get(), capacity), freeIds.get());
         }
         return *this;
@@ -170,10 +171,10 @@ public:
             entryCount = other.entryCount;
             freeIdsCount = other.freeIdsCount;
 
-            mask = stdx::util::move(other.mask);
-            entries = stdx::util::move(other.entries);
-            indices = stdx::util::move(other.indices);
-            freeIds = stdx::util::move(other.freeIds);
+            mask = System::move(other.mask);
+            entries = System::move(other.entries);
+            indices = System::move(other.indices);
+            freeIds = System::move(other.freeIds);
 
             other.capacity = 0;
             other.occupied = 0;

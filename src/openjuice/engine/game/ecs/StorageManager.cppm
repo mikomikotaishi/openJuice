@@ -95,10 +95,10 @@ public:
      *                 Defaults to 512 if not specified.
      */
     explicit StorageManager(u32 capacity):
-        storages{stdx::mem::make_unique<PolymorphicStorage[]>(capacity)},
-        mask{stdx::mem::make_unique<bool[]>(capacity)},
-        entries{stdx::mem::make_unique<StorageId[]>(capacity)},
-        indices{stdx::mem::make_unique<u32[]>(capacity)},
+        storages{Pointers::unique<PolymorphicStorage[]>(capacity)},
+        mask{Pointers::unique<bool[]>(capacity)},
+        entries{Pointers::unique<StorageId[]>(capacity)},
+        indices{Pointers::unique<u32[]>(capacity)},
         capacity{capacity} {}
 
     /**
@@ -123,10 +123,10 @@ public:
      * @param other The StorageManager instance to copy from.
      */
     StorageManager(const StorageManager& other):
-        storages{stdx::mem::make_unique<PolymorphicStorage[]>(other.storageCapacity)},
-        mask{stdx::mem::make_unique<bool[]>(other.storageCapacity)},
-        entries{stdx::mem::make_unique<StorageId[]>(other.storageCapacity)},
-        indices{stdx::mem::make_unique<u32[]>(other.storageCapacity)},
+        storages{Pointers::unique<PolymorphicStorage[]>(other.storageCapacity)},
+        mask{Pointers::unique<bool[]>(other.storageCapacity)},
+        entries{Pointers::unique<StorageId[]>(other.storageCapacity)},
+        indices{Pointers::unique<u32[]>(other.storageCapacity)},
         capacity{other.capacity},
         storageCapacity{other.storageCapacity},
         entryCount{other.entryCount} {
@@ -145,10 +145,10 @@ public:
      * @param other The StorageManager instance to move from.
      */
     StorageManager(StorageManager&& other):
-        storages{stdx::util::move(other.storages)},
-        mask{stdx::util::move(other.mask)},
-        entries{stdx::util::move(other.entries)},
-        indices{stdx::util::move(other.indices)},
+        storages{System::move(other.storages)},
+        mask{System::move(other.mask)},
+        entries{System::move(other.entries)},
+        indices{System::move(other.indices)},
         capacity{other.capacity},
         storageCapacity{other.storageCapacity},
         entryCount{other.entryCount} {}
@@ -173,16 +173,16 @@ public:
             storageCapacity = other.storageCapacity;
             entryCount = other.entryCount;
 
-            storages = stdx::mem::make_unique<PolymorphicStorage[]>(storageCapacity);
+            storages = Pointers::unique<PolymorphicStorage[]>(storageCapacity);
             stdx::ranges::copy(Span<PolymorphicStorage>(other.storages.get(), storageCapacity), storages.get());
 
-            mask = stdx::mem::make_unique<bool[]>(storageCapacity);
+            mask = Pointers::unique<bool[]>(storageCapacity);
             stdx::ranges::copy(Span<bool>(other.mask.get(), storageCapacity), mask.get());
 
-            entries = stdx::mem::make_unique<StorageId[]>(storageCapacity);
+            entries = Pointers::unique<StorageId[]>(storageCapacity);
             stdx::ranges::copy(Span<StorageId>(other.entries.get(), storageCapacity), entries.get());
 
-            indices = stdx::mem::make_unique<u32[]>(storageCapacity);
+            indices = Pointers::unique<u32[]>(storageCapacity);
             stdx::ranges::copy(Span<u32>(other.indices.get(), storageCapacity), indices.get());
         }
         return *this;
@@ -205,11 +205,11 @@ public:
             indices.reset();
 
             capacity = other.capacity;
-            storages = stdx::util::move(other.storages);
+            storages = System::move(other.storages);
             storageCapacity = other.storageCapacity;
-            mask = stdx::util::move(other.mask);
-            entries = stdx::util::move(other.entries);
-            indices = stdx::util::move(other.indices);
+            mask = System::move(other.mask);
+            entries = System::move(other.entries);
+            indices = System::move(other.indices);
             entryCount = other.entryCount;
         }
         return *this;
@@ -294,7 +294,7 @@ public:
     template <typename T, typename... Args>
     T& emplace(u32 index, Args... args) noexcept {
         PolymorphicStorage& storage = getStorage<T>();
-        return storage.emplace<T>(index, stdx::util::forward<Args>(args)...);
+        return storage.emplace<T>(index, System::forward<Args>(args)...);
     }
 
     /**

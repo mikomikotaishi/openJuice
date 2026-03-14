@@ -18,6 +18,7 @@ import sfml;
 using stdx::collections::Vector;
 using stdx::linq::Query;
 using stdx::mem::EnableSharedFromThis;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::thread::JoiningThread;
@@ -61,7 +62,7 @@ private:
      * @brief Remove the client from the list of connected clients.
      */
     void removeClient() {
-        clients = Query(clients)
+        clients = Query<>::from(clients)
             .where([this](const auto& c) -> bool { return c.get() != this; })
             .to<Vector>();
     }
@@ -108,7 +109,7 @@ public:
      * @param clients The list of connected clients.
      */
     ChatSession(UniquePointer<TcpSocket> socket, Vector<SharedPointer<ChatSession>>& clients):
-        sessionSocket{stdx::util::move(socket)}, clients{clients} {
+        sessionSocket{System::move(socket)}, clients{clients} {
         if (sessionSocket) {
             sessionSocket->setBlocking(false);
         }

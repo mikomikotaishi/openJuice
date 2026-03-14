@@ -30,6 +30,7 @@ import openjuice.unit;
 using stdx::collections::Vector;
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
@@ -98,9 +99,9 @@ public:
      * @brief Constructor for the Game class.
      */
     Game():
-        gameBoard{stdx::mem::make_shared<Board>(0)},
+        gameBoard{Pointers::shared<Board>(0)},
         playerEntities{{}},
-        registry{stdx::mem::make_unique<Registry>(1000)},
+        registry{Pointers::unique<Registry>(1000)},
         deltaTime{GlobalSettings::getInstance().getDeltaTime()} {
 
         #ifndef NDEBUG
@@ -184,7 +185,7 @@ public:
         registry->emplace<UnitComponent>(player, character);
         registry->emplace<HealthComponent>(player, character->getHealth(), character->getHealth());
 
-        SharedPointer<Player> playerWrapper = stdx::mem::make_shared<Player>(*registry, character);
+        SharedPointer<Player> playerWrapper = Pointers::shared<Player>(*registry, character);
 
         #ifndef NDEBUG
         players.at(playerNumber) = playerWrapper;

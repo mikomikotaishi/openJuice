@@ -10,25 +10,46 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - compiler: clang
+            cc: clang-22
+            cxx: clang++-22
+          - compiler: gcc
+            cc: gcc-15
+            cxx: g++-15
+
+    name: build-linux (${{ matrix.compiler }})
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libx11-dev libxrandr-dev libxcursor-dev libxi-dev ninja-build \
-          libgl1-mesa-dev libglu1-mesa-dev libopenal-dev libvorbis-dev libflac-dev \
-          libudev-dev libfreetype6-dev libharfbuzz-dev libabsl-dev
+          libgl1-mesa-dev libglu1-mesa-dev libopenal-dev libvorbis-dev libflac-dev libssh2-1-dev \
+          libudev-dev libfreetype6-dev libharfbuzz-dev libabsl-dev libmbedtls-dev
+
+    - name: Install GCC 15
+      run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
         sudo apt-get update
-        sudo apt-get install -y gcc-14 g++-14 libstdc++-14-dev
+        sudo apt-get install -y gcc-15 g++-15 libstdc++-15-dev
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 100
+
+    - name: Install Clang 22
+      run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        sudo ./llvm.sh 21
-        sudo apt-get install -y clang-21
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-21 100
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-21 100
+        sudo ./llvm.sh 22
+        sudo apt-get install -y clang-22
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-22 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-22 100
 
     - name: Install CMake 3.30+
       run: |
@@ -36,14 +57,11 @@ jobs:
         sudo sh cmake-3.30.5-linux-x86_64.sh --prefix=/usr/local --skip-license
         cmake --version
 
-    - name: Create build directory
-      run: mkdir build
-
     - name: Configure with CMake
-      run: |
-        export CC=clang
-        export CXX=clang++
-        cmake -S . -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+      env:
+        CC: ${{ matrix.cc }}
+        CXX: ${{ matrix.cxx }}
+      run: cmake -S . -B build -G Ninja -DCMAKE_C_COMPILER=${{ matrix.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
 
     - name: Build with CMake
       run: cmake --build build

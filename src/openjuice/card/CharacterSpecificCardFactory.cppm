@@ -18,6 +18,7 @@ import openjuice.engine.card;
 import openjuice.engine.managers;
 import openjuice.card.character;
 
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -56,11 +57,11 @@ public:
             case 0:
                 return nullptr;
             case MiosChristmasCake::ID:
-                return stdx::mem::make_shared<MiosChristmasCake>();
+                return Pointers::shared<MiosChristmasCake>();
             case Freight::ID:
-                return stdx::mem::make_shared<Freight>();
+                return Pointers::shared<Freight>();
             case RedAndBlue::ID:
-                return stdx::mem::make_shared<RedAndBlue>();
+                return Pointers::shared<RedAndBlue>();
             default:
                 return nullopt;
         }

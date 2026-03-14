@@ -9,7 +9,6 @@
 module;
 
 #include "Macros.hpp"
-#include "Rename.hpp"
 
 export module openjuice.engine.managers:DiscordManager;
 
@@ -22,12 +21,11 @@ import discordpp;
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
-using stdx::time::SystemClock;
-using stdx::time::temporal::Milliseconds;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -120,9 +118,7 @@ public:
      * @brief Constructor of the DiscordManager
      */
     DiscordManager():
-        sessionStartTime{static_cast<u64>(
-            stdx::time::duration_cast<Milliseconds>(SystemClock::now().time_since_epoch()).count()
-        )},
+        sessionStartTime{static_cast<u64>(System::current_time_millis())},
         currentActivityType{ActivityType::IN_MENU} {}
 
     /**
@@ -142,7 +138,7 @@ public:
         ScopedLock<Mutex> lock(discordMutex);
 
         try {
-            client = stdx::mem::make_unique<Client>();
+            client = Pointers::unique<Client>();
             client->SetApplicationId(APPLICATION_ID);
             client->SetStatusChangedCallback([this](Client::Status status, Client::Error error, i32 details) -> void {
                 switch (status) {
@@ -212,7 +208,7 @@ struct Formatter<DiscordManager::ActivityType> {
         return ctx.begin();
     }
 
-    static FormatContext::Iterator format(DiscordManager::ActivityType type, FormatContext& ctx) {
+    static FormatContext::iterator format(DiscordManager::ActivityType type, FormatContext& ctx) {
         StringView name;
         switch (type) {
             case DiscordManager::ActivityType::IN_MENU:
@@ -225,7 +221,7 @@ struct Formatter<DiscordManager::ActivityType> {
                 name = "Paused";
                 break;
             default:
-                stdx::sys::unreachable();
+                System::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -30,6 +30,8 @@ module;
 
 #include <SFML/Audio.hpp>
 
+#include "Macros.hpp"
+
 export module sfml:audio;
 
 export import :system;
