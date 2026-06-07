@@ -15,26 +15,20 @@ export module openjuice.engine.unit:Unit;
 import stdx;
 
 import openjuice.engine.managers;
-import openjuice.engine.util;
 
 using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::util::IFinalOnly;
-using openjuice::engine::util::IKeyQueryable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
  * @class Unit
- * @brief Abstract class representing a generic unit.
+ * @brief Class representing a generic unit.
  * 
- * The Unit abstract class represents a generic unit in the game with the following attributes: ID, health, attack, defence, and evade.
- *
- * @implements IFinalOnly
- * @implements IKeyQueryable
+ * The Unit class represents a generic unit in the game with the following attributes: ID, health, attack, defence, and evade.
  */
-export class [[nodiscard]] Unit: public IFinalOnly, public IKeyQueryable {
+export class [[nodiscard]] Unit {
 private:
     const u16 id; ///< The ID of the unit.
     const u8 health; ///< The health of the unit.
@@ -58,6 +52,7 @@ protected:
     Unit(u16 id, u8 health, i8 attack, i8 defence, i8 evade):
         id{id}, health{health}, attack{attack}, defence{defence}, evade{evade} {}
 
+    virtual ~Unit() = default;
 public:
     GETTER(u16, Id, id);
     GETTER(u8, Health, health);

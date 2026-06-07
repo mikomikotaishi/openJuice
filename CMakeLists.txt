@@ -236,15 +236,10 @@ FetchContent_Declare(
     GIT_TAG main
 )
 
-# FetchContent_Declare(
-#     asio
-#     GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
-#     GIT_TAG asio-1-38-0
-# )
 FetchContent_Declare(
     ftxui
     GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI.git
-    GIT_TAG main
+    GIT_TAG v7.0.0
 )
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     FetchContent_Declare(

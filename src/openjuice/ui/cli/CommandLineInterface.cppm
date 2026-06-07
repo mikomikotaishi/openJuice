@@ -18,8 +18,7 @@ import openjuice.engine.util;
 import openjuice.ui.UserInterface;
 
 using stdx::collections::HashMap;
-using stdx::io::Cin;
-using stdx::io::Stderr;
+using stdx::io::Scanner;
 using stdx::mem::SharedPointer;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
@@ -75,14 +74,14 @@ public:
      * @param mutex Reference to state mutex for synchronisation
      */
     CommandLineInterface(SharedPointer<Game> game, Mutex& mutex):
-        UserInterface(System::move(game), mutex) {}
+        UserInterface(Ops::move(game), mutex) {}
 
     /**
      * @brief
      */
     void init() override {
-        initialiseLanguage();
-        initialiseFrameRate();
+        initLanguage();
+        initFrameRate();
     }
 
     /**
@@ -111,7 +110,7 @@ public:
     /**
      * @brief Initialises the language for the command line interface.
      */
-    static void initialiseLanguage() {
+    static void initLanguage() {
         System::out.println("Enter your desired language:");
         System::out.println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
         
@@ -126,10 +125,9 @@ public:
             {"ptbr", {Language::PORTUGUESE_BR, "Portuguese (Brazil) selected"}}
         };
 
-        String languageInput;
-        while (true) {
-            stdx::io::getline(Cin, languageInput);
-            if (auto it = languageMap.find(languageInput); it != languageMap.end()) {
+        Scanner scanner(System::in);
+        while (Optional<String> languageInput = scanner.next_line()) {
+            if (auto it = languageMap.find(*languageInput); it != languageMap.end()) {
                 GlobalSettings::getInstance().setLanguage(it->second.first);
                 System::out.println("{}", it->second.second);
                 break;
@@ -141,14 +139,13 @@ public:
     /**
      * @brief Initialises the frame rate for the command line interface.
      */
-    static void initialiseFrameRate() {
+    static void initFrameRate() {
         System::out.println("Enter your desired frame rate (fps) (1-600):");
         System::out.println("Press Enter to use the default (60 fps).");
 
-        String frameRateInput;
-
-        while (true) {
-            stdx::io::getline(Cin, frameRateInput);
+        Scanner scanner(System::in);
+        while (Optional<String> frameRateInputResult = scanner.next_line()) {
+            const String& frameRateInput = *frameRateInputResult;
             if (frameRateInput.empty()) {
                 GlobalSettings::getInstance().setFrameRate(60);
                 System::out.println("Frame rate: 60 frames per second (default)");

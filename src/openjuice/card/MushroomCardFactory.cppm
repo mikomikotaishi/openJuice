@@ -14,10 +14,11 @@ export module openjuice.card:MushroomCardFactory;
 
 import stdx;
 
+import :mushroom;
+
 import openjuice.engine.card;
 import openjuice.engine.card.mushroom;
 import openjuice.engine.managers;
-import openjuice.card.mushroom;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -41,10 +42,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class MushroomCardFactory final {
 private:
-    UTILITY_CLASS(MushroomCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("MushroomCardFactory"); ///< The logger instance.
 public:
+    MushroomCardFactory() = delete("MushroomCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a MushroomCard object with the given ID.
      *

@@ -17,7 +17,7 @@ import stdx;
 import openjuice.engine.game;
 import openjuice.engine.managers;
 import openjuice.engine.util;
-import openjuice.ui.tui.TUIScreen;
+import openjuice.ui.tui.TuiScreen;
 
 import ftxui;
 
@@ -32,7 +32,7 @@ using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
 using openjuice::engine::util::misc::UrlOpenError;
 using openjuice::ui::tui::ScreenType;
-using openjuice::ui::tui::TUIScreen;
+using openjuice::ui::tui::TuiScreen;
 
 namespace misc = openjuice::engine::util::misc;
 
@@ -44,9 +44,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  * @class MainMenuScreen
  * @brief Main menu screen implementation
  *
- * @extends TUIScreen
+ * @extends TuiScreen
  */
-export class MainMenuScreen final: public TUIScreen {
+export class MainMenuScreen final: public TuiScreen {
 private:
     Component menu; ///< The menu UI component
     Vector<String> menuOptions = {
@@ -115,7 +115,7 @@ private:
                                 case UrlOpenError::INVALID_URL:
                                     break;
                                 default:
-                                    System::unreachable();
+                                    Ops::unreachable();
                             }
                         }
                         return true;
@@ -129,7 +129,7 @@ private:
                         screenSwitchCallback(ScreenType::TITLE);
                         return true;
                     default:
-                        System::unreachable();
+                        Ops::unreachable();
                 }
             } else if (event == Event::Return) {
                 switch (selectedOption) {
@@ -161,7 +161,7 @@ private:
                                 case UrlOpenError::INVALID_URL:
                                     break;
                                 default:
-                                    System::unreachable();
+                                    Ops::unreachable();
                             }
                         }
                         return true;
@@ -175,13 +175,13 @@ private:
                         screenSwitchCallback(ScreenType::TITLE);
                         return true;
                     default:
-                        System::unreachable();
+                        Ops::unreachable();
                 }
             }
             return false;
         });
 
-        component = Renderer(componentWithEvents, [this]() -> Element {
+        component = Renderer(componentWithEvents, [this] -> Element {
             return vbox({
                 text("openJuice") | bold | center,
                 separator(),
@@ -195,8 +195,6 @@ private:
 
         initialised = true;
     }
-
-    IMPLEMENT_NOOP();
 public:
     /**
      * @brief Constructor for the MainMenuScreen class
@@ -205,7 +203,7 @@ public:
      * @param callback Function to call when switching screens
      */
     MainMenuScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(System::move(game), System::move(callback)) {
+        TuiScreen(Ops::move(game), Ops::move(callback)) {
         createComponent();
     }
 

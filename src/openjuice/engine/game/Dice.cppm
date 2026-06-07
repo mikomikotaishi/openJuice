@@ -41,8 +41,8 @@ private:
         const u8 sides; ///< The number of sides on the die
         const u8 result; ///< The result of the roll
     public:
-        GETTER(u8, Sides, sides);
-        GETTER(u8, Result, result);
+        GETTER(u8, Sides, sides)
+        GETTER(u8, Result, result)
 
         /**
          * @brief Constructor to initialise a RollRecord object.
@@ -62,8 +62,6 @@ private:
     Deque<RollRecord> rollHistory; ///< The history of all dice rolls
     mutable Mutex historyMutex; /// A mutex for the dice roll history
 
-    NON_COPYABLE_NON_MOVABLE(Dice);
-
     void recordRoll(u8 sides, u8 result) {
         ScopedLock<Mutex> lock(historyMutex);
         rollHistory.emplace_back(sides, result);
@@ -72,6 +70,7 @@ private:
         }
     }
 
+    Dice() = default;
 public:
     /**
      * @brief Get the singleton instance (thread-safe using Meyer's singleton)

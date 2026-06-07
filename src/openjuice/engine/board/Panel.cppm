@@ -107,9 +107,9 @@ public:
      */
     void setNeighbour(Direction direction, const SharedPointer<Panel>& neighbour) RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        neighbours.at(stdx::util::to_underlying(direction)) = neighbour;
+        neighbours.at(Ops::to_underlying(direction)) = neighbour;
         #else
-        neighbours[stdx::util::to_underlying(direction)] = neighbour;
+        neighbours[Ops::to_underlying(direction)] = neighbour;
         #endif
     }
 
@@ -122,9 +122,9 @@ public:
     [[nodiscard]]
     SharedPointer<Panel> getNeighbour(Direction direction) const RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        return neighbours.at(stdx::util::to_underlying(direction)).lock();
+        return neighbours.at(Ops::to_underlying(direction)).lock();
         #else
-        return neighbours[stdx::util::to_underlying(direction)].lock();
+        return neighbours[Ops::to_underlying(direction)].lock();
         #endif
     }
 };
@@ -224,7 +224,7 @@ struct Formatter<Panel::Type> {
                 name = "Random";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

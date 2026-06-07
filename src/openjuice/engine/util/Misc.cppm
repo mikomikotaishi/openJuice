@@ -16,10 +16,6 @@ import stdx;
 
 using stdx::process::Command;
 using stdx::process::ExitStatus;
-using stdx::time::Instant;
-using stdx::time::LocalTime;
-using stdx::time::Seconds;
-using stdx::time::SystemClock;
 
 #ifdef __unix__
 using stdx::os::unix::sys::WindowSize;

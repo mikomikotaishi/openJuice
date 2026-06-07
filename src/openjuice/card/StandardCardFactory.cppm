@@ -14,9 +14,10 @@ export module openjuice.card:StandardCardFactory;
 
 import stdx;
 
+import :standard;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.standard;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -46,10 +47,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class StandardCardFactory final {
 private:
-    UTILITY_CLASS(StandardCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("StandardCardFactory"); ///< The logger instance.
 public:
+    StandardCardFactory() = delete("StandardCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a StandardCard object with the given ID.
      *

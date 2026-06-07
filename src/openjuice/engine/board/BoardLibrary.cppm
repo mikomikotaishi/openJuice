@@ -251,7 +251,7 @@ struct Formatter<BoardLibrary::Error> {
                 name = "Corrupted library TOML";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

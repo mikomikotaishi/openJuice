@@ -6,7 +6,7 @@
  * This file imports the modules for all Bounty Hunt Cards.
  */
 
-export module openjuice.card.bountyhunt;
+export module openjuice.card:bountyhunt;
 
 // export import :AdventurersRadar; // 1
 // export import :CorrosionBlaster; // 2

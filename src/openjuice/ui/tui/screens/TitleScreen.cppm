@@ -15,7 +15,7 @@ export module openjuice.ui.tui.screens:TitleScreen;
 import stdx;
 import openjuice.engine.game;
 import openjuice.engine.managers;
-import openjuice.ui.tui.TUIScreen;
+import openjuice.ui.tui.TuiScreen;
 
 import ftxui;
 
@@ -28,7 +28,7 @@ using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
 using openjuice::ui::tui::ScreenType;
-using openjuice::ui::tui::TUIScreen;
+using openjuice::ui::tui::TuiScreen;
 
 using namespace ftxui;
 
@@ -38,9 +38,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  * @class TitleScreen
  * @brief Title screen implementation
  *
- * @extends TUIScreen
+ * @extends TuiScreen
  */
-export class TitleScreen final: public TUIScreen {
+export class TitleScreen final: public TuiScreen {
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TitleScreen"); ///< The logger instance.
 
@@ -93,13 +93,13 @@ private:
                         screenSwitchCallback(ScreenType::EXIT);
                         return true;
                     default:
-                        System::unreachable();
+                        Ops::unreachable();
                 }
             }
             return false;
         });
 
-        component = Renderer(componentWithEvents, [this]() -> Element {
+        component = Renderer(componentWithEvents, [this] -> Element {
             return vbox({
                 text("openJuice") | bold | center,
                 separator(),
@@ -111,8 +111,6 @@ private:
 
         initialised = true;
     }
-
-    IMPLEMENT_NOOP();
 public:
     /**
      * @brief Constructor for the TitleScreen class
@@ -121,7 +119,7 @@ public:
      * @param callback Function to call when switching screens
      */
     TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(System::move(game), System::move(callback)) {
+        TuiScreen(Ops::move(game), Ops::move(callback)) {
         createComponent();
     }
 

@@ -199,7 +199,7 @@ export namespace systems {
                 defenceRoll = defenceRoll < 1 ? 1 : defenceRoll;
                 return attackRoll >= defenceRoll ? attackRoll : 0;
             }
-            System::unreachable();
+            Ops::unreachable();
         }
 
         /**

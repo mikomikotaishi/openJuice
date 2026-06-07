@@ -21,21 +21,6 @@ using stdx::meta::IsBaseOfValue;
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
- * @enum CharacterDifficulty
- * @brief Enumeration for character difficulty stars.
- *
- * The CharacterDifficulty enumeration defines the number of stars of difficulty
- * a character is rated.
- */
-export enum class CharacterDifficulty: u8 {
-    ONE = 1,
-    TWO = 2,
-    THREE = 3,
-    FOUR = 4,
-    FIVE = 5
-};
-
-/**
  * @class MainCharacter
  * @brief Abstract class representing a character unit.
  * 
@@ -44,6 +29,21 @@ export enum class CharacterDifficulty: u8 {
  * The MainCharacter abstract class extends the Playable abstract class and represents a main character unit with a specific recovery attribute.
  */
 export class MainCharacter: public Playable {
+public:
+    /**
+     * @enum CharacterDifficulty
+     * @brief Enumeration for character difficulty stars.
+     *
+     * The CharacterDifficulty enumeration defines the number of stars of difficulty
+     * a character is rated.
+     */
+    enum class CharacterDifficulty: u8 {
+        ONE = 1,
+        TWO = 2,
+        THREE = 3,
+        FOUR = 4,
+        FIVE = 5
+    };
 private:
     const CharacterDifficulty difficulty; ///< The character difficulty of the main character.
 public:

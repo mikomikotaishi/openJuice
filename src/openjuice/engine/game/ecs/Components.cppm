@@ -14,8 +14,6 @@ export module openjuice.engine.game.ecs:Components;
 
 import stdx;
 
-import :IComponent;
-
 import openjuice.engine.card;
 import openjuice.engine.unit;
 
@@ -46,8 +44,6 @@ export namespace components {
     /**
      * @struct HealthComponent
      * @brief Component for Health system
-     *
-     * @implements IComponent
      */
     struct HealthComponent {
         u8 currentHealth;
@@ -66,10 +62,8 @@ export namespace components {
     /**
      * @struct StarComponent
      * @brief Component for Stars system
-     *
-     * @implements IComponent
      */
-    struct StarComponent: public IComponent {
+    struct StarComponent {
         u16 stars = 0;
 
         /**
@@ -86,10 +80,8 @@ export namespace components {
     /**
      * @struct PlayerComponent
      * @brief Component for Player system
-     *
-     * @implements IComponent
      */
-    struct PlayerComponent: public IComponent {
+    struct PlayerComponent {
         u8 wins = 0;
         u8 norma = 1;
 
@@ -108,10 +100,8 @@ export namespace components {
     /**
      * @struct UnitComponent
      * @brief Component for Unit system
-     *
-     * @implements IComponent
      */
-    struct UnitComponent: public IComponent {
+    struct UnitComponent {
         SharedPointer<Unit> unit;
 
         /**
@@ -120,7 +110,7 @@ export namespace components {
          * @param unitPointer 
          */
         explicit UnitComponent(SharedPointer<Unit> unitPointer):
-            unit{System::move(unitPointer)} {}
+            unit{Ops::move(unitPointer)} {}
         
         UnitComponent() = default;
     };
@@ -131,7 +121,7 @@ export namespace components {
      * 
      * @implements IComponent
      */
-    struct BattleStateComponent: public IComponent {
+    struct BattleStateComponent {
         SharedPointer<Card> activeBattleCard = nullptr;
         DefenceChoice defenceChoice = DefenceChoice::DEFEND;
 
@@ -150,10 +140,8 @@ export namespace components {
     /**
      * @struct BattleCardComponent
      * @brief Component for battle card
-     *
-     * @implements IComponent
      */
-    struct BattleCardComponent: public IComponent {
+    struct BattleCardComponent {
         i8 attackModifier = 0;
         i8 defenceModifier = 0;
         i8 evadeModifier = 0;
@@ -176,10 +164,8 @@ export namespace components {
     /**
      * @struct HandComponent
      * @brief Component for Hand system
-     *
-     * @implements IComponent
      */
-    struct HandComponent: public IComponent {
+    struct HandComponent {
         Vector<SharedPointer<Card>> cards;
         
         HandComponent() = default;
@@ -188,10 +174,8 @@ export namespace components {
     /**
      * @struct MushroomComponent
      * @brief Component for tracking used mushrooms
-     *
-     * @implements IComponent
      */
-    struct MushroomComponent: public IComponent {
+    struct MushroomComponent {
         // Consists of (in this order):
         // Blue, Brown, Green, Orange, Pink, Purple, Rainbow, Red, White, Yellow
         BitSet<MushroomCard::NUM_MUSHROOMS> usedMushrooms; ///< The Mushrooms that have been used by the player.
@@ -209,22 +193,18 @@ export namespace components {
     };
 
     /**
-     * @interface PlayerTag
+     * @struct PlayerTag
      * @brief Tag for Player
-     *
-     * @extends IComponent
      */
-    struct PlayerTag: public IComponent {
+    struct PlayerTag {
         PlayerTag() = default;
     };
 
     /**
-     * @interface MobTag
+     * @struct MobTag
      * @brief Tag for Mob
-     *
-     * @extends IComponent
      */
-    struct MobTag: public IComponent {
+    struct MobTag {
         MobTag() = default;
     };
 }

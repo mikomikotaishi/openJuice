@@ -20,6 +20,7 @@ import openjuice.engine.unit;
 
 using stdx::collections::BitSet;
 using stdx::collections::Vector;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::meta::IsBaseOfValue;
 
@@ -134,7 +135,7 @@ public:
     [[nodiscard]]
     u8 getRecovery() const {
         SharedPointer<Unit> unit = getUnit();
-        SharedPointer<Playable> character = stdx::mem::dynamic_pointer_cast<Playable>(unit);
+        SharedPointer<Playable> character = Pointers::dynamic_pointer_cast<Playable>(unit);
         return character ? character->getRecovery() : 0;
     }
 

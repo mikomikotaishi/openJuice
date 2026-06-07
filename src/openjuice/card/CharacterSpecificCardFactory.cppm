@@ -14,9 +14,10 @@ export module openjuice.card:CharacterSpecificCardFactory;
 
 import stdx;
 
+import :character;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.character;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -37,10 +38,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class CharacterSpecificCardFactory final {
 private:
-    UTILITY_CLASS(CharacterSpecificCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CharacterSpecificCardFactory"); ///< The logger instance.
 public:
+    CharacterSpecificCardFactory() = delete("CharacterSpecificCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a CharacterSpecificCard object with the given ID.
      *

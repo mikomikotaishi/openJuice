@@ -287,7 +287,7 @@ struct Formatter<ProfileManager::Error> {
                 name = "Profile save failed"; 
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

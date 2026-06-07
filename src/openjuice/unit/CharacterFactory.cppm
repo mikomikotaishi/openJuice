@@ -24,7 +24,13 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using namespace openjuice::engine::unit;
-using namespace openjuice::unit::characters::maincharacters;
+using namespace openjuice::unit::characters::main::base;
+// using namespace openjuice::unit::characters::main::bonus;
+// using namespace openjuice::unit::characters::main::dlc1;
+// using namespace openjuice::unit::characters::main::dlc2;
+// using namespace openjuice::unit::characters::main::dlc3;
+// using namespace openjuice::unit::characters::main::dlc4;
+// using namespace openjuice::unit::characters::main::dlc5;
 
 BEGIN_MODULE_NAMESPACE(openjuice::unit);
 
@@ -36,10 +42,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
  */
 export class CharacterFactory final {
 private:
-    UTILITY_CLASS(CharacterFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CharacterFactory"); ///< The logger instance.
 public:
+    CharacterFactory() = delete("CharacterFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a Playable object with the given ID.
      *

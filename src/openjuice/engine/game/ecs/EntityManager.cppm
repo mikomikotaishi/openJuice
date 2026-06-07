@@ -110,10 +110,10 @@ public:
      * @param other The EntityManager instance to move from.
      */
     EntityManager(EntityManager&& other):
-        mask{System::move(other.mask)},
-        entries{System::move(other.entries)},
-        indices{System::move(other.indices)},
-        freeIds{System::move(other.freeIds)},
+        mask{Ops::move(other.mask)},
+        entries{Ops::move(other.entries)},
+        indices{Ops::move(other.indices)},
+        freeIds{Ops::move(other.freeIds)},
         capacity{other.capacity},
         occupied{other.occupied},
         entryCount{other.entryCount},
@@ -171,10 +171,10 @@ public:
             entryCount = other.entryCount;
             freeIdsCount = other.freeIdsCount;
 
-            mask = System::move(other.mask);
-            entries = System::move(other.entries);
-            indices = System::move(other.indices);
-            freeIds = System::move(other.freeIds);
+            mask = Ops::move(other.mask);
+            entries = Ops::move(other.entries);
+            indices = Ops::move(other.indices);
+            freeIds = Ops::move(other.freeIds);
 
             other.capacity = 0;
             other.occupied = 0;

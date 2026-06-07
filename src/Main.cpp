@@ -22,14 +22,17 @@ using openjuice::engine::util::Constants;
 /**
  * @brief The main function of the openJuice application.
  *
+ * Delegates to the Main class to launch the engine.
+ *
  * @param argc Number of command line arguments
  * @param argv Command line arguments
  * @return Exit code
  */
 int main(int argc, char* argv[]) {
     const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("::main()");
+    bool hasArgs = argc > 1;
     try {
-        Span<char*> args(argv + 1, argv + argc);
+        Vector<StringView> args(argv + static_cast<usize>(hasArgs), argv + argc);
         GlobalSettings::getInstance()
             .setProgramName(argv[0])
             .setProgramArgs(args);
@@ -39,11 +42,11 @@ int main(int argc, char* argv[]) {
         Main::main(args);
     } catch (const Exception& e) {
         LOGGER->error("An error occured: {}", e.what());
-        StackTrace::current();
+        System::err.println(StackTrace::current());
         return System::EXIT_FAILURE;
     } catch (...) {
         LOGGER->error("An unknown error occured.");
-        StackTrace::current();
+        System::err.println(StackTrace::current());
         return System::EXIT_FAILURE;
     }
     return System::EXIT_SUCCESS;

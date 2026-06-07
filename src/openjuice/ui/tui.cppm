@@ -8,8 +8,8 @@
 
 export module openjuice.ui.tui;
 
-export import :TUIScreenFactory;
+export import :TuiScreenFactory;
 export import :TextUserInterface;
 
-export import openjuice.ui.tui.TUIScreen;
+export import openjuice.ui.tui.TuiScreen;
 export import openjuice.ui.tui.screens;

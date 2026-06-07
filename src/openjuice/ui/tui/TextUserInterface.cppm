@@ -11,12 +11,12 @@ module;
 export module openjuice.ui.tui:TextUserInterface;
 
 import stdx;
-import :TUIScreenFactory;
+import :TuiScreenFactory;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
 import openjuice.ui.UserInterface;
-import openjuice.ui.tui.TUIScreen;
+import openjuice.ui.tui.TuiScreen;
 import openjuice.ui.tui.screens;
 
 import ftxui;
@@ -25,7 +25,6 @@ using stdx::collections::TreeMap;
 using stdx::mem::SharedPointer;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
-using stdx::sys::Signal;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -48,9 +47,9 @@ export class TextUserInterface: public UserInterface {
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 
-    TreeMap<ScreenType, SharedPointer<TUIScreen>> screens; ///< Map storing all initialised screens
+    TreeMap<ScreenType, SharedPointer<TuiScreen>> screens; ///< Map storing all initialised screens
 
-    ScreenInteractive screen = ScreenInteractive::Fullscreen(); ///< Main screen
+    App screen = App::Fullscreen(); ///< Main screen
     ScreenType currentScreen = ScreenType::TITLE; ///< The current active screen type
     Component activeComponent; ///< Active FTXUI component
     Component containerComponent; ///< Container component that wraps the active component
@@ -62,16 +61,16 @@ private:
      * @brief Get or create screen if it doesn't exist
      *
      * @param type Screen type to get
-     * @return SharedPointer<TUIScreen> to the requested screen
+     * @return SharedPointer<TuiScreen> to the requested screen
      */
     [[nodiscard]]
-    SharedPointer<TUIScreen> getScreen(ScreenType type) noexcept {
+    SharedPointer<TuiScreen> getScreen(ScreenType type) noexcept {
         auto switchCallback = [this](ScreenType newType) -> void {
             switchScreen(newType);
         };
 
         if (!screens.contains(type)) {
-            screens[type] = TUIScreenFactory::create(type, game, switchCallback);
+            screens[type] = TuiScreenFactory::create(type, game, switchCallback);
         }
 
         return screens[type];
@@ -112,7 +111,7 @@ private:
             LOGGER->debug("TextUserInterface: getting new screen {}", currentScreen);
             #endif
 
-            SharedPointer<TUIScreen> handlingScreen = getScreen(type);
+            SharedPointer<TuiScreen> handlingScreen = getScreen(type);
             handlingScreen->onActivate();
 
             #ifndef NDEBUG
@@ -179,7 +178,7 @@ public:
      * @brief
      */
     void init() override {
-        containerComponent = Renderer([this]([[maybe_unused]] bool focused) -> Element {
+        containerComponent = Renderer([this](bool _) -> Element {
             Element mainContent = activeComponent ? activeComponent->Render() : text("Loading...");
             
             if (showExitDialog) {

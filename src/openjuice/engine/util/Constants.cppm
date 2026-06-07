@@ -18,12 +18,12 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
 /**
  * @class Constants
- * @brief Static class containing game-related constants in a central location.
+ * @brief Utility class containing game-related constants in a central location.
  */
 export class Constants {
-private:
-    UTILITY_CLASS(Constants);
 public:
+    Constants() = delete("Constants is a utility class and cannot be instantiated.");
+
     #ifndef NDEBUG
     static constexpr bool ENABLE_SOURCE_LOCATION = true;
     #else

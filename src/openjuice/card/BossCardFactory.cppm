@@ -14,9 +14,10 @@ export module openjuice.card:BossCardFactory;
 
 import stdx;
 
+import :boss;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.boss;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
@@ -50,8 +51,6 @@ public:
         HYPER, ///< A BossCard of hyper variety
     };
 private:
-    UTILITY_CLASS(BossCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BossCardFactory"); ///< The logger instance.
 
     [[nodiscard]]
@@ -62,10 +61,12 @@ private:
             case BossCardFactory::SecondaryType::HYPER:
                 return "Hyper";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 public:
+    BossCardFactory() = delete("BossCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a BossCard object with the given ID.
      *
@@ -389,7 +390,7 @@ public:
                         return nullopt;
                 }
             default:
-                stdx::sys::unreachable();
+                Ops::unreachable();
         }
     }
 };
@@ -414,7 +415,7 @@ struct Formatter<BossCardFactory::SecondaryType> {
                 name = "Hyper";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

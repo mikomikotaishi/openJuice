@@ -168,37 +168,37 @@ export namespace meta {
      */
     template <typename T>
     struct RemoveSuffixConstVolatile {
-        using Type = T; ///< The unqualified type.
+        using Of = T; ///< The unqualified type.
     };
 
     template <typename T>
     struct RemoveSuffixConstVolatile<const T&> {
-        using Type = T&;
+        using Of = T&;
     };
 
     template <typename T>
     struct RemoveSuffixConstVolatile<volatile T&> {
-        using Type = T&;
+        using Of = T&;
     };
 
     template <typename T>
     struct RemoveSuffixConstVolatile<const volatile T&> {
-        using Type = T&;
+        using Of = T&;
     };
 
     template <typename T>
     struct RemoveSuffixConstVolatile<const T*> {
-        using Type = T*;
+        using Of = T*;
     };
 
     template <typename T>
     struct RemoveSuffixConstVolatile<volatile T*> {
-        using Type = T*;
+        using Of = T*;
     };
 
     template <typename T>
     struct RemoveSuffixConstVolatile<const volatile T*> {
-        using Type = T*;
+        using Of = T*;
     };
 
     template <typename T>
@@ -372,7 +372,7 @@ export namespace meta {
      */
     template <typename... Ts, template <typename> typename F>
     struct TransformEach<Tuple<Ts...>, F> {
-        using Type = Tuple<F<Ts>...>; ///< The transformed tuple type.
+        using Of = Tuple<F<Ts>...>; ///< The transformed tuple type.
     };
 
     /**
@@ -383,7 +383,7 @@ export namespace meta {
      * @tparam F The transformation template to apply.
      */
     template <typename T, template <typename...> typename F>
-    using TransformEachType = typename TransformEach<T, F>::Type;
+    using TransformEachType = typename TransformEach<T, F>::Of;
 
     /**
      * @struct Collect
@@ -432,7 +432,7 @@ export namespace meta {
 
         static constexpr usize PARAMS_COUNT = sizeof...(Params) + Offset;
         static constexpr bool IS_EMPTY = (TupleSizeValue<DirtyArgsTuple> - sizeof...(Params) == 0);
-        static constexpr bool PASSES_ENTITY_ID = []() -> bool {
+        static constexpr bool PASSES_ENTITY_ID = [] -> bool {
             if constexpr (IS_EMPTY) {
                 return false;
             } else {
@@ -448,8 +448,8 @@ export namespace meta {
         using NoParamsNoConstVolatileArgsTuple = SubTuple<NoConstVolatileArgsTuple, PARAMS_COUNT + PASSES_ENTITY_ID, ARGS_COUNT>::InternalTuple;
 
         static constexpr usize NO_PARAMS_ARGS_COUNT = TupleSizeValue<NoParamsNoConstVolatileArgsTuple>;
-        static constexpr usize REQUIRED_COUNT = NonPointerTypeCount<NoParamsNoConstVolatileArgsTuple>::Value;
-        static constexpr usize OPTOINAL_COUNT = PointerTypeCount<NoParamsNoConstVolatileArgsTuple>::Value;
+        static constexpr usize REQUIRED_COUNT = NonPointerTypeCount<NoParamsNoConstVolatileArgsTuple>::VALUE;
+        static constexpr usize OPTIONAL_COUNT = PointerTypeCount<NoParamsNoConstVolatileArgsTuple>::VALUE;
     };
 
     /**

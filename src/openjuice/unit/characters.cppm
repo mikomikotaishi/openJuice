@@ -8,5 +8,5 @@
 
 export module openjuice.unit.characters;
 
-export import openjuice.unit.characters.eventcharacters;
-export import openjuice.unit.characters.maincharacters;
+export import openjuice.unit.characters.main;
+export import openjuice.unit.characters.event;

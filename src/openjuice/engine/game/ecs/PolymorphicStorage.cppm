@@ -181,9 +181,9 @@ public:
      * @param other The PolymorphicStorage instance to move from.
      */
     PolymorphicStorage(PolymorphicStorage&& other):
-        mask{System::move(other.mask)},
-        connector{System::move(other.connector)},
-        indices{System::move(other.indices)},
+        mask{Ops::move(other.mask)},
+        connector{Ops::move(other.connector)},
+        indices{Ops::move(other.indices)},
         storage{other.storage},
         onConstructFn{other.onConstructFn},
         onDestroyFn{other.onDestroyFn},
@@ -293,9 +293,9 @@ public:
                 storage = other.storage;
                 size = other.size;
                 alignment = other.alignment;
-                mask = System::move(other.mask);
-                connector = System::move(other.connector);
-                indices = System::move(other.indices);
+                mask = Ops::move(other.mask);
+                connector = Ops::move(other.connector);
+                indices = Ops::move(other.indices);
                 eraseFn = other.eraseFn;
                 deleteFn = other.deleteFn;
                 copyFn = other.copyFn;
@@ -393,7 +393,7 @@ public:
         if (onConstructFn) {
             onConstructDeleteFn(onConstructFn);
         }
-        onConstructFn = new Fn(System::forward<Fn>(fn));
+        onConstructFn = new Fn(Ops::forward<Fn>(fn));
         onConstructDeleteFn = [](void* fn) -> void {
             delete static_cast<Fn*>(fn);
         };
@@ -420,7 +420,7 @@ public:
         if (onDestroyFn) {
             onDestroyDeleteFn(onDestroyFn);
         }
-        onDestroyFn = new Fn(System::forward<Fn>(fn));
+        onDestroyFn = new Fn(Ops::forward<Fn>(fn));
         onDestroyDeleteFn = [](void* fn) -> void {
             delete static_cast<Fn*>(fn);
         };
@@ -517,10 +517,10 @@ public:
         };
 
         moveFn = [](void* origin, void* destination, u32 from, u32 to) -> void {
-            if constexpr (IsCopyConstructibleValue<T>) {
-                new (static_cast<T*>(destination) + to) T(System::move(*(static_cast<T*>(origin) + from)));
+            if constexpr (IsMoveConstructibleValue<T>) {
+                new (static_cast<T*>(destination) + to) T(Ops::move(*(static_cast<T*>(origin) + from)));
             } else {
-                static_assert(false, "Error, trying to copy immovable type!");
+                static_assert(false, "Error, trying to move immovable type!");
             }
         };
 
@@ -559,13 +559,13 @@ public:
             u32 next = occupied++;
             setConnectorTableId(next, index);
             cell = true;
-            T& val = *(new (static_cast<T*>(storage) + index) T(System::forward<Args>(args)...));
+            T& val = *(new (static_cast<T*>(storage) + index) T(Ops::forward<Args>(args)...));
             onConstruct(index);
             return val;
         } else {
             onDestroy(index);
             eraseFn(storage, index);
-            return *(new (static_cast<T*>(storage) + index) T(System::forward<Args>(args)...));
+            return *(new (static_cast<T*>(storage) + index) T(Ops::forward<Args>(args)...));
         }
     }
 

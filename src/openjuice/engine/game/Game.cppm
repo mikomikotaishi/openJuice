@@ -34,6 +34,7 @@ using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
+using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -72,7 +73,7 @@ private:
     SharedPointer<Board> gameBoard; ///< The game board
     Array<EntityId, MAX_PLAYERS> playerEntities; ///< Store player entity IDs
     UniquePointer<Registry> registry; ///< The ECS registry
-    f32 deltaTime; ///< Delta time
+    Milliseconds deltaTime; ///< Delta time
     EntityId activeBattleAttacker = 0; ///< Battle attacker
     EntityId activeBattleDefender = 0; ///< Battle defender
     Phase currentPhase = Phase::SETUP; ///< Current phase
@@ -92,8 +93,8 @@ private:
     }
 
 public:
-    PROPERTY(Phase, CurrentPhase, currentPhase);
-    GETTER(u8, ChapterNumber, chapterNumber);
+    PROPERTY(Phase, CurrentPhase, currentPhase)
+    GETTER(u8, ChapterNumber, chapterNumber)
 
     /**
      * @brief Constructor for the Game class.
@@ -160,26 +161,26 @@ public:
     /**
      * @brief Sets the character for a player.
      *
-     * @param playerNumber The player number.
-     * @param characterID The character ID.
+     * @param num The player number.
+     * @param id The character ID.
      *
      * @throws OutOfRangeException if playerNumber is out of range.
      */
-    void setPlayerCharacter(u8 playerNumber, u8 characterId) throws (OutOfRangeException) {
+    void setPlayerCharacter(u8 num, u8 id) throws (OutOfRangeException) {
         #ifndef NDEBUG
-        LOGGER->debug("Setting player {} to character of ID {}", playerNumber, characterId);
+        LOGGER->debug("Setting player {} to character of ID {}", num, id);
         #endif
 
-        if (playerNumber >= MAX_PLAYERS) {
+        if (num >= MAX_PLAYERS) {
             throw OutOfRangeException("Invalid player number!");
         }
 
-        EntityId player = getPlayerEntity(playerNumber);
+        EntityId player = getPlayerEntity(num);
         SharedPointer<Playable> character; 
-        if (Optional<SharedPointer<Playable>> ch = CharacterFactory::create(characterId); ch.has_value()) {
+        if (Optional<SharedPointer<Playable>> ch = CharacterFactory::create(id); ch.has_value()) {
             character = *ch;
         } else {
-            throw OutOfRangeException(stdx::fmt::format("Error: {} is not a valid character ID!", characterId));
+            throw OutOfRangeException(stdx::fmt::format("Error: {} is not a valid character ID!", id));
         }
         
         registry->emplace<UnitComponent>(player, character);
@@ -188,30 +189,30 @@ public:
         SharedPointer<Player> playerWrapper = Pointers::shared<Player>(*registry, character);
 
         #ifndef NDEBUG
-        players.at(playerNumber) = playerWrapper;
+        players.at(num) = playerWrapper;
         #else
-        players[playerNumber] = playerWrapper;
+        players[num] = playerWrapper;
         #endif
     }
 
     /**
      * @brief Get the Player Entity object.
      *
-     * @param playerNumber Player index.
+     * @param num Player index.
      * @return EntityId ID of the player entity.
      * 
      * @throws OutOfRangeException if playerNumber is out of range.
      */
     [[nodiscard]]
-    EntityId getPlayerEntity(u8 playerNumber) throws (OutOfRangeException) {
-        if (playerNumber >= MAX_PLAYERS) {
+    EntityId getPlayerEntity(u8 num) throws (OutOfRangeException) {
+        if (num >= MAX_PLAYERS) {
             throw OutOfRangeException("Invalid player number!");
         }
 
         #ifndef NDEBUG
-        return playerEntities.at(playerNumber);
+        return playerEntities.at(num);
         #else
-        return playerEntities[playerNumber];
+        return playerEntities[num];
         #endif
     }
 
@@ -369,10 +370,10 @@ public:
     /**
      * @brief Add a mob entity to the game
      *
-     * @param entityId The mob's entity ID
+     * @param id The mob's entity ID
      */
-    void addMob(EntityId entityId) {
-        mobEntities.push_back(entityId);
+    void addMob(EntityId id) {
+        mobEntities.push_back(id);
     }
 
     /**

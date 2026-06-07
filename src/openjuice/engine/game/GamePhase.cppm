@@ -65,7 +65,7 @@ struct Formatter<GamePhase> {
                 name = "Paused"; 
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

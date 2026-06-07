@@ -16,7 +16,7 @@ import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
-import openjuice.ui.tui.TUIScreen;
+import openjuice.ui.tui.TuiScreen;
 
 import ftxui;
 
@@ -27,7 +27,7 @@ using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
 using openjuice::ui::tui::ScreenType;
-using openjuice::ui::tui::TUIScreen;
+using openjuice::ui::tui::TuiScreen;
 
 using namespace ftxui;
 
@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  * @class ConfigScreen
  * @brief Config/settings screen implementation
  *
- * @extends TUIScreen
+ * @extends TuiScreen
  */
-export class ConfigScreen final: public TUIScreen {
+export class ConfigScreen final: public TuiScreen {
 private:
     Component tabContainer; ///< Container for tab content
     Component tabToggle; ///< Tab toggle component
@@ -72,7 +72,7 @@ private:
         okButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_OK")
                 .value_or("OK"),
-            [this]() -> void {
+            [this] -> void {
                 // TODO: Implement saving logic
 
                 screenSwitchCallback(ScreenType::MAIN_MENU);
@@ -82,14 +82,14 @@ private:
         backButton = Button(
             getTextManager().getMenuScreenText("MENU_BUTTON_BACK")
                 .value_or("Back"),
-            [this]() -> void {
+            [this] -> void {
                 screenSwitchCallback(ScreenType::MAIN_MENU);
             }
         );
 
         tabContainer = Container::Tab(
             {
-                Renderer([this]() -> Element {
+                Renderer([this] -> Element {
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_SYSTEM")
@@ -99,7 +99,7 @@ private:
                         text("System settings will be added here") | center | dim,
                     }) | border | flex;
                 }),
-                Renderer([this]() -> Element {
+                Renderer([this] -> Element {
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_SCREEN")
@@ -109,7 +109,7 @@ private:
                         text("Screen settings will be added here") | center | dim,
                     }) | border | flex;
                 }),
-                Renderer([this]() -> Element {
+                Renderer([this] -> Element {
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_SOUND")
@@ -119,7 +119,7 @@ private:
                         text("Sound settings will be added here") | center | dim,
                     }) | border | flex;
                 }),
-                Renderer([this]() -> Element {
+                Renderer([this] -> Element {
                     return vbox({
                         text(
                             getTextManager().getConfigText("CONFIG_LABEL_VOICE")
@@ -148,7 +148,7 @@ private:
             return false;
         });
 
-        component = Renderer(componentWithEvents, [this]() -> Element {
+        component = Renderer(componentWithEvents, [this] -> Element {
             return vbox({
                 hbox({
                     text(
@@ -173,8 +173,6 @@ private:
 
         initialised = true;
     }
-
-    IMPLEMENT_NOOP();
 public:
     /**
      * @brief Constructor for the ConfigScreen class
@@ -183,7 +181,7 @@ public:
      * @param callback Function to call when switching screens
      */
     ConfigScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(System::move(game), System::move(callback)) {
+        TuiScreen(Ops::move(game), Ops::move(callback)) {
         createComponent();
     }
 

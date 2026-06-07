@@ -145,10 +145,10 @@ public:
      * @param other The StorageManager instance to move from.
      */
     StorageManager(StorageManager&& other):
-        storages{System::move(other.storages)},
-        mask{System::move(other.mask)},
-        entries{System::move(other.entries)},
-        indices{System::move(other.indices)},
+        storages{Ops::move(other.storages)},
+        mask{Ops::move(other.mask)},
+        entries{Ops::move(other.entries)},
+        indices{Ops::move(other.indices)},
         capacity{other.capacity},
         storageCapacity{other.storageCapacity},
         entryCount{other.entryCount} {}
@@ -205,11 +205,11 @@ public:
             indices.reset();
 
             capacity = other.capacity;
-            storages = System::move(other.storages);
+            storages = Ops::move(other.storages);
             storageCapacity = other.storageCapacity;
-            mask = System::move(other.mask);
-            entries = System::move(other.entries);
-            indices = System::move(other.indices);
+            mask = Ops::move(other.mask);
+            entries = Ops::move(other.entries);
+            indices = Ops::move(other.indices);
             entryCount = other.entryCount;
         }
         return *this;
@@ -294,7 +294,7 @@ public:
     template <typename T, typename... Args>
     T& emplace(u32 index, Args... args) noexcept {
         PolymorphicStorage& storage = getStorage<T>();
-        return storage.emplace<T>(index, System::forward<Args>(args)...);
+        return storage.emplace<T>(index, Ops::forward<Args>(args)...);
     }
 
     /**

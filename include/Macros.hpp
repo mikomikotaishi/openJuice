@@ -12,22 +12,10 @@
 #define extends public
 #define implements public
 
-#define NoReturn [[noreturn]]
-#define Deprecated [[deprecated]]
-#define Fallthrough [[fallthrough]]
-#define MaybeUnused maybe_unused
-#define Likely likely
-#define Unlikely unlikely
-#define NoUniqueAddress no_unique_address
-#define Assume assume
-#define Indeterminate indeterminate
-#define Unsequenced unsequenced
-#define Reproducible reproducible
-
 /**
  * @brief Utility macro to import the stdx::core namespace within the module.
  */
-#define STDLIBX_STDX_PREPARE_IMPORT_CORE() \
+#define STDLIBX_PREPARE_IMPORT_CORE() \
     namespace stdx::core {} \
     using namespace stdx::core;
 
@@ -137,15 +125,6 @@
 #define PROPERTY(...) PROPERTY_GET_MACRO(__VA_ARGS__, PROPERTY_FLUENT, PROPERTY_NO_FLUENT)(__VA_ARGS__)
 
 /**
- * @brief Utility macro to implement the method noop() which must be implemented by
- * all final classes implementing IFinalOnly.
- */
-#define IMPLEMENT_NOOP() \
-    /** @brief No-operation function, should only be implemented by final classes. */ \
-    [[maybe_unused]] \
-    void noop() const noexcept final {}
-
-/**
  * @brief Utility macro to set the CARD_KEY and ARTIST_KEY fields in a final class that extended Card (fulfils the concept ExtendsCard).
  * 
  * @param CardKey The string literal that will be passed as the card key to query in TextManager
@@ -209,147 +188,6 @@
     BossEnemy(ID, HEALTH, ATTACK, DEFENCE, EVADE)
 
 /**
- * @brief Utility macro to set a class that cannot be instantiated, copied, or moved.
- * Use this for static utility classes that should only contain static methods.
- *
- * @param ClassName The name of the class to apply the macro to.
- */
-#define UTILITY_CLASS(ClassName) \
-public: \
-    /** @brief Deleted constructor to prevent instantiation. */ \
-    ClassName() = delete; \
-    /** @brief Deleted destructor to prevent destruction. */ \
-    ~ClassName() = delete; \
-    /** @brief Deleted copy constructor to prevent copying. */ \
-    ClassName(const ClassName&) = delete; \
-    /** @brief Deleted copy assignment operator to prevent copying. */ \
-    ClassName& operator=(const ClassName&) = delete; \
-    /** @brief Deleted move constructor to prevent copying. */ \
-    ClassName(ClassName&&) = delete; \
-    /** @brief Deleted move assignment operator to prevent copying. */ \
-    ClassName& operator=(ClassName&&) = delete; \
-private:
-
-/**
- * @brief Utility macro to set a class with defaulted Big Five operations.
- * This automatically generates default constructor, destructor, copy constructor,
- * copy assignment operator, move constructor, and move assignment operator.
- *
- * @param ClassName The name of the class to apply the macro to.
- */
-#define DEFAULT_BIG_FIVE(ClassName) \
-public: \
-    /** @brief Default constructor. */ \
-    ClassName() = default; \
-    /** @brief Default destructor. */ \
-    ~ClassName() = default; \
-    /** @brief Default copy constructor. */ \
-    ClassName(const ClassName&) = default; \
-    /** @brief Default copy assignment operator. */ \
-    ClassName& operator=(const ClassName&) = default; \
-    /** @brief Default move constructor. */ \
-    ClassName(ClassName&&) = default; \
-    /** @brief Default move assignment operator. */ \
-    ClassName& operator=(ClassName&&) = default;
-
-/**
- * @brief Utility macro to set a class that is copyable but not movable.
- * This allows copying operations but prevents move operations.
- *
- * @param ClassName The name of the class to apply the macro to.
- */
-#define COPYABLE_ONLY(ClassName) \
-    /** @brief Default constructor. */ \
-    ClassName() = default; \
-    /** @brief Default destructor. */ \
-    ~ClassName() = default; \
-    /** @brief Default copy constructor. */ \
-    ClassName(const ClassName&) = default; \
-    /** @brief Default copy assignment operator. */ \
-    ClassName& operator=(const ClassName&) = default; \
-public: \
-    /** @brief Deleted move constructor to prevent moving. */ \
-    ClassName(ClassName&&) = delete; \
-    /** @brief Deleted move assignment operator to prevent moving. */ \
-    ClassName& operator=(ClassName&&) = delete; \
-private:
-
-/**
- * @brief Utility macro to set a class that is movable but not copyable.
- * This allows move operations but prevents copy operations. Useful for resource-managing classes.
- *
- * @param ClassName The name of the class to apply the macro to.
- */
-#define MOVABLE_ONLY(ClassName) \
-    /** @brief Default constructor. */ \
-    ClassName() = default; \
-    /** @brief Default destructor. */ \
-    ~ClassName() = default; \
-public: \
-    /** @brief Deleted copy constructor to prevent copying. */ \
-    ClassName(const ClassName&) = delete; \
-    /** @brief Deleted copy assignment operator to prevent copying. */ \
-    ClassName& operator=(const ClassName&) = delete; \
-private: \
-    /** @brief Default move constructor. */ \
-    ClassName(ClassName&&) = default; \
-    /** @brief Default move assignment operator. */ \
-    ClassName& operator=(ClassName&&) = default;
-
-/**
- * @brief Utility macro to set a class that cannot be copied or moved.
- * This prevents all copy and move operations while allowing default construction.
- * Useful for singleton base classes or unique resource holders.
- *
- * @param ClassName The name of the class to apply the macro to.
- */
-#define NON_COPYABLE_NON_MOVABLE(ClassName) \
-    /** @brief Default constructor. */ \
-    ClassName() = default; \
-    /** @brief Default destructor. */ \
-    ~ClassName() = default; \
-public: \
-    /** @brief Deleted copy constructor to prevent copying. */ \
-    ClassName(const ClassName&) = delete; \
-    /** @brief Deleted copy assignment operator to prevent copying. */ \
-    ClassName& operator=(const ClassName&) = delete; \
-    /** @brief Deleted move constructor to prevent moving. */ \
-    ClassName(ClassName&&) = delete; \
-    /** @brief Deleted move assignment operator to prevent moving. */ \
-    ClassName& operator=(ClassName&&) = delete; \
-private:
-
-/**
- * @brief Utility macro to set a singleton class pattern.
- * This provides the standard singleton implementation with thread-safe getInstance().
- * The class cannot be copied, moved, or instantiated directly.
- *
- * @param ClassName The name of the singleton class.
- */
-#define SINGLETON_CLASS(ClassName) \
-    /** @brief Private default constructor for singleton pattern. */ \
-    ClassName() = default; \
-    /** @brief Default destructor. */ \
-    ~ClassName() = default; \
-public: \
-    /** @brief Deleted copy constructor to prevent copying. */ \
-    ClassName(const ClassName&) = delete; \
-    /** @brief Deleted copy assignment operator to prevent copying. */ \
-    ClassName& operator=(const ClassName&) = delete; \
-    /** @brief Deleted move constructor to prevent moving. */ \
-    ClassName(ClassName&&) = delete; \
-    /** @brief Deleted move assignment operator to prevent moving. */ \
-    ClassName& operator=(ClassName&&) = delete; \
-public: \
-    /** @brief Get the singleton instance. @return Reference to the singleton instance. */ \
-    [[nodiscard]] \
-    static ClassName& getInstance() { \
-        static ClassName instance; \
-        return instance; \
-    } \
-private:
-
-/**
  * @brief A utility to specialise a type in std::formatter. 
  * Requires that Formatter is imported into the current scope.
  * Used as a hack to allow std::fmt::Formatter to be used by stdlib::fmt::format().
@@ -382,5 +220,5 @@ private:
 #endif
 
 #ifdef __GNUC__
-STDLIBX_STDX_PREPARE_IMPORT_CORE();
+STDLIBX_PREPARE_IMPORT_CORE();
 #endif

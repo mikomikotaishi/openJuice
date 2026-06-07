@@ -3,10 +3,25 @@
  * @module openjuice.card.standard.extracurricular
  * @brief Import of cards belonging to the Extracurricular Pack.
  *
- * This file imports the modules for cards belonging to the Extracurricular Pack.
+ * This file imports the classes for cards belonging to the Extracurricular Pack.
  */
 
-export module openjuice.card.standard.extracurricular;
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.card:standard.extracurricular;
+
+import stdx;
+
+import openjuice.engine.card;
+
+using openjuice::engine::card::Card;
+
+using namespace openjuice::engine::card::spawn;
+using namespace openjuice::engine::card::type;
+
+BEGIN_MODULE_NAMESPACE(openjuice::card::standard::extracurricular);
 
 // export import :FullBurst; // 102
 // export import :ChefsSpecial; // 103
@@ -20,3 +35,5 @@ export module openjuice.card.standard.extracurricular;
 // export import :ProtectionFee; // 111
 // export import :FluffyAndFuzzy; // 112
 // export import :FeelTheRushWithAnEnergyDrink; // 113
+
+END_MODULE_NAMESPACE();

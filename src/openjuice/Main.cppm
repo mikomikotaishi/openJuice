@@ -25,18 +25,18 @@ BEGIN_MODULE_NAMESPACE(openjuice);
 
 /**
  * @class Main
- * @brief Utility Main class to directly handle args as a vector
+ * @brief Artificial entry point for the openJuice application.
  */
 export class Main final {
-private:
-    UTILITY_CLASS(Main);
 public:
+    Main() = delete("Main is a utility class and cannot be instantiated.");
+
     /**
      * @brief The main function of the openJuice application.
      *
-     * @param args Array of command line arguments
+     * @param args Command line arguments
      */
-    static void main(Span<String> args) {
+    static void main(Span<StringView> args) {
         ArgumentParser parser("openJuice", "0.0.x");
         parser.add_argument("-c", "--cli")
             .help("launch in CLI mode")
@@ -44,23 +44,13 @@ public:
             .implicit_value(true)
             .nargs(0uz);
 
-        parser.parse_args(Vector<String>(args.begin(), args.end()));
+        parser.parse_args(args);
 
         Engine::LaunchMode mode = parser.get<bool>("-c")
             ? Engine::LaunchMode::CLI
             : Engine::LaunchMode::TUI;
         Engine eng(mode);
         eng.init();
-    }
-
-    /**
-     * @brief The main function of the openJuice application.
-     *
-     * @param args Array of command line arguments
-     */
-    static void main(Span<char*> args) {
-        Vector<String> sargs(args.begin(), args.end());
-        main(Span<String>(sargs));
     }
 };
 

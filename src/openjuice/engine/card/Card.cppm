@@ -15,7 +15,6 @@ export module openjuice.engine.card.Card;
 import stdx;
 
 import openjuice.engine.managers;
-import openjuice.engine.util;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
@@ -23,8 +22,6 @@ using stdx::fmt::Formatter;
 using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::managers::TextManager;
-using openjuice::engine::util::IFinalOnly;
-using openjuice::engine::util::IKeyQueryable;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 
@@ -33,11 +30,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
  * @brief Abstract class representing a card.
  * 
  * The Card abstract class represents a card in the game with the following attributes: type, rarity, ID, and level.
- *
- * @implements IFinalOnly
- * @implements IKeyQueryable
  */
-export class [[nodiscard]] Card: public IFinalOnly, public IKeyQueryable {
+export class [[nodiscard]] Card {
 public:
     /**
      * @enum Type
@@ -133,7 +127,7 @@ public:
      * @param deckPoints The deck points of the card.
      */
     Card(u16 id, Type cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
-        deckPoints{System::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
+        deckPoints{Ops::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
         id{id}, cardType{cardType}, spawnType{spawnType}, level{level} {}
 
     GETTER(u16, Id, id);
@@ -250,7 +244,7 @@ struct Formatter<Card::Type> {
                 name = "Banner";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -293,7 +287,7 @@ struct Formatter<Card::Spawn> {
                 name = "Generic";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -321,7 +315,7 @@ struct Formatter<Card::Rarity> {
                 name = "Rare";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -343,7 +337,7 @@ struct Formatter<Card::DeckPointError> {
                 name = "Not standard card";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

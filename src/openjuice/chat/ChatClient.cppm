@@ -24,7 +24,7 @@ using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::net::BindException;
 using stdx::net::UnknownHostException;
-using stdx::thread::JoiningThread;
+using stdx::thread::Thread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -45,7 +45,7 @@ export class ChatClient {
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatClient"); ///< The logger instance.
     TcpSocket clientSocket; ///< Socket for the chat client.
-    JoiningThread listenerThread; ///< Listener thread for the chat client.
+    Thread listenerThread; ///< Listener thread for the chat client.
     bool isConnected = false; ///< Connection status.
 
     /**
@@ -72,7 +72,7 @@ private:
      * @brief Start listening for messages from the server.
      */
     void startListening() {
-        listenerThread = JoiningThread([this]() -> void {
+        listenerThread = Thread([this] -> void {
             try {
                 char buffer[1024];
                 String messageBuffer;

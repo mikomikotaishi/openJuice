@@ -20,7 +20,7 @@ using stdx::mem::Pointers;
 using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
 using stdx::sync::Barrier;
-using stdx::thread::JoiningThread;
+using stdx::thread::Thread;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
 
@@ -39,7 +39,7 @@ export class ThreadPool {
 private:
     Barrier<> barrier; ///< Synchronisation barrier for coordinating thread execution.
     Function<void(usize, usize)> task = nullptr; ///< The current task function to execute.
-    UniquePointer<JoiningThread[]> threads; ///< Array of worker threads in the pool.
+    UniquePointer<Thread[]> threads; ///< Array of worker threads in the pool.
     UniquePointer<usize[]> starts; ///< Starting indices for each thread's work chunk.
     UniquePointer<usize[]> ends; ///< Ending indices for each thread's work chunk.
     const u32 threadCount = 0; ///< Number of worker threads in the pool.
@@ -63,7 +63,7 @@ public:
         barrier(threadCount + 1),
         threads{
             threadCount > 0 
-                ? reinterpret_cast<JoiningThread*>(::operator new(sizeof(JoiningThread) * threadCount, AlignValue{alignof(JoiningThread)}))
+                ? reinterpret_cast<Thread*>(::operator new(sizeof(Thread) * threadCount, AlignValue{alignof(Thread)}))
                 : nullptr
         },
         starts{Pointers::unique<usize[]>(threadCount + 1)},
@@ -71,7 +71,7 @@ public:
         threadCount{threadCount},
         taskCount{threadCount + 1} {
         for (u32 i: IotaView(0u, threadCount)) {
-            new (&threads[i])JoiningThread([this, i]() -> void {
+            new (&threads[i])Thread([this, i] -> void {
                 while (true) {
                     barrier.arrive_and_wait();
                     if (shouldJoin) {
@@ -136,7 +136,7 @@ public:
      */
     template <typename Fn>
     void execTask(Fn&& query, usize work) {
-        task = System::forward<Fn>(query);
+        task = Ops::forward<Fn>(query);
         usize chunk = work / taskCount;
         usize tail = work - chunk * taskCount;
         for (u32 i: IotaView(0u, taskCount)) {

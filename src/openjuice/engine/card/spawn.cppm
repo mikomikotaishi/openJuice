@@ -190,7 +190,7 @@ protected:
             case MushroomCard::Colour::YELLOW:
                 return "CARD_SHROOM_YELLOW";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 
@@ -223,7 +223,7 @@ protected:
             case MushroomCard::Colour::YELLOW:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 };

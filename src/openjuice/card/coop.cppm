@@ -6,7 +6,7 @@
  * This file imports the modules for all Seasonal Cards.
  */
 
-export module openjuice.card.coop;
+export module openjuice.card:coop;
 
-export import openjuice.card.coop.role;
-export import openjuice.card.coop.seasonal;
+export import :coop.role;
+export import :coop.seasonal;

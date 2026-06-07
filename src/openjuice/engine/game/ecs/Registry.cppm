@@ -72,7 +72,6 @@ public:
         ENTITY_CREATE_FAILURE, ///< Failure to create an entity on the Registry
     };
 private:
-    static inline StorageId idCount = 0; ///< Global counter for assigning unique storage IDs across component types.
     EntityManager entityManager; ///< Manages entity IDs and lifecycle.
     StorageManager storageManager; ///< Manages component storage and type information.
     u32 capacity = 512; ///< The maximum number of entities that can exist simultaneously.
@@ -194,8 +193,8 @@ private:
                 [&](auto&&... storages) -> void {
                     for (EntityId id: *smallest) {
                         if ((requiredStorages[RequiredInds]->has(id) && ...)) {
-                            System::forward<Fn>(fn)(
-                                System::forward<Params>(params)..., 
+                            Ops::forward<Fn>(fn)(
+                                Ops::forward<Params>(params)..., 
                                 storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                             );
                         }
@@ -207,8 +206,8 @@ private:
             apply(
                 [&](auto&&... storages) -> void {
                     for (EntityId id: entityManager) {
-                        System::forward<Fn>(fn)(
-                            System::forward<Params>(params)..., 
+                        Ops::forward<Fn>(fn)(
+                            Ops::forward<Params>(params)..., 
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -274,7 +273,7 @@ private:
                                 EntityId id = smallest->get(i);
                                 if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                                     fn(
-                                        System::forward<Params>(params)...,
+                                        Ops::forward<Params>(params)...,
                                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                     );
                                 }
@@ -293,7 +292,7 @@ private:
                             for (usize i: IotaView(start, end)) {
                                 EntityId id = entityManager[i];
                                 fn(
-                                    System::forward<Params>(params)...,
+                                    Ops::forward<Params>(params)...,
                                     storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                 );
                             }
@@ -358,7 +357,7 @@ private:
                         if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                             fn(
                                 id,
-                                System::forward<Params>(params)...,
+                                Ops::forward<Params>(params)...,
                                 storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                             );
                         }
@@ -372,7 +371,7 @@ private:
                     for (EntityId id: entityManager) {
                         fn(
                             id,
-                            System::forward<Params>(params)...,
+                            Ops::forward<Params>(params)...,
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -439,7 +438,7 @@ private:
                                 if ((requiredStorages[RequiredInds]->has(id) && ...)) {
                                     fn(
                                         id,
-                                        System::forward<Params>(params)...,
+                                        Ops::forward<Params>(params)...,
                                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                     );
                                 }
@@ -459,7 +458,7 @@ private:
                                 EntityId id = entityManager[i];
                                 fn(
                                     id,
-                                    System::forward<Params>(params)...,
+                                    Ops::forward<Params>(params)...,
                                     storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                                 );
                             }
@@ -518,7 +517,7 @@ private:
                 [&](auto&&... storages) -> void {
                     if ((requiredStorages[RequiredInds]->has(id) && ...))  {
                         fn(
-                            System::forward<Params>(params)...,
+                            Ops::forward<Params>(params)...,
                             storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                         );
                     }
@@ -529,7 +528,7 @@ private:
             apply(
                 [&](auto&&... storages) -> void {
                     fn(
-                        System::forward<Params>(params)...,
+                        Ops::forward<Params>(params)...,
                         storages.template getDefer<TupleElementType<ArgsInds, ArgsTpl>>(id)...
                     );
                 },
@@ -595,7 +594,7 @@ public:
         if (!id.has_value()) {
             return nullopt;
         }
-        (emplace<Args>(*id, System::forward<Args>(args)), ...);
+        (emplace<Args>(*id, Ops::forward<Args>(args)), ...);
         return id;
     }
 
@@ -614,7 +613,7 @@ public:
     template <ValidComponent T, typename... Args>
         requires ConstructibleFrom<T, Args...>
     T& emplace(EntityId id, Args&&... args) noexcept {
-        return storageManager.emplace<T>(id, System::forward<Args>(args)...);
+        return storageManager.emplace<T>(id, Ops::forward<Args>(args)...);
     }
 
     /**
@@ -789,7 +788,7 @@ public:
      */
     [[nodiscard]]
     bool valid(Optional<EntityId> id) noexcept {
-        return id.has_value() || *id < capacity;
+        return id.has_value() && *id < capacity;
     }
 
     /**
@@ -806,7 +805,7 @@ public:
     void onConstruct(Fn&& fn) {
         using FnTraits = FunctionTraits<Fn>;
         using SecondArg = typename FnTraits::template ArgumentAt<1>;
-        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnConstruct(System::forward<Fn>(fn));
+        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnConstruct(Ops::forward<Fn>(fn));
     }
 
     /**
@@ -823,7 +822,7 @@ public:
     void onDestroy(Fn&& fn) {
         using FnTraits = FunctionTraits<Fn>;
         using SecondArg = typename FnTraits::template ArgumentAt<1>;
-        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnDestroy(System::forward<Fn>(fn));
+        storageManager.getStorage<RemoveConstVolatileReferenceType<SecondArg>>().setOnDestroy(Ops::forward<Fn>(fn));
     }
 
     /**
@@ -858,7 +857,7 @@ public:
             for (StorageId s: storageManager) {
                 PolymorphicStorage& storage = storageManager.getStorage(s);
                 if (storage.has(id)) {
-                    System::forward<Fn>(fn)(System::forward<Params>(params)..., storage.getTypeInfo());
+                    Ops::forward<Fn>(fn)(Ops::forward<Params>(params)..., storage.getTypeInfo());
                 }
             }
         }
@@ -883,7 +882,7 @@ public:
             for (StorageId s: storageManager) {
                 PolymorphicStorage& storage = storageManager.getStorage(s);
                 if (storage.has(e)) {
-                    System::forward<Fn>(fn)(e, System::forward<Params>(params)..., storage.getTypeInfo());
+                    Ops::forward<Fn>(fn)(e, Ops::forward<Params>(params)..., storage.getTypeInfo());
                 }
             }
         }
@@ -910,25 +909,25 @@ public:
         using QrTraits = QueryTraits<Fn, 0, Params...>;
         ++queryLevel;
         if constexpr (QrTraits::IS_EMPTY) {
-            for ([[maybe_unused]] EntityId _: entityManager) {
-                System::forward<Fn>(fn)(System::forward<Params>(params)...);
+            for (EntityId _: entityManager) {
+                Ops::forward<Fn>(fn)(Ops::forward<Params>(params)...);
             }
         } else {
             if constexpr (QrTraits::PASSES_ENTITY_ID) {
                 querySelfImpl<Fn, typename QrTraits::NO_PARAMS_ARGS_COUNT>(
-                    System::forward<Fn>(fn),
+                    Ops::forward<Fn>(fn),
                     IndexSequenceOf<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     IndexSequenceOf<QrTraits::REQUIRED_COUNT>{},
                     IndexSequenceOf<QrTraits::OPTIONAL_COUNT>{},
-                    System::forward<Params>(params)...
+                    Ops::forward<Params>(params)...
                 );
             } else {
                 queryImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
-                    System::forward<Fn>(fn),
+                    Ops::forward<Fn>(fn),
                     IndexSequenceOf<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     IndexSequenceOf<QrTraits::REQUIRED_COUNT>{},
                     IndexSequenceOf<QrTraits::OPTIONAL_COUNT>{},
-                    System::forward<Params>(params)...
+                    Ops::forward<Params>(params)...
                 );
             }
         }
@@ -959,8 +958,8 @@ public:
         if constexpr (QrTraits::IS_EMPTY) {
             pool.execTask(
                 [&](usize start, usize end) -> void {
-                    for ([[maybe_unused]] usize _: IotaView(start, end)) {
-                        fn(System::forward<Params>(params)...);
+                    for (usize _: IotaView(start, end)) {
+                        fn(Ops::forward<Params>(params)...);
                     }
                 },
                 entityManager.getOccupied()
@@ -968,20 +967,20 @@ public:
         } else if constexpr (QrTraits::PASSES_ENTITY_ID) {
             querySelfParallelImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                 pool,
-                System::forward<Fn>(fn),
+                Ops::forward<Fn>(fn),
                 IndexSequenceOf<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                 IndexSequenceOf<QrTraits::REQUIRED_COUNT>{},
                 IndexSequenceOf<QrTraits::OPTIONAL_COUNT>{},
-                System::forward<Params>(params)...
+                Ops::forward<Params>(params)...
             );
         } else {
             queryParallelImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                 pool,
-                System::forward<Fn>(fn),
+                Ops::forward<Fn>(fn),
                 IndexSequenceOf<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                 IndexSequenceOf<QrTraits::REQUIRED_COUNT>{},
                 IndexSequenceOf<QrTraits::OPTIONAL_COUNT>{},
-                System::forward<Params>(params)...
+                Ops::forward<Params>(params)...
             );
         }
         --queryLevel;
@@ -1007,15 +1006,15 @@ public:
         using QrTraits = QueryTraits<Fn, 0, Params...>;
         if (entityManager.alive(id)) {
             if constexpr (QrTraits::ARGS_COUNT == QrTraits::PARAMS_COUNT) {
-                fn(System::forward<Params>(params)...);
+                fn(Ops::forward<Params>(params)...);
             } else {
                 queryWithImpl<Fn, typename QrTraits::NoParamsNoConstVolatileArgsTuple>(
                     id,
-                    System::forward<Fn>(fn),
+                    Ops::forward<Fn>(fn),
                     IndexSequenceOf<QrTraits::NO_PARAMS_ARGS_COUNT>{},
                     IndexSequenceOf<QrTraits::REQUIRED_COUNT>{},
                     IndexSequenceOf<QrTraits::OPTIONAL_COUNT>{},
-                    System::forward<Params>(params)...
+                    Ops::forward<Params>(params)...
                 );
             }
         }
@@ -1038,8 +1037,9 @@ struct Formatter<Registry::Error> {
         switch (err) {
             case Registry::Error::ENTITY_CREATE_FAILURE:
                 msg = "Failed to create registry entity";
+                break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", msg);
     }

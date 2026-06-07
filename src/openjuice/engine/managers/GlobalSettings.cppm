@@ -17,6 +17,7 @@ import stdx;
 import openjuice.engine.util;
 
 using stdx::collections::Vector;
+using stdx::time::Milliseconds;
 
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
@@ -34,9 +35,9 @@ public:
     static constexpr StringView PATH_DEBUGFILE = Constants::PATH_DEBUGFILE; ///< The debug file path.
     static constexpr StringView USERDATA_DIR = Constants::USERDATA_DIR; ///< The user data directory path.
 private:
-    Vector<String> programArgs; ///< The program command line arguments.
+    Vector<StringView> programArgs; ///< The program command line arguments.
     String programName; ///< The name of the executable.
-    f32 deltaTime = 0.0f; ///< The delta-time associated with the frame rate (1/frame rate), in seconds
+    Milliseconds deltaTime{0}; ///< The delta-time associated with the frame rate (1/frame rate), in seconds
     Language language = Language::ENGLISH; ///< The current language setting.
 
     /**
@@ -49,15 +50,8 @@ private:
      */
     ~GlobalSettings() = default;
 public:
-    /**
-     * @brief Deleted copy constructor to prevent copying.
-     */
-    GlobalSettings(const GlobalSettings&) = delete;
-
-    /**
-     * @brief Deleted copy assignment operator to prevent copying.
-     */
-    GlobalSettings& operator=(const GlobalSettings&) = delete;
+    GlobalSettings(const GlobalSettings&) = delete("Copy construction is disabled.");
+    GlobalSettings& operator=(const GlobalSettings&) = delete("Copy assignment is disabled.");
 
     /**
      * @brief Get the singleton instance of GlobalSettings.
@@ -71,9 +65,9 @@ public:
     }
 
     GETTER(String, ProgramName, programName);
-    GETTER(Vector<String>, ProgramArgs, programArgs);
+    GETTER(Vector<StringView>, ProgramArgs, programArgs);
     GETTER(Language, Language, language);
-    GETTER(f32, DeltaTime, deltaTime);
+    GETTER(Milliseconds, DeltaTime, deltaTime);
 
     /**
      * @brief Get the singleton instance of GlobalSettings.
@@ -102,7 +96,7 @@ public:
             case Language::KOREAN:
                 return "ko";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 
@@ -123,30 +117,8 @@ public:
      * @param args The arguments of the program to set.
      * @return A reference to the object itself.
      */
-    GlobalSettings& setProgramArgs(const Vector<String>& args) noexcept {
-        programArgs = args;
-        return *this;
-    }
-
-    /**
-     * @brief Set the program arguments.
-     *
-     * @param args The arguments of the program to set.
-     * @return A reference to the object itself.
-     */
-    GlobalSettings& setProgramArgs(const Span<String> args) noexcept {
-        programArgs = Vector<String>(args.begin(), args.end());
-        return *this;
-    }
-
-    /**
-     * @brief Set the program arguments.
-     *
-     * @param args The arguments of the program to set (char* array).
-     * @return A reference to the object itself.
-     */
-    GlobalSettings& setProgramArgs(const Span<char*> args) noexcept {
-        programArgs = Vector<String>(args.begin(), args.end());
+    GlobalSettings& setProgramArgs(Span<StringView> args) noexcept {
+        programArgs = Vector<StringView>(args.begin(), args.end());
         return *this;
     }
 
@@ -168,7 +140,7 @@ public:
      * @return A reference to the object itself.
      */
     GlobalSettings& setFrameRate(u16 frameRate) noexcept {
-        deltaTime = (frameRate == 0) ? 0.0f : 1.0f / static_cast<f32>(frameRate);
+        deltaTime = (frameRate == 0) ? Milliseconds{0} : Milliseconds{1000 / frameRate};
         return *this;
     }
 };

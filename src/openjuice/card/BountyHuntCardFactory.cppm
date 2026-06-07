@@ -14,9 +14,10 @@ export module openjuice.card:BountyHuntCardFactory;
 
 import stdx;
 
+import :bountyhunt;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.bountyhunt;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -37,10 +38,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class BountyHuntCardFactory final {
 private:
-    UTILITY_CLASS(BountyHuntCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BountyHuntCardFactory"); ///< The logger instance.
 public:
+    BountyHuntCardFactory() = delete("BountyHuntCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a BountyHuntCard object with the given ID.
      *

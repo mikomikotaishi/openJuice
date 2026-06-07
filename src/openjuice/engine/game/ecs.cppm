@@ -11,7 +11,6 @@ export module openjuice.engine.game.ecs;
 export import :Components;
 export import :Entity;
 export import :EntityManager;
-export import :IComponent;
 export import :Meta;
 export import :PolymorphicStorage;
 export import :Registry;

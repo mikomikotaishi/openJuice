@@ -14,9 +14,10 @@ export module openjuice.card:HyperCardFactory;
 
 import stdx;
 
+import :hyper;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.hyper;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -37,10 +38,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class HyperCardFactory final {
 private:
-    UTILITY_CLASS(HyperCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("HyperCardFactory"); ///< The logger instance.
 public:
+    HyperCardFactory() = delete("HyperCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a HyperCard object with the given ID.
      *

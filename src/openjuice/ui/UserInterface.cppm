@@ -15,7 +15,7 @@ import stdx;
 import openjuice.engine.game;
 
 using stdx::mem::SharedPointer;
-using stdx::sync::AtomicBoolean;
+using stdx::sync::Atomic;
 using stdx::sync::Mutex;
 
 using openjuice::engine::game::Game;
@@ -30,7 +30,7 @@ export class [[nodiscard]] UserInterface {
 protected:
     SharedPointer<Game> game;
     Mutex& stateMutex;
-    AtomicBoolean exitRequested = false;
+    Atomic<bool> exitRequested = false;
 public:
     /**
      * @brief Construct a new User Interface object
@@ -39,7 +39,7 @@ public:
      * @param mutex Reference to mutex for thread-safe access
      */
     UserInterface(SharedPointer<Game> game, Mutex& mutex):
-        game{System::move(game)}, stateMutex{mutex} {}
+        game{Ops::move(game)}, stateMutex{mutex} {}
 
     virtual ~UserInterface() = default;
 

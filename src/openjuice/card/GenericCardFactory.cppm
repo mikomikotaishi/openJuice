@@ -14,9 +14,10 @@ export module openjuice.card:GenericCardFactory;
 
 import stdx;
 
+import :generic;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.generic;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -38,10 +39,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class GenericCardFactory final {
 private:
-    UTILITY_CLASS(GenericCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("GenericCardFactory"); ///< The logger instance.
 public:
+    GenericCardFactory() = delete("GenericCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a GenericCard object with the given ID.
      *
@@ -68,7 +69,7 @@ public:
             case Card::Type::BANNER:
                 return Pointers::shared<GenericBannerCard>();
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 };

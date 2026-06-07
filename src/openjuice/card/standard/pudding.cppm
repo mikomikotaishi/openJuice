@@ -3,10 +3,25 @@
  * @module openjuice.card.standard.pudding
  * @brief Import of cards belonging to the Pudding Pack.
  *
- * This file imports the modules for cards belonging to the Pudding Pack .
+ * This file imports the classes for cards belonging to the Pudding Pack.
  */
 
-export module openjuice.card.standard.pudding;
+module;
+
+#include "Macros.hpp"
+
+export module openjuice.card:standard.pudding;
+
+import stdx;
+
+import openjuice.engine.card;
+
+using openjuice::engine::card::Card;
+
+using namespace openjuice::engine::card::spawn;
+using namespace openjuice::engine::card::type;
+
+BEGIN_MODULE_NAMESPACE(openjuice::card::standard::pudding);
 
 // export import :BackdoorTrade; // 78
 // export import :SinkOrSwim; // 79
@@ -20,3 +35,5 @@ export module openjuice.card.standard.pudding;
 // export import :IndiscriminateFireSupport; // 87
 // export import :LuckyCharm; // 88
 // export import :MetallicMonocoque; // 89
+
+END_MODULE_NAMESPACE();

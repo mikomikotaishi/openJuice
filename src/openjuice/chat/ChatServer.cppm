@@ -22,7 +22,7 @@ using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::net::BindException;
-using stdx::thread::JoiningThread;
+using stdx::thread::Thread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -43,7 +43,7 @@ private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatServer"); ///< The logger instance.
     TcpListener serverListener; ///< Listener for incoming connections.
     Vector<SharedPointer<ChatSession>> clients; ///< List of connected clients.
-    JoiningThread acceptThread; ///< Thread for accepting connections.
+    Thread acceptThread; ///< Thread for accepting connections.
     bool isRunning = false; ///< Server running status.
 
     /**
@@ -55,7 +55,7 @@ private:
             
             if (serverListener.accept(*clientSocket) == Socket::Status::Done) {
                 LOGGER->info("Client connected from {}", clientSocket->getRemoteAddress()->toString());
-                SharedPointer<ChatSession> session = Pointers::shared<ChatSession>(System::move(clientSocket), clients);
+                SharedPointer<ChatSession> session = Pointers::shared<ChatSession>(Ops::move(clientSocket), clients);
                 session->start();
             }
         }
@@ -78,7 +78,7 @@ public:
         isRunning = true;
         
         // Start accepting connections in a separate thread
-        acceptThread = JoiningThread([this]() -> void {
+        acceptThread = Thread([this] -> void {
             acceptConnections();
         });
     }

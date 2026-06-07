@@ -23,14 +23,13 @@ import openjuice.ui;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
-using stdx::sync::AtomicBoolean;
+using stdx::sync::Atomic;
 using stdx::sync::ConditionVariable;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 using stdx::sync::UniqueLock;
-using stdx::thread::JoiningThread;
+using stdx::thread::Thread;
 using stdx::thread::StopToken;
-using stdx::time::Duration;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -69,12 +68,12 @@ private:
 
     ConditionVariable gameUpdate; ///< Condition variable for signaling game thread
     Mutex stateMutex; ///< Mutex for thread-safe access to game state
-    JoiningThread gameThread; ///< Thread for running game logic
-    JoiningThread uiThread; ///< Thread for running UI logic
+    Thread gameThread; ///< Thread for running game logic
+    Thread uiThread; ///< Thread for running UI logic
     SharedPointer<Game> game; ///< The main game instance containing game state
     UniquePointer<DiscordManager> discordManager; ///< The manager for Discord integration.
     LaunchMode launchMode; ///< The selected user interface mode
-    AtomicBoolean gamePaused = false; ///< Flag indicating if the game is paused
+    Atomic<bool> gamePaused = false; ///< Flag indicating if the game is paused
     
     /**
      * @brief Runs the actual game loop (all computational parts of the game)
@@ -89,7 +88,7 @@ private:
         while (!token.stop_requested()) {
             {
                 UniqueLock<Mutex> lock(stateMutex);
-                gameUpdate.wait(lock, [this, &token]() -> bool { 
+                gameUpdate.wait(lock, [this, &token] -> bool { 
                     return !gamePaused.load() || token.stop_requested(); 
                 });
                 
@@ -103,7 +102,7 @@ private:
                 game->update(); 
             }
             
-            stdx::thread::current::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+            System::Thread::sleep_for(GlobalSettings::getInstance().getDeltaTime());
         }
     }
     
@@ -126,7 +125,7 @@ private:
                 ui = Pointers::unique<TextUserInterface>(game, stateMutex);
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         
         ui->init();
@@ -153,11 +152,11 @@ private:
                         ui->render();
                     }
                     
-                    stdx::thread::current::sleep_for(Duration<f32>(GlobalSettings::getInstance().getDeltaTime()));
+                    System::Thread::sleep_for(GlobalSettings::getInstance().getDeltaTime());
                 }
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 
@@ -180,7 +179,7 @@ public:
     /**
      * @brief Destroy the Engine object
      * 
-     * JoiningThread automatically joins in its destructor, so explicit join calls are not needed.
+     * Thread automatically joins in its destructor, so explicit join calls are not needed.
      */
     ~Engine() {
         #ifndef NDEBUG
@@ -210,7 +209,7 @@ public:
         LOGGER->debug("Initialising Engine");
         #endif
 
-        if (discordManager->initialise()) {
+        if (discordManager->init()) {
             LOGGER->info("Discord integration successfully initialised!");
             discordManager->setMenuActivity();
         } else {
@@ -221,10 +220,10 @@ public:
             throw RuntimeException(stdx::fmt::format("Game failed to initialise: {}", r.error()));
         }
         
-        gameThread = JoiningThread([this](StopToken token) -> void {
+        gameThread = Thread([this](StopToken token) -> void {
             runGameLoop(token);
         });
-        uiThread = JoiningThread([this](StopToken token) -> void {
+        uiThread = Thread([this](StopToken token) -> void {
             runUiLoop(token);
         });
         

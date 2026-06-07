@@ -1,6 +1,6 @@
 /**
  * @file ScreenType.cppm
- * @module openjuice.ui.tui.TUIScreen:ScreenType
+ * @module openjuice.ui.tui.TuiScreen:ScreenType
  * @brief Enum of screen types used by the TUI
  */
 
@@ -8,7 +8,7 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.tui.TUIScreen:ScreenType;
+export module openjuice.ui.tui.TuiScreen:ScreenType;
 
 import stdx;
 
@@ -131,7 +131,7 @@ struct Formatter<ScreenType> {
                 name = "Pause";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

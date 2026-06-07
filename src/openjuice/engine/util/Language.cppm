@@ -77,7 +77,7 @@ struct Formatter<Language> {
                 name = "Korean";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

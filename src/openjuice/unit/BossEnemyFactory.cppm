@@ -36,10 +36,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
  */
 export class BossEnemyFactory final {
 private:
-    UTILITY_CLASS(BossEnemyFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 public:
+    BossEnemyFactory() = delete("BossEnemyFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a BossEnemy object with the given ID.
     *

@@ -25,6 +25,7 @@ using stdx::fmt::Formatter;
 using stdx::fs::Path;
 using stdx::io::IOException;
 using stdx::io::InputFileStream;
+using stdx::io::Scanner;
 using stdx::mem::SharedPointer;
 using stdx::util::InPlaceTag;
 using stdx::util::logging::Logger;
@@ -121,7 +122,7 @@ private:
      */
     TextManager():
         gameLanguageCode{GlobalSettings::languageToCode(GlobalSettings::getInstance().getLanguage())} {
-        if (initialiseContents()) {
+        if (init()) {
             LOGGER->info("Successfully loaded all text assets!");
         } else {
             LOGGER->warn("Text assets were not successfully initialised!");
@@ -148,7 +149,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_NOT_FOUND, 
-                stdx::fmt::format("Failed to find file {}", filePath.string())
+                stdx::fmt::format("Failed to find file {}", filePath)
             );
         }
         InputFileStream file(filePath);
@@ -156,15 +157,16 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_OPEN_FAILURE,
-                stdx::fmt::format("Failed to open file {}", filePath.string())
+                stdx::fmt::format("Failed to open file {}", filePath)
             );
         }
 
-        String line;
         String currentKey;
         bool expectingValue = false;
 
-        while (stdx::io::getline(file, line)) {
+        Scanner scanner(file);
+        while (Optional<String> lineResult = scanner.next_line()) {
+            const String& line = *lineResult;
             if (line.empty() || line.starts_with(COMMENT_PREFIX) || line == EOF_MARKER) {
                 continue;
             }
@@ -190,14 +192,14 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseCardsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing cards file: {}", filePath.string());
+        LOGGER->debug("Parsing cards file: {}", filePath);
         #endif
 
         if (!stdx::fs::exists(filePath)) {
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_NOT_FOUND, 
-                stdx::fmt::format("Failed to find file {}", filePath.string())
+                stdx::fmt::format("Failed to find file {}", filePath)
             );
         }
         InputFileStream file(filePath);
@@ -205,17 +207,18 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_OPEN_FAILURE,
-                stdx::fmt::format("Failed to open file {}", filePath.string())
+                stdx::fmt::format("Failed to open file {}", filePath)
             );
         }
 
-        String line;
         String currentKey;
         String currentName;
         String currentDescription;
         String currentFlavor;
 
-        while (stdx::io::getline(file, line)) {
+        Scanner scanner(file);
+        while (Optional<String> lineResult = scanner.next_line()) {
+            const String& line = *lineResult;
             if (line.empty() || line.starts_with(COMMENT_PREFIX) || line == EOF_MARKER) {
                 continue;
             }
@@ -257,7 +260,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseCardArtistNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing card artist names file: {}", filePath.string());
+        LOGGER->debug("Parsing card artist names file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, cardArtistNames);
@@ -272,7 +275,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseCommentsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing comments file: {}", filePath.string());
+        LOGGER->debug("Parsing comments file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, commentTexts);
@@ -288,7 +291,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseConfigFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing config texts file: {}", filePath.string());
+        LOGGER->debug("Parsing config texts file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, configTexts);
@@ -303,7 +306,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseFieldNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing field names file: {}", filePath.string());
+        LOGGER->debug("Parsing field names file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, fieldNames);
@@ -318,7 +321,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseGameMessagesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing game messages file: {}", filePath.string());
+        LOGGER->debug("Parsing game messages file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, gameMessages);
@@ -333,7 +336,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseGameNormaFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing game norma texts file: {}", filePath.string());
+        LOGGER->debug("Parsing game norma texts file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, gameNormaTexts);
@@ -348,7 +351,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseGameSystemFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing game system texts file: {}", filePath.string());
+        LOGGER->debug("Parsing game system texts file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, gameSystemTexts);
@@ -363,7 +366,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseMenuScreensFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing menu screens texts file: {}", filePath.string());
+        LOGGER->debug("Parsing menu screens texts file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, menuScreenTexts);
@@ -378,7 +381,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseResultFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing result texts file: {}", filePath.string());
+        LOGGER->debug("Parsing result texts file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, resultTexts);
@@ -393,14 +396,14 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseUnitsFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing units file: {}", filePath.string());
+        LOGGER->debug("Parsing units file: {}", filePath);
         #endif
 
         if (!stdx::fs::exists(filePath)) {
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_NOT_FOUND, 
-                stdx::fmt::format("Failed to find file {}", filePath.string())
+                stdx::fmt::format("Failed to find file {}", filePath)
             );
         }
         InputFileStream file(filePath);
@@ -408,16 +411,17 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_OPEN_FAILURE,
-                stdx::fmt::format("Failed to open file {}", filePath.string())
+                stdx::fmt::format("Failed to open file {}", filePath)
             );
         }
 
-        String line;
         String currentKey;
         String currentName;
         String currentDescription;
 
-        while (stdx::io::getline(file, line)) {
+        Scanner scanner(file);
+        while (Optional<String> lineResult = scanner.next_line()) {
+            const String& line = *lineResult;
             if (line.empty() || line.substr(0, 2) == COMMENT_PREFIX || line == EOF_MARKER) {
                 continue;
             }
@@ -454,7 +458,7 @@ private:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> parseVoiceActorNamesFile(const Path& filePath) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("Parsing voice actor names file: {}", filePath.string());
+        LOGGER->debug("Parsing voice actor names file: {}", filePath);
         #endif
 
         return parseSimpleFormatFile(filePath, voiceActorNames);
@@ -464,7 +468,7 @@ private:
      * @brief Initialises all text maps by parsing their respective files.
      */
     [[nodiscard]]
-    bool initialiseContents() noexcept {
+    bool init() noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Now loading localisation contents");
         #endif
@@ -889,7 +893,7 @@ struct Formatter<TextManager::Error> {
                 name = "File read failure"; 
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

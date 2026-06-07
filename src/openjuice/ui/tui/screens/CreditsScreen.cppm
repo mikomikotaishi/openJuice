@@ -16,7 +16,7 @@ import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.managers;
-import openjuice.ui.tui.TUIScreen;
+import openjuice.ui.tui.TuiScreen;
 
 import ftxui;
 
@@ -27,7 +27,7 @@ using openjuice::engine::game::Game;
 using openjuice::engine::managers::ProfileManager;
 using openjuice::engine::managers::TextManager;
 using openjuice::ui::tui::ScreenType;
-using openjuice::ui::tui::TUIScreen;
+using openjuice::ui::tui::TuiScreen;
 
 using namespace ftxui;
 
@@ -37,9 +37,9 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  * @class CreditsScreen
  * @brief Credits screen implementation
  *
- * @extends TUIScreen
+ * @extends TuiScreen
  */
-export class CreditsScreen final: public TUIScreen {
+export class CreditsScreen final: public TuiScreen {
 private:
     bool initialised = false; ///< Whether the screen has been initialised
 
@@ -49,8 +49,6 @@ private:
     void createComponent() noexcept override final {
 
     }
-
-    IMPLEMENT_NOOP();
 public:
     /**
      * @brief Constructor for the CreditsScreen class
@@ -59,7 +57,7 @@ public:
      * @param callback Function to call when switching screens
      */
     CreditsScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TUIScreen(System::move(game), System::move(callback)) {
+        TuiScreen(Ops::move(game), Ops::move(callback)) {
         createComponent();
     }
 

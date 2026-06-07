@@ -14,9 +14,10 @@ export module openjuice.card:SeasonalCardFactory;
 
 import stdx;
 
+import :seasonal;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.seasonal;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
@@ -37,10 +38,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  */
 export class SeasonalCardFactory final {
 private:
-    UTILITY_CLASS(SeasonalCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("SeasonalCardFactory"); ///< The logger instance.
 public:
+    SeasonalCardFactory() = delete("SeasonalCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a SeasonalCard object with the given ID.
      *

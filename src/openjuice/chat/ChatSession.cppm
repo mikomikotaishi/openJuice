@@ -21,7 +21,7 @@ using stdx::mem::EnableSharedFromThis;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
-using stdx::thread::JoiningThread;
+using stdx::thread::Thread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -42,7 +42,7 @@ private:
     UniquePointer<TcpSocket> sessionSocket; ///< Socket for the chat session.
     String inputBuffer; ///< Buffer for incoming messages.
     Vector<SharedPointer<ChatSession>>& clients; ///< List of connected clients.
-    JoiningThread sessionThread; ///< Thread for handling this session.
+    Thread sessionThread; ///< Thread for handling this session.
     bool isActive = false; ///< Session active status.
 
     /**
@@ -109,7 +109,7 @@ public:
      * @param clients The list of connected clients.
      */
     ChatSession(UniquePointer<TcpSocket> socket, Vector<SharedPointer<ChatSession>>& clients):
-        sessionSocket{System::move(socket)}, clients{clients} {
+        sessionSocket{Ops::move(socket)}, clients{clients} {
         if (sessionSocket) {
             sessionSocket->setBlocking(false);
         }
@@ -122,7 +122,7 @@ public:
         isActive = true;
         
         // Start reading messages in a separate thread
-        sessionThread = JoiningThread([this]() -> void {
+        sessionThread = Thread([this] -> void {
             readMessages();
         });
     }

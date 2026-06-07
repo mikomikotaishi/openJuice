@@ -14,9 +14,10 @@ export module openjuice.card:CoopCardFactory;
 
 import stdx;
 
+import :coop;
+
 import openjuice.engine.card;
 import openjuice.engine.managers;
-import openjuice.card.coop;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
@@ -52,8 +53,6 @@ public:
         SEASONAL, ///< A CoopCard of seasonal variety
     };
 private:
-    UTILITY_CLASS(CoopCardFactory);
-
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CoopCardFactory"); ///< The logger instance.
 
     [[nodiscard]]
@@ -66,10 +65,12 @@ private:
             case CoopCardFactory::SecondaryType::SEASONAL:
                 return "Seasonal";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 public:
+    CoopCardFactory() = delete("CoopCardFactory is a utility class and cannot be instantiated.");
+
     /**
      * @brief Create a CoopCard object with the given ID.
      *
@@ -124,7 +125,7 @@ public:
                         return nullopt;
                 }
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 };
@@ -152,7 +153,7 @@ struct Formatter<CoopCardFactory::SecondaryType> {
                 name = "Seasonal";
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

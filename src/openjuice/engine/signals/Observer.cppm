@@ -68,7 +68,7 @@ public:
      * @param observer 
      */
     void detach(Observer* observer) {
-        stdx::ranges::remove(observers, observer);
+        stdx::collections::erase(observers, observer);
     }
 
     /**

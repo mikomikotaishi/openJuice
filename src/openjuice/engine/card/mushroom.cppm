@@ -105,7 +105,7 @@ private:
             case Effect::ROLL_SIX:
                 return "CARD_SHROOM_ROLLSIX";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 protected:
@@ -178,7 +178,7 @@ public:
     * The Effect enumeration defines the types of possible mushroom cards of Boost type in the game.
     */
     enum class Effect: u8 {
-        NULL_BOOST = stdx::util::to_underlying(BattleMushroomCard::Effect::ROLL_SIX) + 1, ///< No effect (always appears)
+        NULL_BOOST = Ops::to_underlying(BattleMushroomCard::Effect::ROLL_SIX) + 1, ///< No effect (always appears)
         MOVE_UP, ///< Gain +1/2/3 MOV on next roll
         MOVE_DOWN, ///< Gain -1/2/3 MOV on next roll
         GAIN_STARS, ///< Gain Lvl x 1/2/3/4/5 stars
@@ -239,7 +239,7 @@ private:
             case Effect::WIN:
                 return "CARD_SHROOM_WIN";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 protected:
@@ -351,7 +351,7 @@ private:
             case Effect::WINS:
                 return "CARD_SHROOM_LEGEND_WINS";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 
@@ -368,7 +368,7 @@ private:
             case Colour::PHANTOM_BLUE:
                 return "CARD_ARTIST_COFFGIRL";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 
@@ -385,7 +385,7 @@ private:
             case Colour::PHANTOM_BLUE:
                 return "CARD_SHROOM_PHANTOMBLUE";
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
     }
 protected:

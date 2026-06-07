@@ -6,7 +6,7 @@
  * This file imports the modules for all Mushroom Cards.
  */
 
-export module openjuice.card.mushroom;
+export module openjuice.card:mushroom;
 
-export import openjuice.card.mushroom.legendary;
-export import openjuice.card.mushroom.regular;
+export import :mushroom.legendary;
+export import :mushroom.regular;

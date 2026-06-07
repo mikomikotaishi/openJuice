@@ -68,7 +68,7 @@ private:
                 censorChar = '#';
                 break;
             default:
-                System::unreachable();
+                Ops::unreachable();
         }
         loadBlacklist(gameLanguage);
     }

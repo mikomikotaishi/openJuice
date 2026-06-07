@@ -37,11 +37,11 @@ private:
     const u8 width; ///< The width of the board.
     const u8 height; ///< The height of the board.
 public:
-    GETTER(String, Name, name);
-    GETTER(u32, Id, id);
-    GETTER(u8, Width, width);
-    GETTER(u8, Height, height);
-    GETTER(HomePanels, HomePanels, homePanels);
+    GETTER(String, Name, name)
+    GETTER(u32, Id, id)
+    GETTER(u8, Width, width)
+    GETTER(u8, Height, height)
+    GETTER(HomePanels, HomePanels, homePanels)
 
     /**
      * @brief Constructor with parameters
