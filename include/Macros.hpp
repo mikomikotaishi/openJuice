@@ -32,100 +32,7 @@
 #define END_MODULE_NAMESPACE() }
 
 /**
- * @brief A utility to build a get method on top of a property.
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the method.
- * @param Name The machine-readable name of the property.
- */
-#define GETTER(Type, Method, Name) \
-    /** @brief Retrieves the name value for the object. @return The name value of the object. */  \
-    [[nodiscard]] \
-    Type get##Method() const noexcept { \
-        return Name; \
-    }
-
-// Helper macros for SETTER overloading
-#define SETTER_GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-
-/**
- * @brief A utility to build a set method on top of a property (void return).
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the method.
- * @param Name The machine-readable name of the property.
- */
-#define SETTER_NO_FLUENT(Type, Method, Name) \
-    /** @brief Sets the name value for the object. */  \
-    void set##Method(Type value) noexcept { \
-        Name = value; \
-    }
-
-/**
- * @brief A utility to build a set method on top of a property (fluent return).
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the method.
- * @param Name The machine-readable name of the property.
- * @param Fluent If present, enables fluent chaining (return *this).
- */
-#define SETTER_FLUENT(Type, Method, Name, Fluent) \
-    /** @brief Sets the name value for the object. @return The instance of the object. */  \
-    decltype(*this) set##Method(Type value) noexcept { \
-        Name = value; \
-        return *this; \
-    }
-
-/**
- * @brief A utility to build a set method on top of a property.
- * Can be called with 3 arguments (returns void) or 4 arguments (returns *this for fluent chaining).
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the method.
- * @param Name The machine-readable name of the property.
- * @param Fluent (Optional) If provided, enables fluent chaining.
- */
-#define SETTER(...) SETTER_GET_MACRO(__VA_ARGS__, SETTER_FLUENT, SETTER_NO_FLUENT)(__VA_ARGS__)
-
-// Helper macros for PROPERTY overloading
-#define PROPERTY_GET_MACRO(_1, _2, _3, _4, NAME, ...) NAME
-
-/**
- * @brief Utility macro to create getter and setter methods for a property (void setter).
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the methods.
- * @param Name The machine-readable name of the property.
- */
-#define PROPERTY_NO_FLUENT(Type, Method, Name) \
-    GETTER(Type, Method, Name) \
-    SETTER_NO_FLUENT(Type, Method, Name)
-
-/**
- * @brief Utility macro to create getter and setter methods for a property (fluent setter).
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the methods.
- * @param Name The machine-readable name of the property.
- * @param Fluent If present, enables fluent chaining for setter.
- */
-#define PROPERTY_FLUENT(Type, Method, Name, Fluent) \
-    GETTER(Type, Method, Name) \
-    SETTER_FLUENT(Type, Method, Name, Fluent)
-
-/**
- * @brief Utility macro to create getter and setter methods for a property.
- * Can be called with 3 arguments (void setter) or 4 arguments (fluent setter).
- *
- * @param Type The type of the property.
- * @param Method The human-readable name for the methods.
- * @param Name The machine-readable name of the property.
- * @param Fluent (Optional) If provided, enables fluent chaining for setter.
- */
-#define PROPERTY(...) PROPERTY_GET_MACRO(__VA_ARGS__, PROPERTY_FLUENT, PROPERTY_NO_FLUENT)(__VA_ARGS__)
-
-/**
- * @brief Utility macro to set the CARD_KEY and ARTIST_KEY fields in a final class that extended Card (fulfils the concept ExtendsCard).
+ * @brief Utility macro to set the CARD_KEY and ARTIST_KEY fields in a final class that extends Card.
  * 
  * @param CardKey The string literal that will be passed as the card key to query in TextManager
  * @param ArtistKey The string literal that will be passed as the artist key to query in TextManager
@@ -135,7 +42,7 @@
     static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in TextManager */
 
 /**
- * @brief Utility macro to set the EFFECT_KEY and ARTIST_KEY fields in a final class that extended Card (fulfils the concept ExtendsMushroomCard).
+ * @brief Utility macro to set the EFFECT_KEY and ARTIST_KEY fields in a final class that extends Card.
  * 
  * @param EffectKey The string literal that will be passed as the effect key to query in TextManager
  */
@@ -143,7 +50,7 @@
     static constexpr char EFFECT_KEY[] = EffectKey; /** The key belonging to the effect to query in TextManager */ \
 
 /**
- * @brief Utility macro to set the UNIT_KEY, ARTIST_KEY, and VOICEACTOR_KEY fields in a final class that extended Unit (fulfils the concept ExtendsUnit).
+ * @brief Utility macro to set the UNIT_KEY, ARTIST_KEY, and VOICEACTOR_KEY fields in a final class that extends Unit.
  * 
  * @param UnitKey The string literal that will be passed as the unit key to query in TextManager
  * @param ArtistKey The string literal that will be passed as the artist key to query in TextManager

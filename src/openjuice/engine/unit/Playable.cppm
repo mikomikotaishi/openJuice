@@ -45,16 +45,14 @@ public:
     Playable(u16 id, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
         Unit(id, health, attack, defence, evade), recovery{recovery} {}
 
-    GETTER(u8, Recovery, recovery);
+    /**
+     * @brief Get the recovery stat of the unit.
+     * @return The recovery stat.
+     */
+    [[nodiscard]]
+    u8 getRecovery() const noexcept {
+        return recovery;
+    }
 };
-
-/**
- * @concept ExtendsPlayable
- * @brief Concept that checks if a type extends the Playable class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsPlayable = IsBaseOfValue<Playable, T>;
 
 END_MODULE_NAMESPACE();

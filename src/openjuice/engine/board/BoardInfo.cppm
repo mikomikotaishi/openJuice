@@ -37,11 +37,50 @@ private:
     const u8 width; ///< The width of the board.
     const u8 height; ///< The height of the board.
 public:
-    GETTER(String, Name, name)
-    GETTER(u32, Id, id)
-    GETTER(u8, Width, width)
-    GETTER(u8, Height, height)
-    GETTER(HomePanels, HomePanels, homePanels)
+    /**
+     * @brief Get the name of the board
+     * @return The board's name
+     */
+    [[nodiscard]]
+    String getName() const noexcept {
+        return name;
+    }
+
+    /**
+     * @brief Get the ID of the board
+     * @return The board's ID
+     */
+    [[nodiscard]]
+    u32 getId() const noexcept {
+        return id;
+    }
+
+    /**
+     * @brief Get the width of the board
+     * @return The board's width
+     */
+    [[nodiscard]]
+    u8 getWidth() const noexcept {
+        return width;
+    }
+
+    /**
+     * @brief Get the height of the board
+     * @return The board's height
+     */
+    [[nodiscard]]
+    u8 getHeight() const noexcept {
+        return height;
+    }
+
+    /**
+     * @brief Get the home panels of the board
+     * @return The home panels of the board (array of 4 coordinates)
+     */
+    [[nodiscard]]
+    HomePanels getHomePanels() const noexcept {
+        return homePanels;
+    }
 
     /**
      * @brief Constructor with parameters

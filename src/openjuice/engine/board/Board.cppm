@@ -30,7 +30,6 @@ using stdx::ranges::IotaView;
 using openjuice::engine::board::BoardInfo;
 using openjuice::engine::board::Panel;
 using openjuice::engine::util::Constants;
-using openjuice::engine::util::Direction;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
@@ -47,19 +46,14 @@ public:
     static constexpr usize GAME_MAX_HEIGHT = Constants::GAME_MAX_HEIGHT; ///< Maximum game height.
 
     using GameBoard = Array<Array<UniquePointer<Panel>, GAME_MAX_WIDTH>, GAME_MAX_HEIGHT>;
-
-    /**
-     * @brief Direction offsets
-     *
-     * This array defines the offsets for the four cardinal directions (top, left, right, bottom).
-     */
-    static constexpr Array<Pair<i8, i8>, 4> DIRECTION_OFFSETS = {{
-        {-1,  0}, // Top
-        { 0, -1}, // Left
-        { 0,  1}, // Right
-        { 1,  0}  // Bottom
-    }};
 private:
+    static constexpr Array<Pair<i8, i8>, 4> DIRECTION_OFFSETS = {{
+        {-1,  0}, ///< Top
+        { 0, -1}, ///< Left
+        { 0,  1}, ///< Right
+        { 1,  0}, ///< Bottom
+    }}; ///< This array defines the offsets for the four cardinal directions (top, left, right, bottom).
+
     /**
      * @class Graph
      * @brief Internal graph representation for pathfinding and distance calculations.
@@ -98,7 +92,7 @@ private:
                 for (const UniquePointer<Panel>& panel: row) {
                     if (panel) {
                         for (usize i: IotaView(0uz, DIRECTION_OFFSETS.size())) {
-                            SharedPointer<Panel> neighbour = panel->getNeighbour(static_cast<Direction>(i));
+                            SharedPointer<Panel> neighbour = panel->getNeighbour(static_cast<Panel::Direction>(i));
                             if (neighbour) {
                                 addEdge(SharedPointer<Panel>(panel.get()), neighbour);
                             }

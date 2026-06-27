@@ -62,8 +62,20 @@ export class Game {
 public:
     static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
 
-    using Phase = GamePhase;
+    /**
+     * @enum Phase
+     * @brief Enumeration of game phases
+     */
+    enum class Phase: u8 {
+        SETUP, ///< Initial game setup
+        PLAYER_TURN, ///< Player taking their turn
+        BATTLE_PHASE, ///< Battle in progress
+        CHAPTER_PHASE, ///< Chapter event in progress
+        END_GAME, ///< Game completed
+        PAUSED, ///< Game paused
+    };
 private:
+    friend class Formatter<Phase>;
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Game"); ///< The logger instance.
 
     // Game board and ECS components (ordered by size for optimal padding)
@@ -92,10 +104,27 @@ private:
         }
     }
 
+    [[nodiscard]]
+    constexpr static StringView phaseName(Phase phase) noexcept {
+        switch (phase) {
+            case Phase::SETUP:
+                return "Setup";
+            case Phase::PLAYER_TURN:
+                return "Player Turn";
+            case Phase::BATTLE_PHASE:
+                return "Battle";
+            case Phase::CHAPTER_PHASE:
+                return "Chapter Event";
+            case Phase::END_GAME:
+                return "End Game";
+            case Phase::PAUSED:
+                return "Paused";
+            default:
+                Ops::unreachable();
+        }
+        Ops::unreachable();
+    }
 public:
-    PROPERTY(Phase, CurrentPhase, currentPhase)
-    GETTER(u8, ChapterNumber, chapterNumber)
-
     /**
      * @brief Constructor for the Game class.
      */
@@ -156,6 +185,16 @@ public:
      */
     void update() {
         
+    }
+
+    [[nodiscard]]
+    Phase getCurrentPhase() const noexcept {
+        return currentPhase;
+    }
+
+    [[nodiscard]]
+    u8 getChapterNumber() const noexcept {
+        return chapterNumber;
     }
 
     /**
@@ -407,7 +446,7 @@ public:
             "Chapter: {} | Current Player: {} | Phase: {} | Battle: {}",
             chapterNumber,
             currentPlayerIndex,
-            currentPhase,
+            phaseName(currentPhase),
             battleInProgress ? "Yes" : "No"
         );
 
@@ -420,3 +459,18 @@ public:
 };
 
 END_MODULE_NAMESPACE();
+
+using openjuice::engine::game::Game;
+
+template <>
+struct Formatter<Game::Phase> {
+    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        return ctx.begin();
+    }
+
+    static FormatContext::iterator format(Game::Phase phase, FormatContext& ctx) {
+        return stdx::fmt::format_to(ctx.out(), "{}", Game::phaseName(phase));
+    }
+};
+
+SPECIALISE_FORMATTER(Game::Phase);

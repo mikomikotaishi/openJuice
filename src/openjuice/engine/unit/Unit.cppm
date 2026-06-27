@@ -54,15 +54,53 @@ protected:
 
     virtual ~Unit() = default;
 public:
-    GETTER(u16, Id, id);
-    GETTER(u8, Health, health);
-    GETTER(i8, Attack, attack);
-    GETTER(i8, Defence, defence);
-    GETTER(i8, Evade, evade);
+    /**
+     * @brief Get the ID of the unit
+     * @return The ID of the unit
+     */
+    [[nodiscard]]
+    u16 getId() const noexcept {
+        return id;
+    }
+
+    /**
+     * @brief Get the health stat of the unit
+     * @return The health stat
+     */
+    [[nodiscard]]
+    u8 getHealth() const noexcept {
+        return health;
+    }
+
+    /**
+     * @brief Get the attack stat of the unit
+     * @return The attack stat
+     */
+    [[nodiscard]]
+    i8 getAttack() const noexcept {
+        return attack;
+    }
+
+    /**
+     * @brief Get the defence stat of the unit
+     * @return The defence stat
+     */
+    [[nodiscard]]
+    i8 getDefence() const noexcept {
+        return defence;
+    }
+
+    /**
+     * @brief Get the evade stat of the unit
+     * @return The evade stat
+     */
+    [[nodiscard]]
+    i8 getEvade() const noexcept {
+        return evade;
+    }
 
     /**
      * @brief Gets the name of the character.
-     *
      * @return The name of the character.
      */
     [[nodiscard]]
@@ -74,7 +112,6 @@ public:
 
     /**
      * @brief Get the description of the unit.
-     *
      * @return The description of the unit.
      */
     [[nodiscard]]
@@ -86,7 +123,6 @@ public:
 
     /**
      * @brief Get the unit artist name.
-     *
      * @return The unit artist name.
      */
     [[nodiscard]]
@@ -98,7 +134,6 @@ public:
 
     /**
      * @brief Get the unit voice actor name.
-     *
      * @return The unit voice actor name.
      */
     [[nodiscard]]
@@ -108,14 +143,5 @@ public:
             .value_or("");
     }
 };
-
-/**
- * @concept ExtendsUnit
- * @brief Concept that checks if a type extends the Unit class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsUnit = IsBaseOfValue<Unit, T>;
 
 END_MODULE_NAMESPACE();

@@ -333,10 +333,25 @@ public:
         return connector.get() + occupied;
     }
 
-    GETTER(u32, Capacity, capacity);
-    GETTER(u32, Occupied, occupied);
-    GETTER(usize, Size, size);
-    GETTER(AlignValue, Alignment, alignment);
+    [[nodiscard]]
+    u32 getCapacity() const noexcept {
+        return capacity;
+    }
+
+    [[nodiscard]]
+    u32 getOccupied() const noexcept {
+        return occupied;
+    }
+
+    [[nodiscard]]
+    usize getSize() const noexcept {
+        return size;
+    }
+
+    [[nodiscard]]
+    AlignValue getAlignment() const noexcept {
+        return alignment;
+    }
 
     /**
      * @brief Validates that an entity ID is within storage capacity.

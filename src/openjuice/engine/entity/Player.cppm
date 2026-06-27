@@ -240,13 +240,4 @@ public:
     }
 };
 
-/**
- * @concept ExtendsPlayer
- * @brief Concept that checks if a type extends the Player class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsPlayer = IsBaseOfValue<Player, T>;
-
 END_MODULE_NAMESPACE();

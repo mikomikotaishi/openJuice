@@ -41,8 +41,15 @@ private:
         const u8 sides; ///< The number of sides on the die
         const u8 result; ///< The result of the roll
     public:
-        GETTER(u8, Sides, sides)
-        GETTER(u8, Result, result)
+        [[nodiscard]]
+        u8 getSides() const noexcept {
+            return sides;
+        }
+
+        [[nodiscard]]
+        u8 getResult() const noexcept {
+            return result;
+        }
 
         /**
          * @brief Constructor to initialise a RollRecord object.

@@ -537,9 +537,6 @@ private:
         }
     }
 public:
-    GETTER(u32, Capacity, capacity);
-    GETTER(u32, QueryLevel, queryLevel);
-
     /**
      * @brief Constructs a new Registry with the specified capacity.
      * 
@@ -565,6 +562,16 @@ public:
     Registry(Registry&& other) = default;
     Registry& operator=(const Registry& other) = default;
     Registry& operator=(Registry&& other) = default;
+
+    [[nodiscard]]
+    u32 getCapacity() const noexcept {
+        return capacity;
+    }
+
+    [[nodiscard]]
+    u32 getQueryLevel() const noexcept {
+        return queryLevel;
+    }
 
     /**
      * @brief Clears all entities and components from the registry.

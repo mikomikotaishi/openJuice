@@ -36,8 +36,8 @@ export class GenericBannerCard final: public BannerCard, public GenericCard {
 private:
     CARD_METADATA("", "CARD_GENERIC_BANNER")
 public:
-    static constexpr u8 ID = Ops::to_underlying(Card::Type::BANNER); ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BANNER; ///< The card type of this specific card
+    static constexpr u8 ID = Ops::to_underlying(Card::Of::BANNER); ///< The id of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BANNER; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -72,8 +72,8 @@ export class GenericBattleCard final: public BattleCard, public GenericCard {
 private:
     CARD_METADATA("", "CARD_GENERIC_BATTLE")
 public:
-    static constexpr u8 ID = Ops::to_underlying(Card::Type::BATTLE); ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr u8 ID = Ops::to_underlying(Card::Of::BATTLE); ///< The id of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -108,8 +108,8 @@ export class GenericBoostCard final: public BoostCard, public GenericCard {
 private:
     CARD_METADATA("", "CARD_GENERIC_BOOST")
 public:
-    static constexpr u8 ID = Ops::to_underlying(Card::Type::BOOST); ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr u8 ID = Ops::to_underlying(Card::Of::BOOST); ///< The id of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -144,8 +144,8 @@ export class GenericEventCard final: public EventCard, public GenericCard {
 private:
     CARD_METADATA("", "CARD_GENERIC_EVENT")
 public:
-    static constexpr u8 ID = Ops::to_underlying(Card::Type::EVENT); ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr u8 ID = Ops::to_underlying(Card::Of::EVENT); ///< The id of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -180,8 +180,8 @@ export class GenericGiftCard final: public GiftCard, public GenericCard {
 private:
     CARD_METADATA("", "CARD_GENERIC_GIFT")
 public:
-    static constexpr u8 ID = Ops::to_underlying(Card::Type::GIFT); ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
+    static constexpr u8 ID = Ops::to_underlying(Card::Of::GIFT); ///< The id of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -216,8 +216,8 @@ export class GenericTrapCard final: public TrapCard, public GenericCard {
 private:
     CARD_METADATA("", "CARD_GENERIC_TRAP")
 public:
-    static constexpr u8 ID = Ops::to_underlying(Card::Type::TRAP); ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::TRAP; ///< The card type of this specific card
+    static constexpr u8 ID = Ops::to_underlying(Card::Of::TRAP); ///< The id of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::GENERIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card

@@ -28,6 +28,7 @@ using stdx::io::IOS;
 using stdx::io::IOState;
 using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
+using stdx::time::Seconds;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
@@ -60,9 +61,6 @@ public:
         String playerName = ""; ///< The player name
         u64 totalPlayTime = 0; ///< The total amount of time played in the save slot, in seconds
     public:
-        PROPERTY(String, PlayerName, playerName);
-        PROPERTY(u64, TotalPlayTime, totalPlayTime)
-
         /**
          * @brief Default constructor for ProfileData.
          */
@@ -81,6 +79,28 @@ public:
          * @brief Default destructor for ProfileData
          */
         ~ProfileData() = default;
+
+        [[nodiscard]]
+        String getPlayerName() const noexcept {
+            return playerName;
+        }
+
+        [[nodiscard]]
+        u64 getTotalPlayTime() const noexcept {
+            return totalPlayTime;
+        }
+
+        void setPlayerName(StringView name) noexcept {
+            playerName = String(name);
+        }
+
+        void setTotalPlayTime(u64 time) noexcept {
+            totalPlayTime = time;
+        }
+
+        void setTotalPlayTime(Seconds time) noexcept {
+            totalPlayTime = static_cast<u64>(time.count());
+        }
     };
 
     /**

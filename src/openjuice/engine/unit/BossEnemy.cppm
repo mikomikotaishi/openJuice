@@ -40,16 +40,7 @@ public:
      * @param evade The evade value of the boss enemy.
      */
     BossEnemy(u16 id, u8 health, i8 attack, i8 defence, i8 evade):
-        Enemy(EnemyType::BOSS_ENCOUNTER, id, health, attack, defence, evade) {}
+        Enemy(Encounter::BOSS, id, health, attack, defence, evade) {}
 };
-
-/**
- * @concept ExtendsBossEnemy
- * @brief Concept that checks if a type extends the BossEnemy class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsBossEnemy = IsBaseOfValue<BossEnemy, T>;
 
 END_MODULE_NAMESPACE();

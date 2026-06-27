@@ -37,7 +37,7 @@ private:
     CARD_METADATA("CARD_BOOST_LONELYCHARIOT", "CARD_ARTIST_JUNPYON")
 public:
     static constexpr u16 ID = 43; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::COMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
@@ -73,7 +73,7 @@ private:
     CARD_METADATA("CARD_BOOST_AMBUSH", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 44; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::COMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -109,7 +109,7 @@ private:
     CARD_METADATA("CARD_BOOST_PASSIONATE", "CARD_ARTIST_JUNPYON")
 public:
     static constexpr u16 ID = 45; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::UNCOMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 5; ///< The cost of this specific card
@@ -145,7 +145,7 @@ private:
     CARD_METADATA("CARD_BOOST_PRESIDENT", "CARD_ARTIST_JUNPYON")
 public:
     static constexpr u16 ID = 46; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::COMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -181,7 +181,7 @@ private:
     CARD_METADATA("CARD_BOOST_MIMIC", "CARD_ARTIST_JUNPYON")
 public:
     static constexpr u16 ID = 47; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::RARE; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 5; ///< The cost of this specific card
@@ -217,7 +217,7 @@ private:
     CARD_METADATA("CARD_BATTLE_RETREAT", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 48; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::COMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = nullopt; ///< The cost of this specific card
@@ -253,7 +253,7 @@ private:
     CARD_METADATA("CARD_BATTLE_SHIELDCOUNTER", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 49; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::UNCOMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -289,7 +289,7 @@ private:
     CARD_METADATA("CARD_TRAP_PIYOPIYO", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 50; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::TRAP; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::RARE; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -325,7 +325,7 @@ private:
     CARD_METADATA("CARD_TRAP_SEALEDMEMORIES", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 51; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::TRAP; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::UNCOMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -361,7 +361,7 @@ private:
     CARD_METADATA("CARD_EVENT_MIXPHENOMENON", "CARD_ARTIST_JUNPYON")
 public:
     static constexpr u16 ID = 52; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::RARE; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -397,7 +397,7 @@ private:
     CARD_METADATA("CARD_EVENT_SOLICITATION", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 53; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::STANDARD; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = Card::Rarity::UNCOMMON; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card

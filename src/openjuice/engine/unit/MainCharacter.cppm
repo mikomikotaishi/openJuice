@@ -31,21 +31,21 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 export class MainCharacter: public Playable {
 public:
     /**
-     * @enum CharacterDifficulty
+     * @enum Difficulty
      * @brief Enumeration for character difficulty stars.
      *
-     * The CharacterDifficulty enumeration defines the number of stars of difficulty
+     * The Difficulty enumeration defines the number of stars of difficulty
      * a character is rated.
      */
-    enum class CharacterDifficulty: u8 {
-        ONE = 1,
-        TWO = 2,
-        THREE = 3,
-        FOUR = 4,
-        FIVE = 5
+    enum class Difficulty: u8 {
+        ONE = 1, ///< Difficulty of level 1
+        TWO = 2, ///< Difficulty of level 2
+        THREE = 3, ///< Difficulty of level 3
+        FOUR = 4, ///< Difficulty of level 4
+        FIVE = 5, ///< Difficulty of level 5
     };
 private:
-    const CharacterDifficulty difficulty; ///< The character difficulty of the main character.
+    const Difficulty difficulty; ///< The character difficulty of the main character.
 public:
     /**
      * @brief Constructor to initialise a MainCharacter object.
@@ -58,19 +58,12 @@ public:
      * @param evade The evade value of the main character.
      * @param recovery The recovery value of the main character.
      */
-    MainCharacter(u16 id, CharacterDifficulty difficulty, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
+    MainCharacter(u16 id, Difficulty difficulty, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
         Playable(id, health, attack, defence, evade, recovery), difficulty{difficulty} {}
 
-    GETTER(CharacterDifficulty, Difficulty, difficulty);
+    Difficulty getDifficulty() const noexcept {
+        return difficulty;
+    }
 };
-
-/**
- * @concept ExtendsMainCharacter
- * @brief Concept that checks if a type extends the MainCharacter class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsMainCharacter = IsBaseOfValue<MainCharacter, T>;
 
 END_MODULE_NAMESPACE();

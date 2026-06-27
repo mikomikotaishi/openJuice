@@ -51,7 +51,7 @@ public:
 
     /**
      * @enum Error
-     * @brief Enumeration of errors occuring in BoardLibrary operations
+     * @brief Enumeration of errors occurring in BoardLibrary operations
      */
     enum class Error: u8 {
         DIRECTORY_NOT_FOUND, ///< The directory containing boards was not found
@@ -83,7 +83,7 @@ private:
      * @brief Private destructor to prevent destruction.
      */
     ~BoardLibrary() = default;
-
+public:
     /**
      * @brief Deleted copy constructor to prevent copying.
      */
@@ -93,7 +93,7 @@ private:
      * @brief Deleted copy assignment operator to prevent copying.
      */
     BoardLibrary& operator=(const BoardLibrary&) = delete;
-public:
+
     /**
      * @brief Get the singleton instance of BoardLibrary.
      *

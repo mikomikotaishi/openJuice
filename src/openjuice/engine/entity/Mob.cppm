@@ -48,13 +48,4 @@ public:
     }
 };
 
-/**
- * @concept ExtendsMob
- * @brief Concept that checks if a type extends the Mob class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsMob = IsBaseOfValue<Mob, T>;
-
 END_MODULE_NAMESPACE();

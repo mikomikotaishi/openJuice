@@ -1,5 +1,5 @@
 /**
- * @file Main.cpp
+ * @file Main.cppm
  * @module openjuice:Main
  * @brief Main class for the openJuice application.
  *

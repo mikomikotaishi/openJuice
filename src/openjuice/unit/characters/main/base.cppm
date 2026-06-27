@@ -33,7 +33,7 @@ private:
     UNIT_METADATA("CARD_UNIT_KAI", "CARD_ARTIST_HONO", "VOICEACTOR_MATSUURA_YOSHIYUKI")
 public:
     static constexpr u16 ID = 1; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
@@ -60,7 +60,7 @@ private:
     UNIT_METADATA("CARD_UNIT_MARC", "CARD_ARTIST_HONO", "VOICEACTOR_TAKAI_MAIKA")
 public:
     static constexpr u16 ID = 2; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::TWO; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 1; ///< Defence stat of this specific character
@@ -87,7 +87,7 @@ private:
     UNIT_METADATA("CARD_UNIT_QP", "CARD_ARTIST_HONO", "VOICEACTOR_SATO_AZUSA")
 public:
     static constexpr u16 ID = 3; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::TWO; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 0; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
@@ -114,7 +114,7 @@ private:
     UNIT_METADATA("CARD_UNIT_SUGURI", "CARD_ARTIST_HONO", "VOICEACTOR_YOSHIDA_SEIKO")
 public:
     static constexpr u16 ID = 4; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::THREE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
@@ -141,7 +141,7 @@ private:
     UNIT_METADATA("CARD_UNIT_ARU", "CARD_ARTIST_HONO", "VOICEACTOR_MOTOMIYA_KANA")
 public:
     static constexpr u16 ID = 5; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::THREE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
@@ -168,7 +168,7 @@ private:
     UNIT_METADATA("CARD_UNIT_FERNET", "CARD_ARTIST_HONO", "VOICEACTOR_ARUNAMI_KAZUSA")
 public:
     static constexpr u16 ID = 6; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 6; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 2; ///< Defence stat of this specific character
@@ -195,7 +195,7 @@ private:
     UNIT_METADATA("CARD_UNIT_HIME", "CARD_ARTIST_HONO", "VOICEACTOR_MOTOMIYA_KANA")
 public:
     static constexpr u16 ID = 7; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::THREE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
@@ -222,7 +222,7 @@ private:
     UNIT_METADATA("CARD_UNIT_POPPO", "CARD_ARTIST_HONO", "VOICEACTOR_MARUYAMA_MIKI")
 public:
     static constexpr u16 ID = 8; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::FOUR; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::FOUR; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 7; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
@@ -249,7 +249,7 @@ private:
     UNIT_METADATA("CARD_UNIT_MIO", "CARD_ARTIST_HONO", "VOICEACTOR_IZAWA_SHIORI")
 public:
     static constexpr u16 ID = 9; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 6; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 0; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
@@ -276,7 +276,7 @@ private:
     UNIT_METADATA("CARD_UNIT_MIOFESTIVE", "CARD_ARTIST_YULAY_DEVLET", "VOICEACTOR_IZAWA_SHIORI")
 public:
     static constexpr u16 ID = 10; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::TWO; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -2; ///< Defence stat of this specific character
@@ -303,7 +303,7 @@ private:
     UNIT_METADATA("CARD_UNIT_PEAT", "CARD_ARTIST_HONO", "VOICEACTOR_KOUSAKA_ATSUSHI")
 public:
     static constexpr u16 ID = 11; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 1; ///< Defence stat of this specific character
@@ -330,7 +330,7 @@ private:
     UNIT_METADATA("CARD_UNIT_SORA", "CARD_ARTIST_HONO", "VOICEACTOR_MARUYAMA_MIKI")
 public:
     static constexpr u16 ID = 12; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
@@ -357,7 +357,7 @@ private:
     UNIT_METADATA("CARD_UNIT_TOMOMO", "CARD_ARTIST_HONO", "VOICEACTOR_ARANAMI_KAZUSA")
 public:
     static constexpr u16 ID = 13; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
@@ -384,7 +384,7 @@ private:
     UNIT_METADATA("CARD_UNIT_YUKI", "CARD_ARTIST_HONO", "VOICEACTOR_AIYA_SAKI")
 public:
     static constexpr u16 ID = 14; ///< ID of this specific character
-    static constexpr MainCharacter::CharacterDifficulty DIFFICULTY = MainCharacter::CharacterDifficulty::ONE; ///< Difficulty of this specific character
+    static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
     static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character

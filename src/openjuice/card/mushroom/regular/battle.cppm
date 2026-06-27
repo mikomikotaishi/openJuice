@@ -38,7 +38,7 @@ private:
     MUSHROOM_METADATA("")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::NULL_BATTLE); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -74,7 +74,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_ATTACKUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ATTACK_UP); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -110,7 +110,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_ATTACKDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ATTACK_DOWN); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -146,7 +146,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_DEFENSEUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENCE_UP); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -182,7 +182,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_DEFENSEDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENCE_DOWN); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -218,7 +218,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_EVADEUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::EVADE_UP); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -254,7 +254,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_EVADEDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::EVADE_DOWN); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -290,7 +290,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_HEAL")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::HEAL); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -326,7 +326,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_DAMAGE")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DAMAGE); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -362,7 +362,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_ROLLONE")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ROLL_ONE); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -398,7 +398,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_ROLLSIX")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ROLL_SIX); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card

@@ -37,7 +37,7 @@ private:
     CARD_METADATA("CARD_GIFT_VALENTINESDAY2018", "CARD_ARTIST_HONO")
 public:
     static constexpr u8 ID = 1; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -73,7 +73,7 @@ private:
     CARD_METADATA("CARD_XMAS2018_SNOWBALLREFLECTOR", "CARD_ARTIST_COFFGIRL")
 public:
     static constexpr u8 ID = 2; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -109,7 +109,7 @@ private:
     CARD_METADATA("CARD_XMAS2018_GROWNUPSNOWBALLFIGHT", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 3; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
@@ -145,7 +145,7 @@ private:
     CARD_METADATA("CARD_WINTER2022_FALSECAKE", "CARD_ARTIST_YULAY_DEVLET")
 public:
     static constexpr u8 ID = 4; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -181,7 +181,7 @@ private:
     CARD_METADATA("CARD_CHAOS_LAUNCH", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 5; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -217,7 +217,7 @@ private:
     CARD_METADATA("CARD_CHAOS_ROOST", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 6; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -253,7 +253,7 @@ private:
     CARD_METADATA("CARD_CHAOS_PROTECT", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 7; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -289,7 +289,7 @@ private:
     CARD_METADATA("CARD_CHAOS_ABYSS", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 8; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -325,7 +325,7 @@ private:
     CARD_METADATA("CARD_CHAOS_RAMPAGE", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 9; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -361,7 +361,7 @@ private:
     CARD_METADATA("CARD_CHAOS_ROULETTE", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 10; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -397,7 +397,7 @@ private:
     CARD_METADATA("CARD_CHAOS_POOL", "CARD_ARTIST_IKUSE")
 public:
     static constexpr u8 ID = 11; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -433,7 +433,7 @@ private:
     CARD_METADATA("CARD_CHAOS_GIFT_HOTPOTATO", "CARD_ARTIST_HONO")
 public:
     static constexpr u8 ID = 12; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -470,7 +470,7 @@ private:
     CARD_METADATA("CARD_CHAOS_GIFT_HOTPOTATO", "CARD_CHAOS_BDTT_HYPER")
 public:
     static constexpr u8 ID = 13; ///< The id of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::SEASONAL; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card

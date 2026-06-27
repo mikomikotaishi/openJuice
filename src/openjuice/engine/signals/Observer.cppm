@@ -81,22 +81,4 @@ public:
     }
 };
 
-/**
- * @concept ExtendsObserver
- * @brief Concept that checks if a type extends the Observer class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsObserver = IsBaseOfValue<Observer, T>;
-
-/**
- * @concept ExtendsSubject
- * @brief Concept that checks if a type extends the Subject class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsSubject = IsBaseOfValue<Subject, T>;
-
 END_MODULE_NAMESPACE();

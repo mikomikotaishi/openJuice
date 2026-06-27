@@ -37,7 +37,7 @@ private:
     CARD_METADATA("CARD_HYPER_KAI", "CARD_ARTIST_NERIUME")
 public:
     static constexpr u16 ID = 1; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -73,7 +73,7 @@ private:
     CARD_METADATA("CARD_HYPER_MARC", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 2; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = nullopt; ///< The cost of this specific card (deduct level * 10 stars from player)
@@ -109,7 +109,7 @@ private:
     CARD_METADATA("CARD_HYPER_QP", "CARD_ARTIST_MEGANE")
 public:
     static constexpr u16 ID = 3; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -145,7 +145,7 @@ private:
     CARD_METADATA("CARD_HYPER_SUGURI", "CARD_ARTIST_MIZUKISEO")
 public:
     static constexpr u16 ID = 4; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
@@ -181,7 +181,7 @@ private:
     CARD_METADATA("CARD_HYPER_ARU", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 5; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
@@ -217,7 +217,7 @@ private:
     CARD_METADATA("CARD_HYPER_FERNET", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 6; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
@@ -253,7 +253,7 @@ private:
     CARD_METADATA("CARD_HYPER_HIME", "CARD_ARTIST_TORI")
 public:
     static constexpr u16 ID = 7; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -289,7 +289,7 @@ private:
     CARD_METADATA("CARD_HYPER_POPPO", "CARD_ARTIST_MEGANE")
 public:
     static constexpr u16 ID = 8; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -325,7 +325,7 @@ private:
     CARD_METADATA("CARD_HYPER_MIO", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 9; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 50; ///< The cost of this specific card
@@ -361,7 +361,7 @@ private:
     CARD_METADATA("CARD_HYPER_MIOFESTIVE", "CARD_ARTIST_SENCA")
 public:
     static constexpr u16 ID = 10; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -397,7 +397,7 @@ private:
     CARD_METADATA("CARD_HYPER_PEAT", "CARD_ARTIST_HONO")
 public:
     static constexpr u16 ID = 11; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 10; ///< The cost of this specific card
@@ -433,7 +433,7 @@ private:
     CARD_METADATA("CARD_HYPER_SORA", "CARD_ARTIST_ERINA")
 public:
     static constexpr u16 ID = 12; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 30; ///< The cost of this specific card
@@ -469,7 +469,7 @@ private:
     CARD_METADATA("CARD_HYPER_TOMOMO", "CARD_ARTIST_MEGANE")
 public:
     static constexpr u16 ID = 13; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 20; ///< The cost of this specific card
@@ -505,7 +505,7 @@ private:
     CARD_METADATA("CARD_HYPER_YUKI", "CARD_ARTIST_NERIUME")
 public:
     static constexpr u16 ID = 14; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::EVENT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::HYPER; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 13; ///< The cost of this specific card

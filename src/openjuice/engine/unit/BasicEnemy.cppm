@@ -40,16 +40,7 @@ public:
      * @param evade The evade value of the enemy.
      */
     BasicEnemy(u16 id, u8 health, i8 attack, i8 defence, i8 evade):
-        Enemy(EnemyType::BASIC_ENCOUNTER, id, health, attack, defence, evade) {}
+        Enemy(Encounter::BASIC, id, health, attack, defence, evade) {}
 };
-
-/**
- * @concept ExtendsBasicEnemy
- * @brief Concept that checks if a type extends the BasicEnemy class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsBasicEnemy = IsBaseOfValue<BasicEnemy, T>;
 
 END_MODULE_NAMESPACE();

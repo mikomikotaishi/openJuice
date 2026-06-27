@@ -63,7 +63,7 @@ public:
         ROLL_SIX, ///< Only roll 6 in this battle
     };
 private:
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of these cards
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of these cards
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of these cards
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of these cards
     static constexpr Optional<u16> COST = 0; ///< The cost of these cards
@@ -123,8 +123,15 @@ protected:
     BattleMushroomCard(MushroomCard::Colour colour, Effect effect):
         Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, colour{colour} {}
 public:
-    GETTER(Effect, Effect, effect);
-    GETTER(MushroomCard::Colour, Colour, colour);
+    [[nodiscard]]
+    Effect getEffect() const noexcept {
+        return effect;
+    }
+
+    [[nodiscard]]
+    MushroomCard::Colour getColour() const noexcept {
+        return colour;
+    }
 
     /**
      * @brief Get the name of the card.
@@ -193,7 +200,7 @@ public:
         WIN, ///< Gain 1 win
     };
 private:
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of these cards
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of these cards
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of these cards
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of these cards
     static constexpr Optional<u16> COST = 0; ///< The cost of these cards
@@ -257,8 +264,15 @@ protected:
     BoostMushroomCard(MushroomCard::Colour colour, Effect effect):
         Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, colour{colour} {}
 public:
-    GETTER(Effect, Effect, effect);
-    GETTER(MushroomCard::Colour, Colour, colour);
+    [[nodiscard]]
+    Effect getEffect() const noexcept {
+        return effect;
+    }
+
+    [[nodiscard]]
+    MushroomCard::Colour getColour() const noexcept {
+        return colour;
+    }
 
     /**
      * @brief Get the name of the card.
@@ -327,7 +341,7 @@ public:
         PHANTOM_BLUE,
     };
 private:
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of these cards
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of these cards
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of these cards
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of these cards
     static constexpr Optional<u16> COST = 0; ///< The cost of these cards
@@ -403,8 +417,15 @@ protected:
     LegendaryMushroomCard(Colour colour, Effect effect):
         Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, colour{colour} {}
 public:
-    GETTER(Effect, Effect, effect);
-    GETTER(Colour, Colour, colour);
+    [[nodiscard]]
+    Effect getEffect() const noexcept {
+        return effect;
+    }
+
+    [[nodiscard]]
+    Colour getColour() const noexcept {
+        return colour;
+    }
 
     /**
      * @brief Get the name of the card.
@@ -439,33 +460,6 @@ public:
         return result ? *result : "";
     }
 };
-
-/**
- * @concept ExtendsBattleMushroomCard
- * @brief Concept that checks if a type extends the BattleMushroomCard class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsBattleMushroomCard = IsBaseOfValue<BattleMushroomCard, T>;
-
-/**
- * @concept ExtendsBoostMushroomCard
- * @brief Concept that checks if a type extends the BoostMushroomCard class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsBoostMushroomCard = IsBaseOfValue<BoostMushroomCard, T>;
-
-/**
- * @concept LegendaryMushroomCard
- * @brief Concept that checks if a type extends the LegendaryMushroomCard class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsLegendaryMushroomCard = IsBaseOfValue<LegendaryMushroomCard, T>;
 
 END_MODULE_NAMESPACE();
 

@@ -215,9 +215,6 @@ public:
         return *this;
     }
 
-    GETTER(u32, Capacity, capacity);
-    GETTER(u32, EntryCount, entryCount);
-
     /**
      * @brief Returns an iterator to the beginning of active component type IDs.
      * 
@@ -263,6 +260,16 @@ public:
     [[nodiscard]]
     StorageId getId() noexcept {
         return getIdInternal<RemoveConstVolatileReferenceType<T>>();
+    }
+
+    [[nodiscard]]
+    u32 getCapacity() const noexcept {
+        return capacity;
+    }
+
+    [[nodiscard]]
+    u32 getEntryCount() const noexcept {
+        return entryCount;
     }
 
     /**

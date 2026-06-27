@@ -21,19 +21,6 @@ using stdx::meta::IsBaseOfValue;
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
- * @enum EnemyType
- * @brief Enumeration for enemy types.
- *
- * @extends Unit
- * 
- * The EnemyType enumeration defines the types of enemies in the game.
- */
-export enum class EnemyType: u8 {
-    BASIC_ENCOUNTER, ///< Basic encounter enemy.
-    BOSS_ENCOUNTER ///< Boss encounter enemy.
-};
-
-/**
  * @class Enemy
  * @brief Abstract class representing an enemy unit.
  * 
@@ -42,32 +29,36 @@ export enum class EnemyType: u8 {
  * The Enemy abstract class extends the Unit abstract class and represents an enemy unit with a specific type.
  */
 export class Enemy: public Unit {
+public:
+    /**
+     * @enum Encounter
+     * @brief Enumeration for enemy encounter types.
+     *
+     * The Emcpimter enumeration defines the types of enemies in the game.
+     */
+    enum class Encounter: u8 {
+        BASIC, ///< Basic encounter enemy.
+        BOSS, ///< Boss encounter enemy.
+    };
 private:
-    const EnemyType type; ///< The type of the enemy.
+    const Encounter encounter; ///< The type of the enemy.
 public:
     /**
      * @brief Constructor to initialise an Enemy object.
      *
-     * @param enemyType The type of the enemy.
+     * @param Encounter The encounter type of the enemy.
      * @param id The ID of the enemy.
      * @param health The health of the enemy.
      * @param attack The attack value of the enemy.
      * @param defence The defence value of the enemy.
      * @param evade The evade value of the enemy.
      */
-    Enemy(EnemyType enemyType, u16 id, u8 health, i8 attack, i8 defence, i8 evade):
-        Unit(id, health, attack, defence, evade), type{enemyType} {}
+    Enemy(Encounter encounter, u16 id, u8 health, i8 attack, i8 defence, i8 evade):
+        Unit(id, health, attack, defence, evade), encounter{encounter} {}
 
-    GETTER(EnemyType, Type, type);
+    Encounter getEncounter() const noexcept {
+        return encounter;
+    }
 };
-
-/**
- * @concept ExtendsEnemy
- * @brief Concept that checks if a type extends the Enemy class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsEnemy = IsBaseOfValue<Enemy, T>;
 
 END_MODULE_NAMESPACE();

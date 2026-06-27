@@ -25,20 +25,6 @@ export struct [[nodiscard]] Colour {
     u8 g; ///< Green component.
     u8 b; ///< Blue component.
 
-    Colour() = default;
-
-    /**
-     * @brief Constructs an instance of Colour.
-     * 
-     * @param r Red value
-     * @param g Green value
-     * @param b Blue value
-     * 
-     * @return The constructed colour
-     */
-    constexpr Colour(u8 r, u8 g, u8 b):
-        r{r}, g{g}, b{b} {}
-
     static const Colour BLACK; ///< Predefined black colour.
     static const Colour RED; ///< Predefined red colour.
     static const Colour GREEN; ///< Predefined green colour.
@@ -69,13 +55,13 @@ export struct [[nodiscard]] Colour {
     static constexpr StringView BOLD_WHITE_ANSI = "\033[1m\033[37m"; ///< ANSI code for bold white colour.
 };
 
-inline constexpr Colour Colour::BLACK = Colour(0, 0, 0);
-inline constexpr Colour Colour::RED = Colour(255, 0, 0);
-inline constexpr Colour Colour::GREEN = Colour(0, 255, 0);
-inline constexpr Colour Colour::YELLOW = Colour(255, 255, 0);
-inline constexpr Colour Colour::BLUE = Colour(0, 0, 255);
-inline constexpr Colour Colour::MAGENTA = Colour(255, 0, 255);
-inline constexpr Colour Colour::CYAN = Colour(0, 255, 255);
-inline constexpr Colour Colour::WHITE = Colour(255, 255, 255);
+constexpr Colour Colour::BLACK = Colour(0, 0, 0);
+constexpr Colour Colour::RED = Colour(255, 0, 0);
+constexpr Colour Colour::GREEN = Colour(0, 255, 0);
+constexpr Colour Colour::YELLOW = Colour(255, 255, 0);
+constexpr Colour Colour::BLUE = Colour(0, 0, 255);
+constexpr Colour Colour::MAGENTA = Colour(255, 0, 255);
+constexpr Colour Colour::CYAN = Colour(0, 255, 255);
+constexpr Colour Colour::WHITE = Colour(255, 255, 255);
 
 END_MODULE_NAMESPACE();

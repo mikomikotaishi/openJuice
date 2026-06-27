@@ -38,7 +38,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_LEGEND_STARS")
 public:
     static constexpr u16 ID = Ops::to_underlying(LegendaryMushroomCard::Effect::STARS); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -74,7 +74,7 @@ private:
     MUSHROOM_METADATA("CARD_SHROOM_LEGEND_WINS")
 public:
     static constexpr u16 ID = Ops::to_underlying(LegendaryMushroomCard::Effect::WINS); ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card

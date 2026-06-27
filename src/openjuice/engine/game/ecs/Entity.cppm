@@ -8,8 +8,6 @@
 
 module;
 
-#include <cassert>
-
 #include "Macros.hpp"
 
 export module openjuice.engine.game.ecs:Entity;
@@ -132,8 +130,6 @@ public:
      * @param newUnit The new unit to set.
      */
     void setUnit(const SharedPointer<Unit>& newUnit) const {
-        assert(newUnit);
-
         if (newUnit) {
             if (UnitComponent* unitComp = registry->getIf<UnitComponent>(id); unitComp) {
                 unitComp->unit = newUnit;
@@ -190,14 +186,5 @@ public:
         return healthComp ? healthComp->maxHealth : 0;
     }
 };
-
-/**
- * @concept ExtendsEntity
- * @brief Concept that checks if a type extends the ExtendsEntity class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsEntity = IsBaseOfValue<Entity, T>;
 
 END_MODULE_NAMESPACE();

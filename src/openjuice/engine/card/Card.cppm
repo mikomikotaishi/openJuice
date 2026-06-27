@@ -34,12 +34,12 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 export class [[nodiscard]] Card {
 public:
     /**
-     * @enum Type
+     * @enum Of
      * @brief Enumeration for card types.
      * 
-     * The Card::Type enumeration defines the types of cards in the game.
+     * The Card::Of enumeration defines the types of cards in the game.
      */
-    enum class Type: u8 {
+    enum class Of: u8 {
         BATTLE, ///< Battle card type.
         BOOST, ///< Boost card type.
         TRAP, ///< Trap card type.
@@ -95,7 +95,7 @@ private:
     const Optional<u16> cost; ///< The cost to play the card (nullopt if not constant)
     const Optional<u8> limitPerDeck; ///< The limit of the card per deck (nullopt if not a standard card)
     const u16 id; ///< The ID of the card.
-    const Type cardType; ///< The card type of the card.
+    const Of cardType; ///< The card type of the card.
     const Spawn spawnType; ///< The spawn type of the card.
     const u8 level; ///< The level of the card.
 protected:
@@ -107,7 +107,7 @@ protected:
      */
     Card():
         deckPoints{0}, rarity{nullopt}, cost{nullopt}, limitPerDeck{0},
-        id{0}, cardType{static_cast<Card::Type>(0)}, spawnType{static_cast<Spawn>(0)}, level{0} {}
+        id{0}, cardType{Card::Of()}, spawnType{Spawn()}, level{0} {}
 
     /**
      * @brief Virtual default destructor.
@@ -126,17 +126,44 @@ public:
      * @param limit The limit of the card per deck.
      * @param deckPoints The deck points of the card.
      */
-    Card(u16 id, Type cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
+    Card(u16 id, Of cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
         deckPoints{Ops::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
         id{id}, cardType{cardType}, spawnType{spawnType}, level{level} {}
 
-    GETTER(u16, Id, id);
-    GETTER(Type, Type, cardType);
-    GETTER(Spawn, Spawn, spawnType);
-    GETTER(Optional<Rarity>, Rarity, rarity);
-    GETTER(Optional<u16>, Cost, cost);
-    GETTER(u8, Level, level);
-    GETTER(Optional<u8>, LimitPerDeck, limitPerDeck);
+    [[nodiscard]]
+    u16 getId() const noexcept {
+        return id;
+    }
+
+    [[nodiscard]]
+    Of getType() const noexcept {
+        return cardType;
+    }
+
+    [[nodiscard]]
+    Spawn getSpawn() const noexcept {
+        return spawnType;
+    }
+
+    [[nodiscard]]
+    Optional<Rarity> getRarity() const noexcept {
+        return rarity;
+    }
+
+    [[nodiscard]]
+    Optional<u16> getCost() const noexcept {
+        return cost;
+    }
+
+    [[nodiscard]]
+    u8 getLevel() const noexcept {
+        return level;
+    }
+
+    [[nodiscard]]
+    Optional<u8> getLimitPerDeck() const noexcept {
+        return limitPerDeck;
+    }
 
     /**
      * @brief Get the deck points of the card.
@@ -203,44 +230,35 @@ public:
     }
 };
 
-/**
- * @concept ExtendsCard
- * @brief Concept that checks if a type extends the Card class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsCard = IsBaseOfValue<Card, T>;
-
 END_MODULE_NAMESPACE();
 
 using openjuice::engine::card::Card;
 
 template <>
-struct Formatter<Card::Type> {
+struct Formatter<Card::Of> {
     static constexpr const char* parse(FormatParseContext& ctx) noexcept {
         return ctx.begin();
     }
 
-    static FormatContext::iterator format(Card::Type type, FormatContext& ctx) {
+    static FormatContext::iterator format(Card::Of type, FormatContext& ctx) {
         StringView name;
         switch (type) {
-            case Card::Type::BATTLE:
+            case Card::Of::BATTLE:
                 name = "Battle";
                 break;
-            case Card::Type::BOOST:
+            case Card::Of::BOOST:
                 name = "Boost";
                 break;
-            case Card::Type::TRAP:
+            case Card::Of::TRAP:
                 name = "Trap";
                 break;
-            case Card::Type::EVENT:
+            case Card::Of::EVENT:
                 name = "Event";
                 break;
-            case Card::Type::GIFT:
+            case Card::Of::GIFT:
                 name = "Gift";
                 break;
-            case Card::Type::BANNER:
+            case Card::Of::BANNER:
                 name = "Banner";
                 break;
             default:
@@ -343,7 +361,7 @@ struct Formatter<Card::DeckPointError> {
     }
 };
 
-SPECIALISE_FORMATTER(Card::Type);
+SPECIALISE_FORMATTER(Card::Of);
 SPECIALISE_FORMATTER(Card::Spawn);
 SPECIALISE_FORMATTER(Card::Rarity);
 SPECIALISE_FORMATTER(Card::DeckPointError);

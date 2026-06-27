@@ -61,7 +61,7 @@ public:
      */
     enum class LaunchMode: u8 {
         CLI, ///< Command Line Interface mode
-        TUI,  ///< Text User Interface mode
+        TUI, ///< Text User Interface mode
     };
 private:
     static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Engine"); ///< The logger instance.
@@ -193,7 +193,14 @@ public:
         #endif
     }
 
-    GETTER(SharedPointer<Game>, Game, game);
+    /**
+     * @brief Get the Game object
+     * @return A shared pointer handle to the game
+     */
+    [[nodiscard]]
+    SharedPointer<Game> getGame() const noexcept {
+        return game;
+    }
     
     /**
      * @brief Initialises and starts the engine

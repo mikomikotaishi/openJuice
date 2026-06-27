@@ -52,9 +52,6 @@ export namespace meta {
         usize size; ///< The size of the component type in bytes.
         AlignValue alignment; ///< The alignment requirement of the component type.
     public:
-        GETTER(usize, Size, size);
-        GETTER(AlignValue, Alignment, alignment);
-
         /**
          * @brief Default constructor.
          */
@@ -87,6 +84,16 @@ export namespace meta {
          * @return StrongOrdering The comparison result.
          */
         constexpr StrongOrdering operator<=>(const ComponentTypeInfo& other) const noexcept = default;
+
+        [[nodiscard]]
+        usize getSize() const noexcept {
+            return size;
+        }
+
+        [[nodiscard]]
+        AlignValue getAlignment() const noexcept {
+            return alignment;
+        }
     };
 
     /**

@@ -44,13 +44,4 @@ public:
         Playable(id, health, attack, defence, evade, recovery) {}
 };
 
-/**
- * @concept ExtendsEventCharacter
- * @brief Concept that checks if a type extends the EventCharacter class.
- *
- * @tparam T the type to check against
- */
-export template <typename T>
-concept ExtendsEventCharacter = IsBaseOfValue<EventCharacter, T>;
-
 END_MODULE_NAMESPACE();

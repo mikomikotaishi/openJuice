@@ -35,7 +35,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::character);
 export class MiosChristmasCake final: public BoostCard, public CharacterSpecificCard {
 public:
     static constexpr u8 ID = 1; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BOOST; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::CHARACTER_SPECIFIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -71,7 +71,7 @@ public:
 export class Freight final: public BattleCard, public CharacterSpecificCard {
 public:
     static constexpr u8 ID = 2; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::BATTLE; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::CHARACTER_SPECIFIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card
@@ -107,7 +107,7 @@ public:
 export class RedAndBlue final: public GiftCard, public CharacterSpecificCard {
 public:
     static constexpr u8 ID = 3; ///< The ID of this specific card
-    static constexpr Card::Type CARD_TYPE = Card::Type::GIFT; ///< The card type of this specific card
+    static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::CHARACTER_SPECIFIC; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
     static constexpr Optional<u16> COST = 0; ///< The cost of this specific card

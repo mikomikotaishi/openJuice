@@ -50,23 +50,23 @@ public:
      * @return Shared pointer to the created GenericCard object
      */
     [[nodiscard]]
-    static Optional<SharedPointer<GenericCard>> create(Card::Type type) noexcept {
+    static Optional<SharedPointer<GenericCard>> create(Card::Of type) noexcept {
         #ifndef NDEBUG
         LOGGER->debug("Creating GenericCard of type: {}", type);
         #endif
 
         switch (type) {
-            case Card::Type::BATTLE:
+            case Card::Of::BATTLE:
                 return Pointers::shared<GenericBattleCard>();
-            case Card::Type::BOOST:
+            case Card::Of::BOOST:
                 return Pointers::shared<GenericBoostCard>();
-            case Card::Type::TRAP:
+            case Card::Of::TRAP:
                 return Pointers::shared<GenericTrapCard>();
-            case Card::Type::EVENT:
+            case Card::Of::EVENT:
                 return Pointers::shared<GenericEventCard>();
-            case Card::Type::GIFT:
+            case Card::Of::GIFT:
                 return Pointers::shared<GenericGiftCard>();
-            case Card::Type::BANNER:
+            case Card::Of::BANNER:
                 return Pointers::shared<GenericBannerCard>();
             default:
                 Ops::unreachable();

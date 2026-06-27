@@ -64,10 +64,25 @@ public:
         return instance;
     }
 
-    GETTER(String, ProgramName, programName);
-    GETTER(Vector<StringView>, ProgramArgs, programArgs);
-    GETTER(Language, Language, language);
-    GETTER(Milliseconds, DeltaTime, deltaTime);
+    [[nodiscard]]
+    String getProgramName() const noexcept {
+        return programName;
+    }
+
+    [[nodiscard]]
+    Vector<StringView> getProgramArgs() const noexcept {
+        return programArgs;
+    }
+
+    [[nodiscard]]
+    Language getLanguage() const noexcept {
+        return language;
+    }
+
+    [[nodiscard]]
+    Milliseconds getDeltaTime() const noexcept {
+        return deltaTime;
+    }
 
     /**
      * @brief Get the singleton instance of GlobalSettings.

@@ -58,11 +58,6 @@ private:
         indices[id] = entryCount;
     }
 public:
-    GETTER(u32, Capacity, capacity);
-    GETTER(u32, Occupied, occupied);
-    GETTER(u32, EntryCount, entryCount);
-    GETTER(u32, FreeIdsCount, freeIdsCount);
-
     /**
      * @brief Constructs a new EntityManager with the specified capacity.
      * 
@@ -207,6 +202,26 @@ public:
      */
     EntityId* end() noexcept {
         return entries.get() + occupied;
+    }
+
+    [[nodiscard]]
+    u32 getCapacity() const noexcept {
+        return capacity;
+    }
+
+    [[nodiscard]]
+    u32 getOccupied() const noexcept {
+        return occupied;
+    }
+
+    [[nodiscard]]
+    u32 getEntryCount() const noexcept {
+        return entryCount;
+    }
+
+    [[nodiscard]]
+    u32 getFreeIdsCount() const noexcept {
+        return freeIdsCount;
     }
 
     /**
