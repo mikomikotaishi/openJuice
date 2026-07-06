@@ -40,22 +40,23 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatServer {
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatServer"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
     TcpListener serverListener; ///< Listener for incoming connections.
     Vector<SharedPointer<ChatSession>> clients; ///< List of connected clients.
     Thread acceptThread; ///< Thread for accepting connections.
-    bool isRunning = false; ///< Server running status.
+    bool running = false; ///< Server running status.
 
     /**
      * @brief Accept incoming connections.
      */
     void acceptConnections() {
-        while (isRunning) {
+        while (running) {
             UniquePointer<TcpSocket> clientSocket = Pointers::unique<TcpSocket>();
             
             if (serverListener.accept(*clientSocket) == Socket::Status::Done) {
-                LOGGER->info("Client connected from {}", clientSocket->getRemoteAddress()->toString());
-                SharedPointer<ChatSession> session = Pointers::shared<ChatSession>(Ops::move(clientSocket), clients);
+                logger->info("Client connected from {}", clientSocket->getRemoteAddress()->toString());
+                SharedPointer<ChatSession> session = Pointers::shared<ChatSession>(Ops::move(clientSocket), clients, loggerFactory);
                 session->start();
             }
         }
@@ -63,19 +64,21 @@ private:
 
 public:
     /**
-     * @brief Constructor to initialise a ChatServer object.
+     * @brief Constructor to initialize a ChatServer object.
      *
      * @param port The port to listen on.
      * @throws BindException if the server fails to start
      */
-    explicit ChatServer(u16 port) throws (BindException) {
+    ChatServer(u16 port, SharedPointer<LoggerFactory> loggerFactory) throws (BindException):
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("ChatServer")} {
         if (serverListener.listen(port) != Socket::Status::Done) {
-            LOGGER->error("Failed to bind server to port {}", port);
+            logger->error("Failed to bind server to port {}", port);
             throw BindException("Failed to start chat server");
         }
         
-        LOGGER->info("Chat server listening on port {}", port);
-        isRunning = true;
+        logger->info("Chat server listening on port {}", port);
+        running = true;
         
         // Start accepting connections in a separate thread
         acceptThread = Thread([this] -> void {
@@ -87,7 +90,7 @@ public:
      * @brief Destructor to clean up resources.
      */
     ~ChatServer() {
-        isRunning = false;
+        running = false;
         serverListener.close();
         acceptThread.request_stop();
     }

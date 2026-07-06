@@ -17,12 +17,10 @@ import stdx;
 import :standard;
 
 import openjuice.engine.card;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::spawn::StandardCard;
 
@@ -46,8 +44,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  * The StandardCardFactory class is a singleton factory class that creates StandardCard objects based on the given ID.
  */
 export class StandardCardFactory final {
-private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("StandardCardFactory"); ///< The logger instance.
 public:
     StandardCardFactory() = delete("StandardCardFactory is a utility class and cannot be instantiated.");
 
@@ -59,10 +55,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<StandardCard>> create(u16 id) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating StandardCard of ID: {}", id);
-        #endif
-
         switch (id) {
             case 0:
                 return nullptr;

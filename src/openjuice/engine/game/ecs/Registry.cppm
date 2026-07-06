@@ -384,7 +384,7 @@ private:
     /**
      * @brief Parallel implementation for queries that pass EntityId to the callback.
      * 
-     * Combines the behaviours of queryParallelImpl and querySelfImpl for parallel
+     * Combines the behaviors of queryParallelImpl and querySelfImpl for parallel
      * execution with EntityId passing.
      * 
      * @tparam Fn The query function type (first parameter must be EntityId).
@@ -540,7 +540,7 @@ public:
     /**
      * @brief Constructs a new Registry with the specified capacity.
      * 
-     * Initialises both the EntityManager and StorageManager with the given capacity.
+     * Initializes both the EntityManager and StorageManager with the given capacity.
      * 
      * @param capacity The maximum number of entities that can exist simultaneously.
      */
@@ -1045,8 +1045,6 @@ struct Formatter<Registry::Error> {
             case Registry::Error::ENTITY_CREATE_FAILURE:
                 msg = "Failed to create registry entity";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", msg);
     }

@@ -46,7 +46,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GenericBannerCard object.
+     * @brief Constructor to initialize a GenericBannerCard object.
      */
     GenericBannerCard(): 
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GenericBattleCard object.
+     * @brief Constructor to initialize a GenericBattleCard object.
      */
     GenericBattleCard(): 
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GenericBoostCard object.
+     * @brief Constructor to initialize a GenericBoostCard object.
      */
     GenericBoostCard(): 
         SET_CARD_STATS() {}
@@ -154,7 +154,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GenericEventCard object.
+     * @brief Constructor to initialize a GenericEventCard object.
      */
     GenericEventCard(): 
         SET_CARD_STATS() {}
@@ -190,7 +190,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GenericGiftCard object.
+     * @brief Constructor to initialize a GenericGiftCard object.
      */
     GenericGiftCard(): 
         SET_CARD_STATS() {}
@@ -226,7 +226,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GenericTrapCard object.
+     * @brief Constructor to initialize a GenericTrapCard object.
      */
     GenericTrapCard(): 
         SET_CARD_STATS() {}

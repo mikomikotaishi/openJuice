@@ -47,7 +47,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a UltimateWeaponInTheSun object.
+     * @brief Constructor to initialize a UltimateWeaponInTheSun object.
      */
     UltimateWeaponInTheSun(): 
         SET_CARD_STATS() {}
@@ -84,7 +84,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a LifeguardOnTheWhiteBeach object.
+     * @brief Constructor to initialize a LifeguardOnTheWhiteBeach object.
      */
     LifeguardOnTheWhiteBeach(): 
         SET_CARD_STATS() {}
@@ -121,7 +121,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GuardianOfBloomingFlowers object.
+     * @brief Constructor to initialize a GuardianOfBloomingFlowers object.
      */
     GuardianOfBloomingFlowers(): 
         SET_CARD_STATS() {}
@@ -158,7 +158,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a UnforgivingAvenger object.
+     * @brief Constructor to initialize a UnforgivingAvenger object.
      */
     UnforgivingAvenger(): 
         SET_CARD_STATS() {}
@@ -195,7 +195,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SummerGames object.
+     * @brief Constructor to initialize a SummerGames object.
      */
     SummerGames(): 
         SET_CARD_STATS() {}

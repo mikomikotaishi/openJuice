@@ -13,9 +13,9 @@ module;
 export module openjuice.engine.board:BoardLibrary;
 
 import stdx;
-import :BoardInfo;
+import :Board;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.engine.util;
 
 import marzer.toml;
@@ -41,11 +41,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
 /**
  * @class BoardLibrary
- * @brief Singleton class for loading and managing boards.
+ * @brief Service class for loading and managing boards.
  *
- * The BoardLibrary class is a singleton class that loads and manages boards from files.
+ * The BoardLibrary class is a service class that loads and manages boards from files.
  */
-export class BoardLibrary {
+export class BoardLibrary final {
 public:
     static constexpr StringView MAPS_DIR = Constants::MAPS_DIR; ///< The maps directory path.
 
@@ -60,19 +60,45 @@ public:
         CORRUPTED_LIBRARY_TOML, ///< The TOML file storing the board library is corrupted or has invalid data
     };
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BoardLibrary"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
 
-    Vector<SharedPointer<BoardInfo>> boardList; ///< List of loaded boards.
-    
-    /**
-     * @brief Private constructor to prevent instantiation.
+    Vector<SharedPointer<Board::Info>> boardList; ///< List of loaded boards.
+
+        /**
+     * @brief Get the board information for a given ID.
+     *
+     * @param id The ID of the board (0 returns nullptr, representing no board).
+     * @return SharedPointer to board information (nullptr if id is 0)
      */
-    BoardLibrary() {
+    [[nodiscard]]
+    SharedPointer<Board::Info> infoAt(u32 id) const RELEASE_NOEXCEPT {
+        #ifndef NDEBUG
+        logger->debug("Returning board ID: {}", id);
+        #endif 
+
+        return id > 0
+            #ifndef NDEBUG
+            ? boardList.at(id - 1)
+            #else
+            ? boardList[id - 1]
+            #endif
+            : nullptr;
+    }
+public:
+    /**
+     * @brief Construct the board library with an injected logger factory.
+     *
+     * @param loggerFactory The shared logger factory used to create this library's logger.
+     */
+    explicit BoardLibrary(SharedPointer<LoggerFactory> loggerFactory):
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("BoardLibrary")} {
         if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r) {
-            LOGGER->info("Successfully loaded {} boards!", boardList.size());
+            logger->info("Successfully loaded {} boards!", boardList.size());
         } else {
-            LOGGER->warn(
-                "Board libraries were not successfully initialised! ErrorDescription: {}, {} boards successfully loaded",
+            logger->warn(
+                "Board libraries were not successfully initialized! ErrorDescription: {}, {} boards successfully loaded",
                 r.error().message(),
                 boardList.size()
             );
@@ -83,27 +109,6 @@ private:
      * @brief Private destructor to prevent destruction.
      */
     ~BoardLibrary() = default;
-public:
-    /**
-     * @brief Deleted copy constructor to prevent copying.
-     */
-    BoardLibrary(const BoardLibrary&) = delete;
-
-    /**
-     * @brief Deleted copy assignment operator to prevent copying.
-     */
-    BoardLibrary& operator=(const BoardLibrary&) = delete;
-
-    /**
-     * @brief Get the singleton instance of BoardLibrary.
-     *
-     * @return The singleton instance.
-     */
-    [[nodiscard]]
-    static BoardLibrary& getInstance() {
-        static BoardLibrary instance;
-        return instance;
-    }
 
     /**
      * @brief Load boards into the boardList.
@@ -113,7 +118,7 @@ public:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> loadBoards(StringView directory = MAPS_DIR) {
         #ifndef NDEBUG
-        LOGGER->debug("Loading boards from directory: {}", directory);
+        logger->debug("Loading boards from directory: {}", directory);
         #endif
         
         if (!stdx::fs::exists(directory)) {
@@ -141,10 +146,10 @@ public:
                     );
                 }
 
-                Array<Pair<u8, u8>, BoardInfo::MAX_PLAYERS> homePanels;
+                Array<Pair<u8, u8>, Board::Info::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
-                    for (usize i: IotaView(0uz, Math::min(static_cast<usize>(BoardInfo::MAX_PLAYERS), homePanelsData->size()))) {
+                    for (usize i: IotaView(0uz, Math::min(static_cast<usize>(Board::Info::MAX_PLAYERS), homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {
@@ -181,36 +186,15 @@ public:
                     );
                 }
 
-                boardList.push_back(Pointers::shared<BoardInfo>(boardId, boardName, boardWidth, boardHeight, homePanels));
+                boardList.push_back(Pointers::shared<Board::Info>(boardId, boardName, boardWidth, boardHeight, homePanels));
             }
         }
 
         #ifndef NDEBUG
-        LOGGER->debug("Loading board library complete!");
+        logger->debug("Loading board library complete!");
         #endif
 
         return {};
-    }
-
-    /**
-     * @brief Get the board information for a given ID.
-     *
-     * @param id The ID of the board (0 returns nullptr, representing no board).
-     * @return SharedPointer to board information (nullptr if id is 0)
-     */
-    [[nodiscard]]
-    SharedPointer<BoardInfo> getBoard(u32 id) const RELEASE_NOEXCEPT {
-        #ifndef NDEBUG
-        LOGGER->debug("Returning board ID: {}", id);
-        #endif 
-
-        return id > 0
-            #ifndef NDEBUG
-            ? boardList.at(id - 1)
-            #else
-            ? boardList[id - 1]
-            #endif
-            : nullptr;
     }
 
     /**
@@ -220,8 +204,8 @@ public:
      * @return SharedPointer to board information (nullptr if id is 0)
      */
     [[nodiscard]]
-    SharedPointer<BoardInfo> operator[](u32 id) const noexcept(noexcept(getBoard(id))) {
-        return getBoard(id);
+    SharedPointer<Board> operator[](u32 id) const {
+        return Pointers::shared<Board>(infoAt(id));
     }
 };
 
@@ -250,8 +234,6 @@ struct Formatter<BoardLibrary::Error> {
             case BoardLibrary::Error::CORRUPTED_LIBRARY_TOML:
                 name = "Corrupted library TOML";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

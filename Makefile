@@ -24,12 +24,12 @@ define print_time
 	fi
 endef
 
-# Sanitiser configuration (can be overridden with make SANITIZERS="address undefined")
+# Sanitizer configuration (can be overridden with make SANITIZERS="address undefined")
 SANITIZERS ?=
 ENABLE_SANITIZERS := OFF
 CMAKE_SANITIZER_FLAGS :=
 
-# Process sanitiser flags
+# Process sanitizer flags
 ifneq ($(SANITIZERS),)
 	ENABLE_SANITIZERS := ON
 	CMAKE_BUILD_TYPE := Debug
@@ -114,8 +114,8 @@ help:
 	@printf "  $(YELLOW)install$(RESET)       - Install to $(INSTALL_PREFIX)/bin\n"
 	@printf "  $(YELLOW)uninstall$(RESET)     - Remove installed files\n"
 	@printf "\n"
-	@printf "$(BOLD)Sanitiser Options:$(RESET)\n"
-	@printf "  $(YELLOW)SANITIZERS$(RESET)    - Enable sanitisers (builds in Debug mode)\n"
+	@printf "$(BOLD)Sanitizer Options:$(RESET)\n"
+	@printf "  $(YELLOW)SANITIZERS$(RESET)    - Enable sanitizers (builds in Debug mode)\n"
 	@printf "    Values: address, kernel-address, hw-address, undefined, thread, memory, leak\n"
 	@printf "    Special: all, all-kernel, all-hardware\n"
 	@printf "    Example: make build SANITIZERS=\"address undefined\"\n"
@@ -143,8 +143,8 @@ configure:
 	@START_TIME=$$(date +%s); \
 	printf "$(BOLD)$(BLUE)Configuring CMake build system...$(RESET)\n"; \
 	if [ "$(ENABLE_SANITIZERS)" = "ON" ]; then \
-		printf "$(BOLD)$(MAGENTA)Sanitisers enabled:$(RESET) $(SANITIZERS)\n"; \
-		printf "$(YELLOW)Building in Debug mode for sanitiser support$(RESET)\n"; \
+		printf "$(BOLD)$(MAGENTA)Sanitizers enabled:$(RESET) $(SANITIZERS)\n"; \
+		printf "$(YELLOW)Building in Debug mode for sanitizer support$(RESET)\n"; \
 	fi; \
 	cmake -S . -B $(BUILD_DIR) -G $(CMAKE_GENERATOR) \
 		-DCMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
@@ -384,7 +384,7 @@ info:
 	@printf "$(BOLD)Install Dir:$(RESET)  $(INSTALL_PREFIX)\n"
 	@printf "$(BOLD)Generator:$(RESET)    $(CMAKE_GENERATOR)\n"
 	@printf "$(BOLD)Build Type:$(RESET)   $(CMAKE_BUILD_TYPE)\n"
-	@printf "$(BOLD)Sanitisers:$(RESET)   $(if $(SANITIZERS),$(SANITIZERS),None)\n"
+	@printf "$(BOLD)Sanitizers:$(RESET)   $(if $(SANITIZERS),$(SANITIZERS),None)\n"
 	@printf "\n"
 	@printf "$(BOLD)Status:$(RESET)\n"
 	@if [ -d "$(BUILD_DIR)" ]; then \

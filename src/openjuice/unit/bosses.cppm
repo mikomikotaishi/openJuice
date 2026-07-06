@@ -35,7 +35,7 @@ public:
     static constexpr u16 ID = 1; ///< ID of this specific boss
     static constexpr u8 HEALTH = 10; ///< Health stat of this specific boss
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific boss
-    static constexpr i8 DEFENCE = 1; ///< Defence stat of this specific boss
+    static constexpr i8 DEFENSE = 1; ///< Defense stat of this specific boss
     static constexpr i8 EVADE = -3; ///< Evade stat of this specific boss
 
     /**
@@ -60,7 +60,7 @@ public:
     static constexpr u16 ID = 2; ///< ID of this specific boss
     static constexpr u8 HEALTH = 7; ///< Health stat of this specific boss
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific boss
-    static constexpr i8 DEFENCE = 3; ///< Defence stat of this specific boss
+    static constexpr i8 DEFENSE = 3; ///< Defense stat of this specific boss
     static constexpr i8 EVADE = -2; ///< Evade stat of this specific boss
 
     /**
@@ -85,7 +85,7 @@ public:
     static constexpr u16 ID = 3; ///< ID of this specific boss
     static constexpr u8 HEALTH = 8; ///< Health stat of this specific boss
     static constexpr i8 ATTACK = 3; ///< Attack stat of this specific boss
-    static constexpr i8 DEFENCE = 2; ///< Defence stat of this specific boss
+    static constexpr i8 DEFENSE = 2; ///< Defense stat of this specific boss
     static constexpr i8 EVADE = -1; ///< Evade stat of this specific boss
 
     /**

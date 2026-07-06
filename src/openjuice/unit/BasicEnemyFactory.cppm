@@ -14,14 +14,12 @@ export module openjuice.unit:BasicEnemyFactory;
 
 import stdx;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.engine.unit;
 import openjuice.unit.enemies;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using namespace openjuice::engine::unit;
 using namespace openjuice::unit::enemies;
@@ -35,8 +33,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
  * The BasicEnemyFactory class is a singleton factory class that creates BasicEnemy objects based on the given ID.
  */
 export class BasicEnemyFactory final {
-private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
 public:
     BasicEnemyFactory() = delete("BasicEnemyFactory is a utility class and cannot be instantiated.");
 
@@ -48,10 +44,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<BasicEnemy>> create(u8 id) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating BasicEnemy of ID: {}", id);
-        #endif
-
         switch (id) {
             case 0:
                 return nullptr;

@@ -17,12 +17,10 @@ import stdx;
 import :character;
 
 import openjuice.engine.card;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::spawn::CharacterSpecificCard;
 
@@ -37,8 +35,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  * The CharacterSpecificCardFactory class is a singleton factory class that creates CharacterSpecificCard objects based on the given ID.
  */
 export class CharacterSpecificCardFactory final {
-private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CharacterSpecificCardFactory"); ///< The logger instance.
 public:
     CharacterSpecificCardFactory() = delete("CharacterSpecificCardFactory is a utility class and cannot be instantiated.");
 
@@ -50,10 +46,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<CharacterSpecificCard>> create(u8 id) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating CharacterSpecificCard of ID: {}", id);
-        #endif
-
         switch (id) {
             case 0:
                 return nullptr;

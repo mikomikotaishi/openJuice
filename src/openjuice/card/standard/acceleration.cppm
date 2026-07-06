@@ -46,7 +46,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a CompletionReward object.
+     * @brief Constructor to initialize a CompletionReward object.
      */
     CompletionReward(): 
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GentlemansBattle object.
+     * @brief Constructor to initialize a GentlemansBattle object.
      */
     GentlemansBattle(): 
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a AccelHyper object.
+     * @brief Constructor to initialize a AccelHyper object.
      */
     AccelHyper(): 
         SET_CARD_STATS() {}
@@ -154,7 +154,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Extension object.
+     * @brief Constructor to initialize a Extension object.
      */
     Extension(): 
         SET_CARD_STATS() {}
@@ -190,7 +190,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a QuickRestoration object.
+     * @brief Constructor to initialize a QuickRestoration object.
      */
     QuickRestoration(): 
         SET_CARD_STATS() {}
@@ -226,7 +226,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a BrutalPrank object.
+     * @brief Constructor to initialize a BrutalPrank object.
      */
     BrutalPrank(): 
         SET_CARD_STATS() {}
@@ -262,7 +262,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PresentThief object.
+     * @brief Constructor to initialize a PresentThief object.
      */
     PresentThief(): 
         SET_CARD_STATS() {}
@@ -298,7 +298,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PlayOfTheGods object.
+     * @brief Constructor to initialize a PlayOfTheGods object.
      */
     PlayOfTheGods(): 
         SET_CARD_STATS() {}
@@ -334,7 +334,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ScrambledEve object.
+     * @brief Constructor to initialize a ScrambledEve object.
      */
     ScrambledEve(): 
         SET_CARD_STATS() {}
@@ -370,7 +370,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a StarBlastingLight object.
+     * @brief Constructor to initialize a StarBlastingLight object.
      */
     StarBlastingLight(): 
         SET_CARD_STATS() {}
@@ -406,7 +406,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a UnluckyCharm object.
+     * @brief Constructor to initialize a UnluckyCharm object.
      */
     UnluckyCharm():
         SET_CARD_STATS() {}
@@ -442,7 +442,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a WindyEnchantment object.
+     * @brief Constructor to initialize a WindyEnchantment object.
      */
     WindyEnchantment(): 
         SET_CARD_STATS() {}

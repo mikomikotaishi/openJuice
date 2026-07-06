@@ -21,10 +21,10 @@
  *   -pd, --preserve-deps Clean the build directory and rebuilds everything (excluding dependencies)
  *   -rc, --reconfigure   Reconfigure CMake build system (for when new files are added)
  *   -g, --graph          Generate dependency graph
- *   -s, --sanitiser      Enable sanitisers (address, undefined, thread, memory, leak)
+ *   -s, --sanitizer      Enable sanitizers (address, undefined, thread, memory, leak)
  *   -v, --verbose        Enable verbose output (disables progress bar)
  *
- * Sanitisers:
+ * Sanitizers:
  *   address             AddressSanitizer (ASan)
  *   kernel-address      Kernel AddressSanitizer (KASan)
  *   hw-address          Hardware AddressSanitizer (HWASan)
@@ -32,9 +32,9 @@
  *   thread              ThreadSanitizer (TSan)
  *   memory              MemorySanitizer (MSan)
  *   leak                LeakSanitizer (LSan)
- *   all                 All compatible sanitisers (ASan, UBSan, LSan)
- *   all-kernel          All kernel sanitisers (KASan, UBSan, MSan, LSan)
- *   all-hardware        All hardware sanitisers (HWASan, UBSan, MSan, LSan)
+ *   all                 All compatible sanitizers (ASan, UBSan, LSan)
+ *   all-kernel          All kernel sanitizers (KASan, UBSan, MSan, LSan)
+ *   all-hardware        All hardware sanitizers (HWASan, UBSan, MSan, LSan)
  *
  * @author mikomikotaishi
  */
@@ -135,11 +135,11 @@ public class QuickCMakeBuild implements Callable<Integer> {
     @Option(names = {"-g", "--graph"}, description = "Generate dependency graph")
     private boolean generateGraph = false;
 
-    @Option(names = {"-r", "--release"}, description = "Build in release mode (optimised, no sanitisers, NDEBUG defined)")
+    @Option(names = {"-r", "--release"}, description = "Build in release mode (optimized, no sanitizers, NDEBUG defined)")
     private boolean release = false;
 
-    @Option(names = {"-s", "--sanitiser", "--sanitizer"}, description = "Enable sanitisers (address, undefined, thread, memory, leak)")
-    private List<String> sanitisers = new ArrayList<>();
+    @Option(names = {"-s", "--sanitizer"}, description = "Enable sanitizers (address, undefined, thread, memory, leak)")
+    private List<String> sanitizers = new ArrayList<>();
 
     @Option(names = {"-v", "--verbose"}, description = "Enable verbose output (lacks progress bar or other graphical features)")
     private boolean verbose = false;
@@ -316,14 +316,14 @@ public class QuickCMakeBuild implements Callable<Integer> {
     }
 
     /**
-     * Helper method to configure CMake command with sanitiser options
+     * Helper method to configure CMake command with sanitizer options
      * 
      * @param cmakeCommand The base CMake command list to modify
      * @param release Whether the build is in release mode
-     * @param sanitisers List of sanitisers to enable
+     * @param sanitizers List of sanitizers to enable
      * @return The updated CMake command with sanitizer options
      */
-    private static List<String> configureSanitisers(List<String> cmakeCommand, boolean release, List<String> sanitisers) {
+    private static List<String> configureSanitizers(List<String> cmakeCommand, boolean release, List<String> sanitizers) {
         boolean addressSan = false;
         boolean threadSan = false;
         boolean memorySan = false;
@@ -333,7 +333,7 @@ public class QuickCMakeBuild implements Callable<Integer> {
         boolean hardwareSan = false;
 
         if (release) {
-            System.out.printf("%sBuilding in%s Release mode (optimised)%n", ANSI.BLUE, ANSI.RESET);
+            System.out.printf("%sBuilding in%s Release mode (optimized)%n", ANSI.BLUE, ANSI.RESET);
             cmakeCommand.add("-DCMAKE_BUILD_TYPE=Release");
 
             System.out.printf("%sConfiguring%s for static linking (single executable)%n", ANSI.BLUE, ANSI.RESET);
@@ -352,17 +352,17 @@ public class QuickCMakeBuild implements Callable<Integer> {
             cmakeCommand.add("-DSDL3_NET_SHARED=OFF");
             cmakeCommand.add("-DSDL3_NET_STATIC=ON");
             
-            if (!sanitisers.isEmpty()) {
-                System.out.printf("%sNote:%s Sanitisers disabled in Release mode%n", ANSI.YELLOW, ANSI.RESET);
-                sanitisers = new ArrayList<>();
+            if (!sanitizers.isEmpty()) {
+                System.out.printf("%sNote:%s Sanitizers disabled in Release mode%n", ANSI.YELLOW, ANSI.RESET);
+                sanitizers = new ArrayList<>();
             }
         }
 
-        if (!sanitisers.isEmpty()) {
+        if (!sanitizers.isEmpty()) {
             cmakeCommand.add("-DENABLE_SANITIZERS=ON");
             
-            for (String sanitiser: sanitisers) {
-                switch (sanitiser.toLowerCase()) {
+            for (String sanitizer: sanitizers) {
+                switch (sanitizer.toLowerCase()) {
                     case "address":
                         if (threadSan || memorySan) {
                             System.out.printf("%sError:%s AddressSanitizer (ASan) cannot be used with ThreadSanitizer (TSan) or MemorySanitizer (MSan).%n", ANSI.RED, ANSI.RESET);
@@ -411,14 +411,14 @@ public class QuickCMakeBuild implements Callable<Integer> {
                         break;
             
                     case "all":
-                        System.out.printf("%sEnabling%s all compatible sanitisers%n", ANSI.YELLOW, ANSI.RESET);
+                        System.out.printf("%sEnabling%s all compatible sanitizers%n", ANSI.YELLOW, ANSI.RESET);
                         addressSan = true;
                         undefinedSan = true;
                         leakSan = true;
                         break;
             
                     case "all-kernel":
-                        System.out.printf("%sEnabling%s all sanitisers (Kernel AddressSanitizer)%n", ANSI.YELLOW, ANSI.RESET);
+                        System.out.printf("%sEnabling%s all sanitizers (Kernel AddressSanitizer)%n", ANSI.YELLOW, ANSI.RESET);
                         kernelSan = true;
                         undefinedSan = true;
                         memorySan = true;
@@ -426,7 +426,7 @@ public class QuickCMakeBuild implements Callable<Integer> {
                         break;
             
                     case "all-hardware":
-                        System.out.printf("%sEnabling%s all sanitisers (Hardware AddressSanitizer)%n", ANSI.YELLOW, ANSI.RESET);
+                        System.out.printf("%sEnabling%s all sanitizers (Hardware AddressSanitizer)%n", ANSI.YELLOW, ANSI.RESET);
                         hardwareSan = true;
                         undefinedSan = true;
                         memorySan = true;
@@ -434,7 +434,7 @@ public class QuickCMakeBuild implements Callable<Integer> {
                         break;
             
                     default:
-                        System.out.printf("%sWarning:%s Invalid sanitiser specified: %s%n", ANSI.YELLOW, ANSI.RESET, sanitiser);
+                        System.out.printf("%sWarning:%s Invalid sanitizer specified: %s%n", ANSI.YELLOW, ANSI.RESET, sanitizer);
                 }
             }            
             
@@ -466,24 +466,24 @@ public class QuickCMakeBuild implements Callable<Integer> {
     }
 
     /**
-     * Runs CMake initialisation ("cmake -S . -G Ninja -B build").
+     * Runs CMake initialization ("cmake -S . -G Ninja -B build").
      * This method sets up the initial build system configuration, handling 
-     * sanitiser options and build type settings.
+     * sanitizer options and build type settings.
      * 
      * @param verbose if true, shows full output instead of filtered messages.
      * @param release if true, configures for release build with optimisations.
-     * @param sanitisers list of sanitisers to enable for the build.
+     * @param sanitizers list of sanitizers to enable for the build.
      * @throws IOException if an I/O error occurs during CMake execution.
      * @throws InterruptedException if the process is interrupted.
      */
-    public static void runCMakeInit(boolean verbose, boolean release, List<String> sanitisers) throws IOException, InterruptedException {
+    public static void runCMakeInit(boolean verbose, boolean release, List<String> sanitizers) throws IOException, InterruptedException {
         if (verbose) {
             runCommand(CMAKE_INIT_COMMAND, true, false);
             return;
         }
 
         List<String> cmakeCommand = new ArrayList<>(CMAKE_INIT_COMMAND);
-        cmakeCommand = configureSanitisers(cmakeCommand, release, sanitisers);
+        cmakeCommand = configureSanitizers(cmakeCommand, release, sanitizers);
         
         System.out.printf("%sInitialising%s openJuice build%n", ANSI.GREEN, ANSI.RESET);
         
@@ -577,7 +577,7 @@ public class QuickCMakeBuild implements Callable<Integer> {
                 }
                 
                 if (line.startsWith("-- Configuring done")) {
-                    System.out.printf("%sFinalising%s build configuration...%n", ANSI.BLUE, ANSI.RESET);
+                    System.out.printf("%sFinalizing%s build configuration...%n", ANSI.BLUE, ANSI.RESET);
                 }
                 if (line.startsWith("-- Build files have been written")) {
                     System.out.printf("%sBuild system%s configured successfully%n", ANSI.GREEN, ANSI.RESET);
@@ -589,7 +589,7 @@ public class QuickCMakeBuild implements Callable<Integer> {
         stderrThread.join(1000);
         
         if (proc.exitValue() != 0) {
-            throw new IOException("CMake initialisation failed with exit code " + proc.exitValue());
+            throw new IOException("CMake initialization failed with exit code " + proc.exitValue());
         }
     }
 
@@ -600,15 +600,15 @@ public class QuickCMakeBuild implements Callable<Integer> {
      * 
      * @param verbose if true, shows full output instead of filtered messages.
      * @param release if true, configures for release build with optimisations.
-     * @param sanitisers list of sanitisers to enable for the build.
+     * @param sanitizers list of sanitizers to enable for the build.
      * @throws IOException if an I/O error occurs during CMake execution.
      * @throws InterruptedException if the process is interrupted.
      */
-    public static void runCMakeReconfigure(boolean verbose, boolean release, List<String> sanitisers) throws IOException, InterruptedException {
+    public static void runCMakeReconfigure(boolean verbose, boolean release, List<String> sanitizers) throws IOException, InterruptedException {
         System.out.printf("%sReconfiguring%s build system for new files...%n", ANSI.BLUE, ANSI.RESET);
         
         List<String> cmakeCommand = new ArrayList<>(CMAKE_RECONFIGURE_COMMAND);
-        cmakeCommand = configureSanitisers(cmakeCommand, release, sanitisers);
+        cmakeCommand = configureSanitizers(cmakeCommand, release, sanitizers);
         
         ProcessBuilder pb = new ProcessBuilder(cmakeCommand);
         pb.redirectErrorStream(true);
@@ -947,12 +947,12 @@ public class QuickCMakeBuild implements Callable<Integer> {
                 return 0;
             } else if (buildOperation.buildNew) {
                 cleanBuildDirectory(verbose, false);
-                runCMakeInit(verbose, release, sanitisers);
+                runCMakeInit(verbose, release, sanitizers);
             } else if (buildOperation.preserveDeps) {
                 cleanBuildDirectory(verbose, true);
-                runCMakeInit(verbose, release, sanitisers);
+                runCMakeInit(verbose, release, sanitizers);
             } else if (buildOperation.reconfigure) {
-                runCMakeReconfigure(verbose, release, sanitisers);
+                runCMakeReconfigure(verbose, release, sanitizers);
             }
             
             if (!buildOperation.cleanall && !buildOperation.clean) {

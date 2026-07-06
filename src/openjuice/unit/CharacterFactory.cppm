@@ -14,14 +14,12 @@ export module openjuice.unit:CharacterFactory;
 
 import stdx;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.engine.unit;
 import openjuice.unit.characters;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using namespace openjuice::engine::unit;
 using namespace openjuice::unit::characters::main::base;
@@ -41,8 +39,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit);
  * The CharacterFactory class is a singleton factory class that creates Playable objects based on the given ID.
  */
 export class CharacterFactory final {
-private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CharacterFactory"); ///< The logger instance.
 public:
     CharacterFactory() = delete("CharacterFactory is a utility class and cannot be instantiated.");
 
@@ -54,10 +50,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<Playable>> create(u8 id) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating Playable of ID: {}", id);
-        #endif
-
         switch (id) {
             case 0:
                 return nullptr;

@@ -19,7 +19,7 @@ elseif(MSVC)
     target_compile_options(openJuice PRIVATE /W4)
 endif()
 
-add_sanitisers(openJuice)
+add_sanitizers(openJuice)
 
 add_custom_command(TARGET openJuice POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy 

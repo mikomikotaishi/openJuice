@@ -28,8 +28,8 @@ dependency "commandr" version="~>0.2.0"
  *   -pd, --preserve-deps Clean the build directory and rebuilds everything (excluding dependencies)
  *   -rc, --reconfigure   Reconfigure CMake build system (for when new files are added)
  *   -g, --graph          Generate dependency graph
- *   -r, --release        Build in release mode (optimised, no sanitisers, NDEBUG defined)
- *   -s, --sanitiser      Enable sanitisers (address, undefined, thread, memory, leak)
+ *   -r, --release        Build in release mode (optimized, no sanitizers, NDEBUG defined)
+ *   -s, --sanitizer      Enable sanitizers (address, undefined, thread, memory, leak)
  *   -v, --verbose        Enable verbose output (disables progress bar)
  */
 
@@ -93,7 +93,7 @@ class QuickCMakeBuild {
     bool generateGraph = false;
     bool release = false;
     bool verbose = false;
-    string[] sanitisers;
+    string[] sanitizers;
 
     /**
      * Gets the width of the console window in characters.
@@ -259,9 +259,9 @@ class QuickCMakeBuild {
     }
 
     /**
-     * Helper method to configure CMake command with sanitiser options
+     * Helper method to configure CMake command with sanitizer options
      */
-    string[] configureSanitisers(string[] cmakeCommand) {
+    string[] configureSanitizers(string[] cmakeCommand) {
         bool addressSan = false;
         bool threadSan = false;
         bool memorySan = false;
@@ -271,7 +271,7 @@ class QuickCMakeBuild {
         bool hardwareSan = false;
 
         if (release) {
-            writeln(format("%sBuilding in%s Release mode (optimised)", ANSI.BLUE, ANSI.RESET));
+            writeln(format("%sBuilding in%s Release mode (optimized)", ANSI.BLUE, ANSI.RESET));
             cmakeCommand ~= "-DCMAKE_BUILD_TYPE=Release";
 
             writeln(format("%sConfiguring%s for static linking (single executable)", ANSI.BLUE, ANSI.RESET));
@@ -290,17 +290,17 @@ class QuickCMakeBuild {
             cmakeCommand ~= "-DSDL3_NET_SHARED=OFF";
             cmakeCommand ~= "-DSDL3_NET_STATIC=ON";
             
-            if (sanitisers.length > 0) {
-                writeln(format("%sNote:%s Sanitisers disabled in Release mode", ANSI.YELLOW, ANSI.RESET));
-                sanitisers = [];
+            if (sanitizers.length > 0) {
+                writeln(format("%sNote:%s Sanitizers disabled in Release mode", ANSI.YELLOW, ANSI.RESET));
+                sanitizers = [];
             }
         }
 
-        if (sanitisers.length > 0) {
+        if (sanitizers.length > 0) {
             cmakeCommand ~= "-DENABLE_SANITIZERS=ON";
             
-            foreach (string sanitiser; sanitisers) {
-                switch (sanitiser.toLower()) {
+            foreach (string sanitizer; sanitizers) {
+                switch (sanitizer.toLower()) {
                     case "address":
                         if (threadSan || memorySan) {
                             writeln(format("%sError:%s AddressSanitizer (ASan) cannot be used with ThreadSanitizer (TSan) or MemorySanitizer (MSan).", ANSI.RED, ANSI.RESET));
@@ -349,14 +349,14 @@ class QuickCMakeBuild {
                         break;
             
                     case "all":
-                        writeln(format("%sEnabling%s all compatible sanitisers", ANSI.YELLOW, ANSI.RESET));
+                        writeln(format("%sEnabling%s all compatible sanitizers", ANSI.YELLOW, ANSI.RESET));
                         addressSan = true;
                         undefinedSan = true;
                         leakSan = true;
                         break;
             
                     case "all-kernel":
-                        writeln(format("%sEnabling%s all sanitisers (Kernel AddressSanitizer)", ANSI.YELLOW, ANSI.RESET));
+                        writeln(format("%sEnabling%s all sanitizers (Kernel AddressSanitizer)", ANSI.YELLOW, ANSI.RESET));
                         kernelSan = true;
                         undefinedSan = true;
                         memorySan = true;
@@ -364,7 +364,7 @@ class QuickCMakeBuild {
                         break;
             
                     case "all-hardware":
-                        writeln(format("%sEnabling%s all sanitisers (Hardware AddressSanitizer)", ANSI.YELLOW, ANSI.RESET));
+                        writeln(format("%sEnabling%s all sanitizers (Hardware AddressSanitizer)", ANSI.YELLOW, ANSI.RESET));
                         hardwareSan = true;
                         undefinedSan = true;
                         memorySan = true;
@@ -372,8 +372,8 @@ class QuickCMakeBuild {
                         break;
             
                     default:
-                        writeln(format("%sWarning:%s Invalid sanitiser specified: %s", 
-                            ANSI.YELLOW, ANSI.RESET, sanitiser)
+                        writeln(format("%sWarning:%s Invalid sanitizer specified: %s", 
+                            ANSI.YELLOW, ANSI.RESET, sanitizer)
                         );
                 }
             }            
@@ -406,9 +406,9 @@ class QuickCMakeBuild {
     }
 
     /**
-     * Runs CMake initialisation ("cmake -S . -G Ninja -B build").
+     * Runs CMake initialization ("cmake -S . -G Ninja -B build").
      * This method sets up the initial build system configuration, handling 
-     * sanitiser options and build type settings.
+     * sanitizer options and build type settings.
      */
     void runCMakeInit() {
         if (verbose) {
@@ -417,7 +417,7 @@ class QuickCMakeBuild {
         }
 
         string[] cmakeCommand = CMAKE_INIT_COMMAND.dup;
-        cmakeCommand = configureSanitisers(cmakeCommand);
+        cmakeCommand = configureSanitizers(cmakeCommand);
         
         writeln(format("%sInitialising%s openJuice build", ANSI.GREEN, ANSI.RESET));
         
@@ -502,7 +502,7 @@ class QuickCMakeBuild {
             }
             
             if (lineStr.startsWith("-- Configuring done")) {
-                writeln(format("%sFinalising%s build configuration...", ANSI.BLUE, ANSI.RESET));
+                writeln(format("%sFinalizing%s build configuration...", ANSI.BLUE, ANSI.RESET));
             }
             
             if (lineStr.startsWith("-- Build files have been written")) {
@@ -513,7 +513,7 @@ class QuickCMakeBuild {
         int status = wait(pipes.pid);
         
         if (status != 0) {
-            throw new Exception("CMake initialisation failed with exit code " ~ to!string(status));
+            throw new Exception("CMake initialization failed with exit code " ~ to!string(status));
         }
     }
 
@@ -526,7 +526,7 @@ class QuickCMakeBuild {
         writeln(format("%sReconfiguring%s build system for new files...", ANSI.BLUE, ANSI.RESET));
         
         string[] cmakeCommand = CMAKE_RECONFIGURE_COMMAND.dup;
-        cmakeCommand = configureSanitisers(cmakeCommand);
+        cmakeCommand = configureSanitizers(cmakeCommand);
         
         ProcessPipes pipes = pipeProcess(cmakeCommand, Redirect.stdout | Redirect.stderr);
         
@@ -810,9 +810,9 @@ class QuickCMakeBuild {
                 .add(new Flag("pd", "preserve-deps", "Clean the build directory and rebuilds everything (excluding dependencies)").optional)
                 .add(new Flag("rc", "reconfigure", "Reconfigure CMake build system (for when new files are added)").optional)
                 .add(new Flag("g", "graph", "Generate dependency graph").optional)
-                .add(new Flag("r", "release", "Build in release mode (optimised, no sanitisers, NDEBUG defined)").optional)
+                .add(new Flag("r", "release", "Build in release mode (optimized, no sanitizers, NDEBUG defined)").optional)
                 .add(new Flag("v", "verbose", "Enable verbose output (disables progress bar)").optional)
-                .add(new ListArgument("s", "sanitiser", "Enable sanitisers").optional);
+                .add(new ListArgument("s", "sanitizer", "Enable sanitizers").optional);
                 
             auto parsedArgs = program.parseArgs(args);
 
@@ -835,8 +835,8 @@ class QuickCMakeBuild {
             release = parsedArgs.hasFlag("release") || parsedArgs.hasFlag("r");
             verbose = parsedArgs.hasFlag("verbose") || parsedArgs.hasFlag("v");
             
-            if (parsedArgs.hasArgument("sanitiser") || parsedArgs.hasArgument("s"))
-                sanitisers = parsedArgs.getList("sanitiser");
+            if (parsedArgs.hasArgument("sanitizer") || parsedArgs.hasArgument("s"))
+                sanitizers = parsedArgs.getList("sanitizer");
             
             if (cleanAll) {
                 cleanBuildDirectory(false);

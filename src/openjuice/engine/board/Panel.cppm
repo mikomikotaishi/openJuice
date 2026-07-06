@@ -93,7 +93,7 @@ private:
     Of alternativeType = Of::NEUTRAL; ///< The alternative type of the panel.
 public:
     /**
-     * @brief Constructor to initialise a Panel object.
+     * @brief Constructor to initialize a Panel object.
      *
      * @param id The ID of the panel.
      * @param type The type of the panel.
@@ -197,8 +197,6 @@ struct Formatter<Panel::Direction> {
             case Panel::Direction::DOWN:
                 name = "Down";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -294,8 +292,6 @@ struct Formatter<Panel::Of> {
             case Panel::Of::RANDOM:
                 name = "Random";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

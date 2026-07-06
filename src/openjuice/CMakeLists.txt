@@ -40,4 +40,4 @@ target_include_directories(modules
     ${tomlplusplus_INCLUDE_DIRS}
 )
 
-add_sanitisers(modules)
+add_sanitizers(modules)

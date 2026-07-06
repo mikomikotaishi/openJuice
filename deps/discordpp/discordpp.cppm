@@ -2,7 +2,7 @@
  * @file discordpp.cppm
  * @module discordpp
  * @brief Module file for Discord Social SDK operations.
- * @version 1.9.16441
+ * @version 1.9.17379
  */
 
 module;
@@ -72,15 +72,11 @@ export namespace discordpp {
     using discordpp::ClientCreateOptions;
     using discordpp::Client;
     using discordpp::CallInfoHandle;
-
     using discordpp::EnumToString;
-    
     using discordpp::HasSynchronizationContext;
     using discordpp::PostTask;
     using discordpp::SetSynchronizationContext;
-    
     using discordpp::TDelegateUserData;
-
     using discordpp::ConvertedProperties;
     using discordpp::ConvertReturnedProperties;
 }

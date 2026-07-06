@@ -20,7 +20,6 @@ import :Registry;
 import openjuice.engine.unit;
 
 using stdx::mem::SharedPointer;
-using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::unit::Unit;
 
@@ -40,7 +39,7 @@ protected:
     EntityId id; ///< The ECS entity ID associated with this entity.
 public:
     /**
-     * @brief Constructor to initialise an Entity object.
+     * @brief Constructor to initialize an Entity object.
      * @param reg Reference to the ECS registry
      * @param unit The unit associated with the entity.
      * @throws RuntimeException
@@ -163,7 +162,7 @@ public:
     [[nodiscard]]
     i8 getDefense() const {
         SharedPointer<Unit> unit = getUnit();
-        return unit ? unit->getDefence() : 0;
+        return unit ? unit->getDefense() : 0;
     }
 
     /**

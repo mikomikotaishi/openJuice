@@ -14,14 +14,13 @@ export module openjuice.engine.card.Card;
 
 import stdx;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
-using stdx::meta::IsBaseOfValue;
 
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::LocalizationService;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 
@@ -99,11 +98,11 @@ private:
     const Spawn spawnType; ///< The spawn type of the card.
     const u8 level; ///< The level of the card.
 protected:
-    static constexpr StringView CARD_KEY = ""; ///< The key belonging to the card to query in TextManager
-    static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in TextManager
+    static constexpr StringView CARD_KEY = ""; ///< The key belonging to the card to query in LocalizationService
+    static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in LocalizationService
 
     /**
-     * @brief Default constructor to initialise a Card object.
+     * @brief Default constructor to initialize a Card object.
      */
     Card():
         deckPoints{0}, rarity{nullopt}, cost{nullopt}, limitPerDeck{0},
@@ -115,7 +114,7 @@ protected:
     virtual ~Card() = default;
 public:
     /**
-     * @brief Constructor to initialise a Card object.
+     * @brief Constructor to initialize a Card object.
      *
      * @param id The ID of the card.
      * @param cardType The card type of the card.
@@ -190,8 +189,8 @@ public:
      * @return The name of the card.
      */
     [[nodiscard]]
-    virtual String getName() const noexcept {
-        return TextManager::getInstance()
+    virtual String getName(const LocalizationService& loc) const noexcept {
+        return loc
             .getCardName(CARD_KEY)
             .value_or("");
     }
@@ -201,8 +200,8 @@ public:
      * @return The description of the card.
      */
     [[nodiscard]]
-    virtual String getDescription() const noexcept {
-        return TextManager::getInstance()
+    virtual String getDescription(const LocalizationService& loc) const noexcept {
+        return loc
             .getCardDescription(CARD_KEY)
             .value_or("");
     }
@@ -212,8 +211,8 @@ public:
      * @return The flavour text of the card.
      */
     [[nodiscard]]
-    String getFlavour() const noexcept {
-        return TextManager::getInstance()
+    String getFlavour(const LocalizationService& loc) const noexcept {
+        return loc
             .getCardFlavour(CARD_KEY)
             .value_or("");
     }
@@ -223,8 +222,8 @@ public:
      * @return The card artist name.
      */
     [[nodiscard]]
-    virtual String getArtistName() const noexcept {
-        return TextManager::getInstance()
+    virtual String getArtistName(const LocalizationService& loc) const noexcept {
+        return loc
             .getCardArtistName(ARTIST_KEY)
             .value_or("");
     }
@@ -261,8 +260,6 @@ struct Formatter<Card::Of> {
             case Card::Of::BANNER:
                 name = "Banner";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -304,8 +301,6 @@ struct Formatter<Card::Spawn> {
             case Card::Spawn::GENERIC:
                 name = "Generic";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -332,8 +327,6 @@ struct Formatter<Card::Rarity> {
             case Card::Rarity::RARE:
                 name = "Rare";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -354,8 +347,6 @@ struct Formatter<Card::DeckPointError> {
             case Card::DeckPointError::NOT_STANDARD_CARD:
                 name = "Not standard card";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

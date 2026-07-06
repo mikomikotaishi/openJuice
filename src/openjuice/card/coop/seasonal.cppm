@@ -47,7 +47,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SeasonalUltimateWeaponInTheSun object.
+     * @brief Constructor to initialize a SeasonalUltimateWeaponInTheSun object.
      */
     SeasonalUltimateWeaponInTheSun(): 
         SET_CARD_STATS() {}
@@ -84,7 +84,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SeasonalLifeguardOnTheWhiteBeach object.
+     * @brief Constructor to initialize a SeasonalLifeguardOnTheWhiteBeach object.
      */
     SeasonalLifeguardOnTheWhiteBeach(): 
         SET_CARD_STATS() {}
@@ -121,7 +121,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SeasonalGuardianOfBloomingFlowers object.
+     * @brief Constructor to initialize a SeasonalGuardianOfBloomingFlowers object.
      */
     SeasonalGuardianOfBloomingFlowers(): 
         SET_CARD_STATS() {}
@@ -158,7 +158,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SeasonalUnforgivingAvenger object.
+     * @brief Constructor to initialize a SeasonalUnforgivingAvenger object.
      */
     SeasonalUnforgivingAvenger(): 
         SET_CARD_STATS() {}

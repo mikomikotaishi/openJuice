@@ -18,7 +18,6 @@ import openjuice.engine.game.ecs;
 import openjuice.engine.unit;
 
 using stdx::mem::SharedPointer;
-using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::game::ecs::Entity;
 using openjuice::engine::game::ecs::Registry;
@@ -38,7 +37,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::entity);
 export class Mob: public Entity {
 public:
     /**
-     * @brief Constructor to initialise a Mob object.
+     * @brief Constructor to initialize a Mob object.
      * @param reg Reference to the ECS registry
      * @param enemy The enemy associated with the mob.
      */

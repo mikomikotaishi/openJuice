@@ -16,8 +16,6 @@ import stdx;
 
 import :Enemy;
 
-using stdx::meta::IsBaseOfValue;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
@@ -31,16 +29,16 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 export class BossEnemy: public Enemy {
 public:
     /**
-     * @brief Constructor to initialise a BossEnemy object.
+     * @brief Constructor to initialize a BossEnemy object.
      *
      * @param id The ID of the boss enemy.
      * @param health The health of the boss enemy.
      * @param attack The attack value of the boss enemy.
-     * @param defence The defence value of the boss enemy.
+     * @param defense The defense value of the boss enemy.
      * @param evade The evade value of the boss enemy.
      */
-    BossEnemy(u16 id, u8 health, i8 attack, i8 defence, i8 evade):
-        Enemy(Encounter::BOSS, id, health, attack, defence, evade) {}
+    BossEnemy(u16 id, u8 health, i8 attack, i8 defense, i8 evade):
+        Enemy(Encounter::BOSS, id, health, attack, defense, evade) {}
 };
 
 END_MODULE_NAMESPACE();

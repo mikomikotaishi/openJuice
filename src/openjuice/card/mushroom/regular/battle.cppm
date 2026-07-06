@@ -47,9 +47,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a NullBattleMushroom object.
+     * @brief Constructor to initialize a NullBattleMushroom object.
      */
-    NullBattleMushroom(MushroomCard::Colour colour):
+    NullBattleMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, NULL_BATTLE) {}
 
     /**
@@ -83,9 +83,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a AttackUpMushroom object.
+     * @brief Constructor to initialize a AttackUpMushroom object.
      */
-    AttackUpMushroom(MushroomCard::Colour colour):
+    AttackUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ATTACK_UP) {}
 
     /**
@@ -119,9 +119,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a AttackDownMushroom object.
+     * @brief Constructor to initialize a AttackDownMushroom object.
      */
-    AttackDownMushroom(MushroomCard::Colour colour):
+    AttackDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ATTACK_DOWN) {}
 
     /**
@@ -133,19 +133,19 @@ public:
 };
 
 /**
- * @class DefenceUpMushroom
- * @brief Class representing the DefenceUpMushroom card.
+ * @class DefenseUpMushroom
+ * @brief Class representing the DefenseUpMushroom card.
  *
  * @extends BattleMushroomCard
  *
- * The DefenceUpMushroom class extends BattleMushroomCard to represent the card 
- * providing the BattleMushroomCard::Effect::DEFENCE_UP effect in the game.
+ * The DefenseUpMushroom class extends BattleMushroomCard to represent the card 
+ * providing the BattleMushroomCard::Effect::DEFENSE_UP effect in the game.
  */
-export class DefenceUpMushroom final: public BattleMushroomCard {
+export class DefenseUpMushroom final: public BattleMushroomCard {
 private:
     MUSHROOM_METADATA("CARD_SHROOM_DEFENSEUP")
 public:
-    static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENCE_UP); ///< The ID of this specific card
+    static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENSE_UP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
@@ -155,10 +155,10 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a DefenceUpMushroom object.
+     * @brief Constructor to initialize a DefenseUpMushroom object.
      */
-    DefenceUpMushroom(MushroomCard::Colour colour):
-        SET_MUSHROOM_STATS(Battle, DEFENCE_UP) {}
+    DefenseUpMushroom(MushroomCard::Color color):
+        SET_MUSHROOM_STATS(Battle, DEFENSE_UP) {}
 
     /**
      * @brief Play the card.
@@ -169,19 +169,19 @@ public:
 };
 
 /**
- * @class DefenceDownMushroom
- * @brief Class representing the DefenceDownMushroom card.
+ * @class DefenseDownMushroom
+ * @brief Class representing the DefenseDownMushroom card.
  *
  * @extends BattleMushroomCard
  *
- * The DefenceDownMushroom class extends BattleMushroomCard to represent the card 
- * providing the BattleMushroomCard::Effect::DEFENCE_DOWN effect in the game.
+ * The DefenseDownMushroom class extends BattleMushroomCard to represent the card 
+ * providing the BattleMushroomCard::Effect::DEFENSE_DOWN effect in the game.
  */
-export class DefenceDownMushroom final: public BattleMushroomCard {
+export class DefenseDownMushroom final: public BattleMushroomCard {
 private:
     MUSHROOM_METADATA("CARD_SHROOM_DEFENSEDOWN")
 public:
-    static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENCE_DOWN); ///< The ID of this specific card
+    static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENSE_DOWN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
     static constexpr Card::Spawn SPAWN_TYPE = Card::Spawn::MUSHROOM; ///< The spawn type of this specific card
     static constexpr Optional<Card::Rarity> RARITY = nullopt; ///< The rarity of this specific card
@@ -191,10 +191,10 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a DefenceDownMushroom object.
+     * @brief Constructor to initialize a DefenseDownMushroom object.
      */
-    DefenceDownMushroom(MushroomCard::Colour colour):
-        SET_MUSHROOM_STATS(Battle, DEFENCE_DOWN) {}
+    DefenseDownMushroom(MushroomCard::Color color):
+        SET_MUSHROOM_STATS(Battle, DEFENSE_DOWN) {}
 
     /**
      * @brief Play the card.
@@ -227,9 +227,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a EvadeUpMushroom object.
+     * @brief Constructor to initialize a EvadeUpMushroom object.
      */
-    EvadeUpMushroom(MushroomCard::Colour colour):
+    EvadeUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, EVADE_UP) {}
 
     /**
@@ -263,9 +263,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a EvadeDownMushroom object.
+     * @brief Constructor to initialize a EvadeDownMushroom object.
      */
-    EvadeDownMushroom(MushroomCard::Colour colour):
+    EvadeDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, EVADE_DOWN) {}
 
     /**
@@ -299,9 +299,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a HealMushroom object.
+     * @brief Constructor to initialize a HealMushroom object.
      */
-    HealMushroom(MushroomCard::Colour colour):
+    HealMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, HEAL) {}
 
     /**
@@ -335,9 +335,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a DamageMushroom object.
+     * @brief Constructor to initialize a DamageMushroom object.
      */
-    DamageMushroom(MushroomCard::Colour colour):
+    DamageMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, DAMAGE) {}
 
     /**
@@ -371,9 +371,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a RollOneMushroom object.
+     * @brief Constructor to initialize a RollOneMushroom object.
      */
-    RollOneMushroom(MushroomCard::Colour colour):
+    RollOneMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ROLL_ONE) {}
 
     /**
@@ -407,9 +407,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a RollSixMushroom object.
+     * @brief Constructor to initialize a RollSixMushroom object.
      */
-    RollSixMushroom(MushroomCard::Colour colour):
+    RollSixMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ROLL_SIX) {}
 
     /**

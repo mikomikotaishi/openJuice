@@ -16,8 +16,6 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::Main;
-using openjuice::engine::managers::GlobalSettings;
-using openjuice::engine::util::Constants;
 
 /**
  * @brief The main function of the openJuice application.
@@ -29,23 +27,15 @@ using openjuice::engine::util::Constants;
  * @return Exit code
  */
 int main(int argc, char* argv[]) {
-    const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("::main()");
-    bool hasArgs = argc > 1;
     try {
-        Vector<StringView> args(argv + static_cast<usize>(hasArgs), argv + argc);
-        GlobalSettings::getInstance()
-            .setProgramName(argv[0])
-            .setProgramArgs(args);
-        LoggerFactory::instance()
-            .trace_source(Constants::ENABLE_SOURCE_LOCATION)
-            .init(Constants::PATH_DEBUGFILE);
+        Vector<StringView> args(argv, argv + argc);
         Main::main(args);
     } catch (const Exception& e) {
-        LOGGER->error("An error occured: {}", e.what());
+        System::err.println("An error occured: {}", e.what());
         System::err.println(StackTrace::current());
         return System::EXIT_FAILURE;
     } catch (...) {
-        LOGGER->error("An unknown error occured.");
+        System::err.println("An unknown error occured.");
         System::err.println(StackTrace::current());
         return System::EXIT_FAILURE;
     }

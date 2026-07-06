@@ -8,9 +8,8 @@
 
 export module openjuice.engine.util;
 
-export import :Colour;
+export import :Color;
 export import :Constants;
 export import :Exceptions;
 export import :Language;
 export import :Misc;
-export import :RandomNumberGenerator;

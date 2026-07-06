@@ -46,7 +46,7 @@ export namespace sfml {
 
     class Clipboard final {
     public:
-        Clipboard() = delete;
+        Clipboard() = delete("Clipboard is a utility class and cannot be instantiated.");
 
         [[nodiscard]]
         static sf::String getString() {
@@ -68,7 +68,7 @@ export namespace sfml {
 
     class Joystick final {
     public:
-        Joystick() = delete;
+        Joystick() = delete("Joystick is a utility class and cannot be instantiated.");
         using Identification = sf::Joystick::Identification;
         using Axis = sf::Joystick::Axis;
 
@@ -109,7 +109,7 @@ export namespace sfml {
 
     class Keyboard final {
     public:
-        Keyboard() = delete;
+        Keyboard() = delete("Keyboard is a utility class and cannot be instantiated.");
         using Scancode = sf::Keyboard::Scancode;
         using Key = sf::Keyboard::Key;
         using Scan = sf::Keyboard::Scan;
@@ -146,7 +146,7 @@ export namespace sfml {
 
     class Mouse final {
     public:
-        Mouse() = delete;
+        Mouse() = delete("Mouse is a utility class and cannot be instantiated.");
         using Button = sf::Mouse::Button;
         using Wheel = sf::Mouse::Wheel;
 
@@ -167,7 +167,7 @@ export namespace sfml {
 
     class Sensor final {
     public:
-        Sensor() = delete;
+        Sensor() = delete("Sensor is a utility class and cannot be instantiated.");
         using Type = sf::Sensor::Type;
 
         [[nodiscard]]
@@ -187,7 +187,7 @@ export namespace sfml {
 
     class Touch final {
     public:
-        Touch() = delete;
+        Touch() = delete("Touch is a utility class and cannot be instantiated.");
 
         [[deprecated("Use sf::Event::TouchBegan and sf::Event::TouchEnded")]]
         [[nodiscard]]
@@ -211,7 +211,7 @@ export namespace sfml {
     using sf::VideoMode;
     class Vulkan final {
     public:
-        Vulkan() = delete;
+        Vulkan() = delete("Vulkan is a utility class and cannot be instantiated.");
 
         [[nodiscard]]
         static bool isAvailable() {
@@ -235,7 +235,6 @@ export namespace sfml {
 
     class Style final {
     public:
-        Style() = delete;
         using Self = decltype(sf::Style::Titlebar);
 
         static constexpr Self None = sf::Style::None;
@@ -243,6 +242,17 @@ export namespace sfml {
         static constexpr Self Resize = sf::Style::Resize;
         static constexpr Self Close = sf::Style::Close;
         static constexpr Self Default = sf::Style::Default;
+    private:
+        const Self value = None;
+    public:
+        constexpr Style() noexcept = default;
+
+        constexpr Style(Self value) noexcept:
+            value{value} {}
+
+        constexpr operator Self() const noexcept {
+            return value;
+        }
     };
 
     using sf::State;

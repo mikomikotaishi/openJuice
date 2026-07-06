@@ -14,8 +14,6 @@ export module openjuice.engine.board:Board;
 
 import stdx;
 
-import :BoardInfo;
-import :BoardLibrary;
 import :Panel;
 
 import openjuice.engine.util;
@@ -23,11 +21,11 @@ import openjuice.engine.util;
 using stdx::collections::Queue;
 using stdx::collections::HashMap;
 using stdx::collections::Vector;
+using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
 
-using openjuice::engine::board::BoardInfo;
 using openjuice::engine::board::Panel;
 using openjuice::engine::util::Constants;
 
@@ -46,6 +44,87 @@ public:
     static constexpr usize GAME_MAX_HEIGHT = Constants::GAME_MAX_HEIGHT; ///< Maximum game height.
 
     using GameBoard = Array<Array<UniquePointer<Panel>, GAME_MAX_WIDTH>, GAME_MAX_HEIGHT>;
+
+    /**
+     * @class Info
+     * @brief Struct aggregating key information about boards.
+     * 
+     * The Info record aggregates key information about boards, such as ID, name, dimensions, and home panels.
+     */
+    class [[nodiscard]] Info final {
+    public:
+        static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
+        using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
+    private:
+        const String name; ///< The name of the board.
+        const HomePanels homePanels; ///< The home panels for each player.
+        const u32 id; ///< The ID of the board. 0 denotes an error.
+        const u8 width; ///< The width of the board.
+        const u8 height; ///< The height of the board.
+    public:
+        /**
+        * @brief Get the name of the board
+        * @return The board's name
+        */
+        [[nodiscard]]
+        constexpr String getName() const noexcept {
+            return name;
+        }
+
+        /**
+        * @brief Get the ID of the board
+        * @return The board's ID
+        */
+        [[nodiscard]]
+        constexpr u32 getId() const noexcept {
+            return id;
+        }
+
+        /**
+        * @brief Get the width of the board
+        * @return The board's width
+        */
+        [[nodiscard]]
+        constexpr u8 getWidth() const noexcept {
+            return width;
+        }
+
+        /**
+        * @brief Get the height of the board
+        * @return The board's height
+        */
+        [[nodiscard]]
+        constexpr u8 getHeight() const noexcept {
+            return height;
+        }
+
+        /**
+        * @brief Get the home panels of the board
+        * @return The home panels of the board (array of 4 coordinates)
+        */
+        [[nodiscard]]
+        constexpr HomePanels getHomePanels() const noexcept {
+            return homePanels;
+        }
+
+        /**
+        * @brief Constructor with parameters
+        * 
+        * @param id The board ID
+        * @param name The board name
+        * @param width The board width
+        * @param height The board height
+        * @param panels The home panels for each player
+        */
+        constexpr Info(u32 id, StringView name, u8 width, u8 height, const HomePanels& panels):
+            name{String(name)}, homePanels{panels}, id{id},
+            width{width}, height{height} {}
+
+        /**
+        * @brief Destructor
+        */
+        constexpr ~Info() = default;
+    };
 private:
     static constexpr Array<Pair<i8, i8>, 4> DIRECTION_OFFSETS = {{
         {-1,  0}, ///< Top
@@ -85,7 +164,7 @@ private:
         /**
          * @brief Construct a new Graph object.
          *
-         * @param gameboard The GameBoard to initialise the Graph with.
+         * @param gameboard The GameBoard to initialize the Graph with.
          */
         explicit Graph(const GameBoard& gameboard) {
             for (const Array<UniquePointer<Panel>, GAME_MAX_WIDTH>& row: gameboard) {
@@ -159,32 +238,23 @@ private:
     };
 
     GameBoard gameBoard; ///< The game board represented as a 2D array of panels.
-    BoardInfo::HomePanels homePanels; ///< The home panels for each player.
+    Info::HomePanels homePanels; ///< The home panels for each player.
     UniquePointer<Graph> graph; ///< Internal graph representation for pathfinding.
-    u8 boardWidth; ///< The width of the board.
-    u8 boardHeight; ///< The height of the board.
+    u8 width; ///< The width of the board.
+    u8 height; ///< The height of the board.
 public:
     /**
      * @brief Construct a new Board object.
      *
      * @param id The ID of the Board to construct.
      */
-    explicit Board(u32 id) {
-        SharedPointer<BoardInfo> boardData = BoardLibrary::getInstance()[id];
+    explicit Board(SharedPointer<Info> data):
+        homePanels{data->getHomePanels()},
+        width{data->getWidth()}, height{data->getHeight()} {
+        // need to initialize gameBoard...
 
-        if (boardData) {
-            // need to initialise gameBoard...
-            boardWidth = boardData->getWidth();
-            boardHeight = boardData->getHeight();
-            homePanels = boardData->getHomePanels();
-
-            // Initialise the graph after the game board is set up
-            graph = Pointers::unique<Graph>(gameBoard);
-        } else {
-            // Initialises to 0 at application startup - trivial case
-            boardWidth = 0;
-            boardHeight = 0;
-        }
+        // Initialize the graph after the game board is set up
+        graph = Pointers::unique<Graph>(gameBoard);
     }
 
     /**

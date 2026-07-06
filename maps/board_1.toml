@@ -3,6 +3,8 @@ id = 1
 width = 9
 height = 9
 homePanels = [[2, 2], [2, 6], [6, 2], [6, 6]]
+boss = "Store Manager"
+events = []
 
 [[panels]]
 row = 0

@@ -13,7 +13,7 @@ export module openjuice.ui.cli:CommandLineInterface;
 import stdx;
 
 import openjuice.engine.game;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.engine.util;
 import openjuice.ui.UserInterface;
 
@@ -24,8 +24,7 @@ using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::managers::GlobalSettings;
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::ConfigurationService;
 using openjuice::engine::util::Language;
 
 BEGIN_MODULE_NAMESPACE(openjuice::ui::cli);
@@ -38,6 +37,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::cli);
  */
 export class CommandLineInterface: public UserInterface {
 private:
+    SharedPointer<ConfigurationService> config; ///< The injected configuration/settings service.
+
     /**
      * @brief
      *
@@ -68,13 +69,15 @@ private:
     }
 public:
     /**
-     * @brief Constructor that initialises the base UserInterface
+     * @brief Constructor that initializes the base UserInterface
      *
-     * @param state Shared pointer to game instance
-     * @param mutex Reference to state mutex for synchronisation
+     * @param game Shared pointer to game instance
+     * @param mutex Reference to state mutex for synchronization
+     * @param config The injected configuration/settings service
      */
-    CommandLineInterface(SharedPointer<Game> game, Mutex& mutex):
-        UserInterface(Ops::move(game), mutex) {}
+    CommandLineInterface(SharedPointer<Game> game, Mutex& mutex, SharedPointer<ConfigurationService> config):
+        UserInterface(Ops::move(game), mutex),
+        config{Ops::move(config)} {}
 
     /**
      * @brief
@@ -82,6 +85,9 @@ public:
     void init() override {
         initLanguage();
         initFrameRate();
+        if (Expected<void, ConfigurationService::Error> result = config->save(); !result) {
+            System::err.println("Failed to persist settings: {}", result.error());
+        }
     }
 
     /**
@@ -108,9 +114,9 @@ public:
     }
 
     /**
-     * @brief Initialises the language for the command line interface.
+     * @brief Initializes the language for the command line interface.
      */
-    static void initLanguage() {
+    void initLanguage() {
         System::out.println("Enter your desired language:");
         System::out.println("Language codes: English [en], Japanese [jp], Simplified Chinese [chs], Traditional Chinese [cht], Russian [ru], Korean [ko], Spanish [sp], Portuguese (Brazil) [ptbr]");
         
@@ -128,18 +134,17 @@ public:
         Scanner scanner(System::in);
         while (Optional<String> languageInput = scanner.next_line()) {
             if (auto it = languageMap.find(*languageInput); it != languageMap.end()) {
-                GlobalSettings::getInstance().setLanguage(it->second.first);
+                config->setLanguage(it->second.first);
                 System::out.println("{}", it->second.second);
                 break;
             }
         }
-        TextManager::getInstance().noop();
     }
 
     /**
-     * @brief Initialises the frame rate for the command line interface.
+     * @brief Initializes the frame rate for the command line interface.
      */
-    static void initFrameRate() {
+    void initFrameRate() {
         System::out.println("Enter your desired frame rate (fps) (1-600):");
         System::out.println("Press Enter to use the default (60 fps).");
 
@@ -147,7 +152,7 @@ public:
         while (Optional<String> frameRateInputResult = scanner.next_line()) {
             const String& frameRateInput = *frameRateInputResult;
             if (frameRateInput.empty()) {
-                GlobalSettings::getInstance().setFrameRate(60);
+                config->setFrameRate(60);
                 System::out.println("Frame rate: 60 frames per second (default)");
                 break;
             }
@@ -155,7 +160,7 @@ public:
             u64 frameRate = stdx::text::string::stoul(frameRateInput, &pos);
 
             if (pos == frameRateInput.size() && frameRate >= 1 && frameRate <= 600) {
-                GlobalSettings::getInstance().setFrameRate(static_cast<u16>(frameRate));
+                config->setFrameRate(static_cast<u16>(frameRate));
                 System::out.println("Frame rate: {} frames per second", frameRate);
                 break;
             } else {

@@ -32,9 +32,10 @@ public:
 
     // Paths
     static constexpr StringView MAPS_DIR = "./maps"; ///< The maps directory path.
-    static constexpr StringView PATH_DEBUGFILE = "./userdata/debug.txt"; ///< The debug file path.
+    static constexpr StringView PATH_DEBUG_FILE = "./userdata/debug.txt"; ///< The debug file path.
     static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
-    static constexpr StringView PATH_SAVEFILE = "./userdata/savedata.toml"; ///< The save file path.
+    static constexpr StringView PATH_SAVE_FILE = "./userdata/savedata.toml"; ///< The save file path.
+    static constexpr StringView PATH_SETTINGS_FILE = "./userdata/settings.toml"; ///< The configuration/settings file path.
     static constexpr StringView PATH_BLACKLIST_FILE = "./blacklist/blacklist_{}.txt"; ///< The blacklist file path.
     static constexpr StringView ORANGE_JUICE_WIKI_URL = "https://orangejuice.wiki"; ///< The URL for the 100% Orange Juice! wiki
 

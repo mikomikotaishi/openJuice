@@ -14,7 +14,7 @@ import stdx;
 import :TuiScreenFactory;
 
 import openjuice.engine.game;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.ui.UserInterface;
 import openjuice.ui.tui.TuiScreen;
 import openjuice.ui.tui.screens;
@@ -29,7 +29,8 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::LocalizationService;
+using openjuice::engine::services::ProfileManager;
 
 using namespace openjuice::ui::tui::screens;
 
@@ -45,9 +46,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
  */
 export class TextUserInterface: public UserInterface {
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TextUserInterface"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
+    SharedPointer<LocalizationService> localization; ///< The injected localization service.
+    SharedPointer<ProfileManager> profile; ///< The injected profile manager.
+    TuiScreenFactory screenFactory; ///< Factory that constructs screens with injected dependencies.
 
-    TreeMap<ScreenType, SharedPointer<TuiScreen>> screens; ///< Map storing all initialised screens
+    TreeMap<ScreenType, SharedPointer<TuiScreen>> screens; ///< Map storing all initialized screens
 
     App screen = App::Fullscreen(); ///< Main screen
     ScreenType currentScreen = ScreenType::TITLE; ///< The current active screen type
@@ -70,7 +75,7 @@ private:
         };
 
         if (!screens.contains(type)) {
-            screens[type] = TuiScreenFactory::create(type, game, switchCallback);
+            screens[type] = screenFactory.create(type, game, switchCallback);
         }
 
         return screens[type];
@@ -83,12 +88,12 @@ private:
      */
     void switchScreen(ScreenType type) noexcept {
         #ifndef NDEBUG
-        LOGGER->debug("TextUserInterface: switching to screen type {}", type);
+        logger->debug("TextUserInterface: switching to screen type {}", type);
         #endif
 
         if (type == ScreenType::EXIT) {
             #ifndef NDEBUG
-            LOGGER->debug("Exiting TUI");
+            logger->debug("Exiting TUI");
             #endif
 
             requestExit();
@@ -99,7 +104,7 @@ private:
         try {
             if (screens.contains(currentScreen) && currentScreen != type) {
                 #ifndef NDEBUG
-                LOGGER->debug("TextUserInterface: deactivating current screen {}", currentScreen);
+                logger->debug("TextUserInterface: deactivating current screen {}", currentScreen);
                 #endif
 
                 screens[currentScreen]->onDeactivate();
@@ -108,21 +113,21 @@ private:
             currentScreen = type;
 
             #ifndef NDEBUG
-            LOGGER->debug("TextUserInterface: getting new screen {}", currentScreen);
+            logger->debug("TextUserInterface: getting new screen {}", currentScreen);
             #endif
 
             SharedPointer<TuiScreen> handlingScreen = getScreen(type);
             handlingScreen->onActivate();
 
             #ifndef NDEBUG
-            LOGGER->debug("TextUserInterface: screen switch complete");
+            logger->debug("TextUserInterface: screen switch complete");
             #endif
 
             activeComponent = handlingScreen->getComponent();
             
             #ifndef NDEBUG
             if (!activeComponent) {
-                LOGGER->error("TextUserInterface: activeComponent is null after switching to screen {}", type);
+                logger->error("TextUserInterface: activeComponent is null after switching to screen {}", type);
             }
             #endif
             
@@ -130,7 +135,7 @@ private:
                 screen.PostEvent(Event::Custom);
             }
         } catch (const Exception& e) {
-            LOGGER->error("Error switching screens: {}", e.what());
+            logger->error("Error switching screens: {}", e.what());
         }
     }
 
@@ -164,13 +169,21 @@ private:
     }
 public:
     /**
-     * @brief Constructor that initialises the base UserInterface
+     * @brief Constructor that initializes the base UserInterface
      *
-     * @param state Shared pointer to game instance
-     * @param mutex Reference to state mutex for synchronisation
+     * @param game Shared pointer to game instance
+     * @param mutex Reference to state mutex for synchronization
+     * @param loggerFactory Shared logger factory for creating loggers and screens
+     * @param localization Shared localization service forwarded into screens
+     * @param profile Shared profile manager forwarded into screens
      */
-    TextUserInterface(SharedPointer<Game> game, Mutex& mutex):
-        UserInterface(game, mutex) {
+    TextUserInterface(SharedPointer<Game> game, Mutex& mutex, SharedPointer<LoggerFactory> loggerFactory, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
+        UserInterface(game, mutex),
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("TextUserInterface")},
+        localization{localization},
+        profile{profile},
+        screenFactory{loggerFactory, localization, profile} {
         screen.ForceHandleCtrlC(false);
     }
 
@@ -184,14 +197,12 @@ public:
             if (showExitDialog) {
                 Element dialog = vbox({
                     text(
-                        TextManager::getInstance()
-                            .getMenuScreenText("PLAYMENU_EXIT")
+                        localization->getMenuScreenText("PLAYMENU_EXIT")
                             .value_or("Exit")
                     ) | bold | center,
                     separator(),
                     text(
-                        TextManager::getInstance()
-                            .getCommentText("COM_GAME_QUITCONFIRM")
+                        localization->getCommentText("COM_GAME_QUITCONFIRM")
                             .value_or("Are you sure you want to exit the program?")
                     ) | center,
                     separator(),
@@ -202,8 +213,7 @@ public:
                                 exitDialogSelection 
                                     ? ">" 
                                     : " ",
-                                TextManager::getInstance()
-                                    .getMenuScreenText("MENU_BUTTON_YES")
+                                localization->getMenuScreenText("MENU_BUTTON_YES")
                                     .value_or("Yes")
                             )
                         ) | (exitDialogSelection ? inverted : nothing),
@@ -214,8 +224,7 @@ public:
                                 exitDialogSelection 
                                     ? " " 
                                     : ">",
-                                TextManager::getInstance()
-                                    .getMenuScreenText("MENU_BUTTON_NO")
+                                localization->getMenuScreenText("MENU_BUTTON_NO")
                                     .value_or("No")
                             )
                         ) | (exitDialogSelection ? nothing : inverted),

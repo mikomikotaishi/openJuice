@@ -17,12 +17,10 @@ import stdx;
 import :hyper;
 
 import openjuice.engine.card;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::spawn::HyperCard;
 
@@ -37,8 +35,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  * The HyperCardFactory class is a singleton factory class that creates HyperCard objects based on the given ID.
  */
 export class HyperCardFactory final {
-private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("HyperCardFactory"); ///< The logger instance.
 public:
     HyperCardFactory() = delete("HyperCardFactory is a utility class and cannot be instantiated.");
 
@@ -50,10 +46,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<HyperCard>> create(u16 id) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating HyperCard of ID: {}", id);
-        #endif
-
         switch (id) {
             case 0:
                 return nullptr;

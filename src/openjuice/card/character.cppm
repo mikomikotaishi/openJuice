@@ -46,7 +46,7 @@ private:
     CARD_METADATA("CARD_BOOST_XMASCAKE", "CARD_ARTIST_JUNPYON")
 public:
     /**
-     * @brief Constructor to initialise a MiosChristmasCake object.
+     * @brief Constructor to initialize a MiosChristmasCake object.
      */
     MiosChristmasCake():
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ private:
     CARD_METADATA("CARD_BATTLE_FREIGHT", "CARD_ARTIST_JUNPYON")
 public:
     /**
-     * @brief Constructor to initialise a Freight object.
+     * @brief Constructor to initialize a Freight object.
      */
     Freight():
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ private:
     CARD_METADATA("CARD_GIFT_REDBLUE", "CARD_ARTIST_HONO")
 public:
     /**
-     * @brief Constructor to initialise a RedAndBlue object.
+     * @brief Constructor to initialize a RedAndBlue object.
      */
     RedAndBlue():
         SET_CARD_STATS() {}

@@ -16,8 +16,6 @@ import stdx;
 
 import openjuice.engine.card.Card;
 
-using stdx::meta::IsBaseOfValue;
-
 using openjuice::engine::card::Card;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card::type);

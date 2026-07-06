@@ -70,7 +70,7 @@ private:
     AlignValue alignment = AlignValue{0}; ///< The memory alignment requirement of the component type.
     u32 capacity = 0; ///< The maximum number of components that can be stored.
     u32 occupied = 0; ///< The highest entity ID that has ever been stored (includes alive and freed slots).
-    bool populated = false; ///< Flag indicating whether the storage has been initialised with a concrete type.
+    bool populated = false; ///< Flag indicating whether the storage has been initialized with a concrete type.
 
     /**
      * @brief Invokes the construct callback if one is registered.
@@ -483,7 +483,7 @@ public:
     }
 
     /**
-     * @brief Initialises the storage for a specific component type.
+     * @brief Initializes the storage for a specific component type.
      * 
      * Allocates raw memory with proper alignment and sets up function pointers
      * for type-specific operations (construction, destruction, copy, move).

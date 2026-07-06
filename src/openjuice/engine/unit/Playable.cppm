@@ -16,8 +16,6 @@ import stdx;
 
 import :Unit;
 
-using stdx::meta::IsBaseOfValue;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
@@ -33,17 +31,17 @@ private:
     const u8 recovery; ///< The recovery value of the playable.
 public:
     /**
-     * @brief Constructor to initialise a Playable object.
+     * @brief Constructor to initialize a Playable object.
      *
      * @param id The ID of the playable.
      * @param health The health of the playable.
      * @param attack The attack value of the playable.
-     * @param defence The defence value of the playable.
+     * @param defense The defense value of the playable.
      * @param evade The evade value of the playable.
      * @param recovery The recovery value of the playable.
      */
-    Playable(u16 id, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
-        Unit(id, health, attack, defence, evade), recovery{recovery} {}
+    Playable(u16 id, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery):
+        Unit(id, health, attack, defense, evade), recovery{recovery} {}
 
     /**
      * @brief Get the recovery stat of the unit.

@@ -22,7 +22,6 @@ using stdx::collections::BitSet;
 using stdx::collections::Vector;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawn::MushroomCard;
@@ -48,7 +47,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::entity);
 export class Player: public Entity {
 public:
     /**
-     * @brief Constructor to initialise a Player object.
+     * @brief Constructor to initialize a Player object.
      *
      * @param reg Reference to the ECS registry
      * @param character The character associated with the player.

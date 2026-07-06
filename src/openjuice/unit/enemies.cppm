@@ -35,7 +35,7 @@ public:
     static constexpr u16 ID = 1; ///< ID of this specific enemy
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific enemy
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific enemy
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific enemy
     static constexpr i8 EVADE = 1; ///< Evade stat of this specific enemy
 
     /**
@@ -60,7 +60,7 @@ public:
     static constexpr u16 ID = 2; ///< ID of this specific enemy
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific enemy
-    static constexpr i8 DEFENCE = 1; ///< Defence stat of this specific enemy
+    static constexpr i8 DEFENSE = 1; ///< Defense stat of this specific enemy
     static constexpr i8 EVADE = -1; ///< Evade stat of this specific enemy
 
     /**
@@ -85,7 +85,7 @@ public:
     static constexpr u16 ID = 3; ///< ID of this specific enemy
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific enemy
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific enemy
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific enemy
     static constexpr i8 EVADE = -1; ///< Evade stat of this specific enemy
 
     /**

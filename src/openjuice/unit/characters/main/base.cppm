@@ -36,7 +36,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 0; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 0; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -63,7 +63,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = -1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -90,7 +90,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 0; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 0; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 0; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -117,7 +117,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 2; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -144,7 +144,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 2; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -171,7 +171,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 6; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 2; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 2; ///< Defense stat of this specific character
     static constexpr i8 EVADE = -2; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -198,7 +198,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -225,7 +225,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::FOUR; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 7; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = -1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -252,7 +252,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 6; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 0; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -279,7 +279,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -2; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -2; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 0; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -306,7 +306,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 4; ///< Recovery stat of this specific character
 
@@ -333,7 +333,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = -1; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 0; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 
@@ -360,7 +360,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 4; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = 0; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = 0; ///< Defense stat of this specific character
     static constexpr i8 EVADE = 0; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 6; ///< Recovery stat of this specific character
 
@@ -387,7 +387,7 @@ public:
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
     static constexpr u8 HEALTH = 5; ///< Health stat of this specific character
     static constexpr i8 ATTACK = 2; ///< Attack stat of this specific character
-    static constexpr i8 DEFENCE = -1; ///< Defence stat of this specific character
+    static constexpr i8 DEFENSE = -1; ///< Defense stat of this specific character
     static constexpr i8 EVADE = -1; ///< Evade stat of this specific character
     static constexpr u8 RECOVERY = 5; ///< Recovery stat of this specific character
 

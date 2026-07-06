@@ -182,22 +182,22 @@ export namespace systems {
             }
 
             i8 attackModifier = attackerUnit->unit->getAttack();
-            i8 defenceModifier = defenderUnit->unit->getDefence();
+            i8 defenseModifier = defenderUnit->unit->getDefense();
             i8 evadeModifier = defenderUnit->unit->getEvade();
 
             u8 attackRoll = static_cast<u8>(Dice::getInstance().rollD6() + attackModifier);
             attackRoll = attackRoll < 1 ? 1 : attackRoll;
 
-            u8 defenceRoll = 0;
+            u8 defenseRoll = 0;
 
-            if (battleState->defenceChoice == DefenceChoice::DEFEND) {
-                defenceRoll = static_cast<u8>(Dice::getInstance().rollD6() + defenceModifier);
-                defenceRoll = defenceRoll < 1 ? 1 : defenceRoll;
-                return attackRoll > defenceRoll ? attackRoll - defenceRoll : 1;
+            if (battleState->defenseChoice == DefenseChoice::DEFEND) {
+                defenseRoll = static_cast<u8>(Dice::getInstance().rollD6() + defenseModifier);
+                defenseRoll = defenseRoll < 1 ? 1 : defenseRoll;
+                return attackRoll > defenseRoll ? attackRoll - defenseRoll : 1;
             } else {
-                defenceRoll = static_cast<u8>(Dice::getInstance().rollD6() + evadeModifier);
-                defenceRoll = defenceRoll < 1 ? 1 : defenceRoll;
-                return attackRoll >= defenceRoll ? attackRoll : 0;
+                defenseRoll = static_cast<u8>(Dice::getInstance().rollD6() + evadeModifier);
+                defenseRoll = defenseRoll < 1 ? 1 : defenseRoll;
+                return attackRoll >= defenseRoll ? attackRoll : 0;
             }
             Ops::unreachable();
         }
@@ -209,12 +209,12 @@ export namespace systems {
          * @param defender 
          * @return true if applyDamage returns true, false otherwise
          *
-         * @throws NullPointerException if the damage system is not initialised
+         * @throws NullPointerException if the damage system is not initialized
          */
         [[nodiscard]] 
         bool executeBattle(EntityId attacker, EntityId defender) throws (NullPointerException) {
             if (!damageSystem) {
-                throw NullPointerException("Damage system not initialised!");
+                throw NullPointerException("Damage system not initialized!");
             }
             SharedPointer<BattleStateComponent> battleState = COORDINATOR->addComponent<BattleStateComponent>(defender);
             if (!battleState) {
@@ -301,18 +301,18 @@ export namespace systems {
         }
 
         /**
-         * @brief Set the Defence Choice object
+         * @brief Set the Defense Choice object
          * 
          * @param choice 
          */
-        void setDefenceChoice(DefenceChoice choice) const {
+        void setDefenseChoice(DefenseChoice choice) const {
             if (!battleInProgress) {
                 return;
             }
 
             SharedPointer<BattleStateComponent> battleState = COORDINATOR->getComponent<BattleStateComponent>(currentDefender);
             if (battleState) {
-                battleState->defenceChoice = choice;
+                battleState->defenseChoice = choice;
             }
         }
 
@@ -342,7 +342,7 @@ export namespace systems {
          */
         void executeBattle() throws (NullPointerException) {
             if (!battleSystem) {
-                throw NullPointerException("Battle system not initialised!");
+                throw NullPointerException("Battle system not initialized!");
             }
             if (!battleInProgress) {
                 return;

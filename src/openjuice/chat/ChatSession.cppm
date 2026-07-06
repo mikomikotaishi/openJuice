@@ -38,12 +38,13 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatSession: public EnableSharedFromThis<ChatSession> {
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatSession"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
     UniquePointer<TcpSocket> sessionSocket; ///< Socket for the chat session.
     String inputBuffer; ///< Buffer for incoming messages.
     Vector<SharedPointer<ChatSession>>& clients; ///< List of connected clients.
     Thread sessionThread; ///< Thread for handling this session.
-    bool isActive = false; ///< Session active status.
+    bool active = false; ///< Session active status.
 
     /**
      * @brief Broadcast a message to all clients.
@@ -73,7 +74,7 @@ private:
     void readMessages() {
         char buffer[1024];
         
-        while (isActive) {
+        while (active) {
             usize received = 0;
             Socket::Status status = sessionSocket->receive(buffer, sizeof(buffer), received);
             
@@ -85,17 +86,17 @@ private:
                 while ((pos = inputBuffer.find('\n')) != String::npos) {
                     String message = inputBuffer.substr(0, pos + 1);
                     inputBuffer.erase(0, pos + 1);
-                    LOGGER->info("Received: {}", message);
+                    logger->info("Received: {}", message);
                     broadcast(message);
                 }
             } else if (status == Socket::Status::Disconnected) {
-                LOGGER->info("Client disconnected");
-                isActive = false;
+                logger->info("Client disconnected");
+                active = false;
                 removeClient();
                 break;
             } else if (status == Socket::Status::Error) {
-                LOGGER->error("Socket error occurred");
-                isActive = false;
+                logger->error("Socket error occurred");
+                active = false;
                 removeClient();
                 break;
             }
@@ -103,12 +104,14 @@ private:
     }
 public:
     /**
-     * @brief Constructor to initialise a ChatSession object.
+     * @brief Constructor to initialize a ChatSession object.
      *
      * @param socket The socket for the chat session.
      * @param clients The list of connected clients.
      */
-    ChatSession(UniquePointer<TcpSocket> socket, Vector<SharedPointer<ChatSession>>& clients):
+    ChatSession(UniquePointer<TcpSocket> socket, Vector<SharedPointer<ChatSession>>& clients, SharedPointer<LoggerFactory> loggerFactory):
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("ChatSession")},
         sessionSocket{Ops::move(socket)}, clients{clients} {
         if (sessionSocket) {
             sessionSocket->setBlocking(false);
@@ -119,7 +122,7 @@ public:
      * @brief Start the chat session.
      */
     void start() {
-        isActive = true;
+        active = true;
         
         // Start reading messages in a separate thread
         sessionThread = Thread([this] -> void {
@@ -133,9 +136,9 @@ public:
      * @param msg The message to deliver.
      */
     void deliver(StringView msg) {
-        if (sessionSocket && isActive) {
+        if (sessionSocket && active) {
             if (sessionSocket->send(msg.data(), msg.size()) != Socket::Status::Done) {
-                LOGGER->error("Failed to send message to client");
+                logger->error("Failed to send message to client");
             }
         }
     }
@@ -144,7 +147,7 @@ public:
      * @brief Destructor to clean up resources.
      */
     ~ChatSession() {
-        isActive = false;
+        active = false;
         if (sessionSocket) {
             sessionSocket->disconnect();
         }

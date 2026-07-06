@@ -15,12 +15,8 @@ export module openjuice.chat:ChatClient;
 import stdx;
 import sfml;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
-using stdx::io::Cin;
-using stdx::io::Cout;
-using stdx::io::File;
-using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::net::BindException;
 using stdx::net::UnknownHostException;
@@ -43,26 +39,27 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatClient {
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("ChatClient"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
     TcpSocket clientSocket; ///< Socket for the chat client.
     Thread listenerThread; ///< Listener thread for the chat client.
-    bool isConnected = false; ///< Connection status.
+    bool connected = false; ///< Connection status.
 
     /**
      * @brief Start the chat client.
      */
     void startChat() {
-        LOGGER->info("Starting chat");
+        logger->info("Starting chat");
         String message;
-        while (isConnected) {
+        while (connected) {
             message = System::in.readln();
             if (message.empty()) {
                 break;
             }
             message += "\n";
             if (clientSocket.send(message.c_str(), message.size()) != Socket::Status::Done) {
-                LOGGER->error("Failed to send message");
-                isConnected = false;
+                logger->error("Failed to send message");
+                connected = false;
                 break;
             }
         }
@@ -76,7 +73,7 @@ private:
             try {
                 char buffer[1024];
                 String messageBuffer;
-                while (isConnected) {
+                while (connected) {
                     usize received = 0;
                     Socket::Status status = clientSocket.receive(buffer, sizeof(buffer), received);
                     
@@ -91,13 +88,14 @@ private:
                             messageBuffer.erase(0, pos + 1);
                         }
                     } else if (status == Socket::Status::Disconnected) {
-                        isConnected = false;
+                        connected = false;
                         break;
                     }
                 }
-            } catch (...) {
-                System::err.println("Disconnected from server.");
-                isConnected = false;
+            } catch (const Exception& e) {
+                logger->error("Exception in listener thread: {}", e.what());
+                connected = false;
+                logger->error("Disconnected from server.");
             }
         });
     }
@@ -106,38 +104,40 @@ private:
      * @brief Stop listening for messages from the server.
      */
     void stopListening() {
-        isConnected = false;
+        connected = false;
         clientSocket.disconnect();
         listenerThread.request_stop();
     }
 public:
     /**
-     * @brief Constructor to initialise a ChatClient object.
+     * @brief Constructor to initialize a ChatClient object.
      *
      * @param host The host to connect to.
      * @param port The port to connect to.
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
-    ChatClient(StringView host, u16 port) throws (BindException, UnknownHostException) {
+    ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory) throws (BindException, UnknownHostException):
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("ChatClient")} {
         try {
             const IpAddress serverAddress = Dns::resolve(host).value_or({IpAddress::Any}).at(0);
             if (serverAddress == IpAddress::Any) {
-                LOGGER->error("Unknown host: {}", host);
+                logger->error("Unknown host: {}", host);
                 throw UnknownHostException("Failed to resolve host");
             }
             
             if (clientSocket.connect(serverAddress, port) != Socket::Status::Done) {
-                LOGGER->error("Failed to connect to server at {}:{}", host, port);
+                logger->error("Failed to connect to server at {}:{}", host, port);
                 throw BindException("Failed to connect to chat server");
             }
         } catch (const OutOfRangeException& e) {
-            LOGGER->error("Failed to resolve host: {}", e.what());
+            logger->error("Failed to resolve host: {}", e.what());
             throw UnknownHostException("Failed to resolve host");
         }
         
-        LOGGER->info("Connected to server at {}:{}", host, port);
-        isConnected = true;
+        logger->info("Connected to server at {}:{}", host, port);
+        connected = true;
         clientSocket.setBlocking(false); // Non-blocking for listener thread
         startListening();
         clientSocket.setBlocking(true); // Blocking for main chat

@@ -344,7 +344,7 @@ public:
      * @param index The entity index to get the component from.
      * @return T& Reference to the component.
      * 
-     * @warning Undefined behaviour if the component does not exist. Use has() or getIf().
+     * @warning Undefined behavior if the component does not exist. Use has() or getIf().
      */
     template <typename T>
     [[nodiscard]]
@@ -373,7 +373,7 @@ public:
      * 
      * Creates copies of all specified component types from the source entity
      * to the destination entity. If components do not exist on the source,
-     * behaviour is undefined.
+     * behavior is undefined.
      * 
      * @tparam Args The component types to copy.
      * @param from The source entity index.

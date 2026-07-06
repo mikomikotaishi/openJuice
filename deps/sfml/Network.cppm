@@ -66,7 +66,7 @@ export namespace sfml::net {
 
     class Dns final {
     public:
-        Dns() = delete;
+        Dns() = delete("Dns is a utility class and cannot be instantiated.");
 
         using MxRecord = sf::Dns::MxRecord;
         using SrvRecord = sf::Dns::SrvRecord;

@@ -161,9 +161,6 @@ struct Formatter<FieldEvent::Of> {
             case FieldEvent::Of::CONVERGENCE:
                 name = "Convergence"; 
                 break;
-                
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

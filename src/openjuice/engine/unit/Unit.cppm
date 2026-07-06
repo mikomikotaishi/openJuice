@@ -14,11 +14,9 @@ export module openjuice.engine.unit:Unit;
 
 import stdx;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
-using stdx::meta::IsBaseOfValue;
-
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::LocalizationService;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -26,31 +24,31 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
  * @class Unit
  * @brief Class representing a generic unit.
  * 
- * The Unit class represents a generic unit in the game with the following attributes: ID, health, attack, defence, and evade.
+ * The Unit class represents a generic unit in the game with the following attributes: ID, health, attack, defense, and evade.
  */
 export class [[nodiscard]] Unit {
 private:
     const u16 id; ///< The ID of the unit.
     const u8 health; ///< The health of the unit.
     const i8 attack; ///< The attack value of the unit.
-    const i8 defence; ///< The defence value of the unit.
+    const i8 defense; ///< The defense value of the unit.
     const i8 evade; ///< The evade value of the unit.
 protected:
-    static constexpr StringView UNIT_KEY = ""; ///< The key belonging to the card to query in TextManager
-    static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in TextManager
-    static constexpr StringView VOICEACTOR_KEY = ""; ///< The key belonging to the name of the voice actor to query in TextManager
+    static constexpr StringView UNIT_KEY = ""; ///< The key belonging to the card to query in LocalizationService
+    static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in LocalizationService
+    static constexpr StringView VOICEACTOR_KEY = ""; ///< The key belonging to the name of the voice actor to query in LocalizationService
 
     /**
-     * @brief Constructor to initialise a Unit object.
+     * @brief Constructor to initialize a Unit object.
      *
      * @param id The ID of the unit.
      * @param health The health of the unit.
      * @param attack The attack value of the unit.
-     * @param defence The defence value of the unit.
+     * @param defense The defense value of the unit.
      * @param evade The evade value of the unit.
      */
-    Unit(u16 id, u8 health, i8 attack, i8 defence, i8 evade):
-        id{id}, health{health}, attack{attack}, defence{defence}, evade{evade} {}
+    Unit(u16 id, u8 health, i8 attack, i8 defense, i8 evade):
+        id{id}, health{health}, attack{attack}, defense{defense}, evade{evade} {}
 
     virtual ~Unit() = default;
 public:
@@ -82,12 +80,12 @@ public:
     }
 
     /**
-     * @brief Get the defence stat of the unit
-     * @return The defence stat
+     * @brief Get the defense stat of the unit
+     * @return The defense stat
      */
     [[nodiscard]]
-    i8 getDefence() const noexcept {
-        return defence;
+    i8 getDefense() const noexcept {
+        return defense;
     }
 
     /**
@@ -104,8 +102,8 @@ public:
      * @return The name of the character.
      */
     [[nodiscard]]
-    String getName() const noexcept {
-        return TextManager::getInstance()
+    String getName(const LocalizationService& loc) const noexcept {
+        return loc
             .getUnitName(UNIT_KEY)
             .value_or("");
     }
@@ -115,8 +113,8 @@ public:
      * @return The description of the unit.
      */
     [[nodiscard]]
-    String getDescription() const noexcept {
-        return TextManager::getInstance()
+    String getDescription(const LocalizationService& loc) const noexcept {
+        return loc
             .getUnitDescription(UNIT_KEY)
             .value_or("");
     }
@@ -126,8 +124,8 @@ public:
      * @return The unit artist name.
      */
     [[nodiscard]]
-    String getArtistName() const noexcept {
-        return TextManager::getInstance()
+    String getArtistName(const LocalizationService& loc) const noexcept {
+        return loc
             .getCardArtistName(ARTIST_KEY)
             .value_or("");
     }
@@ -137,8 +135,8 @@ public:
      * @return The unit voice actor name.
      */
     [[nodiscard]]
-    String getVoiceActorName() const noexcept {
-        return TextManager::getInstance()
+    String getVoiceActorName(const LocalizationService& loc) const noexcept {
+        return loc
             .getVoiceActorName(VOICEACTOR_KEY)
             .value_or("");
     }

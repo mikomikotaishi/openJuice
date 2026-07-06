@@ -46,7 +46,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ProtagonistsPrivilege object.
+     * @brief Constructor to initialize a ProtagonistsPrivilege object.
      */
     ProtagonistsPrivilege():
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise an X16BigRocket object.
+     * @brief Constructor to initialize an X16BigRocket object.
      */
     X16BigRocket():
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a HyperMode object.
+     * @brief Constructor to initialize a HyperMode object.
      */
     HyperMode():
         SET_CARD_STATS() {}
@@ -154,7 +154,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise an Accelerator object.
+     * @brief Constructor to initialize an Accelerator object.
      */
     Accelerator():
         SET_CARD_STATS() {}
@@ -190,7 +190,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PresentForYou object.
+     * @brief Constructor to initialize a PresentForYou object.
      */
     PresentForYou():
         SET_CARD_STATS() {}
@@ -226,7 +226,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a AirStrike object.
+     * @brief Constructor to initialize a AirStrike object.
      */
     AirStrike():
         SET_CARD_STATS() {}
@@ -262,7 +262,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a BindingChains object.
+     * @brief Constructor to initialize a BindingChains object.
      */
     BindingChains():
         SET_CARD_STATS() {}
@@ -298,7 +298,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise an Ubiquitous object.
+     * @brief Constructor to initialize an Ubiquitous object.
      */
     Ubiquitous():
         SET_CARD_STATS() {}
@@ -334,7 +334,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a MagicalInferno object.
+     * @brief Constructor to initialize a MagicalInferno object.
      */
     MagicalInferno():
         SET_CARD_STATS() {}
@@ -370,7 +370,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChristmasInferno object.
+     * @brief Constructor to initialize a ChristmasInferno object.
      */
     ChristmasInferno():
         SET_CARD_STATS() {}
@@ -406,7 +406,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a BlueCrowTheSecond object.
+     * @brief Constructor to initialize a BlueCrowTheSecond object.
      */
     BlueCrowTheSecond():
         SET_CARD_STATS() {}
@@ -442,7 +442,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ExtraordinarySpecs object.
+     * @brief Constructor to initialize a ExtraordinarySpecs object.
      */
     ExtraordinarySpecs():
         SET_CARD_STATS() {}
@@ -478,7 +478,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a MagicalMassacre object.
+     * @brief Constructor to initialize a MagicalMassacre object.
      */
     MagicalMassacre():
         SET_CARD_STATS() {}
@@ -514,7 +514,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Gamble object.
+     * @brief Constructor to initialize a Gamble object.
      */
     Gamble():
         SET_CARD_STATS() {}

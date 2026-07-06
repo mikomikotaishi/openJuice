@@ -17,18 +17,17 @@ import stdx;
 import openjuice.engine.card.Card;
 import openjuice.engine.card.type;
 import openjuice.engine.card.spawn;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
-using stdx::meta::IsBaseOfValue;
 
 using openjuice::engine::card::spawn::MushroomCard;
 using openjuice::engine::card::type::BattleCard;
 using openjuice::engine::card::type::BoostCard;
 using openjuice::engine::card::type::GiftCard;
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::LocalizationService;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card::mushroom);
 
@@ -53,8 +52,8 @@ public:
         NULL_BATTLE = 1, ///< No effect (always appears)
         ATTACK_UP, ///< Gain +1/2/3 ATK during this battle
         ATTACK_DOWN, ///< Gain -1/2/3 ATK during this battle
-        DEFENCE_UP, ///< Gain +1/2/3 DEF during this battle
-        DEFENCE_DOWN, ///< Gain -1/2/3 DEF during this battle
+        DEFENSE_UP, ///< Gain +1/2/3 DEF during this battle
+        DEFENSE_DOWN, ///< Gain -1/2/3 DEF during this battle
         EVADE_UP, ///< Gain +1/2/3 EVD during this battle
         EVADE_DOWN, ///< Gain -1/2/3 EVD during this battle
         HEAL, ///< Gain 1/2/3 HP
@@ -72,13 +71,13 @@ private:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of these cards
 
     Effect effect; ///< The effect of the battle mushroom card.
-    MushroomCard::Colour colour; ///< The colour of the card.
+    MushroomCard::Color color; ///< The color of the card.
 
     /**
-     * @brief Converts the mushroom type to its associated TextManager key.
+     * @brief Converts the mushroom type to its associated LocalizationService key.
      * 
      * @param type The battle mushroom type.
-     * @return The key to query in TextManager.
+     * @return The key to query in LocalizationService.
      */
     static constexpr String typeToKey(Effect type) noexcept {
         switch (type) {
@@ -88,9 +87,9 @@ private:
                 return "CARD_SHROOM_ATTACKUP";
             case Effect::ATTACK_DOWN:
                 return "CARD_SHROOM_ATTACKDOWN";
-            case Effect::DEFENCE_UP:
+            case Effect::DEFENSE_UP:
                 return "CARD_SHROOM_DEFENSEUP";
-            case Effect::DEFENCE_DOWN:
+            case Effect::DEFENSE_DOWN:
                 return "CARD_SHROOM_DEFENSEDOWN";
             case Effect::EVADE_UP:
                 return "CARD_SHROOM_EVADEUP";
@@ -104,9 +103,8 @@ private:
                 return "CARD_SHROOM_ROLLONE";
             case Effect::ROLL_SIX:
                 return "CARD_SHROOM_ROLLSIX";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 protected:
     /**
@@ -115,13 +113,13 @@ protected:
     BattleMushroomCard() = default;
 
     /**
-     * @brief Constructor to initialise a BattleMushroomCard object.
+     * @brief Constructor to initialize a BattleMushroomCard object.
      *
-     * @param colour The mushroom colour.
+     * @param color The mushroom color.
      * @param effect The Battle mushroom effect of the card.
      */
-    BattleMushroomCard(MushroomCard::Colour colour, Effect effect):
-        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, colour{colour} {}
+    BattleMushroomCard(MushroomCard::Color color, Effect effect):
+        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, color{color} {}
 public:
     [[nodiscard]]
     Effect getEffect() const noexcept {
@@ -129,8 +127,8 @@ public:
     }
 
     [[nodiscard]]
-    MushroomCard::Colour getColour() const noexcept {
-        return colour;
+    MushroomCard::Color getColor() const noexcept {
+        return color;
     }
 
     /**
@@ -139,8 +137,8 @@ public:
      * @return The name of the card.
      */
     [[nodiscard]]
-    String getName() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardName(colourToKey(colour));
+    String getName(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardName(colorToKey(color));
         return result ? *result : "";
     }
 
@@ -150,8 +148,8 @@ public:
      * @return The description of the card.
      */
     [[nodiscard]]
-    String getDescription() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardDescription(typeToKey(effect));
+    String getDescription(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardDescription(typeToKey(effect));
         return result ? *result : "";
     }
 
@@ -161,8 +159,8 @@ public:
      * @return The card artist name.
      */
     [[nodiscard]]
-    String getArtistName() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardArtistName(colourToArtistKey(colour));
+    String getArtistName(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardArtistName(colorToArtistKey(color));
         return result ? *result : "";
     }
 };
@@ -209,13 +207,13 @@ private:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of these cards
 
     Effect effect; ///< The effect of the boost mushroom card.
-    MushroomCard::Colour colour; ///< The colour of the card.
+    MushroomCard::Color color; ///< The color of the card.
 
     /**
-     * @brief Converts the mushroom type to its associated TextManager key.
+     * @brief Converts the mushroom type to its associated LocalizationService key.
      * 
      * @param type The boost mushroom type.
-     * @return The key to query in TextManager.
+     * @return The key to query in LocalizationService.
      */
     static constexpr String typeToKey(Effect type) noexcept {
         switch (type) {
@@ -245,9 +243,8 @@ private:
                 return "CARD_SHROOM_DISCARD";
             case Effect::WIN:
                 return "CARD_SHROOM_WIN";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 protected:
     /**
@@ -256,13 +253,13 @@ protected:
     BoostMushroomCard() = default;
 
     /**
-     * @brief Constructor to initialise a BoostMushroomCard object.
+     * @brief Constructor to initialize a BoostMushroomCard object.
      *
-     * @param colour The mushroom colour.
+     * @param color The mushroom color.
      * @param effect The Boost mushroom effect of the card.
      */
-    BoostMushroomCard(MushroomCard::Colour colour, Effect effect):
-        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, colour{colour} {}
+    BoostMushroomCard(MushroomCard::Color color, Effect effect):
+        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, color{color} {}
 public:
     [[nodiscard]]
     Effect getEffect() const noexcept {
@@ -270,8 +267,8 @@ public:
     }
 
     [[nodiscard]]
-    MushroomCard::Colour getColour() const noexcept {
-        return colour;
+    MushroomCard::Color getColor() const noexcept {
+        return color;
     }
 
     /**
@@ -280,8 +277,8 @@ public:
      * @return The name of the card.
      */
     [[nodiscard]]
-    String getName() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardName(colourToKey(colour));
+    String getName(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardName(colorToKey(color));
         return result ? *result : "";
     }
 
@@ -291,8 +288,8 @@ public:
      * @return The description of the card.
      */
     [[nodiscard]]
-    String getDescription() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardDescription(typeToKey(effect));
+    String getDescription(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardDescription(typeToKey(effect));
         return result ? *result : "";
     }
 
@@ -302,8 +299,8 @@ public:
      * @return The card artist name.
      */
     [[nodiscard]]
-    String getArtistName() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardArtistName(colourToArtistKey(colour));
+    String getArtistName(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardArtistName(colorToArtistKey(color));
         return result ? *result : "";
     }
 };
@@ -331,12 +328,12 @@ public:
     };
 
     /**
-     * @enum Colour
-     * @brief Enumeration for legendary mushroom colours.
+     * @enum Color
+     * @brief Enumeration for legendary mushroom colors.
      * 
-     * The Colour enumeration defines the possible colours a legendary mushroom card may have.
+     * The Color enumeration defines the possible colors a legendary mushroom card may have.
      */
-    enum class Colour: u8 {
+    enum class Color: u8 {
         LEGENDARY_RED,
         PHANTOM_BLUE,
     };
@@ -350,13 +347,13 @@ private:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of these cards
 
     Effect effect; ///< The effect of the legendary mushroom card.
-    Colour colour; ///< The colour of the card.
+    Color color; ///< The color of the card.
 
     /**
-     * @brief Converts the mushroom type to its associated TextManager key.
+     * @brief Converts the mushroom type to its associated LocalizationService key.
      * 
      * @param type The legendary mushroom type.
-     * @return The key to query in TextManager.
+     * @return The key to query in LocalizationService.
      */
     static constexpr String typeToKey(Effect type) noexcept {
         switch (type) {
@@ -364,43 +361,40 @@ private:
                 return "CARD_SHROOM_LEGEND_STARS";
             case Effect::WINS:
                 return "CARD_SHROOM_LEGEND_WINS";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 
     /**
-     * @brief Converts the mushroom colour to its associated TextManager key.
+     * @brief Converts the mushroom color to its associated LocalizationService key.
      * 
-     * @param type The legendary mushroom colour.
-     * @return The key to query in TextManager.
+     * @param type The legendary mushroom color.
+     * @return The key to query in LocalizationService.
      */
-    static constexpr String colourToKey(Colour type) noexcept {
+    static constexpr String colorToKey(Color type) noexcept {
         switch (type) {
-            case Colour::LEGENDARY_RED:
+            case Color::LEGENDARY_RED:
                 return "CARD_ARTIST_COFFGIRL";
-            case Colour::PHANTOM_BLUE:
+            case Color::PHANTOM_BLUE:
                 return "CARD_ARTIST_COFFGIRL";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 
     /**
-     * @brief Converts the legendary mushroom colour to the associated TextManager key of its artist.
+     * @brief Converts the legendary mushroom color to the associated LocalizationService key of its artist.
      * 
-     * @param type The legendary mushroom colour.
-     * @return The key to query for the artist in TextManager.
+     * @param type The legendary mushroom color.
+     * @return The key to query for the artist in LocalizationService.
      */
-    static constexpr String colourToArtistKey(Colour type) noexcept {
+    static constexpr String colorToArtistKey(Color type) noexcept {
         switch (type) {
-            case Colour::LEGENDARY_RED:
+            case Color::LEGENDARY_RED:
                 return "CARD_SHROOM_LEGENDARYRED";
-            case Colour::PHANTOM_BLUE:
+            case Color::PHANTOM_BLUE:
                 return "CARD_SHROOM_PHANTOMBLUE";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 protected:
     /**
@@ -409,13 +403,13 @@ protected:
     LegendaryMushroomCard() = default;
 
     /**
-     * @brief Constructor to initialise a BoostMushroomCard object.
+     * @brief Constructor to initialize a BoostMushroomCard object.
      *
-     * @param colour The mushroom colour.
+     * @param color The mushroom color.
      * @param effect The legendary mushroom effect of the card.
      */
-    LegendaryMushroomCard(Colour colour, Effect effect):
-        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, colour{colour} {}
+    LegendaryMushroomCard(Color color, Effect effect):
+        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, color{color} {}
 public:
     [[nodiscard]]
     Effect getEffect() const noexcept {
@@ -423,8 +417,8 @@ public:
     }
 
     [[nodiscard]]
-    Colour getColour() const noexcept {
-        return colour;
+    Color getColor() const noexcept {
+        return color;
     }
 
     /**
@@ -433,8 +427,8 @@ public:
      * @return The name of the card.
      */
     [[nodiscard]]
-    String getName() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardName(colourToKey(colour));
+    String getName(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardName(colorToKey(color));
         return result ? *result : "";
     }
 
@@ -444,8 +438,8 @@ public:
      * @return The description of the card.
      */
     [[nodiscard]]
-    String getDescription() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardDescription(typeToKey(effect));
+    String getDescription(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardDescription(typeToKey(effect));
         return result ? *result : "";
     }
 
@@ -455,8 +449,8 @@ public:
      * @return The card artist name.
      */
     [[nodiscard]]
-    String getArtistName() const noexcept override {
-        Expected<String, TextManager::Error> result = TextManager::getInstance().getCardArtistName(colourToArtistKey(colour));
+    String getArtistName(const LocalizationService& loc) const noexcept override {
+        Expected<String, LocalizationService::Error> result = loc.getCardArtistName(colorToArtistKey(color));
         return result ? *result : "";
     }
 };
@@ -485,11 +479,11 @@ struct Formatter<BattleMushroomCard::Effect> {
             case BattleMushroomCard::Effect::ATTACK_DOWN:
                 name = "Lose Attack";
                 break;
-            case BattleMushroomCard::Effect::DEFENCE_UP:
-                name = "Gain Defence";
+            case BattleMushroomCard::Effect::DEFENSE_UP:
+                name = "Gain Defense";
                 break;
-            case BattleMushroomCard::Effect::DEFENCE_DOWN:
-                name = "Lose Defence";
+            case BattleMushroomCard::Effect::DEFENSE_DOWN:
+                name = "Lose Defense";
                 break;
             case BattleMushroomCard::Effect::EVADE_UP:
                 name = "Gain Evade";
@@ -508,9 +502,7 @@ struct Formatter<BattleMushroomCard::Effect> {
                 break;
             case BattleMushroomCard::Effect::ROLL_SIX:
                 name = "Roll 6";
-                break;                
-            default:
-                stdx::sys::unreachable();
+                break;
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -564,30 +556,26 @@ struct Formatter<BoostMushroomCard::Effect> {
             case BoostMushroomCard::Effect::WIN:
                 name = "Gain Win";
                 break;
-            default:
-                stdx::sys::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
 };
 
 template <>
-struct Formatter<LegendaryMushroomCard::Colour> {
+struct Formatter<LegendaryMushroomCard::Color> {
     static constexpr const char* parse(FormatParseContext& ctx) noexcept {
         return ctx.begin();
     }
 
-    static FormatContext::iterator format(LegendaryMushroomCard::Colour type, FormatContext& ctx) {
+    static FormatContext::iterator format(LegendaryMushroomCard::Color type, FormatContext& ctx) {
         StringView name;
         switch (type) {
-            case LegendaryMushroomCard::Colour::LEGENDARY_RED:
+            case LegendaryMushroomCard::Color::LEGENDARY_RED:
                 name = "Legendary Red Mushroom";
                 break;
-            case LegendaryMushroomCard::Colour::PHANTOM_BLUE:
+            case LegendaryMushroomCard::Color::PHANTOM_BLUE:
                 name = "Phantom Blue Mushroom";
                 break;
-            default:
-                stdx::sys::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }
@@ -608,8 +596,6 @@ struct Formatter<LegendaryMushroomCard::Effect> {
             case LegendaryMushroomCard::Effect::WINS:
                 name = "Gain +1 win from all sources";
                 break;
-            default:
-                sys::unreachable();
         }
         return fmt::format_to(ctx.out(), "{}", name);
     }
@@ -617,5 +603,5 @@ struct Formatter<LegendaryMushroomCard::Effect> {
 
 SPECIALISE_FORMATTER(BattleMushroomCard::Effect);
 SPECIALISE_FORMATTER(BoostMushroomCard::Effect);
-SPECIALISE_FORMATTER(LegendaryMushroomCard::Colour);
+SPECIALISE_FORMATTER(LegendaryMushroomCard::Color);
 SPECIALISE_FORMATTER(LegendaryMushroomCard::Effect);

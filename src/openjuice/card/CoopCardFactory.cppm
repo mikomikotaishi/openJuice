@@ -17,15 +17,13 @@ import stdx;
 import :coop;
 
 import openjuice.engine.card;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::spawn::CoopCard;
 
@@ -53,8 +51,6 @@ public:
         SEASONAL, ///< A CoopCard of seasonal variety
     };
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("CoopCardFactory"); ///< The logger instance.
-
     [[nodiscard]]
     static constexpr String secondaryTypeToString(SecondaryType type) noexcept {
         switch (type) {
@@ -64,9 +60,8 @@ private:
                 return "Role";
             case CoopCardFactory::SecondaryType::SEASONAL:
                 return "Seasonal";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 public:
     CoopCardFactory() = delete("CoopCardFactory is a utility class and cannot be instantiated.");
@@ -79,10 +74,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<CoopCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating CoopCard of ID: {}, secondary type: {}", id, secondaryTypeToString(type));
-        #endif
-
         switch (type) {
             case SecondaryType::STANDARD:
                 switch (id) {
@@ -124,9 +115,8 @@ public:
                     default:
                         return nullopt;
                 }
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 };
 
@@ -152,8 +142,6 @@ struct Formatter<CoopCardFactory::SecondaryType> {
             case CoopCardFactory::SecondaryType::SEASONAL:
                 name = "Seasonal";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

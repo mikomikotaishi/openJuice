@@ -47,9 +47,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a LegendaryStarsMushroom object.
+     * @brief Constructor to initialize a LegendaryStarsMushroom object.
      */
-    LegendaryStarsMushroom(LegendaryMushroomCard::Colour colour):
+    LegendaryStarsMushroom(LegendaryMushroomCard::Color color):
         SET_MUSHROOM_STATS(Legendary, STARS) {}
 
     /**
@@ -83,9 +83,9 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a LegendaryWinsMushroom object.
+     * @brief Constructor to initialize a LegendaryWinsMushroom object.
      */
-    LegendaryWinsMushroom(LegendaryMushroomCard::Colour colour):
+    LegendaryWinsMushroom(LegendaryMushroomCard::Color color):
         SET_MUSHROOM_STATS(Legendary, WINS) {}
 
     /**

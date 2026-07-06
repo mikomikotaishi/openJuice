@@ -19,17 +19,16 @@ import time
 from argparse import _MutuallyExclusiveGroup as MutuallyExclusiveGroup, ArgumentParser, Namespace
 from re import Match, Pattern
 from subprocess import CalledProcessError, CompletedProcess, Popen
-from typing import List, Optional, Set, Tuple
 from threading import Thread
 
 DEFAULT_CONSOLE_WIDTH: int = 80
-EXTENSIONS_TO_REMOVE: Tuple[str] = (".o", ".obj", ".a", ".so", ".dylib", ".dll", ".exe")
-CMAKE_INIT_COMMAND: List[str] = ["cmake", "-S", ".", "-G", "Ninja", "-B", "build"]
-CMAKE_BUILD_COMMAND: List[str] = ["cmake", "--build", "build"]
-CMAKE_REGENERATE_COMMAND: List[str] = ["cmake", "-G", "Ninja", "."]
-CMAKE_RECONFIGURE_COMMAND: List[str] = ["cmake", "-S", ".", "-B", "build"]
+EXTENSIONS_TO_REMOVE: set[str] = {".o", ".obj", ".a", ".so", ".dylib", ".dll", ".exe"}
+CMAKE_INIT_COMMAND: list[str] = ["cmake", "-S", ".", "-G", "Ninja", "-B", "build"]
+CMAKE_BUILD_COMMAND: list[str] = ["cmake", "--build", "build"]
+CMAKE_REGENERATE_COMMAND: list[str] = ["cmake", "-G", "Ninja", "."]
+CMAKE_RECONFIGURE_COMMAND: list[str] = ["cmake", "-S", ".", "-B", "build"]
 ANSI_PATTERN: Pattern = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND: List[str] = ["dot", "-Tpng", "graph.dot", "-o", "dependencies.png"]
+GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND: list[str] = ["dot", "-Tpng", "graph.dot", "-o", "dependencies.png"]
 
 class ANSI:
     """
@@ -44,7 +43,7 @@ class ANSI:
     BLUE: str = "\033[34m"
     CLEAR_LINE: str = "\033[K"
 
-def getConsoleWidth() -> int:
+def console_width() -> int:
     """
     @brief Gets the width of the current console window in characters.
 
@@ -55,7 +54,7 @@ def getConsoleWidth() -> int:
     except (AttributeError, OSError):
         return DEFAULT_CONSOLE_WIDTH
 
-def visibleLength(s: str) -> int:
+def visible_length(s: str) -> int:
     """
     @brief Calculates the visible length of a string (excluding ANSI escape sequences).
 
@@ -64,14 +63,14 @@ def visibleLength(s: str) -> int:
     """
     return len(ANSI_PATTERN.sub('', s))
 
-def runCommand(command: List[str], verbose: bool, capture_output: bool = False) -> Optional[str]:
+def run_command(command: list[str], verbose: bool, capture_output: bool = False) -> str | None:
     """
     @brief Executes a shell command.
 
-    @param command (List[str]): The command to be executed as a list of arguments.
+    @param command (list[str]): The command to be executed as a list of arguments.
     @param verbose (bool): If True, print the command output; otherwise, suppress it.
     @param capture_output (bool): If True, captures and returns the command's output.
-    @return Optional[str]: Captured output if `capture_output` is True, otherwise None.
+    @return str | None: Captured output if `capture_output` is True, otherwise None.
 
     @throws CalledProcessError: If the command returns a non-zero exit code.
     """
@@ -88,7 +87,7 @@ def runCommand(command: List[str], verbose: bool, capture_output: bool = False) 
             subprocess.run(command, check = True, stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
     return None
 
-def cleanBuildDirectory(preserve_deps: bool = False) -> None:
+def clean_build_directory(preserve_deps: bool = False) -> None:
     """
     @brief Removes the 'build' directory while optionally preserving dependencies.
 
@@ -107,7 +106,7 @@ def cleanBuildDirectory(preserve_deps: bool = False) -> None:
             if "build/_deps" in root:
                 continue
             for file in files:
-                if file.endswith(EXTENSIONS_TO_REMOVE):
+                if file.endswith(tuple(EXTENSIONS_TO_REMOVE)):
                     os.remove(os.path.join(root, file))
 
         print(f"{ANSI.GREEN}Regenerating{ANSI.RESET} build system files...")
@@ -125,14 +124,14 @@ def cleanBuildDirectory(preserve_deps: bool = False) -> None:
         shutil.rmtree("src/build", ignore_errors = True)
         print(f"{ANSI.GREEN}Build directory fully cleaned.{ANSI.RESET}")
 
-def configureSanitisers(cmake_command: List[str], release: bool, sanitisers: List[str]) -> List[str]:
+def configure_sanitizers(cmake_command: list[str], release: bool, sanitizers: list[str]) -> list[str]:
     """
-    @brief Helper function to configure CMake command with sanitiser options.
+    @brief Helper function to configure CMake command with sanitizer options.
     
-    @param cmake_command (List[str]): The base CMake command list to modify.
+    @param cmake_command (list[str]): The base CMake command list to modify.
     @param release (bool): If True, build for release. Otherwise, debug build.
-    @param sanitisers (List[str]): List of sanitisers to enable.
-    @return List[str]: The updated CMake command with sanitiser options.
+    @param sanitizers (list[str]): List of sanitizers to enable.
+    @return list[str]: The updated CMake command with sanitizer options.
     """
     address_san: bool = False
     thread_san: bool = False
@@ -143,7 +142,7 @@ def configureSanitisers(cmake_command: List[str], release: bool, sanitisers: Lis
     hardware_san: bool = False
 
     if release:
-        print(f"{ANSI.BLUE}Building in{ANSI.RESET} Release mode (optimised)")
+        print(f"{ANSI.BLUE}Building in{ANSI.RESET} Release mode (optimized)")
         cmake_command.append("-DCMAKE_BUILD_TYPE=Release")
 
         print(f"{ANSI.BLUE}Configuring{ANSI.RESET} for static linking (single executable)")
@@ -162,17 +161,17 @@ def configureSanitisers(cmake_command: List[str], release: bool, sanitisers: Lis
         cmake_command.append("-DSDL3_NET_SHARED=OFF")
         cmake_command.append("-DSDL3_NET_STATIC=ON")
         
-        if sanitisers:
-            print(f"{ANSI.YELLOW}Note:{ANSI.RESET} Sanitisers disabled in Release mode")
-            sanitisers = []
+        if sanitizers:
+            print(f"{ANSI.YELLOW}Note:{ANSI.RESET} Sanitizers disabled in Release mode")
+            sanitizers = []
 
-    if sanitisers:
+    if sanitizers:
         cmake_command.append("-DENABLE_SANITIZERS=ON")
 
-        for sanitiser in sanitisers:
-            sanitiser = sanitiser.lower()
+        for sanitizer in sanitizers:
+            sanitizer = sanitizer.lower()
 
-            match sanitiser:
+            match sanitizer:
                 case "address":
                     if thread_san or memory_san:
                         print(f"{ANSI.RED}Error:{ANSI.RESET} AddressSanitizer (ASan) cannot be used with ThreadSanitizer (TSan) or MemorySanitizer (MSan).")
@@ -211,27 +210,27 @@ def configureSanitisers(cmake_command: List[str], release: bool, sanitisers: Lis
                     leak_san = True
 
                 case "all":
-                    print(f"{ANSI.YELLOW}Enabling{ANSI.RESET} all compatible sanitisers")
+                    print(f"{ANSI.YELLOW}Enabling{ANSI.RESET} all compatible sanitizers")
                     address_san = True
                     undefined_san = True
                     leak_san = True
 
                 case "all-kernel":
-                    print(f"{ANSI.YELLOW}Enabling{ANSI.RESET} all sanitisers (Kernel AddressSanitizer)")
+                    print(f"{ANSI.YELLOW}Enabling{ANSI.RESET} all sanitizers (Kernel AddressSanitizer)")
                     kernel_san = True
                     undefined_san = True
                     memory_san = True
                     leak_san = True
 
                 case "all-hardware":
-                    print(f"{ANSI.YELLOW}Enabling{ANSI.RESET} all sanitisers (Hardware AddressSanitizer)")
+                    print(f"{ANSI.YELLOW}Enabling{ANSI.RESET} all sanitizers (Hardware AddressSanitizer)")
                     hardware_san = True
                     undefined_san = True
                     memory_san = True
                     leak_san = True
 
                 case _:
-                    print(f"{ANSI.YELLOW}Warning:{ANSI.RESET} Invalid sanitiser specified: {sanitiser}")
+                    print(f"{ANSI.YELLOW}Warning:{ANSI.RESET} Invalid sanitizer specified: {sanitizer}")
 
         if address_san:
             cmake_command.append("-DUSE_SANITIZER_ADDRESS=ON")
@@ -251,23 +250,23 @@ def configureSanitisers(cmake_command: List[str], release: bool, sanitisers: Lis
 
     return cmake_command
 
-def runCMakeInit(verbose: bool, release: bool, sanitisers: List[str] = None) -> None:
+def run_cmake_init(verbose: bool, release: bool, sanitizers: list[str] = None) -> None:
     """
-    @brief Runs the CMake initialisation process with detailed progress reporting.
+    @brief Runs the CMake initialization process with detailed progress reporting.
 
     @param verbose (bool): If True, prints all output. Otherwise, shows progress indicators.
     @param release (bool): If True, sets CMake to build for release. Otherwise, builds a debug build.
-    @param sanitisers (List[str]): List of sanitisers to enable.
+    @param sanitizers (list[str]): List of sanitizers to enable.
 
     @throws CalledProcessError
     """
-    if sanitisers is None:
-        sanitisers = []
+    if sanitizers is None:
+        sanitizers = []
 
-    cmake_command: List[str] = configureSanitisers(CMAKE_INIT_COMMAND, release, sanitisers)
+    cmake_command: list[str] = configure_sanitizers(CMAKE_INIT_COMMAND, release, sanitizers)
 
     if verbose:
-        runCommand(cmake_command, verbose = True)
+        run_command(cmake_command, verbose = True)
         return
 
     print(f"{ANSI.GREEN}Initialising{ANSI.RESET} openJuice build...")
@@ -281,21 +280,21 @@ def runCMakeInit(verbose: bool, release: bool, sanitisers: List[str] = None) -> 
 
     in_download: bool = False
     last_download_percent: int = -1
-    cloning_repo: Optional[str] = None
-    downloading_library: Optional[str] = None
+    cloning_repo: str | None = None
+    downloading_library: str | None = None
 
-    def processStderr() -> None:
+    def process_stderr() -> None:
         for line in process.stderr:
             line = line.strip()
-            clone_match: Optional[Match] = re.search(r"Cloning into ['\"](.*?)['\"]", line)
+            clone_match: Match | None = re.search(r"Cloning into ['\"](.*?)['\"]", line)
             if clone_match:
                 repo_name = clone_match.group(1).replace("-src", "")
                 print(f"{ANSI.BLUE}Cloning{ANSI.RESET} {repo_name} dependency...")
-            build_stopped = detectBuildStopped(line)
+            build_stopped = detect_build_stopped(line)
             if build_stopped:
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.RED}Build stopped:{ANSI.RESET} {build_stopped}")
 
-    stderr_thread: Thread = Thread(target = processStderr, daemon = True)
+    stderr_thread: Thread = Thread(target = process_stderr, daemon = True)
     stderr_thread.start()
 
     try:
@@ -305,7 +304,7 @@ def runCMakeInit(verbose: bool, release: bool, sanitisers: List[str] = None) -> 
             if "compiler identification is" in line:
                 print(f"Detecting {line}")
 
-            download_match: Optional[Match] = re.search(r"\[download (\d+)% complete]", line)
+            download_match: Match | None = re.search(r"\[download (\d+)% complete]", line)
             if download_match:
                 percent = int(download_match.group(1))
                 if not in_download:
@@ -328,13 +327,13 @@ def runCMakeInit(verbose: bool, release: bool, sanitisers: List[str] = None) -> 
 
             if downloading_library == "pending":
                 if "Using the multi-header code from" in line:
-                    lib_match: Optional[Match] = re.search(r"_deps/([^/]+)-src", line)
+                    lib_match: Match | None = re.search(r"_deps/([^/]+)-src", line)
                     if lib_match:
                         library_name = lib_match.group(1)
                         print(f"{ANSI.GREEN}Downloaded{ANSI.RESET} {library_name} library")
                         downloading_library = None
 
-            clone_match: Optional[Match] = re.search(r"Cloning into ['\"](.*?)['\"]", line)
+            clone_match: Match | None = re.search(r"Cloning into ['\"](.*?)['\"]", line)
             if clone_match:
                 repo_name = clone_match.group(1).replace("-src", "")
                 cloning_repo = repo_name
@@ -345,12 +344,12 @@ def runCMakeInit(verbose: bool, release: bool, sanitisers: List[str] = None) -> 
                 cloning_repo = None
 
             if line.startswith("-- Configuring done"):
-                print(f"{ANSI.BLUE}Finalising{ANSI.RESET} build configuration...")
+                print(f"{ANSI.BLUE}Finalizing{ANSI.RESET} build configuration...")
 
             if line.startswith("-- Build files have been written"):
                 print(f"{ANSI.GREEN}Build system{ANSI.RESET} configured successfully!")
 
-            build_stopped: Optional[str] = detectBuildStopped(line)
+            build_stopped: str | None = detect_build_stopped(line)
             if build_stopped:
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.RED}Build stopped:{ANSI.RESET} {build_stopped}")
 
@@ -364,7 +363,7 @@ def runCMakeInit(verbose: bool, release: bool, sanitisers: List[str] = None) -> 
     if process.returncode != 0:
         raise CalledProcessError(process.returncode, process.args)
 
-def runCMakeReconfigure(verbose: bool, release: bool, sanitisers: List[str] = None) -> None:
+def run_cmake_reconfigure(verbose: bool, release: bool, sanitizers: list[str] = None) -> None:
     """
     @brief Reconfigures the CMake build system without cleaning.
 
@@ -374,16 +373,16 @@ def runCMakeReconfigure(verbose: bool, release: bool, sanitisers: List[str] = No
 
     @param verbose (bool): If True, prints all output. Otherwise, shows progress indicators.
     @param release (bool): If True, sets CMake to build for release. Otherwise, builds a debug build.
-    @param sanitisers (List[str]): List of sanitisers to enable.
+    @param sanitizers (list[str]): List of sanitizers to enable.
 
     @throws CalledProcessError
     """
-    if sanitisers is None:
-        sanitisers = []
+    if sanitizers is None:
+        sanitizers = []
 
     print(f"{ANSI.BLUE}Reconfiguring{ANSI.RESET} build system for new files...")
 
-    cmake_command: List[str] = configureSanitisers(CMAKE_BUILD_COMMAND, release, sanitisers)
+    cmake_command: list[str] = configure_sanitizers(CMAKE_BUILD_COMMAND, release, sanitizers)
 
     process: Popen = Popen(
         cmake_command,
@@ -413,57 +412,57 @@ def runCMakeReconfigure(verbose: bool, release: bool, sanitisers: List[str] = No
 
     print(f"{ANSI.GREEN}Build system reconfigured successfully!{ANSI.RESET}")
 
-def parseCMakeProgress(line: str) -> Optional[Tuple[int, int]]:
+def parse_cmake_progress(line: str) -> tuple[int, int] | None:
     """
     @brief Extracts the current step and total steps from CMake build output.
 
     @param line (str): A line of CMake output.
-    @return Optional[Tuple[int, int]]: A tuple (current_step, total_steps) if found, otherwise None.
+    @return tuple[int, int] | None: A tuple (current_step, total_steps) if found, otherwise None.
     """
-    match: Optional[Match] = re.search(r"\[(\d+)/(\d+)]", line)
+    match: Match | None = re.search(r"\[(\d+)/(\d+)]", line)
     return (int(match.group(1)), int(match.group(2))) if match else None
 
-def extractFilename(line: str) -> Optional[str]:
+def extract_filename(line: str) -> str | None:
     """
     @brief Extracts the filename from a compilation command.
 
     @param line (str): A line of CMake build output.
-    @return Optional[str]: The extracted filename if found, otherwise None.
+    @return str | None: The extracted filename if found, otherwise None.
     """
-    match: Optional[Match] = re.search(r"Building CXX object (.+\.cppm?)\.o", line)
+    match: Match | None = re.search(r"Building CXX object (.+\.cppm?)\.o", line)
     return match.group(1).strip() if match else None
 
-def detectWarnings(line: str) -> Optional[str]:
+def detect_warnings(line: str) -> str | None:
     """
     @brief Detects warnings in the compiler output.
 
     @param line (str): A line of compiler output.
-    @return Optional[str]: The filename associated with a warning, if found.
+    @return str | None: The filename associated with a warning, if found.
     """
-    match: Optional[Match] = re.search(r"([^:\s]+:\d+:\d+: warning: .+)", line)
+    match: Match | None = re.search(r"([^:\s]+:\d+:\d+: warning: .+)", line)
     return match.group(1) if match else None
 
-def detectErrors(line: str) -> Optional[str]:
+def detect_errors(line: str) -> str | None:
     """
     @brief Detects compilation errors in the compiler output.
 
     @param line (str): A line of compiler output.
-    @return Optional[str]: The error message if found, otherwise None.
+    @return str | None: The error message if found, otherwise None.
     """
-    match: Optional[Match] = re.search(r"([^:\s]+:\d+:\d+: error: .+)", line)
+    match: Match | None = re.search(r"([^:\s]+:\d+:\d+: error: .+)", line)
     return match.group(1) if match else None
 
-def detectBuildStopped(line: str) -> Optional[str]:
+def detect_build_stopped(line: str) -> str | None:
     """
     @brief Detects build stopped messages from ninja.
 
     @param line (str): A line of compiler output.
-    @return Optional[str]: The build stopped message if found, otherwise None.
+    @return str | None: The build stopped message if found, otherwise None.
     """
-    match: Optional[Match] = re.search(r"ninja: build stopped: (.+)", line)
+    match: Match | None = re.search(r"ninja: build stopped: (.+)", line)
     return match.group(0) if match else None
 
-def runCMakeBuild(verbose: bool) -> None:
+def run_cmake_build(verbose: bool) -> None:
     """
     @brief Runs `cmake --build build` while showing a progress bar if `verbose` is False.
 
@@ -472,7 +471,7 @@ def runCMakeBuild(verbose: bool) -> None:
     @throws CalledProcessError
     """
     if verbose:
-        runCommand(["cmake", "--build", "build"], verbose = True)
+        run_command(["cmake", "--build", "build"], verbose = True)
         return
 
     print(f"{ANSI.GREEN}Building{ANSI.RESET} openJuice...")
@@ -494,12 +493,12 @@ def runCMakeBuild(verbose: bool) -> None:
     last_percentage: int = 0
     total_steps: int = 0
     current_step: int = 0
-    current_file: Optional[str] = None
+    current_file: str | None = None
     bar: str = "-" * bar_length
-    error_files: Set[str] = set()
+    error_files: set[str] = set()
 
     if first_line:
-        progress = parseCMakeProgress(first_line)
+        progress = parse_cmake_progress(first_line)
         if progress:
             current_step, total_steps = progress
             percentage = int((current_step / total_steps) * 100)
@@ -507,11 +506,11 @@ def runCMakeBuild(verbose: bool) -> None:
             filled = int(bar_length * (percentage / 100))
             bar = "#" * filled + "-" * (bar_length - filled)
 
-        new_file = extractFilename(first_line)
+        new_file = extract_filename(first_line)
         if new_file:
             current_file = new_file
 
-    def updateProgressBar() -> None:
+    def update_progress_bar() -> None:
         """
         @brief Update the progress bar.
         """
@@ -525,56 +524,56 @@ def runCMakeBuild(verbose: bool) -> None:
             f"[{current_step:{width}d}/{total_steps or 1}] "
             f"{ANSI.GREEN}Compiling:{ANSI.RESET} {current_file or ''} "
         )
-        if visibleLength(output_string) > getConsoleWidth() - 1:
-            output_string = output_string[:getConsoleWidth() - 1]
+        if visible_length(output_string) > console_width() - 1:
+            output_string = output_string[:console_width() - 1]
         print(output_string, end = "", flush = True)
 
-    updateProgressBar()
+    update_progress_bar()
 
-    error_lines: List[str] = []
+    error_lines: list[str] = []
 
-    def readStderr() -> None:
+    def read_stderr() -> None:
         """
         @brief Read from the stderr stream.
         """
         for line in process.stderr:
             line = line.strip()
             error_lines.append(line)
-            error_msg = detectErrors(line)
+            error_msg = detect_errors(line)
             if error_msg:
                 error_file = error_msg.split(':')[0]
                 if error_file not in error_files:
                     print()
                     error_files.add(error_file)
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.RED}Error:{ANSI.RESET} {error_msg}")
-                updateProgressBar()
-            build_stopped = detectBuildStopped(line)
+                update_progress_bar()
+            build_stopped = detect_build_stopped(line)
             if build_stopped:
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.RED}Build stopped:{ANSI.RESET} {build_stopped}")
-                updateProgressBar()
+                update_progress_bar()
 
-    stderr_thread: Thread = Thread(target = readStderr, daemon = True)
+    stderr_thread: Thread = Thread(target = read_stderr, daemon = True)
     stderr_thread.start()
 
     try:
         for line in process.stdout:
             line = line.strip()
 
-            warning_msg: Optional[str] = detectWarnings(line)
+            warning_msg: str | None = detect_warnings(line)
             if warning_msg:
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.YELLOW}Warning:{ANSI.RESET} {warning_msg} (enable verbose for details)")
-                updateProgressBar()
+                update_progress_bar()
 
-            error_msg: Optional[str] = detectErrors(line)
+            error_msg: str | None = detect_errors(line)
             if error_msg:
                 error_file = error_msg.split(':')[0]
                 if error_file not in error_files:
                     print()
                     error_files.add(error_file)
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.RED}Error:{ANSI.RESET} {error_msg}")
-                updateProgressBar()
+                update_progress_bar()
 
-            progress: Optional[Tuple[int, int]] = parseCMakeProgress(line)
+            progress: tuple[int, int] | None = parse_cmake_progress(line)
             if progress:
                 current_step, total_steps = progress
                 percentage: int = int((current_step / total_steps) * 100)
@@ -583,17 +582,17 @@ def runCMakeBuild(verbose: bool) -> None:
                     last_percentage = percentage
                     filled: int = int(bar_length * (percentage / 100))
                     bar = "#" * filled + "-" * (bar_length - filled)
-                    updateProgressBar()
+                    update_progress_bar()
 
-            new_file: Optional[str] = extractFilename(line)
+            new_file: str | None = extract_filename(line)
             if new_file:
                 current_file = new_file
-                updateProgressBar()
+                update_progress_bar()
 
-            build_stopped: Optional[str] = detectBuildStopped(line)
+            build_stopped: str | None = detect_build_stopped(line)
             if build_stopped:
                 print(f"\r{ANSI.CLEAR_LINE}{ANSI.RED}Build stopped:{ANSI.RESET} {build_stopped}")
-                updateProgressBar()
+                update_progress_bar()
 
         process.wait()
         stderr_thread.join(timeout = 1)
@@ -626,7 +625,7 @@ def main() -> int:
 
     operation_group: MutuallyExclusiveGroup = parser.add_mutually_exclusive_group()
     parser.add_argument("-r", "--release", action = "store_true",
-                        help = "Build in release mode (optimised, no sanitisers, NDEBUG defined)")
+                        help = "Build in release mode (optimized, no sanitizers, NDEBUG defined)")
     
     operation_group.add_argument("-c", "--clean", action = "store_true",
                                 help = "Clean only project source files (no building)")
@@ -640,8 +639,8 @@ def main() -> int:
                                 help = "Reconfigure CMake build system (for when new files are added)")
 
     parser.add_argument("-g", "--graph", action = "store_true", help = "Generate dependency graph")
-    parser.add_argument("-s", "--sanitiser", "--sanitizer", nargs = "+", default = [],
-                        help = "Enable sanitisers (address, undefined, thread, memory, leak, all)")
+    parser.add_argument("-s", "--sanitizer", nargs = "+", default = [],
+                        help = "Enable sanitizers (address, undefined, thread, memory, leak, all)")
     parser.add_argument("-v", "--verbose", action = "store_true",
                         help = "Enable verbose output (lacks progress bar or other graphical features)")
 
@@ -654,36 +653,36 @@ def main() -> int:
     preserve_deps: bool = args.preserve_deps
     reconfigure: bool = args.reconfigure
     verbose: bool = args.verbose
-    sanitisers: List[str] = args.sanitiser
+    sanitizers: list[str] = args.sanitizer
 
     start_time: float = time.time()
 
     try:
         if clean_all:
-            cleanBuildDirectory(False)
+            clean_build_directory(False)
             return 0
         elif clean:
-            cleanBuildDirectory(True)
+            clean_build_directory(True)
             return 0
         elif build_new:
-            cleanBuildDirectory(False)
-            runCMakeInit(verbose, release, sanitisers)
+            clean_build_directory(False)
+            run_cmake_init(verbose, release, sanitizers)
         elif preserve_deps:
-            cleanBuildDirectory(True)
-            runCMakeInit(verbose, release, sanitisers)
+            clean_build_directory(True)
+            run_cmake_init(verbose, release, sanitizers)
         elif reconfigure:
-            runCMakeReconfigure(verbose, release, sanitisers)
+            run_cmake_reconfigure(verbose, release, sanitizers)
         else:
-            if sanitisers and not os.path.exists("build/CMakeCache.txt"):
-                runCMakeInit(verbose, release, sanitisers)
+            if sanitizers and not os.path.exists("build/CMakeCache.txt"):
+                run_cmake_init(verbose, release, sanitizers)
 
         if not (clean_all or clean):
-            runCMakeBuild(verbose)
+            run_cmake_build(verbose)
 
         if generate_graph:
             print(f"{ANSI.GREEN}Generating{ANSI.RESET} dependency graph (output: graph.dot, dependencies.png)")
-            runCommand(["mgt"], verbose)
-            runCommand(GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND, verbose)
+            run_command(["mgt"], verbose)
+            run_command(GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND, verbose)
 
     except CalledProcessError as e:
         if verbose:

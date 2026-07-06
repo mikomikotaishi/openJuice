@@ -46,7 +46,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a LongDistanceShot object.
+     * @brief Constructor to initialize a LongDistanceShot object.
      */
     LongDistanceShot(): 
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a StiffCrystal object.
+     * @brief Constructor to initialize a StiffCrystal object.
      */
     StiffCrystal(): 
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Extend object.
+     * @brief Constructor to initialize a Extend object.
      */
     Extend(): 
         SET_CARD_STATS() {}
@@ -154,7 +154,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PrincesssPrivilege object.
+     * @brief Constructor to initialize a PrincesssPrivilege object.
      */
     PrincesssPrivilege(): 
         SET_CARD_STATS() {}
@@ -190,7 +190,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a BigMagnum object.
+     * @brief Constructor to initialize a BigMagnum object.
      */
     BigMagnum(): 
         SET_CARD_STATS() {}
@@ -226,7 +226,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Shield object.
+     * @brief Constructor to initialize a Shield object.
      */
     Shield(): 
         SET_CARD_STATS() {}
@@ -262,7 +262,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ReverseAttributeField object.
+     * @brief Constructor to initialize a ReverseAttributeField object.
      */
     ReverseAttributeField(): 
         SET_CARD_STATS() {}
@@ -298,7 +298,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PiggyBank object.
+     * @brief Constructor to initialize a PiggyBank object.
      */
     PiggyBank(): 
         SET_CARD_STATS() {}
@@ -334,7 +334,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Invasion object.
+     * @brief Constructor to initialize a Invasion object.
      */
     Invasion(): 
         SET_CARD_STATS() {}
@@ -370,7 +370,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GoAway object.
+     * @brief Constructor to initialize a GoAway object.
      */
     GoAway(): 
         SET_CARD_STATS() {}
@@ -406,7 +406,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Heat300 object.
+     * @brief Constructor to initialize a Heat300 object.
      */
     Heat300(): 
         SET_CARD_STATS() {}
@@ -442,7 +442,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a TragedyInTheDeadOfNight object.
+     * @brief Constructor to initialize a TragedyInTheDeadOfNight object.
      */
     TragedyInTheDeadOfNight(): 
         SET_CARD_STATS() {}
@@ -478,7 +478,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Exchange object.
+     * @brief Constructor to initialize a Exchange object.
      */
     Exchange(): 
         SET_CARD_STATS() {}
@@ -514,7 +514,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Flamethrower object.
+     * @brief Constructor to initialize a Flamethrower object.
      */
     Flamethrower(): 
         SET_CARD_STATS() {}
@@ -550,7 +550,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ForTheFutureOfTheToyStore object.
+     * @brief Constructor to initialize a ForTheFutureOfTheToyStore object.
      */
     ForTheFutureOfTheToyStore(): 
         SET_CARD_STATS() {}
@@ -586,7 +586,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 0; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a CloudOfSeagulls object.
+     * @brief Constructor to initialize a CloudOfSeagulls object.
      */
     CloudOfSeagulls(): 
         SET_CARD_STATS() {}
@@ -622,7 +622,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a WeAreWaruda object.
+     * @brief Constructor to initialize a WeAreWaruda object.
      */
     WeAreWaruda(): 
         SET_CARD_STATS() {}
@@ -658,7 +658,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Dinner object.
+     * @brief Constructor to initialize a Dinner object.
      */
     Dinner(): 
         SET_CARD_STATS() {}
@@ -694,7 +694,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SuperAllOutMode object.
+     * @brief Constructor to initialize a SuperAllOutMode object.
      */
     SuperAllOutMode(): 
         SET_CARD_STATS() {}
@@ -732,7 +732,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ForcedRevival object.
+     * @brief Constructor to initialize a ForcedRevival object.
      */
     ForcedRevival(): 
         SET_CARD_STATS() {}
@@ -767,7 +767,7 @@ public:
     static constexpr Optional<u8> LIMIT = 1; ///< The limit of this specific card
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
     /**
-     * @brief Constructor to initialise a OhMyFriend object.
+     * @brief Constructor to initialize a OhMyFriend object.
      */
     OhMyFriend(): 
         SET_CARD_STATS() {}
@@ -803,7 +803,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SealedGuardian object.
+     * @brief Constructor to initialize a SealedGuardian object.
      */
     SealedGuardian(): 
         SET_CARD_STATS() {}

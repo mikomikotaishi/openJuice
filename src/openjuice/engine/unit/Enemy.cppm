@@ -16,8 +16,6 @@ import stdx;
 
 import :Unit;
 
-using stdx::meta::IsBaseOfValue;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
@@ -44,17 +42,17 @@ private:
     const Encounter encounter; ///< The type of the enemy.
 public:
     /**
-     * @brief Constructor to initialise an Enemy object.
+     * @brief Constructor to initialize an Enemy object.
      *
      * @param Encounter The encounter type of the enemy.
      * @param id The ID of the enemy.
      * @param health The health of the enemy.
      * @param attack The attack value of the enemy.
-     * @param defence The defence value of the enemy.
+     * @param defense The defense value of the enemy.
      * @param evade The evade value of the enemy.
      */
-    Enemy(Encounter encounter, u16 id, u8 health, i8 attack, i8 defence, i8 evade):
-        Unit(id, health, attack, defence, evade), encounter{encounter} {}
+    Enemy(Encounter encounter, u16 id, u8 health, i8 attack, i8 defense, i8 evade):
+        Unit(id, health, attack, defense, evade), encounter{encounter} {}
 
     Encounter getEncounter() const noexcept {
         return encounter;

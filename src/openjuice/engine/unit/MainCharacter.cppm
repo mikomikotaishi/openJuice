@@ -16,8 +16,6 @@ import stdx;
 
 import :Playable;
 
-using stdx::meta::IsBaseOfValue;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
@@ -48,18 +46,18 @@ private:
     const Difficulty difficulty; ///< The character difficulty of the main character.
 public:
     /**
-     * @brief Constructor to initialise a MainCharacter object.
+     * @brief Constructor to initialize a MainCharacter object.
      *
      * @param id The ID of the main character.
      * @param difficulty The difficulty of the main character.
      * @param health The health of the main character.
      * @param attack The attack value of the main character.
-     * @param defence The defence value of the main character.
+     * @param defense The defense value of the main character.
      * @param evade The evade value of the main character.
      * @param recovery The recovery value of the main character.
      */
-    MainCharacter(u16 id, Difficulty difficulty, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
-        Playable(id, health, attack, defence, evade, recovery), difficulty{difficulty} {}
+    MainCharacter(u16 id, Difficulty difficulty, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery):
+        Playable(id, health, attack, defense, evade, recovery), difficulty{difficulty} {}
 
     Difficulty getDifficulty() const noexcept {
         return difficulty;

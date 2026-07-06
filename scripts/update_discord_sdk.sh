@@ -63,7 +63,7 @@ copy_file() {
     fi
 }
 
-# Initialise counters
+# Initialize counters
 SUCCESS_COUNT=0
 TOTAL_COUNT=0
 

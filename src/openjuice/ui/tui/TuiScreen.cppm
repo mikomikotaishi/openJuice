@@ -15,14 +15,14 @@ export import :ScreenType;
 import stdx;
 
 import openjuice.engine.game;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 import ftxui;
 
 using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::LocalizationService;
 
 using namespace ftxui;
 
@@ -37,15 +37,16 @@ protected:
     SharedPointer<Game> game; ///< A shared pointer to the game.
     Component component; ///< An abstract component
     Function<void(ScreenType)> screenSwitchCallback; ///< An callback for screen switching
+    SharedPointer<LocalizationService> localization; ///< The injected localization service.
 
     /**
-     * @brief Get the TextManager instance safely.
-     * 
-     * @return Reference to the TextManager singleton.
+     * @brief Get the LocalizationService instance safely.
+     *
+     * @return Reference to the LocalizationService.
      */
     [[nodiscard]]
-    static const TextManager& getTextManager() noexcept {
-        return TextManager::getInstance();
+    const LocalizationService& getLocalizationService() const noexcept {
+        return *localization;
     }
 
     /**
@@ -58,9 +59,10 @@ protected:
      *
      * @param game Shared pointer to the game
      * @param callback Function to call when switching screens
+     * @param localization Shared pointer to the localization service
      */
-    TuiScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        game{game}, screenSwitchCallback{callback} {}
+    TuiScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization):
+        game{game}, screenSwitchCallback{callback}, localization{localization} {}
 
     virtual ~TuiScreen() = default;
 public:

@@ -15,7 +15,7 @@ export module openjuice.chat:Censor;
 import stdx;
 import google.re2;
 
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.engine.util;
 
 using stdx::collections::Vector;
@@ -24,7 +24,7 @@ using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
-using openjuice::engine::managers::GlobalSettings;
+using openjuice::engine::services::ConfigurationService;
 using openjuice::engine::util::Constants;
 using openjuice::engine::util::Language;
 
@@ -37,41 +37,17 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  * @class Censor
  * @brief Class for censoring inappropriate words in chat messages.
  * 
- * The Censor class is a singleton class that censors inappropriate words in chat messages based on a blacklist.
+ * The Censor class censors inappropriate words in chat messages based on a blacklist.
  */
 export class Censor {
 public:
     static constexpr StringView PATH_BLACKLIST_FILE = Constants::PATH_BLACKLIST_FILE; ///< The blacklist file path.
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Censor"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
     Vector<String> blacklist; ///< List of inappropriate words to censor.
-    const String gameLanguageCode; ///< The language code currently being used by the game.
+    Language language; ///< The language code currently being used by the game.
     char censorChar; ///< Character used for censoring.
-
-    /**
-     * @brief Private constructor to prevent instantiation.
-     */
-    Censor():
-        gameLanguageCode{GlobalSettings::languageToCode(GlobalSettings::getInstance().getLanguage())} {
-        Language gameLanguage = GlobalSettings::getInstance().getLanguage();
-        switch (gameLanguage) {
-            case Language::ENGLISH:
-            case Language::RUSSIAN:
-            case Language::SPANISH:
-            case Language::PORTUGUESE_BR:
-                censorChar = '*';
-                break;
-            case Language::JAPANESE:
-            case Language::CHINESE_SIMPLIFIED:
-            case Language::CHINESE_TRADITIONAL:
-            case Language::KOREAN:
-                censorChar = '#';
-                break;
-            default:
-                Ops::unreachable();
-        }
-        loadBlacklist(gameLanguage);
-    }
 
     /**
      * @brief Load the blacklist for the specified language.
@@ -79,9 +55,9 @@ private:
      * @param language The language for which to load the blacklist.
      * @throws InvalidLanguageException if no valid language is found
      */
-    void loadBlacklist(Language language) throws (InvalidLanguageException) {
-        LOGGER->info("Loading blacklist for language of value {}", static_cast<u8>(language));
-        String filename = stdx::fmt::format(PATH_BLACKLIST_FILE, gameLanguageCode);
+    void loadBlacklist() throws (InvalidLanguageException) {
+        logger->info("Loading blacklist for language {}", language);
+        String filename = stdx::fmt::format(PATH_BLACKLIST_FILE, ConfigurationService::languageToCode(language));
         blacklist.clear();
         Scanner file(filename);
         
@@ -94,23 +70,31 @@ private:
     }
 public:
     /**
-     * @brief Deleted copy constructor to prevent copying.
+     * @brief Constructs a new Censor object.
+     *
+     * @param loggerFactory The injected logger factory.
+     * @param config The injected configuration service, used to determine the game language.
      */
-    Censor(const Censor&) = delete;
-
-    /**
-     * @brief Deleted copy assignment operator to prevent copying.
-     */
-    Censor& operator=(const Censor&) = delete;
-
-    /**
-     * @brief Get the singleton instance of Censor.
-     * 
-     * @return The singleton instance.
-     */
-    static Censor& getInstance() {
-        static Censor instance;
-        return instance;
+    explicit Censor(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ConfigurationService> config):
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("Censor")},
+        language{config->getLanguage()} {
+        switch (language) {
+            case Language::ENGLISH:
+            case Language::SPANISH:
+            case Language::FRENCH:
+            case Language::PORTUGUESE_BR:
+            case Language::RUSSIAN:
+                censorChar = '*';
+                break;
+            case Language::JAPANESE:
+            case Language::CHINESE_SIMPLIFIED:
+            case Language::CHINESE_TRADITIONAL:
+            case Language::KOREAN:
+                censorChar = '#';
+                break;
+        }
+        loadBlacklist();
     }
 
     /**

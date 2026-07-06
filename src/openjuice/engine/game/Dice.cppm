@@ -16,79 +16,57 @@ import openjuice.engine.util;
 
 using stdx::collections::Deque;
 using stdx::collections::Vector;
+using stdx::random::RandomDevice;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 
 using openjuice::engine::util::Constants;
-using openjuice::engine::util::RandomNumberGenerator;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 
 /**
  * @class Dice
- * @brief Thread-safe singleton class for dice rolling with history tracking
+ * @brief Thread-safe class for dice rolling with history tracking
  */
 export class Dice {
 public:
     static constexpr usize DICEROLL_HISTORY_CAPACITY = Constants::DICEROLL_HISTORY_CAPACITY; ///< Maximum number of dice rolls stored.
-private:
+
     /**
-     * @class RollRecord
-     * @brief Contains information on the number of sides rolled by the dice and the result.
+     * @enum Sides
+     * @brief Represents the number of sides on a die.
      */
-    class [[nodiscard]] RollRecord final {
-    private:
-        const u8 sides; ///< The number of sides on the die
-        const u8 result; ///< The result of the roll
-    public:
-        [[nodiscard]]
-        u8 getSides() const noexcept {
-            return sides;
-        }
-
-        [[nodiscard]]
-        u8 getResult() const noexcept {
-            return result;
-        }
-
-        /**
-         * @brief Constructor to initialise a RollRecord object.
-         *
-         * @param sides The number of sides on the die.
-         * @param result The result of the roll.
-         */
-        constexpr RollRecord(u8 sides, u8 result):
-            sides{sides}, result{result} {}
-
-        /**
-         * @brief Default destructor for RollRecord
-         */
-        ~RollRecord() = default;
+    enum class Sides: u8 {
+        SIX = 6, ///< Six-sided die
+        EIGHT = 8, ///< Eight-sided die
     };
 
-    Deque<RollRecord> rollHistory; ///< The history of all dice rolls
-    mutable Mutex historyMutex; /// A mutex for the dice roll history
+    /**
+     * @class Roll
+     * @brief Contains information on the number of sides rolled by the dice and the result.
+     */
+    struct [[nodiscard]] Roll final {
+        Sides sides; ///< The number of sides on the die
+        u8 result; ///< The result of the roll
+    };
+private:
+    Random<> rng; ///< Random number generator for dice rolls
+    Deque<Roll> history; ///< The history of all dice rolls
+    mutable Mutex mutex; /// A mutex for the dice roll history
 
-    void recordRoll(u8 sides, u8 result) {
-        ScopedLock<Mutex> lock(historyMutex);
-        rollHistory.emplace_back(sides, result);
-        if (rollHistory.size() > DICEROLL_HISTORY_CAPACITY) {
-            rollHistory.pop_front();
+    void recordRoll(Sides sides, u8 result) {
+        ScopedLock<Mutex> lock(mutex);
+        history.push_back(Roll {
+            .sides = sides,
+            .result = result
+        });
+        if (history.size() > DICEROLL_HISTORY_CAPACITY) {
+            history.pop_front();
         }
     }
-
-    Dice() = default;
 public:
-    /**
-     * @brief Get the singleton instance (thread-safe using Meyer's singleton)
-     *
-     * @return Reference to the singleton Dice instance
-     */
-    [[nodiscard]]
-    static Dice& getInstance() noexcept {
-        static Dice instance;
-        return instance;
-    }
+    explicit Dice(Random<>::Seed seed = {}):
+        rng{seed} {}
 
     /**
      * @brief Roll a 6-sided die
@@ -96,21 +74,17 @@ public:
      * @return A random number between 1 and 6
      */
     [[nodiscard]]
-    u8 rollDice6() {
-        u8 result = static_cast<u8>(RandomNumberGenerator::getRandomInteger(1, 6));
-        recordRoll(6, result);
-        return result;
-    }
-
-    /**
-     * @brief Roll an 8-sided die
-     *
-     * @return A random number between 0 and 7
-     */
-    [[nodiscard]]
-    u8 rollDice8() {
-        u8 result = static_cast<u8>(RandomNumberGenerator::getRandomInteger(0, 7));
-        recordRoll(8, result);
+    u8 roll(Sides sides) {
+        u8 result = [this, sides] -> u8 {
+            switch (sides) {
+                case Sides::SIX:
+                    return static_cast<u8>(rng.next(1, 6));
+                case Sides::EIGHT:
+                    return static_cast<u8>(rng.next(1, 8));
+            }
+            Ops::unreachable();
+        }();
+        recordRoll(sides, result);
         return result;
     }
 
@@ -120,16 +94,9 @@ public:
      * @return Vector of roll records (sides, result)
      */
     [[nodiscard]]
-    Vector<Pair<u8, u8>> getHistory() const {
-        ScopedLock<Mutex> lock(historyMutex);
-        Vector<Pair<u8, u8>> history;
-        history.reserve(rollHistory.size());
-
-        for (const RollRecord& record: rollHistory) {
-            history.emplace_back(record.getSides(), record.getResult());
-        }
-
-        return history;
+    Vector<Roll> getHistory() const {
+        ScopedLock<Mutex> lock(mutex);
+        return Vector<Roll>(history.begin(), history.end());
     }
 
     /**
@@ -139,15 +106,15 @@ public:
      * @return Pair of (total rolls, average result)
      */
     [[nodiscard]]
-    Pair<usize, f32> getStats(u8 sides) const noexcept {
-        ScopedLock<Mutex> lock(historyMutex);
+    Pair<usize, f32> getStats(Sides sides) const noexcept {
+        ScopedLock<Mutex> lock(mutex);
         usize count = 0;
         f32 sum = 0.0f;
 
-        for (const RollRecord& record: rollHistory) {
-            if (record.getSides() == sides) {
+        for (const Roll& record: history) {
+            if (record.sides == sides) {
                 ++count;
-                sum += static_cast<f32>(record.getResult());
+                sum += static_cast<f32>(record.result);
             }
         }
 
@@ -158,8 +125,8 @@ public:
      * @brief Clear the roll history
      */
     void clearHistory() noexcept {
-        ScopedLock<Mutex> lock(historyMutex);
-        rollHistory.clear();
+        ScopedLock<Mutex> lock(mutex);
+        history.clear();
     }
 };
 

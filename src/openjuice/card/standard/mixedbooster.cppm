@@ -46,7 +46,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a LonelyChariot object.
+     * @brief Constructor to initialize a LonelyChariot object.
      */
     LonelyChariot(): 
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Ambush object.
+     * @brief Constructor to initialize a Ambush object.
      */
     Ambush(): 
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PassionateResearch object.
+     * @brief Constructor to initialize a PassionateResearch object.
      */
     PassionateResearch(): 
         SET_CARD_STATS() {}
@@ -154,7 +154,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PresidentsPrivilege object.
+     * @brief Constructor to initialize a PresidentsPrivilege object.
      */
     PresidentsPrivilege(): 
         SET_CARD_STATS() {}
@@ -190,7 +190,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Mimic object.
+     * @brief Constructor to initialize a Mimic object.
      */
     Mimic(): 
         SET_CARD_STATS() {}
@@ -226,7 +226,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 2; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a TacticalRetreat object.
+     * @brief Constructor to initialize a TacticalRetreat object.
      */
     TacticalRetreat():
         SET_CARD_STATS() {}
@@ -262,7 +262,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ShieldCounter object.
+     * @brief Constructor to initialize a ShieldCounter object.
      */
     ShieldCounter(): 
         SET_CARD_STATS() {}
@@ -298,7 +298,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a PiyopiyoProcession object.
+     * @brief Constructor to initialize a PiyopiyoProcession object.
      */
     PiyopiyoProcession(): 
         SET_CARD_STATS() {}
@@ -334,7 +334,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SealedMemories object.
+     * @brief Constructor to initialize a SealedMemories object.
      */
     SealedMemories(): 
         SET_CARD_STATS() {}
@@ -370,7 +370,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = 5; ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a MixPhenomenon object.
+     * @brief Constructor to initialize a MixPhenomenon object.
      */
     MixPhenomenon(): 
         SET_CARD_STATS() {}
@@ -406,7 +406,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_PLAYABLE_IN_COOP); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ScarySolicitation object.
+     * @brief Constructor to initialize a ScarySolicitation object.
      */
     ScarySolicitation(): 
         SET_CARD_STATS() {}

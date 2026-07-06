@@ -17,15 +17,13 @@ import stdx;
 import :boss;
 
 import openjuice.engine.card;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::spawn::BossCard;
 
@@ -51,8 +49,6 @@ public:
         HYPER, ///< A BossCard of hyper variety
     };
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("BossCardFactory"); ///< The logger instance.
-
     [[nodiscard]]
     static constexpr String secondaryTypeToString(SecondaryType type) noexcept {
         switch (type) {
@@ -60,9 +56,8 @@ private:
                 return "Standard";
             case BossCardFactory::SecondaryType::HYPER:
                 return "Hyper";
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 public:
     BossCardFactory() = delete("BossCardFactory is a utility class and cannot be instantiated.");
@@ -75,10 +70,6 @@ public:
      */
     [[nodiscard]]
     static Optional<SharedPointer<BossCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating BossCard of ID: {}, secondary type: {}", id, secondaryTypeToString(type));
-        #endif
-
         switch (type) {
             case SecondaryType::STANDARD:
                 switch (id) {
@@ -389,9 +380,8 @@ public:
                     default:
                         return nullopt;
                 }
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 };
 
@@ -414,8 +404,6 @@ struct Formatter<BossCardFactory::SecondaryType> {
             case BossCardFactory::SecondaryType::HYPER:
                 name = "Hyper";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -15,7 +15,7 @@ export module openjuice.ui.tui.screens:GuideScreen;
 import stdx;
 
 import openjuice.engine.game;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.ui.tui.TuiScreen;
 
 import ftxui;
@@ -24,8 +24,8 @@ using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::managers::ProfileManager;
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::ProfileManager;
+using openjuice::engine::services::LocalizationService;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TuiScreen;
 
@@ -41,7 +41,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  */
 export class GuideScreen final: public TuiScreen {
 private:
-    bool initialised = false; ///< Whether the screen has been initialised
+    bool initialized = false; ///< Whether the screen has been initialized
 
     /**
      * @brief Creates the screen component
@@ -56,8 +56,8 @@ public:
      * @param game Shared pointer to the game
      * @param callback Function to call when switching screens
      */
-    GuideScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TuiScreen(Ops::move(game), Ops::move(callback)) {
+    GuideScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization):
+        TuiScreen(game, callback, localization) {
         createComponent();
     }
 

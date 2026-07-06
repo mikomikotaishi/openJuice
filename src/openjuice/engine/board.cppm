@@ -9,7 +9,6 @@
 export module openjuice.engine.board;
 
 export import :Board;
-export import :BoardInfo;
 export import :BoardLibrary;
 export import :FieldEvent;
 export import :Panel;

@@ -33,10 +33,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  */
 export namespace components {
     /**
-     * @enum DefenceChoice
-     * @brief Enumeration for defence choices
+     * @enum DefenseChoice
+     * @brief Enumeration for defense choices
      */
-    enum class DefenceChoice: u8 {
+    enum class DefenseChoice: u8 {
         DEFEND, ///< Defend choice
         EVADE ///< Evade choice
     };
@@ -123,7 +123,7 @@ export namespace components {
      */
     struct BattleStateComponent {
         SharedPointer<Card> activeBattleCard = nullptr;
-        DefenceChoice defenceChoice = DefenceChoice::DEFEND;
+        DefenseChoice defenseChoice = DefenseChoice::DEFEND;
 
         /**
          * @brief Construct a new Battle State Component object
@@ -131,8 +131,8 @@ export namespace components {
          * @param choice 
          * @param card 
          */
-        explicit BattleStateComponent(SharedPointer<Card> card, DefenceChoice choice):
-            activeBattleCard{card}, defenceChoice{choice} {}
+        explicit BattleStateComponent(SharedPointer<Card> card, DefenseChoice choice):
+            activeBattleCard{card}, defenseChoice{choice} {}
         
         BattleStateComponent() = default;
     };
@@ -143,7 +143,7 @@ export namespace components {
      */
     struct BattleCardComponent {
         i8 attackModifier = 0;
-        i8 defenceModifier = 0;
+        i8 defenseModifier = 0;
         i8 evadeModifier = 0;
         u8 extraDice = 0;
 
@@ -151,12 +151,12 @@ export namespace components {
          * @brief Construct a new Battle Card Component object
          * 
          * @param attack 
-         * @param defence 
+         * @param defense 
          * @param evade 
          * @param dice 
          */
-        explicit BattleCardComponent(i8 attack, i8 defence, i8 evade, u8 dice):
-            attackModifier{attack}, defenceModifier{defence}, evadeModifier{evade}, extraDice{dice} {}
+        explicit BattleCardComponent(i8 attack, i8 defense, i8 evade, u8 dice):
+            attackModifier{attack}, defenseModifier{defense}, evadeModifier{evade}, extraDice{dice} {}
         
         BattleCardComponent() = default;
     };

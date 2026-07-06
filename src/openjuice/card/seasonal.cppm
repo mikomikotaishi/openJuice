@@ -46,7 +46,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SweetBattle object.
+     * @brief Constructor to initialize a SweetBattle object.
      */
     SweetBattle(): 
         SET_CARD_STATS() {}
@@ -82,7 +82,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a SnowballReflector object.
+     * @brief Constructor to initialize a SnowballReflector object.
      */
     SnowballReflector(): 
         SET_CARD_STATS() {}
@@ -118,7 +118,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a GrownupSnowballFight object.
+     * @brief Constructor to initialize a GrownupSnowballFight object.
      */
     GrownupSnowballFight(): 
         SET_CARD_STATS() {}
@@ -154,7 +154,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a MiosFalseCake object.
+     * @brief Constructor to initialize a MiosFalseCake object.
      */
     MiosFalseCake(): 
         SET_CARD_STATS() {}
@@ -190,7 +190,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChaoticLaunch object.
+     * @brief Constructor to initialize a ChaoticLaunch object.
      */
     ChaoticLaunch(): 
         SET_CARD_STATS() {}
@@ -226,7 +226,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChaosRoost object.
+     * @brief Constructor to initialize a ChaosRoost object.
      */
     ChaosRoost(): 
         SET_CARD_STATS() {}
@@ -262,7 +262,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChaosProtect object.
+     * @brief Constructor to initialize a ChaosProtect object.
      */
     ChaosProtect(): 
         SET_CARD_STATS() {}
@@ -298,7 +298,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a FromTheChaoticAbyss object.
+     * @brief Constructor to initialize a FromTheChaoticAbyss object.
      */
     FromTheChaoticAbyss(): 
         SET_CARD_STATS() {}
@@ -334,7 +334,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChaoticRampage object.
+     * @brief Constructor to initialize a ChaoticRampage object.
      */
     ChaoticRampage(): 
         SET_CARD_STATS() {}
@@ -370,7 +370,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChaosRoulette object.
+     * @brief Constructor to initialize a ChaosRoulette object.
      */
     ChaosRoulette(): 
         SET_CARD_STATS() {}
@@ -406,7 +406,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a ChaoticPool object.
+     * @brief Constructor to initialize a ChaoticPool object.
      */
     ChaoticPool(): 
         SET_CARD_STATS() {}
@@ -442,7 +442,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a HoldTheGremlin object.
+     * @brief Constructor to initialize a HoldTheGremlin object.
      */
     HoldTheGremlin(): 
         SET_CARD_STATS() {}
@@ -479,7 +479,7 @@ public:
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 
     /**
-     * @brief Constructor to initialise a Terrorize object.
+     * @brief Constructor to initialize a Terrorize object.
      */
     Terrorize(): 
         SET_CARD_STATS() {}

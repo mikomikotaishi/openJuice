@@ -22,7 +22,7 @@ import openjuice.chat;
 import openjuice.engine.board;
 import openjuice.engine.entity;
 import openjuice.engine.game.ecs;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.engine.unit;
 import openjuice.engine.util;
 import openjuice.unit;
@@ -42,7 +42,7 @@ using openjuice::engine::board::Board;
 using openjuice::engine::entity::Player;
 using openjuice::engine::game::ecs::EntityId;
 using openjuice::engine::game::ecs::Registry;
-using openjuice::engine::managers::GlobalSettings;
+using openjuice::engine::services::ConfigurationService;
 using openjuice::engine::unit::Playable;
 using openjuice::engine::util::Constants;
 using openjuice::unit::CharacterFactory;
@@ -76,13 +76,14 @@ public:
     };
 private:
     friend class Formatter<Phase>;
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("Game"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
 
     // Game board and ECS components (ordered by size for optimal padding)
     Array<SharedPointer<Player>, MAX_PLAYERS> players; ///< Player array
     String statusMessage; ///< Status message
     Vector<EntityId> mobEntities; ///< Mob entities
-    SharedPointer<Board> gameBoard; ///< The game board
+    SharedPointer<Board> gameBoard; ///< The game board (null until a board is loaded for a match)
     Array<EntityId, MAX_PLAYERS> playerEntities; ///< Store player entity IDs
     UniquePointer<Registry> registry; ///< The ECS registry
     Milliseconds deltaTime; ///< Delta time
@@ -119,23 +120,25 @@ private:
                 return "End Game";
             case Phase::PAUSED:
                 return "Paused";
-            default:
-                Ops::unreachable();
         }
         Ops::unreachable();
     }
 public:
     /**
      * @brief Constructor for the Game class.
+     *
+     * @param loggerFactory The injected logger factory.
+     * @param config The injected configuration service, used to determine the frame delta-time.
      */
-    Game():
-        gameBoard{Pointers::shared<Board>(0)},
+    explicit Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ConfigurationService> config):
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("Game")},
         playerEntities{{}},
         registry{Pointers::unique<Registry>(1000)},
-        deltaTime{GlobalSettings::getInstance().getDeltaTime()} {
+        deltaTime{config->getDeltaTime()} {
 
         #ifndef NDEBUG
-        LOGGER->debug("Creating Game object");
+        logger->debug("Creating Game object");
         #endif
     }
 
@@ -144,12 +147,12 @@ public:
      */
     ~Game() {
         #ifndef NDEBUG
-        LOGGER->debug("Destroying Game object");
+        logger->debug("Destroying Game object");
         #endif
     }
 
     /**
-     * @brief Initialise the game state and prepare for running
+     * @brief Initialize the game state and prepare for running
      */
     [[nodiscard]]
     Expected<void, Registry::Error> init() {
@@ -174,7 +177,7 @@ public:
         }
 
         #ifndef NDEBUG
-        LOGGER->debug("Game initialised");
+        logger->debug("Game initialized");
         #endif
 
         return {};
@@ -207,7 +210,7 @@ public:
      */
     void setPlayerCharacter(u8 num, u8 id) throws (OutOfRangeException) {
         #ifndef NDEBUG
-        LOGGER->debug("Setting player {} to character of ID {}", num, id);
+        logger->debug("Setting player {} to character of ID {}", num, id);
         #endif
 
         if (num >= MAX_PLAYERS) {
@@ -259,7 +262,7 @@ public:
      * @brief Runs the game.
      */
     void run() {
-        LOGGER->info("Beginning game");
+        logger->info("Beginning game");
 
         currentPhase = Phase::PLAYER_TURN;
     }

@@ -111,7 +111,7 @@ Use `@extends` to indicate that a concrete class inherits from another concrete 
 
 Refer to any class that is abstract (or should be abstract) as an "interface" in Doxygen comments (although C++ does not offer "interfaces" in the strictest sense, this is done for clarity). Only refer to a concrete class as a "class" in Doxygen comments.
 
-When applicable, create a "marker interface" with no methods (besides a `protected` constructor and `public virtual` destructor) that is used solely to denote that a class implements some behaviour. Such marker interfaces belong in `openjuice.engine.util.Interfaces:*`.
+When applicable, create a "marker interface" with no methods (besides a `protected` constructor and `public virtual` destructor) that is used solely to denote that a class implements some behavior. Such marker interfaces belong in `openjuice.engine.util.Interfaces:*`.
 
 == Namespaces
 Indicate the purpose of a namespace.

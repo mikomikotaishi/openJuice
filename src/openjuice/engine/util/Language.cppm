@@ -76,8 +76,6 @@ struct Formatter<Language> {
             case Language::KOREAN:
                 name = "Korean";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

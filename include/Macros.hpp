@@ -34,32 +34,32 @@
 /**
  * @brief Utility macro to set the CARD_KEY and ARTIST_KEY fields in a final class that extends Card.
  * 
- * @param CardKey The string literal that will be passed as the card key to query in TextManager
- * @param ArtistKey The string literal that will be passed as the artist key to query in TextManager
+ * @param CardKey The string literal that will be passed as the card key to query in LocalizationService
+ * @param ArtistKey The string literal that will be passed as the artist key to query in LocalizationService
  */
 #define CARD_METADATA(CardKey, ArtistKey) \
-    static constexpr StringView CARD_KEY = CardKey; /** The key belonging to the card to query in TextManager */ \
-    static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in TextManager */
+    static constexpr StringView CARD_KEY = CardKey; /** The key belonging to the card to query in LocalizationService */ \
+    static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in LocalizationService */
 
 /**
  * @brief Utility macro to set the EFFECT_KEY and ARTIST_KEY fields in a final class that extends Card.
  * 
- * @param EffectKey The string literal that will be passed as the effect key to query in TextManager
+ * @param EffectKey The string literal that will be passed as the effect key to query in LocalizationService
  */
 #define MUSHROOM_METADATA(EffectKey) \
-    static constexpr char EFFECT_KEY[] = EffectKey; /** The key belonging to the effect to query in TextManager */ \
+    static constexpr char EFFECT_KEY[] = EffectKey; /** The key belonging to the effect to query in LocalizationService */ \
 
 /**
  * @brief Utility macro to set the UNIT_KEY, ARTIST_KEY, and VOICEACTOR_KEY fields in a final class that extends Unit.
  * 
- * @param UnitKey The string literal that will be passed as the unit key to query in TextManager
- * @param ArtistKey The string literal that will be passed as the artist key to query in TextManager
- * @param VoiceActorKey The string literal that will be passed as the voice actor key to query in TextManager
+ * @param UnitKey The string literal that will be passed as the unit key to query in LocalizationService
+ * @param ArtistKey The string literal that will be passed as the artist key to query in LocalizationService
+ * @param VoiceActorKey The string literal that will be passed as the voice actor key to query in LocalizationService
  */
 #define UNIT_METADATA(UnitKey, ArtistKey, VoiceActorKey) \
-    static constexpr StringView UNIT_KEY = UnitKey; /** The key belonging to the card to query in TextManager */ \
-    static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in TextManager */ \
-    static constexpr StringView VOICEACTOR_KEY = VoiceActorKey; /** The key belonging to the name of the voice actor to query in TextManager */
+    static constexpr StringView UNIT_KEY = UnitKey; /** The key belonging to the card to query in LocalizationService */ \
+    static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in LocalizationService */ \
+    static constexpr StringView VOICEACTOR_KEY = VoiceActorKey; /** The key belonging to the name of the voice actor to query in LocalizationService */
 
 /**
  * @brief Automatically sets all stats of card.
@@ -74,25 +74,25 @@
  * @param EffectName The effect enum constant associated with that mushroom
  */
 #define SET_MUSHROOM_STATS(Type, EffectName) \
-    Type##MushroomCard(colour, Type##MushroomCard::Effect::EffectName)
+    Type##MushroomCard(color, Type##MushroomCard::Effect::EffectName)
 
 /**
  * @brief Automatically sets all stats of a main character.
  */
 #define SET_MAIN_CHARACTER_STATS() \
-    MainCharacter(ID, DIFFICULTY, HEALTH, ATTACK, DEFENCE, EVADE, RECOVERY)
+    MainCharacter(ID, DIFFICULTY, HEALTH, ATTACK, DEFENSE, EVADE, RECOVERY)
 
 /**
  * @brief Automatically sets all stats of a basic enemy.
  */
 #define SET_BASIC_ENEMY_STATS() \
-    BasicEnemy(ID, HEALTH, ATTACK, DEFENCE, EVADE)
+    BasicEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE)
 
 /**
  * @brief Automatically sets all stats of a boss enemy.
  */
 #define SET_BOSS_ENEMY_STATS() \
-    BossEnemy(ID, HEALTH, ATTACK, DEFENCE, EVADE)
+    BossEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE)
 
 /**
  * @brief A utility to specialise a type in std::formatter. 

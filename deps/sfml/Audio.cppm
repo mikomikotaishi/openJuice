@@ -45,7 +45,7 @@ export namespace sfml::audio {
     
     class Listener final {
     public:
-        Listener() = delete;
+        Listener() = delete("Listener is a utility class and cannot be instantiated.");
 
         using Cone = sf::Listener::Cone;
 
@@ -109,7 +109,7 @@ export namespace sfml::audio {
 
     class PlaybackDevice final {
     public:
-        PlaybackDevice() = delete;
+        PlaybackDevice() = delete("PlaybackDevice is a utility class and cannot be instantiated.");
 
         using Notification = sf::PlaybackDevice::Notification;
         using NotificationCallback = sf::PlaybackDevice::NotificationCallback;

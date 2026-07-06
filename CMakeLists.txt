@@ -9,8 +9,10 @@ if(CMAKE_VERSION VERSION_LESS_EQUAL "3.31.7")
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "0e5b6991-d74f-4b3d-a41c-cf096e0b2508")
 elseif(CMAKE_VERSION VERSION_LESS_EQUAL "4.2.3")
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
-else()
+elseif(CMAKE_VERSION VERSION_LESS_EQUAL "4.3.4")
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
+else()
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "f35a9ac6-8463-4d38-8eec-5d6008153e7d")
 endif()
 
 option(BUILD_STATIC_LIBS "Build static libraries instead of shared" OFF)
@@ -18,10 +20,6 @@ option(BUILD_STATIC_LIBS "Build static libraries instead of shared" OFF)
 set(STDLIB "default" CACHE STRING "C++ standard library to use (default, libstdc++, libc++)")
 set_property(CACHE STDLIB PROPERTY STRINGS "default" "libstdc++" "libc++")
 
-# CXX compile flags must be set BEFORE project() so that CMake's import-std
-# detection finds the correct standard library module source (e.g. libc++'s
-# std.cppm instead of libstdc++'s std.cc). Linker flags are applied after
-# project() to avoid breaking the C compiler test.
 if(STDLIB STREQUAL "libc++")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 elseif(STDLIB STREQUAL "libstdc++")
@@ -80,14 +78,14 @@ function(configure_cpp_module_target target)
     )
 endfunction()
 
-option(ENABLE_SANITIZERS "Enable sanitisers in debug builds" OFF)
-option(USE_SANITIZER_ADDRESS "Enable address sanitiser" OFF)
-option(USE_SANITIZER_KERNEL "Enable kernel address sanitiser" OFF)
-option(USE_SANITIZER_HW "Enable hardware address sanitiser" OFF)
-option(USE_SANITIZER_UNDEFINED "Enable undefined behaviour sanitiser" OFF)
-option(USE_SANITIZER_THREAD "Enable thread sanitiser" OFF)
-option(USE_SANITIZER_MEMORY "Enable memory sanitiser" OFF)
-option(USE_SANITIZER_LEAK "Enable leak sanitiser" OFF)
+option(ENABLE_SANITIZERS "Enable sanitizers in debug builds" OFF)
+option(USE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
+option(USE_SANITIZER_KERNEL "Enable kernel address sanitizer" OFF)
+option(USE_SANITIZER_HW "Enable hardware address sanitizer" OFF)
+option(USE_SANITIZER_UNDEFINED "Enable undefined behavior sanitizer" OFF)
+option(USE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+option(USE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+option(USE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
 
 set(COMPILER_APPLE_CLANG OFF)
 set(COMPILER_CLANG OFF)
@@ -119,7 +117,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm|armv7l")
     set(ARCH_ARM ON)
 endif()
 
-function(add_sanitisers target)
+function(add_sanitizers target)
     if(NOT ENABLE_SANITIZERS)
         return()
     endif()
@@ -211,6 +209,19 @@ else()
     endif()
 endif()
 
+option(STDLIBX_USE_HARDENED_LIBRARY "Enable C++ standard library hardening (bounds/precondition checks, active even in release builds)" ON)
+
+# libc++ offers graduated levels; libstdc++ and MSVC STL are on/off (the mode
+# only selects the extra debug tier there). Default matches stdlibx's own.
+set(STDLIBX_HARDENED_LIBRARY_MODE "extensive" CACHE STRING "Standard library hardening level: fast, extensive, or debug")
+set_property(CACHE STDLIBX_HARDENED_LIBRARY_MODE PROPERTY STRINGS "fast" "extensive" "debug")
+
+if(STDLIBX_USE_HARDENED_LIBRARY)
+    message(STATUS "Standard library hardening: ON (mode '${STDLIBX_HARDENED_LIBRARY_MODE}', applied by stdlibx)")
+else()
+    message(STATUS "Standard library hardening: OFF (STDLIBX_USE_HARDENED_LIBRARY=OFF)")
+endif()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -283,6 +294,11 @@ FetchContent_Declare(
     GIT_TAG master
 )
 
+# Keep `import std` (CMAKE_CXX_MODULE_STD) from leaking into third-party deps that build
+# as C++14/17 (e.g. SheenBidi via FTXUI): CMake 4.4+ rejects a sub-C++20 `import std`
+# consumer. stdlibx re-enables it in its own scope, so it is unaffected.
+set(CMAKE_CXX_MODULE_STD OFF)
+
 # Make dependencies available, including Abseil if it was fetched
 if(NOT absl_FOUND)
     FetchContent_MakeAvailable(
@@ -304,6 +320,9 @@ else()
         tomlplusplus
     )
 endif()
+
+# Re-enable `import std` for openJuice's own module targets.
+set(CMAKE_CXX_MODULE_STD ON)
 
 add_subdirectory(deps)
 

@@ -130,8 +130,6 @@ struct Formatter<ScreenType> {
             case ScreenType::PAUSE:
                 name = "Pause";
                 break;
-            default:
-                Ops::unreachable();
         }
         return stdx::fmt::format_to(ctx.out(), "{}", name);
     }

@@ -30,14 +30,14 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  * 
  * This class manages a pool of worker threads that can execute tasks in parallel.
  * Tasks are divided into chunks and distributed across worker threads using a barrier
- * synchronisation mechanism. The pool remains active for the lifetime of the object,
+ * synchronization mechanism. The pool remains active for the lifetime of the object,
  * with threads waiting at a barrier between task executions.
  * The thread pool creates threadCount + 1 tasks, with the main thread executing
  * the final task chunk.
  */
 export class ThreadPool {
 private:
-    Barrier<> barrier; ///< Synchronisation barrier for coordinating thread execution.
+    Barrier<> barrier; ///< Synchronization barrier for coordinating thread execution.
     Function<void(usize, usize)> task = nullptr; ///< The current task function to execute.
     UniquePointer<Thread[]> threads; ///< Array of worker threads in the pool.
     UniquePointer<usize[]> starts; ///< Starting indices for each thread's work chunk.
@@ -89,7 +89,7 @@ public:
      * @brief Destroy the ThreadPool object.
      * 
      * Signals all worker threads to shut down by setting shouldJoin flag and
-     * synchronising through the barrier. Waits for all threads to complete
+     * synchronizing through the barrier. Waits for all threads to complete
      * their current work and join before returning.
      * 
      * @note This destructor blocks until all worker threads have been joined.
@@ -97,7 +97,7 @@ public:
     ~ThreadPool() {
         shouldJoin = true;
         barrier.arrive_and_wait(); // signal worker threads to shut down
-        barrier.arrive_and_wait(); // synchronise before joining
+        barrier.arrive_and_wait(); // synchronize before joining
         for (u32 i: IotaView(0u, threadCount)) {
             threads[i].join();
         }

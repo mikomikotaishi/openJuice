@@ -14,7 +14,7 @@ export module openjuice.ui.tui.screens:TitleScreen;
 
 import stdx;
 import openjuice.engine.game;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 import openjuice.ui.tui.TuiScreen;
 
 import ftxui;
@@ -25,8 +25,8 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::managers::ProfileManager;
-using openjuice::engine::managers::TextManager;
+using openjuice::engine::services::ProfileManager;
+using openjuice::engine::services::LocalizationService;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TuiScreen;
 
@@ -42,29 +42,31 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
  */
 export class TitleScreen final: public TuiScreen {
 private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("TitleScreen"); ///< The logger instance.
+    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    SharedPointer<Logger> logger; ///< The logger instance.
+    SharedPointer<ProfileManager> profile; ///< The injected profile manager.
 
     Component menu; ///< The menu UI component
     Vector<String> menuOptions = {
-        getTextManager().getMenuScreenText("MAINMENU_NEWGAME")
+        getLocalizationService().getMenuScreenText("MAINMENU_NEWGAME")
             .value_or("New game"), // New game
-        getTextManager().getMenuScreenText("MAINMENU_LOADGAME")
+        getLocalizationService().getMenuScreenText("MAINMENU_LOADGAME")
             .value_or("Continue"), // Continue
-        getTextManager().getMenuScreenText("MAINMENU_CONFIGURATION")
+        getLocalizationService().getMenuScreenText("MAINMENU_CONFIGURATION")
             .value_or("Config"), // Config
-        getTextManager().getMenuScreenText("MAINMENU_EXIT")
+        getLocalizationService().getMenuScreenText("MAINMENU_EXIT")
             .value_or("Exit") // Exit game
     }; ///< The list of menu options
 
     i32 selectedOption = 0; ///< The current option selected
     bool exitSelected = false; ///< Whether the entire application should exit
-    bool initialised = false; ///< Whether the screen has been initialised
+    bool initialized = false; ///< Whether the screen has been initialized
 
     /**
      * @brief Creates the screen component
      */
     void createComponent() noexcept override final {
-        if (initialised) {
+        if (initialized) {
             return;
         }
 
@@ -74,14 +76,14 @@ private:
             if ((event.is_mouse() && event.mouse().button == Mouse::Left) || (event == Event::Return)) {
                 switch (selectedOption) {
                     case 0: // New Game
-                        if (Expected<void, ProfileManager::Error> result = ProfileManager::getInstance().resetProfile(); !result) {
-                            LOGGER->error("Failed to reset profile for new game: {}", result.error());
+                        if (Expected<void, ProfileManager::Error> result = profile->resetProfile(); !result) {
+                            logger->error("Failed to reset profile for new game: {}", result.error());
                         }
                         screenSwitchCallback(ScreenType::MAIN_MENU);
                         return true;
                     case 1: // Continue
-                        if (Expected<void, ProfileManager::Error> result = ProfileManager::getInstance().loadProfile(); !result) {
-                            LOGGER->error("Failed to load profile for continue: {}", result.error());
+                        if (Expected<void, ProfileManager::Error> result = profile->loadProfile(); !result) {
+                            logger->error("Failed to load profile for continue: {}", result.error());
                         }
                         screenSwitchCallback(ScreenType::MAIN_MENU);
                         return true;
@@ -109,7 +111,7 @@ private:
             }) | border | flex;
         }) | bgcolor(Color::Orange1);;
 
-        initialised = true;
+        initialized = true;
     }
 public:
     /**
@@ -117,9 +119,15 @@ public:
      *
      * @param game Shared pointer to the game
      * @param callback Function to call when switching screens
+     * @param localization Shared pointer to the localization service
+     * @param loggerFactory Shared logger factory used to create this screen's logger
+     * @param profile Shared pointer to the profile manager
      */
-    TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback):
-        TuiScreen(Ops::move(game), Ops::move(callback)) {
+    TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization, SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ProfileManager> profile):
+        TuiScreen(game, callback, localization),
+        loggerFactory{loggerFactory},
+        logger{loggerFactory->of("TitleScreen")},
+        profile{profile} {
         createComponent();
     }
 

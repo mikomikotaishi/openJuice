@@ -15,7 +15,6 @@ export module openjuice.engine.signals:Observer;
 import stdx;
 
 using stdx::collections::Vector;
-using stdx::meta::IsBaseOfValue;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::signals);
 

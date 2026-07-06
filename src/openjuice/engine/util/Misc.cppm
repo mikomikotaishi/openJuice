@@ -25,95 +25,72 @@ using namespace stdx::os;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 
-export namespace misc {
-    /**
-     * @brief Print the help message.
-     */
-    void printHelp() {
-        System::out.println("Help message");
-    }
+/** 
+ * @brief Lambda to check if character is a format specifier
+ */
+constexpr auto isFormatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u'
+        || c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G'
+        || c == 'a' || c == 'A' || c == 'c' || c == 's' || c == 'p' || c == 'n';
+};
 
-    /**
-     * @brief Print the credits message.
-     */
-    void printCredits() {
-        System::out.println("Version: 0.0.x");
-        System::out.println("Credits message");
-    }
+/**
+ * @brief Lambda to check if character is a format flag
+ */
+constexpr auto isFlag = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return c == '-' || c == '+' || c == '#' || c == '0' || c == ' ';
+};
 
-    /**
-     * @internal
-     * @namespace detail
-     * @brief Internal implementation details for string functions.
-     */
-    namespace detail {
-        /** 
-         * @brief Lambda to check if character is a format specifier
-         */
-        constexpr auto isFormatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u'
-                || c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G'
-                || c == 'a' || c == 'A' || c == 'c' || c == 's' || c == 'p' || c == 'n';
-        };
+/**
+ * @brief Lambda to check if character is width/precision related
+ */
+constexpr auto isWidthOrPrecision = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return (c >= '0' && c <= '9') || c == '*' || c == '.';
+};
 
-        /**
-         * @brief Lambda to check if character is a format flag
-         */
-        constexpr auto isFlag = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == '-' || c == '+' || c == '#' || c == '0' || c == ' ';
-        };
-        
-        /**
-         * @brief Lambda to check if character is width/precision related
-         */
-        constexpr auto isWidthOrPrecision = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return (c >= '0' && c <= '9') || c == '*' || c == '.';
-        };
-        
-        /**
-         * @brief Lambda to check if character is a length modifier
-         */
-        constexpr auto isLengthModifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == 'h' || c == 'l' || c == 'L' || c == 'z' || c == 'j' || c == 't';
-        };
+/**
+ * @brief Lambda to check if character is a length modifier
+ */
+constexpr auto isLengthModifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return c == 'h' || c == 'l' || c == 'L' || c == 'z' || c == 'j' || c == 't';
+};
 
-        /**
-         * @brief Lambda to check if character is an integer specifier
-         */
-        constexpr auto isIntegerSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u';
-        };
-        
-        /**
-         * @brief Lambda to check if character is a float specifier
-         */
-        constexpr auto isFloatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G' || c == 'a' || c == 'A';
-        };
-        
-        /**
-         * @brief Lambda to check if character is an 'other' specifier
-         */
-        constexpr auto isOtherSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return c == 'c' || c == 's' || c == 'p' || c == 'n';
-        };
-        
-        /**
-         * @brief Lambda to check if character is a format modifier
-         */
-        constexpr auto isFormatModifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
-            return isFlag(c) || isWidthOrPrecision(c) || isLengthModifier(c);
-        };
-    }
+/**
+ * @brief Lambda to check if character is an integer specifier
+ */
+constexpr auto isIntegerSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return c == 'd' || c == 'i' || c == 'o' || c == 'x' || c == 'X' || c == 'u';
+};
 
+/**
+ * @brief Lambda to check if character is a float specifier
+ */
+constexpr auto isFloatSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return c == 'f' || c == 'F' || c == 'e' || c == 'E' || c == 'g' || c == 'G' || c == 'a' || c == 'A';
+};
+
+/**
+ * @brief Lambda to check if character is an 'other' specifier
+ */
+constexpr auto isOtherSpecifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return c == 'c' || c == 's' || c == 'p' || c == 'n';
+};
+
+/**
+ * @brief Lambda to check if character is a format modifier
+ */
+constexpr auto isFormatModifier = [] [[nodiscard]] (char c) constexpr noexcept -> bool {
+    return isFlag(c) || isWidthOrPrecision(c) || isLengthModifier(c);
+};
+
+export {
     /**
      * @brief Hash a string using a polynomial rolling hash function.
-     *
      * @param s The string to hash.
      * @return The hash value of the string.
      */
     [[nodiscard]]
-    consteval usize hashString(StringView s) noexcept {
+    constexpr usize hashString(StringView s) noexcept {
         static constexpr i64 P = 131;
         static constexpr i64 M = 4294967291;
         i64 total = 0;
@@ -127,7 +104,6 @@ export namespace misc {
 
     /**
      * @brief Trims leading and trailing whitespace from a string.
-     *
      * @param str The string to trim.
      * @return The trimmed string.
      */
@@ -137,7 +113,6 @@ export namespace misc {
         if (start == String::npos) {
             return "";
         }
-
         const usize end = str.find_last_not_of(" \t\r\n");
         return String(str.substr(start, end - start + 1));
     }
@@ -151,23 +126,19 @@ export namespace misc {
     String convertFormatSpecifier(StringView format) noexcept {
         String result;
         result.reserve(format.size());
-        
+
         for (usize i = 0; i < format.size(); ++i) {
             if (format[i] == '%' && i + 1 < format.size()) {
                 char next = format[i + 1];
-                
                 if (next == '%') {
                     result += '%';
                     ++i;
                     continue;
                 }
-                
                 usize j = i + 1;
-                
-                while (j < format.size() && detail::isFlag(format[j])) {
+                while (j < format.size() && isFlag(format[j])) {
                     ++j;
                 }
-                
                 if (j < format.size() && format[j] == '*') {
                     ++j;
                 } else {
@@ -175,7 +146,6 @@ export namespace misc {
                         ++j;
                     }
                 }
-                
                 if (j < format.size() && format[j] == '.') {
                     ++j;
                     if (j < format.size() && format[j] == '*') {
@@ -186,12 +156,10 @@ export namespace misc {
                         }
                     }
                 }
-                
-                while (j < format.size() && detail::isLengthModifier(format[j])) {
+                while (j < format.size() && isLengthModifier(format[j])) {
                     ++j;
                 }
-                
-                if (j < format.size() && detail::isFormatSpecifier(format[j])) {
+                if (j < format.size() && isFormatSpecifier(format[j])) {
                     result += "{}";
                     i = j;
                 } else {
@@ -201,16 +169,13 @@ export namespace misc {
                 result += format[i];
             }
         }
-        
         return result;
     }
 
     /**
      * @brief Converts C-style format specifiers to C++ format specifiers (constexpr version).
-     *
      * @param format The format string with C-style specifiers.
      * @return A string with C++ style format specifiers.
-     *
      * @note This is a simplified version that handles basic cases at compile-time.
      */
     template <usize N>
@@ -218,34 +183,28 @@ export namespace misc {
     constexpr Array<char, N * 2> convertFormatSpecifier(const char (&fmt)[N]) noexcept {
         Array<char, N * 2> result;
         usize resultIndex = 0;
-        
         for (usize i = 0; i < N - 1; ++i) {
             if (fmt[i] == '%' && i + 1 < N - 1) {
                 char next = fmt[i + 1];
-                
                 if (next == '%') {
                     result[resultIndex++] = '%';
                     ++i;
                     continue;
                 }
-                
                 bool foundSpecifier = false;
                 for (usize j = i + 1; j < N - 1 && j < i + 10; ++j) {
                     char c = fmt[j];
-                    
-                    if (detail::isFormatSpecifier(c)) {
+                    if (isFormatSpecifier(c)) {
                         result[resultIndex++] = '{';
                         result[resultIndex++] = '}';
                         i = j;
                         foundSpecifier = true;
                         break;
                     }
-                    
-                    if (!detail::isFormatModifier(c)) {
+                    if (!isFormatModifier(c)) {
                         break;
                     }
                 }
-                
                 if (!foundSpecifier) {
                     result[resultIndex++] = fmt[i];
                 }
@@ -253,7 +212,6 @@ export namespace misc {
                 result[resultIndex++] = fmt[i];
             }
         }
-        
         result[resultIndex] = '\0';
         return result;
     }
@@ -270,7 +228,6 @@ export namespace misc {
 
     /**
      * @brief Opens a URL on the browser.
-     * 
      * @param url The URL to open
      * @return Expected<void, UrlOpenError> 
      */
@@ -302,7 +259,6 @@ export namespace misc {
 
     /**
      * @brief Get the size of the terminal.
-     *
      * @return A pair containing the number of rows and columns of the terminal, if check succeeds.
      */
     [[nodiscard]]
@@ -328,6 +284,20 @@ export namespace misc {
         #endif
         return Pair<i32, i32>(rows, cols);
     }
+
 }
 
 END_MODULE_NAMESPACE();
+
+export namespace openjuice::inline literals {
+    /**
+     * @brief User-defined literal for hashing strings at compile-time.
+     * @param str The string to hash.
+     * @param size The size of the string.
+     * @return The hash value of the string.
+     */
+    [[nodiscard]]
+    constexpr usize operator""_hash(const char* str, usize size) noexcept {
+        return engine::util::hashString(StringView(str, size));
+    }
+}

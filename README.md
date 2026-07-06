@@ -15,9 +15,9 @@ Tested for Linux. Windows and MacOS support untested.
 
 ## Notice
 
-Localisation files are not included. Users must supply localisation data in the format shown by [100-Orange-Juice-Public-Defines](https://github.com/FruitbatFactory/100-Orange-Juice-Public-Defines/).
+Localization files are not included. Users must supply localization data in the format shown by [100-Orange-Juice-Public-Defines](https://github.com/FruitbatFactory/100-Orange-Juice-Public-Defines/).
 
-The official repository cannot be legally included in this repository, but localisation files match this format and are expected to be in a directory called `./assets/define`. This project does not distribute or endorse any specific data source.
+The official repository cannot be legally included in this repository, but localization files match this format and are expected to be in a directory called `./assets/define`. This project does not distribute or endorse any specific data source.
 
 Audio files are not included either.
 
@@ -62,22 +62,22 @@ Build script for openJuice project.
 
 options:
   -h, --help            show this help message and exit
-  -r, --release         Build in release mode (optimised, no sanitisers, NDEBUG defined)
+  -r, --release         Build in release mode (optimized, no sanitizers, NDEBUG defined)
   -c, --clean           Clean only project source files (no building)
   -ca, --clean-all      Clean entire project, including dependencies (no building)
   -n, --new             Cleans the build directory and rebuilds everything, including dependencies (mandatory for first build)
   -pd, --preserve-deps  Cleans the build directory and rebuilds everything (excluding dependencies)
   -rc, --reconfigure    Reconfigure CMake build system (for when new files are added)
   -g, --graph           Generate dependency graph
-  -s, --sanitiser, --sanitizer SANITISER [SANITISER ...]
-                        Enable sanitisers (address, undefined, thread, memory, leak, all)
+  -s, --sanitizer, --sanitizer SANITISER [SANITISER ...]
+                        Enable sanitizers (address, undefined, thread, memory, leak, all)
   -v, --verbose         Enable verbose output (lacks progress bar or other graphical features)
 ```
 
 `QuickCMakeBuild.java` help:
 
 ```text
-Usage: QuickCMakeBuild [-ghrvV] [-s=<sanitisers>]... [-c | -ca | -n | -pd | -rc]
+Usage: QuickCMakeBuild [-ghrvV] [-s=<sanitizers>]... [-c | -ca | -n | -pd | -rc]
 Build script for openJuice project
   -c, --clean                Clean only project source files (no building)
       -ca, --clean-all       Clean entire project, including dependencies (no
@@ -89,12 +89,12 @@ Build script for openJuice project
                                for first build)
       -pd, --preserve-deps   Cleans the build directory and rebuilds everything
                                (excluding dependencies)
-  -r, --release              Build in release mode (optimised, no sanitisers,
+  -r, --release              Build in release mode (optimized, no sanitizers,
                                NDEBUG defined)
       -rc, --reconfigure     Reconfigure CMake build system (for when new files
                                are added)
-  -s, --sanitiser, --sanitizer=<sanitisers>
-                             Enable sanitisers (address, undefined, thread,
+  -s, --sanitizer, --sanitizer=<sanitizers>
+                             Enable sanitizers (address, undefined, thread,
                                memory, leak)
   -v, --verbose              Enable verbose output (lacks progress bar or other
                                graphical features)

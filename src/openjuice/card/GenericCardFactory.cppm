@@ -17,12 +17,10 @@ import stdx;
 import :generic;
 
 import openjuice.engine.card;
-import openjuice.engine.managers;
+import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawn::GenericCard;
@@ -38,8 +36,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card);
  * The GenericCardFactory class is a singleton factory class that creates GenericCard objects based on the given ID.
  */
 export class GenericCardFactory final {
-private:
-    static inline const SharedPointer<Logger> LOGGER = LoggerFactory::instance().of("GenericCardFactory"); ///< The logger instance.
 public:
     GenericCardFactory() = delete("GenericCardFactory is a utility class and cannot be instantiated.");
 
@@ -50,11 +46,7 @@ public:
      * @return Shared pointer to the created GenericCard object
      */
     [[nodiscard]]
-    static Optional<SharedPointer<GenericCard>> create(Card::Of type) noexcept {
-        #ifndef NDEBUG
-        LOGGER->debug("Creating GenericCard of type: {}", type);
-        #endif
-
+    static SharedPointer<GenericCard> create(Card::Of type) noexcept {
         switch (type) {
             case Card::Of::BATTLE:
                 return Pointers::shared<GenericBattleCard>();
@@ -68,9 +60,8 @@ public:
                 return Pointers::shared<GenericGiftCard>();
             case Card::Of::BANNER:
                 return Pointers::shared<GenericBannerCard>();
-            default:
-                Ops::unreachable();
         }
+        Ops::unreachable();
     }
 };
 

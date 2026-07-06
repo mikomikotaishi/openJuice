@@ -16,8 +16,6 @@ import stdx;
 
 import :Playable;
 
-using stdx::meta::IsBaseOfValue;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
 /**
@@ -31,17 +29,17 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 export class EventCharacter: public Playable {
 public:
     /**
-     * @brief Constructor to initialise a EventCharacter object.
+     * @brief Constructor to initialize a EventCharacter object.
      *
      * @param id The ID of the event character.
      * @param health The health of the event character.
      * @param attack The attack value of the event character.
-     * @param defence The defence value of the event character.
+     * @param defense The defense value of the event character.
      * @param evade The evade value of the event character.
      * @param recovery The recovery value of the event character.
      */
-    EventCharacter(u16 id, u8 health, i8 attack, i8 defence, i8 evade, u8 recovery):
-        Playable(id, health, attack, defence, evade, recovery) {}
+    EventCharacter(u16 id, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery):
+        Playable(id, health, attack, defense, evade, recovery) {}
 };
 
 END_MODULE_NAMESPACE();

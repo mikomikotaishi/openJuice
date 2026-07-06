@@ -27,7 +27,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 export class InvalidIDException: public OutOfRangeException {
 public:
     /**
-     * @brief Constructor that initialises the exception with a message.
+     * @brief Constructor that initializes the exception with a message.
      * @param msg The exception message.
      */
     explicit InvalidIDException(const String& msg):
@@ -40,12 +40,12 @@ public:
  *
  * @extends OutOfRangeException
  *
- * The InvalidKeyException class is used to handle exceptions related to invalid keys in TextManager key queries.
+ * The InvalidKeyException class is used to handle exceptions related to invalid keys in LocalizationService key queries.
  */
 export class InvalidKeyException: public OutOfRangeException {
 public:
     /**
-     * @brief Constructor that initialises the exception with a message.
+     * @brief Constructor that initializes the exception with a message.
      * @param msg The exception message.
      */
     explicit InvalidKeyException(const String& msg):
@@ -63,7 +63,7 @@ public:
 export class InvalidLanguageException: public InvalidArgumentException {
 public:
     /**
-     * @brief Constructor that initialises the exception with a message.
+     * @brief Constructor that initializes the exception with a message.
      * @param msg The exception message.
      */
     explicit InvalidLanguageException(const String& msg):
