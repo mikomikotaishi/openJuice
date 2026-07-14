@@ -48,9 +48,8 @@ private:
 public:
     /**
      * @brief Construct the factory with its injected dependencies.
-     *
      * @param loggerFactory The shared logger factory used to create this factory's logger
-     *                      and each screen's logger.
+     * and each screen's logger.
      * @param localization The shared localization service forwarded into every screen.
      * @param profile The shared profile manager forwarded into screens that need it.
      */
@@ -61,62 +60,61 @@ public:
         profile{profile} {}
 
     /**
-     * @brief Create a TuiScreen object with the given type and game pointer and callback.
-     * 
+     * @brief Create a TuiScreen object with the given type, game pointer and host.
      * @param type The type of the TuiScreen to create
      * @param game A shared pointer to the game
-     * @param callback The function callback used by the type
+     * @param host The interface that will run the created screen
      * @return SharedPointer<TuiScreen> Shared pointer to the created TuiScreen object 
      */
     [[nodiscard]]
-    SharedPointer<TuiScreen> create(ScreenType type, SharedPointer<Game> game, Function<void(ScreenType)> callback) noexcept {
+    SharedPointer<TuiScreen> create(ScreenType type, SharedPointer<Game> game, ScreenHost& host) noexcept {
         #ifndef NDEBUG
         logger->debug("Creating TuiScreen of type {}", type);
         #endif
 
         switch (type) {
             case ScreenType::LOADING:
-                return Pointers::shared<LoadingScreen>(game, callback, localization);
+                return Pointers::shared<LoadingScreen>(game, host, localization);
             case ScreenType::TITLE:
-                return Pointers::shared<TitleScreen>(game, callback, localization, loggerFactory, profile);
+                return Pointers::shared<TitleScreen>(game, host, localization, profile);
             case ScreenType::MAIN_MENU:
-                return Pointers::shared<MainMenuScreen>(game, callback, localization);
+                return Pointers::shared<MainMenuScreen>(game, host, localization, loggerFactory);
             case ScreenType::SINGLEPLAYER_LOBBY_SELECT:
-                return Pointers::shared<SingleplayerLobbySelectScreen>(game, callback, localization);
+                return Pointers::shared<SingleplayerLobbySelectScreen>(game, host, localization);
             case ScreenType::SINGLEPLAYER_CUSTOM:
-                return Pointers::shared<SingleplayerCustomScreen>(game, callback, localization);
+                return Pointers::shared<SingleplayerCustomScreen>(game, host, localization);
             case ScreenType::SINGLEPLAYER_CAMPAIGN_SELECT:
-                return Pointers::shared<SingleplayerCampaignSelectScreen>(game, callback, localization);
+                return Pointers::shared<SingleplayerCampaignSelectScreen>(game, host, localization);
             case ScreenType::MULTIPLAYER_LOBBY_SELECT:
-                return Pointers::shared<MultiplayerLobbySelectScreen>(game, callback, localization);
+                return Pointers::shared<MultiplayerLobbySelectScreen>(game, host, localization);
             case ScreenType::MULTIPLAYER_CUSTOM:
-                return Pointers::shared<MultiplayerCustomScreen>(game, callback, localization);
+                return Pointers::shared<MultiplayerCustomScreen>(game, host, localization);
             case ScreenType::SINGLEPLAYER_GAME_LOBBY:
-                return Pointers::shared<SingleplayerGameLobbyScreen>(game, callback, localization);
+                return Pointers::shared<SingleplayerGameLobbyScreen>(game, host, localization);
             case ScreenType::MULTIPLAYER_GAME_LOBBY:
-                return Pointers::shared<MultiplayerGameLobbyScreen>(game, callback, localization);
+                return Pointers::shared<MultiplayerGameLobbyScreen>(game, host, localization);
             case ScreenType::CHARACTER_SELECT:
-                return Pointers::shared<CharacterSelectScreen>(game, callback, localization);
+                return Pointers::shared<CharacterSelectScreen>(game, host, localization);
             case ScreenType::CARD_SELECT:
-                return Pointers::shared<CardSelectScreen>(game, callback, localization);
+                return Pointers::shared<CardSelectScreen>(game, host, localization);
             case ScreenType::GAMEPLAY:
-                return Pointers::shared<GameplayScreen>(game, callback, localization);
+                return Pointers::shared<GameplayScreen>(game, host, localization);
             case ScreenType::GAME_RESULTS:
-                return Pointers::shared<GameResultsScreen>(game, callback, localization);
+                return Pointers::shared<GameResultsScreen>(game, host, localization);
             case ScreenType::SHOP:
-                return Pointers::shared<ShopScreen>(game, callback, localization);
+                return Pointers::shared<ShopScreen>(game, host, localization);
             case ScreenType::PROFILE:
-                return Pointers::shared<ProfileScreen>(game, callback, localization);
+                return Pointers::shared<ProfileScreen>(game, host, localization);
             case ScreenType::OJDEX:
-                return Pointers::shared<OJDexScreen>(game, callback, localization);
+                return Pointers::shared<OJDexScreen>(game, host, localization);
             case ScreenType::GUIDE:
-                return Pointers::shared<GuideScreen>(game, callback, localization);
+                return Pointers::shared<GuideScreen>(game, host, localization);
             case ScreenType::CONFIG:
-                return Pointers::shared<ConfigScreen>(game, callback, localization);
+                return Pointers::shared<ConfigScreen>(game, host, localization);
             case ScreenType::CREDITS:
-                return Pointers::shared<CreditsScreen>(game, callback, localization);
+                return Pointers::shared<CreditsScreen>(game, host, localization);
             case ScreenType::PAUSE:
-                return Pointers::shared<PauseScreen>(game, callback, localization);
+                return Pointers::shared<PauseScreen>(game, host, localization);
             case ScreenType::EXIT:
             case ScreenType::WIKI:
                 logger->error("Attempted to create a TuiScreen of type {} which is not a valid screen type.", type);

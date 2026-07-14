@@ -10,8 +10,9 @@ module;
 
 export module openjuice.ui.tui:TextUserInterface;
 
-import stdx;
 import :TuiScreenFactory;
+
+import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.services;
@@ -40,13 +41,33 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui);
 
 /**
  * @class TextUserInterface
- * @brief
- *
+ * @brief Text-based user interface implementation using FTXUI
  * @extends UserInterface
  */
-export class TextUserInterface: public UserInterface {
+export class TextUserInterface: public UserInterface, public ScreenHost {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
+    /**
+     * @struct Dialog
+     * @brief An overlay shown above the active screen, which swallows input until dismissed.
+     */
+    struct Dialog {
+        String title; ///< Heading shown at the top of the dialog.
+        String message; ///< Body text.
+        String acceptLabel; ///< Label of the accepting button.
+        String dismissLabel = ""; ///< Label of the dismissing button, empty when there is only one button.
+        Function<void()> onAccept = nullptr; ///< Runs when the dialog is accepted. May be empty.
+        bool accepting = false; ///< True while the accepting button is highlighted.
+
+        /**
+         * @brief Whether the dialog offers a choice rather than a single acknowledgement.
+         * @return True if there are two buttons
+         */
+        [[nodiscard]]
+        bool isChoice() const noexcept {
+            return !dismissLabel.empty();
+        }
+    };
+
     SharedPointer<Logger> logger; ///< The logger instance.
     SharedPointer<LocalizationService> localization; ///< The injected localization service.
     SharedPointer<ProfileManager> profile; ///< The injected profile manager.
@@ -58,37 +79,155 @@ private:
     ScreenType currentScreen = ScreenType::TITLE; ///< The current active screen type
     Component activeComponent; ///< Active FTXUI component
     Component containerComponent; ///< Container component that wraps the active component
-    bool showExitDialog = false; ///< Flag to show exit confirmation dialog
-    bool exitDialogSelection = false; ///< Selected option in exit dialog
+    Optional<Dialog> dialog; ///< The dialog currently overlaying the active screen, if any.
     bool isLoopRunning = false; ///< Flag to track if screen.Loop() is running
 
     /**
      * @brief Get or create screen if it doesn't exist
-     *
      * @param type Screen type to get
      * @return SharedPointer<TuiScreen> to the requested screen
      */
     [[nodiscard]]
     SharedPointer<TuiScreen> getScreen(ScreenType type) noexcept {
-        auto switchCallback = [this](ScreenType newType) -> void {
-            switchScreen(newType);
-        };
-
         if (!screens.contains(type)) {
-            screens[type] = screenFactory.create(type, game, switchCallback);
+            screens[type] = screenFactory.create(type, game, *this);
         }
 
         return screens[type];
     }
 
     /**
-     * @brief Switch to a different screen
+     * @brief Build the element for a dialog overlay.
+     * @param active The dialog to draw
+     * @return The dialog element
+     */
+    [[nodiscard]]
+    Element renderDialog(const Dialog& active) const noexcept {
+        Elements buttons;
+        buttons.push_back(
+            text(Ops::fmt("{} {} ", active.accepting ? ">" : " ", active.acceptLabel))
+                | (active.accepting ? inverted : nothing)
+        );
+
+        if (active.isChoice()) {
+            buttons.push_back(text(" "));
+            buttons.push_back(
+                text(Ops::fmt("{} {} ", active.accepting ? " " : ">", active.dismissLabel))
+                    | (active.accepting ? nothing : inverted)
+            );
+        }
+
+        return vbox({
+            text(active.title) | bold | center,
+            separator(),
+            paragraphAlignCenter(active.message),
+            separator(),
+            hbox(buttons) | center,
+        }) | border | center | bgcolor(Color::White);
+    }
+
+    /**
+     * @brief Route an event to the open dialog, swallowing everything the screen must not see.
+     * @param event The event to handle
+     * @return Always true, since an open dialog is modal
+     */
+    bool handleDialogEvent(Event event) noexcept {
+        if (
+            dialog->isChoice() && (
+                event == Event::ArrowLeft ||
+                event == Event::Character('h') ||
+                event == Event::ArrowRight ||
+                event == Event::Character('l') ||
+                event == Event::Tab
+            )
+        ) {
+            dialog->accepting = !dialog->accepting;
+            return true;
+        }
+
+        if (event == Event::Return || event == Event::Character(' ')) {
+            if (dialog->accepting) {
+                acceptDialog();
+            } else {
+                dialog.reset();
+            }
+            return true;
+        }
+
+        if (event == Event::Escape) {
+            dialog.reset();
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Close the open dialog and run whatever it was confirming.
      *
+     * The action is moved out before the dialog is cleared, so it stays valid if it opens another.
+     */
+    void acceptDialog() noexcept {
+        Function<void()> action = Ops::move(dialog->onAccept);
+        dialog.reset();
+
+        if (action) {
+            action();
+        }
+    }
+
+    /**
+     * @brief Raise the exit confirmation dialog.
+     */
+    void confirmExit() noexcept {
+        dialog = Dialog {
+            .title = localization->getMenuScreenText("PLAYMENU_EXIT")
+                .value_or("Exit"),
+            .message = localization->getCommentText("COM_GAME_QUITCONFIRM")
+                .value_or("Are you sure you want to exit the program?"),
+            .acceptLabel = localization->getMenuScreenText("MENU_BUTTON_YES")
+                .value_or("Yes"),
+            .dismissLabel = localization->getMenuScreenText("MENU_BUTTON_NO")
+                .value_or("No"),
+            .onAccept = [this] -> void {
+                switchScreen(ScreenType::EXIT);
+            },
+        };
+    }
+
+    /**
+     * @brief
+     * @return true if there is input, false otherwise
+     */
+    [[nodiscard]]
+    bool hasInput() {
+        return false;
+    }
+
+    /**
+     * @brief
+     * @return String
+     */
+    [[nodiscard]]
+    String readInput() {
+        return "";
+    }
+
+    /**
+     * @brief
+     * @param cmd
+     */
+    void processCommand(StringView cmd) {
+        return;
+    }
+public:
+    /**
+     * @brief Switch to a different screen
      * @param type The screen to switch to
      */
-    void switchScreen(ScreenType type) noexcept {
+    void switchScreen(ScreenType type) noexcept override final {
         #ifndef NDEBUG
-        logger->debug("TextUserInterface: switching to screen type {}", type);
+        logger->debug("Switching to screen type {}", type);
         #endif
 
         if (type == ScreenType::EXIT) {
@@ -104,7 +243,7 @@ private:
         try {
             if (screens.contains(currentScreen) && currentScreen != type) {
                 #ifndef NDEBUG
-                logger->debug("TextUserInterface: deactivating current screen {}", currentScreen);
+                logger->debug("Deactivating current screen {}", currentScreen);
                 #endif
 
                 screens[currentScreen]->onDeactivate();
@@ -112,25 +251,19 @@ private:
 
             currentScreen = type;
 
-            #ifndef NDEBUG
-            logger->debug("TextUserInterface: getting new screen {}", currentScreen);
-            #endif
-
             SharedPointer<TuiScreen> handlingScreen = getScreen(type);
             handlingScreen->onActivate();
 
             #ifndef NDEBUG
-            logger->debug("TextUserInterface: screen switch complete");
+            logger->debug("Screen switch complete");
             #endif
 
             activeComponent = handlingScreen->getComponent();
-            
-            #ifndef NDEBUG
+
             if (!activeComponent) {
-                logger->error("TextUserInterface: activeComponent is null after switching to screen {}", type);
+                logger->error("activeComponent is null after switching to screen {}", type);
             }
-            #endif
-            
+
             if (isLoopRunning) {
                 screen.PostEvent(Event::Custom);
             }
@@ -140,37 +273,31 @@ private:
     }
 
     /**
-     * @brief
+     * @brief Report a failure to the user in a dialog they must acknowledge.
      *
-     * @return true if there is input, false otherwise
+     * The service that failed is responsible for logging the technical cause, so nothing is
+     * logged here.
+     *
+     * @param message The message to show
      */
-    [[nodiscard]]
-    bool hasInput() {
-        return false;
+    void showError(StringView message) noexcept override final {
+        dialog = Dialog {
+            // The game ships this string as ERROR_CAPTION in error.txt, which LocalizationService
+            // has no getter for yet.
+            .title = "Error",
+            .message = String(message),
+            .acceptLabel = localization->getMenuScreenText("MENU_BUTTON_OK")
+                .value_or("OK"),
+            .accepting = true,
+        };
+
+        if (isLoopRunning) {
+            screen.PostEvent(Event::Custom);
+        }
     }
 
-    /**
-     * @brief
-     *
-     * @return String
-     */
-    [[nodiscard]]
-    String readInput() {
-        return "";
-    }
-
-    /**
-     * @brief
-     *
-     * @param cmd
-     */
-    void processCommand(StringView cmd) {
-        return;
-    }
-public:
     /**
      * @brief Constructor that initializes the base UserInterface
-     *
      * @param game Shared pointer to game instance
      * @param mutex Reference to state mutex for synchronization
      * @param loggerFactory Shared logger factory for creating loggers and screens
@@ -179,7 +306,6 @@ public:
      */
     TextUserInterface(SharedPointer<Game> game, Mutex& mutex, SharedPointer<LoggerFactory> loggerFactory, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
         UserInterface(game, mutex),
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("TextUserInterface")},
         localization{localization},
         profile{profile},
@@ -193,91 +319,30 @@ public:
     void init() override {
         containerComponent = Renderer([this](bool _) -> Element {
             Element mainContent = activeComponent ? activeComponent->Render() : text("Loading...");
-            
-            if (showExitDialog) {
-                Element dialog = vbox({
-                    text(
-                        localization->getMenuScreenText("PLAYMENU_EXIT")
-                            .value_or("Exit")
-                    ) | bold | center,
-                    separator(),
-                    text(
-                        localization->getCommentText("COM_GAME_QUITCONFIRM")
-                            .value_or("Are you sure you want to exit the program?")
-                    ) | center,
-                    separator(),
-                    hbox({
-                        text(
-                            stdx::fmt::format(
-                                "{} {} ",
-                                exitDialogSelection 
-                                    ? ">" 
-                                    : " ",
-                                localization->getMenuScreenText("MENU_BUTTON_YES")
-                                    .value_or("Yes")
-                            )
-                        ) | (exitDialogSelection ? inverted : nothing),
-                        text(" "),
-                        text(
-                            stdx::fmt::format(
-                                "{} {} ",
-                                exitDialogSelection 
-                                    ? " " 
-                                    : ">",
-                                localization->getMenuScreenText("MENU_BUTTON_NO")
-                                    .value_or("No")
-                            )
-                        ) | (exitDialogSelection ? nothing : inverted),
-                    }) | center,
-                }) | border | center | bgcolor(Color::White);
-                
-                return dbox({
-                    mainContent | dim,
-                    dialog,
-                });
+
+            if (!dialog) {
+                return mainContent;
             }
-            
-            return mainContent;
+
+            return dbox({
+                mainContent | dim,
+                renderDialog(*dialog),
+            });
         });
-        
+
         containerComponent = CatchEvent(containerComponent, [this](Event event) -> bool {
-            if (showExitDialog) {
-                if (
-                    event == Event::ArrowLeft ||
-                    event == Event::Character('h') ||
-                    event == Event::ArrowRight ||
-                    event == Event::Character('l') ||
-                    event == Event::Tab
-                ) {
-                    exitDialogSelection = !exitDialogSelection;
-                    return true;
-                } else if (event == Event::Return || event == Event::Character(' ')) {
-                    if (exitDialogSelection) {
-                        switchScreen(ScreenType::EXIT);
-                    } else {
-                        showExitDialog = false;
-                        exitDialogSelection = false;
-                    }
-                    return true;
-                } else if (event == Event::Escape) {
-                    showExitDialog = false;
-                    exitDialogSelection = false;
-                    return true;
-                } else if (event == Event::CtrlC) {
-                    return true;
-                }
-                return true;
+            if (dialog) {
+                return handleDialogEvent(event);
             }
-            
+
             if (event == Event::CtrlC) {
-                showExitDialog = true;
-                exitDialogSelection = false;
+                confirmExit();
                 return true;
             }
-            
+
             return activeComponent ? activeComponent->OnEvent(event) : false;
         });
-        
+
         switchScreen(ScreenType::TITLE);
     }
 

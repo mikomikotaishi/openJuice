@@ -39,16 +39,16 @@ private:
         .with_file(Constants::PATH_DEBUG_FILE)
         .with_banner()
         .build_shared(); ///< The injected logger factory.
+
     inline static const SharedPointer<Logger> logger = logging->of("Main"); ///< The logger instance for the Main class.
 public:
     Main() = delete("Main is a utility class and cannot be instantiated.");
 
     /**
      * @brief The main function of the openJuice application.
-     *
      * @param args Command line arguments
      */
-    static void main(Span<StringView> args) {
+    static void main(Span<const StringView> args) {
         try {
             ArgumentParser parser("openJuice", "0.0.x");
             parser.add_argument("-c", "--cli")

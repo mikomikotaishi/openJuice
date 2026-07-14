@@ -13,6 +13,7 @@ module;
 export module openjuice.ui.tui.screens:TitleScreen;
 
 import stdx;
+
 import openjuice.engine.game;
 import openjuice.engine.services;
 import openjuice.ui.tui.TuiScreen;
@@ -21,8 +22,6 @@ import ftxui;
 
 using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::services::ProfileManager;
@@ -37,25 +36,18 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
 /**
  * @class TitleScreen
  * @brief Title screen implementation
- *
  * @extends TuiScreen
  */
 export class TitleScreen final: public TuiScreen {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
-    SharedPointer<Logger> logger; ///< The logger instance.
     SharedPointer<ProfileManager> profile; ///< The injected profile manager.
 
     Component menu; ///< The menu UI component
     Vector<String> menuOptions = {
-        getLocalizationService().getMenuScreenText("MAINMENU_NEWGAME")
-            .value_or("New game"), // New game
-        getLocalizationService().getMenuScreenText("MAINMENU_LOADGAME")
-            .value_or("Continue"), // Continue
-        getLocalizationService().getMenuScreenText("MAINMENU_CONFIGURATION")
-            .value_or("Config"), // Config
-        getLocalizationService().getMenuScreenText("MAINMENU_EXIT")
-            .value_or("Exit") // Exit game
+        menuLabel("MAINMENU_NEWGAME", "New game"), // New game
+        menuLabel("MAINMENU_LOADGAME", "Continue"), // Continue
+        menuLabel("MAINMENU_CONFIGURATION", "Config"), // Config
+        menuLabel("MAINMENU_EXIT", "Exit") // Exit game
     }; ///< The list of menu options
 
     i32 selectedOption = 0; ///< The current option selected
@@ -77,22 +69,24 @@ private:
                 switch (selectedOption) {
                     case 0: // New Game
                         if (Expected<void, ProfileManager::Error> result = profile->resetProfile(); !result) {
-                            logger->error("Failed to reset profile for new game: {}", result.error());
+                            showError(Ops::fmt("Could not start a new game.\n\n{}", result.error()));
+                            return true;
                         }
-                        screenSwitchCallback(ScreenType::MAIN_MENU);
+                        switchScreen(ScreenType::MAIN_MENU);
                         return true;
                     case 1: // Continue
                         if (Expected<void, ProfileManager::Error> result = profile->loadProfile(); !result) {
-                            logger->error("Failed to load profile for continue: {}", result.error());
+                            showError(Ops::fmt("Could not load your profile.\n\n{}", result.error()));
+                            return true;
                         }
-                        screenSwitchCallback(ScreenType::MAIN_MENU);
+                        switchScreen(ScreenType::MAIN_MENU);
                         return true;
                     case 2: // Configuration
-                        screenSwitchCallback(ScreenType::CONFIG);
+                        switchScreen(ScreenType::CONFIG);
                         return true;
                     case 3: // Exit
                         exitSelected = true;
-                        screenSwitchCallback(ScreenType::EXIT);
+                        switchScreen(ScreenType::EXIT);
                         return true;
                     default:
                         Ops::unreachable();
@@ -116,17 +110,13 @@ private:
 public:
     /**
      * @brief Constructor for the TitleScreen class
-     *
      * @param game Shared pointer to the game
-     * @param callback Function to call when switching screens
+     * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
-     * @param loggerFactory Shared logger factory used to create this screen's logger
      * @param profile Shared pointer to the profile manager
      */
-    TitleScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization, SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ProfileManager> profile):
-        TuiScreen(game, callback, localization),
-        loggerFactory{loggerFactory},
-        logger{loggerFactory->of("TitleScreen")},
+    TitleScreen(SharedPointer<Game> game, ScreenHost& host, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
+        TuiScreen(game, host, localization),
         profile{profile} {
         createComponent();
     }
@@ -155,7 +145,6 @@ public:
 
     /**
      * @brief Check if the user requested to exit
-     *
      * @return True if exit was selected
      */
     [[nodiscard]]

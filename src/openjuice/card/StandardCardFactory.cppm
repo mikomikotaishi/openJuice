@@ -49,12 +49,11 @@ public:
 
     /**
      * @brief Create a StandardCard object with the given ID.
-     *
      * @param id ID of the StandardCard to create
      * @return Shared pointer to the created StandardCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<StandardCard>> create(u16 id) noexcept {
+    static constexpr Optional<SharedPointer<StandardCard>> create(u16 id) noexcept {
         switch (id) {
             case 0:
                 return nullptr;

@@ -32,7 +32,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::cli);
 /**
  * @class CommandLineInterface
  * @brief
- *
  * @extends UserInterface
  */
 export class CommandLineInterface: public UserInterface {
@@ -41,7 +40,6 @@ private:
 
     /**
      * @brief
-     *
      * @return true if there is input, false otherwise
      */
     [[nodiscard]]
@@ -51,7 +49,6 @@ private:
 
     /**
      * @brief
-     *
      * @return String
      */
     [[nodiscard]]
@@ -61,7 +58,6 @@ private:
 
     /**
      * @brief
-     *
      * @param cmd
      */
     void processCommand(StringView cmd) {
@@ -70,7 +66,6 @@ private:
 public:
     /**
      * @brief Constructor that initializes the base UserInterface
-     *
      * @param game Shared pointer to game instance
      * @param mutex Reference to state mutex for synchronization
      * @param config The injected configuration/settings service

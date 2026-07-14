@@ -24,7 +24,6 @@ using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::services::ProfileManager;
 using openjuice::engine::services::LocalizationService;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TuiScreen;
@@ -36,7 +35,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
 /**
  * @class ConfigScreen
  * @brief Config/settings screen implementation
- *
  * @extends TuiScreen
  */
 export class ConfigScreen final: public TuiScreen {
@@ -46,13 +44,17 @@ private:
     Component okButton; ///< Save button component
     Component backButton; ///< Back button component
     Vector<String> tabNames = {
-        getLocalizationService().getConfigText("CONFIG_LABEL_SYSTEM")
+        getLocalizationService()
+            .getConfigText("CONFIG_LABEL_SYSTEM")
             .value_or("System"),
-        getLocalizationService().getConfigText("CONFIG_LABEL_SCREEN")
+        getLocalizationService()
+            .getConfigText("CONFIG_LABEL_SCREEN")
             .value_or("Screen"),
-        getLocalizationService().getConfigText("CONFIG_LABEL_SOUND")
+        getLocalizationService()
+            .getConfigText("CONFIG_LABEL_SOUND")
             .value_or("Sound"),
-        getLocalizationService().getConfigText("CONFIG_LABEL_VOICE")
+        getLocalizationService()
+            .getConfigText("CONFIG_LABEL_VOICE")
             .value_or("Voice")
     }; ///< The list of tab names
 
@@ -70,20 +72,22 @@ private:
         tabToggle = Toggle(&tabNames, &selectedTab);
 
         okButton = Button(
-            getLocalizationService().getMenuScreenText("MENU_BUTTON_OK")
+            getLocalizationService()
+                .getMenuScreenText("MENU_BUTTON_OK")
                 .value_or("OK"),
             [this] -> void {
                 // TODO: Implement saving logic
 
-                screenSwitchCallback(ScreenType::MAIN_MENU);
+                switchScreen(ScreenType::MAIN_MENU);
             }
         );
 
         backButton = Button(
-            getLocalizationService().getMenuScreenText("MENU_BUTTON_BACK")
+            getLocalizationService()
+                .getMenuScreenText("MENU_BUTTON_BACK")
                 .value_or("Back"),
             [this] -> void {
-                screenSwitchCallback(ScreenType::MAIN_MENU);
+                switchScreen(ScreenType::MAIN_MENU);
             }
         );
 
@@ -92,7 +96,8 @@ private:
                 Renderer([this] -> Element {
                     return vbox({
                         text(
-                            getLocalizationService().getConfigText("CONFIG_LABEL_SYSTEM")
+                            getLocalizationService()
+                                .getConfigText("CONFIG_LABEL_SYSTEM")
                                 .value_or("System")
                         ) | bold | center,
                         separator(),
@@ -102,7 +107,8 @@ private:
                 Renderer([this] -> Element {
                     return vbox({
                         text(
-                            getLocalizationService().getConfigText("CONFIG_LABEL_SCREEN")
+                            getLocalizationService()
+                                .getConfigText("CONFIG_LABEL_SCREEN")
                                 .value_or("Screen")
                         ) | bold | center,
                         separator(),
@@ -112,7 +118,8 @@ private:
                 Renderer([this] -> Element {
                     return vbox({
                         text(
-                            getLocalizationService().getConfigText("CONFIG_LABEL_SOUND")
+                            getLocalizationService()
+                                .getConfigText("CONFIG_LABEL_SOUND")
                                 .value_or("Sound")
                         ) | bold | center,
                         separator(),
@@ -122,7 +129,8 @@ private:
                 Renderer([this] -> Element {
                     return vbox({
                         text(
-                            getLocalizationService().getConfigText("CONFIG_LABEL_VOICE")
+                            getLocalizationService()
+                                .getConfigText("CONFIG_LABEL_VOICE")
                                 .value_or("Voice")
                         ) | bold | center,
                         separator(),
@@ -142,7 +150,7 @@ private:
 
         Component componentWithEvents = CatchEvent(mainContainer, [this](Event event) -> bool {
             if (event == Event::Escape || (event == Event::Character('q'))) {
-                screenSwitchCallback(ScreenType::MAIN_MENU);
+                switchScreen(ScreenType::MAIN_MENU);
                 return true;
             }
             return false;
@@ -152,7 +160,8 @@ private:
             return vbox({
                 hbox({
                     text(
-                        getLocalizationService().getMenuScreenText("MENU_BUTTON_GAME_CONFIG")
+                        getLocalizationService()
+                            .getMenuScreenText("MENU_BUTTON_GAME_CONFIG")
                             .value_or("Config")
                     ) | bold | center | flex,
                     separator(),
@@ -178,10 +187,11 @@ public:
      * @brief Constructor for the ConfigScreen class
      *
      * @param game Shared pointer to the game
-     * @param callback Function to call when switching screens
+     * @param host The interface running this screen
+     * @param localization Shared pointer to the localization service
      */
-    ConfigScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization):
-        TuiScreen(game, callback, localization) {
+    ConfigScreen(SharedPointer<Game> game, ScreenHost& host, SharedPointer<LocalizationService> localization):
+        TuiScreen(game, host, localization) {
         createComponent();
     }
 

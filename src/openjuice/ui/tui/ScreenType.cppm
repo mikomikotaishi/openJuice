@@ -135,4 +135,4 @@ struct Formatter<ScreenType> {
     }
 };
 
-SPECIALISE_FORMATTER(ScreenType);
+SPECIALIZE_FORMATTER(ScreenType);

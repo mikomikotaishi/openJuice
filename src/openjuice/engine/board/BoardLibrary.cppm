@@ -14,9 +14,11 @@ export module openjuice.engine.board:BoardLibrary;
 
 import stdx;
 import :Board;
+import :FieldEvent;
 
 import openjuice.engine.services;
 import openjuice.engine.util;
+import openjuice.unit;
 
 import marzer.toml;
 
@@ -33,6 +35,8 @@ using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::util::Constants;
+
+using openjuice::unit::BossEnemyFactory;
 
 using marzer::toml::TomlArray;
 using marzer::toml::TomlTable;
@@ -60,14 +64,12 @@ public:
         CORRUPTED_LIBRARY_TOML, ///< The TOML file storing the board library is corrupted or has invalid data
     };
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
 
     Vector<SharedPointer<Board::Info>> boardList; ///< List of loaded boards.
 
-        /**
+    /**
      * @brief Get the board information for a given ID.
-     *
      * @param id The ID of the board (0 returns nullptr, representing no board).
      * @return SharedPointer to board information (nullptr if id is 0)
      */
@@ -88,11 +90,9 @@ private:
 public:
     /**
      * @brief Construct the board library with an injected logger factory.
-     *
      * @param loggerFactory The shared logger factory used to create this library's logger.
      */
     explicit BoardLibrary(SharedPointer<LoggerFactory> loggerFactory):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("BoardLibrary")} {
         if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r) {
             logger->info("Successfully loaded {} boards!", boardList.size());
@@ -112,7 +112,6 @@ public:
 
     /**
      * @brief Load boards into the boardList.
-     *
      * @param directory (Optional) The directory to load maps from.
      */
     [[nodiscard]]
@@ -125,7 +124,7 @@ public:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::DIRECTORY_NOT_FOUND,
-                stdx::fmt::format("The directory {} was not found!", directory)
+                Ops::fmt("The directory {} was not found!", directory)
             );
         }
         for (const DirectoryEntry& entry: DirectoryIterator(directory)) {
@@ -149,14 +148,14 @@ public:
                 Array<Pair<u8, u8>, Board::Info::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
                 if (homePanelsData) {
-                    for (usize i: IotaView(0uz, Math::min(static_cast<usize>(Board::Info::MAX_PLAYERS), homePanelsData->size()))) {
+                    for (usize i: IotaView(0uz, Math::min(Board::Info::MAX_PLAYERS, homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
                         if (panel) {
                             if (panel->size() != 2) {
                                 return Unexpected<ErrorDescription<Error>>(
                                     Tags::IN_PLACE,
                                     Error::INVALID_TOML_ARRAY_SIZE,
-                                    stdx::fmt::format("Invalid homePanels size: expected 2, got {}", panel->size())
+                                    Ops::fmt("Invalid homePanels size: expected 2, got {}", panel->size())
                                 );
                             }
                             #ifndef NDEBUG
@@ -186,7 +185,21 @@ public:
                     );
                 }
 
-                boardList.push_back(Pointers::shared<Board::Info>(boardId, boardName, boardWidth, boardHeight, homePanels));
+                u8 bossId = BossEnemyFactory::idOf(data["boss"].value_or<String>("")).value_or(0);
+
+                Board::Info::FieldEvents fieldEvents{};
+                const TomlArray* eventsData = data["events"].as_array();
+                if (eventsData) {
+                    for (usize i: IotaView(0uz, Math::min(Board::Info::MAX_FIELD_EVENTS, eventsData->size()))) {
+                        #ifndef NDEBUG
+                        fieldEvents.at(i) = FieldEvent::fromString((*eventsData)[i].value_or<String>(""));
+                        #else
+                        fieldEvents[i] = FieldEvent::fromString((*eventsData)[i].value_or<String>(""));
+                        #endif
+                    }
+                }
+
+                boardList.push_back(Pointers::shared<Board::Info>(boardId, boardName, entry.path(), boardWidth, boardHeight, bossId, homePanels, fieldEvents));
             }
         }
 
@@ -199,7 +212,6 @@ public:
 
     /**
      * @brief Access board information by ID using array syntax.
-     *
      * @param id The ID of the board (0 returns nullptr, representing no board).
      * @return SharedPointer to board information (nullptr if id is 0)
      */
@@ -239,4 +251,4 @@ struct Formatter<BoardLibrary::Error> {
     }
 };
 
-SPECIALISE_FORMATTER(BoardLibrary::Error);
+SPECIALIZE_FORMATTER(BoardLibrary::Error);

@@ -67,17 +67,16 @@ private:
     DeleteFunction onConstructDeleteFn; ///< Function pointer that deletes the construct callback.
     DeleteFunction onDestroyDeleteFn; ///< Function pointer that deletes the destroy callback.
     usize size = 0; ///< The size in bytes of each component (0 for empty types).
-    AlignValue alignment = AlignValue{0}; ///< The memory alignment requirement of the component type.
+    AlignValue alignment{0}; ///< The memory alignment requirement of the component type.
     u32 capacity = 0; ///< The maximum number of components that can be stored.
     u32 occupied = 0; ///< The highest entity ID that has ever been stored (includes alive and freed slots).
     bool populated = false; ///< Flag indicating whether the storage has been initialized with a concrete type.
 
     /**
      * @brief Invokes the construct callback if one is registered.
-     * 
-     * Called after a component is created to notify observers.
-     * 
      * @param id The entity ID that received the new component.
+     *
+     * Called after a component is created to notify observers.
      */
     void onConstruct(EntityId id) noexcept {
         if (onConstructFn) {
@@ -87,10 +86,9 @@ private:
 
     /**
      * @brief Invokes the destroy callback if one is registered.
-     * 
-     * Called before a component is destroyed to notify observers.
-     * 
      * @param id The entity ID that is losing the component.
+     *
+     * Called before a component is destroyed to notify observers.
      */
     void onDestroy(EntityId id) noexcept {
         if (onDestroyFn) {
@@ -100,12 +98,11 @@ private:
 
     /**
      * @brief Updates the bidirectional mapping between entity ID and dense array index.
-     * 
-     * Maintains the sparse-set invariant by updating both the dense array (connector)
-     * and the sparse array (indices).
-     * 
      * @param id The entity ID to map.
      * @param index The position in the dense array.
+     *
+     * Maintains the sparse-set invariant by updating both the dense array (connector)
+     * and the sparse array (indices).
      */
     void setConnectorTableId(EntityId id, u32 index) noexcept {
         connector[index] = id;
@@ -121,11 +118,10 @@ public:
 
     /**
      * @brief Copy constructor for PolymorphicStorage.
-     * 
+     * @param other The PolymorphicStorage instance to copy from.
+     *
      * Performs a deep copy of all storage structures and components if the source
      * is populated. Callbacks are also deep-copied if present.
-     * 
-     * @param other The PolymorphicStorage instance to copy from.
      */
     PolymorphicStorage(const PolymorphicStorage& other):
         mask{other.populated ? Pointers::unique<bool[]>(other.capacity) : nullptr},
@@ -174,11 +170,10 @@ public:
 
     /**
      * @brief Move constructor for PolymorphicStorage.
-     * 
+     * @param other The PolymorphicStorage instance to move from.
+     *
      * Transfers ownership of all storage structures and components from another
      * PolymorphicStorage instance, leaving the source unpopulated.
-     * 
-     * @param other The PolymorphicStorage instance to move from.
      */
     PolymorphicStorage(PolymorphicStorage&& other):
         mask{Ops::move(other.mask)},
@@ -216,12 +211,11 @@ public:
 
     /**
      * @brief Copy assignment operator for PolymorphicStorage.
-     * 
-     * Clears current contents and performs a deep copy of all storage structures
-     * and components from another instance.
-     * 
      * @param other The PolymorphicStorage instance to copy from.
      * @return PolymorphicStorage& Reference to this instance.
+     *
+     * Clears current contents and performs a deep copy of all storage structures
+     * and components from another instance.
      */
     PolymorphicStorage& operator=(const PolymorphicStorage& other) noexcept {
         if (this != &other) {
@@ -277,12 +271,11 @@ public:
 
     /**
      * @brief Move assignment operator for PolymorphicStorage.
-     * 
-     * Clears current contents and transfers ownership of all storage structures
-     * and components from another instance.
-     * 
      * @param other The PolymorphicStorage instance to move from.
      * @return PolymorphicStorage& Reference to this instance.
+     *
+     * Clears current contents and transfers ownership of all storage structures
+     * and components from another instance.
      */
     PolymorphicStorage& operator=(PolymorphicStorage&& other) noexcept {
         if (this != &other) {
@@ -317,7 +310,6 @@ public:
 
     /**
      * @brief Returns an iterator to the beginning of entity IDs with components.
-     * 
      * @return EntityId* Pointer to the first element in the dense connector array.
      */
     EntityId* begin() noexcept {
@@ -326,7 +318,6 @@ public:
 
     /**
      * @brief Returns an iterator to the end of entity IDs with components.
-     * 
      * @return EntityId* Pointer to one past the last element in the dense connector array.
      */
     EntityId* end() noexcept {
@@ -355,7 +346,6 @@ public:
 
     /**
      * @brief Validates that an entity ID is within storage capacity.
-     * 
      * @param id The entity ID to validate.
      * @return bool True if the ID is valid (within capacity), false otherwise.
      */
@@ -366,7 +356,6 @@ public:
 
     /**
      * @brief Checks if the storage has been initialized with a concrete type.
-     * 
      * @return bool True if populate<T>() has been called, false otherwise.
      */
     [[nodiscard]]
@@ -376,7 +365,6 @@ public:
 
     /**
      * @brief Checks if a construct callback is registered.
-     * 
      * @return bool True if a construct callback is set, false otherwise.
      */
     [[nodiscard]]
@@ -386,7 +374,6 @@ public:
 
     /**
      * @brief Checks if a destroy callback is registered.
-     * 
      * @return bool True if a destroy callback is set, false otherwise.
      */
     [[nodiscard]]
@@ -396,12 +383,11 @@ public:
 
     /**
      * @brief Registers a callback to be invoked when components are constructed.
-     * 
-     * The callback receives the entity ID and a reference to the newly constructed
-     * component. If a callback is already registered, it is replaced.
-     * 
      * @tparam Fn A callable type with signature (EntityId, T&) where T is the component type.
      * @param fn The callback function to register.
+     *
+     * The callback receives the entity ID and a reference to the newly constructed
+     * component. If a callback is already registered, it is replaced.
      */
     template <typename Fn>
     void setOnConstruct(Fn&& fn) noexcept {
@@ -423,12 +409,11 @@ public:
 
     /**
      * @brief Registers a callback to be invoked when components are destroyed.
-     * 
-     * The callback receives the entity ID and a reference to the component being
-     * destroyed. If a callback is already registered, it is replaced.
-     * 
      * @tparam Fn A callable type with signature (EntityId, T&) where T is the component type.
      * @param fn The callback function to register.
+     *
+     * The callback receives the entity ID and a reference to the component being
+     * destroyed. If a callback is already registered, it is replaced.
      */
     template <typename Fn>
     void setOnDestroy(Fn&& fn) noexcept {
@@ -484,14 +469,13 @@ public:
 
     /**
      * @brief Initializes the storage for a specific component type.
-     * 
-     * Allocates raw memory with proper alignment and sets up function pointers
-     * for type-specific operations (construction, destruction, copy, move).
-     * Special handling for empty types to minimise memory usage.
-     * 
      * @tparam T The component type to store.
      * @param cap The maximum number of components to allocate space for.
      * @return PolymorphicStorage* Pointer to this instance for chaining.
+     *
+     * Allocates raw memory with proper alignment and sets up function pointers
+     * for type-specific operations (construction, destruction, copy, move).
+     * Special handling for empty types to minimise memory usage.
      * 
      * @note Must be called before any other operations on the storage.
      * @note Empty types (sizeof(T) == 0) only allocate a single instance.
@@ -545,7 +529,6 @@ public:
 
     /**
      * @brief Checks if an entity has a component in this storage.
-     * 
      * @param index The entity ID to check.
      * @return bool True if the entity has a component, false otherwise.
      */
@@ -556,16 +539,15 @@ public:
 
     /**
      * @brief Constructs a component in-place for an entity.
-     * 
-     * If the entity does not have a component, creates a new one and updates
-     * tracking structures. If the entity already has a component, destroys the
-     * old one and constructs a new one in its place.
-     * 
      * @tparam T The component type.
      * @tparam Args Constructor argument types.
      * @param index The entity ID to emplace the component for.
      * @param args Constructor arguments forwarded to T's constructor.
      * @return T& Reference to the newly constructed component.
+     *
+     * If the entity does not have a component, creates a new one and updates
+     * tracking structures. If the entity already has a component, destroys the
+     * old one and constructs a new one in its place.
      */
     template <typename T, typename... Args>
     T& emplace(u32 index, Args&&... args) noexcept {
@@ -586,11 +568,10 @@ public:
 
     /**
      * @brief Removes a component from an entity.
-     * 
+     * @param index The entity ID to remove the component from.
+     *
      * Calls the destroy callback and destructor, then removes the entity from
      * the dense array using swap-and-pop and updates indices.
-     * 
-     * @param index The entity ID to remove the component from.
      */
     void erase(u32 index) {
         bool& cell = mask[index];
@@ -606,12 +587,11 @@ public:
 
     /**
      * @brief Copies a component from one entity to another.
-     * 
-     * If the destination entity already has a component, it is destroyed first.
-     * The source component is copy-constructed at the destination.
-     * 
      * @param from The source entity ID.
      * @param to The destination entity ID.
+     *
+     * If the destination entity already has a component, it is destroyed first.
+     * The source component is copy-constructed at the destination.
      */
     void copy(u32 from, u32 to) noexcept {
         if (mask[from]) {
@@ -633,13 +613,12 @@ public:
 
     /**
      * @brief Moves a component from one entity to another.
-     * 
+     * @param from The source entity ID.
+     * @param to The destination entity ID.
+     *
      * If the destination entity already has a component, it is destroyed first.
      * The source component is move-constructed at the destination, then the
      * source component is destroyed and removed.
-     * 
-     * @param from The source entity ID.
-     * @param to The destination entity ID.
      */
     void move(u32 from, u32 to) noexcept {
         if (mask[from]) {
@@ -663,7 +642,6 @@ public:
 
     /**
      * @brief Retrieves a reference to a component.
-     * 
      * @tparam T The component type.
      * @param index The entity ID to get the component from.
      * @return T& Reference to the component.
@@ -676,7 +654,6 @@ public:
 
     /**
      * @brief Safely retrieves a pointer to a component.
-     * 
      * @tparam T The component type.
      * @param index The entity ID to get the component from.
      * @return T* Pointer to the component, or nullptr if not present.
@@ -689,12 +666,11 @@ public:
 
     /**
      * @brief Retrieves a pointer to a component for pointer types.
-     * 
-     * Specialized version for querying optional components (pointer types).
-     * 
      * @tparam T The component pointer type.
      * @param index The entity ID to get the component from.
      * @return T Pointer to the component, or nullptr if not present.
+     *
+     * Specialized version for querying optional components (pointer types).
      */
     template <typename T>
     [[nodiscard]]
@@ -704,7 +680,7 @@ public:
 
     /**
      * @brief Removes the construct callback if one is registered.
-     * 
+     *
      * Deletes the callback function object and clears the function pointer.
      */
     void removeOnConstruct() noexcept {
@@ -716,7 +692,7 @@ public:
 
     /**
      * @brief Removes the destroy callback if one is registered.
-     * 
+     *
      * Deletes the callback function object and clears the function pointer.
      */
     void removeOnDestroy() noexcept {
@@ -728,10 +704,9 @@ public:
 
     /**
      * @brief Retrieves the entity ID at a given dense array index.
-     * 
      * @param id The dense array index.
      * @return EntityId The entity ID at the specified index.
-     * 
+     *
      * @warning No bounds checking is performed.
      */
     [[nodiscard]]
@@ -741,10 +716,9 @@ public:
 
     /**
      * @brief Array subscript operator for accessing entity IDs by dense index.
-     * 
      * @param id The dense array index.
      * @return EntityId The entity ID at the specified index.
-     * 
+     *
      * @warning No bounds checking is performed.
      */
     [[nodiscard]]
@@ -754,10 +728,9 @@ public:
 
     /**
      * @brief Retrieves component type information.
-     * 
-     * Returns size and alignment information for the stored component type.
-     * 
      * @return ComponentTypeInfo The type information (size and alignment).
+     *
+     * Returns size and alignment information for the stored component type.
      */
     [[nodiscard]]
     const ComponentTypeInfo getTypeInfo() const noexcept {

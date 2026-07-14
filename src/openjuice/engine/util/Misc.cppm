@@ -14,12 +14,8 @@ export module openjuice.engine.util:Misc;
 
 import stdx;
 
-using stdx::process::Command;
-using stdx::process::ExitStatus;
-
-#ifdef __unix__
-using stdx::os::unix::sys::WindowSize;
-#endif
+using stdx::sys::ExitStatus;
+using stdx::sys::Process;
 
 using namespace stdx::os;
 
@@ -108,13 +104,40 @@ export {
      * @return The trimmed string.
      */
     [[nodiscard]]
-    String trimString(StringView str) {
-        const usize start = str.find_first_not_of(" \t\r\n");
+    String trimString(StringView s) {
+        const usize start = s.find_first_not_of(" \t\r\n");
         if (start == String::npos) {
             return "";
         }
-        const usize end = str.find_last_not_of(" \t\r\n");
-        return String(str.substr(start, end - start + 1));
+        const usize end = s.find_last_not_of(" \t\r\n");
+        return String(s.substr(start, end - start + 1));
+    }
+
+    /**
+     * @brief Turns the escape sequences used by the game's text data into real characters.
+     * @param str The string to unescape.
+     * @return The string with escape sequences resolved.
+     *
+     * The define files store line breaks as the two characters '\' and 'n', which would otherwise
+     * render literally. Only that sequence is translated: a handful of files contain stray
+     * backslashes followed by other characters, and those are part of the text rather than escapes,
+     * so they are passed through untouched.
+     */
+    [[nodiscard]]
+    String unescapeText(StringView s) noexcept {
+        String result;
+        result.reserve(s.length());
+
+        for (usize i = 0; i < s.length(); ++i) {
+            if (s[i] == '\\' && i + 1 < s.length() && s[i + 1] == 'n') {
+                result += '\n';
+                ++i;
+            } else {
+                result += s[i];
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -123,50 +146,50 @@ export {
      * @return A string with C++ style format specifiers ({}).
      */
     [[nodiscard]]
-    String convertFormatSpecifier(StringView format) noexcept {
+    String convertFormatSpecifier(StringView fmt) noexcept {
         String result;
-        result.reserve(format.size());
+        result.reserve(fmt.size());
 
-        for (usize i = 0; i < format.size(); ++i) {
-            if (format[i] == '%' && i + 1 < format.size()) {
-                char next = format[i + 1];
+        for (usize i = 0; i < fmt.size(); ++i) {
+            if (fmt[i] == '%' && i + 1 < fmt.size()) {
+                char next = fmt[i + 1];
                 if (next == '%') {
                     result += '%';
                     ++i;
                     continue;
                 }
                 usize j = i + 1;
-                while (j < format.size() && isFlag(format[j])) {
+                while (j < fmt.size() && isFlag(fmt[j])) {
                     ++j;
                 }
-                if (j < format.size() && format[j] == '*') {
+                if (j < fmt.size() && fmt[j] == '*') {
                     ++j;
                 } else {
-                    while (j < format.size() && format[j] >= '0' && format[j] <= '9') {
+                    while (j < fmt.size() && fmt[j] >= '0' && fmt[j] <= '9') {
                         ++j;
                     }
                 }
-                if (j < format.size() && format[j] == '.') {
+                if (j < fmt.size() && fmt[j] == '.') {
                     ++j;
-                    if (j < format.size() && format[j] == '*') {
+                    if (j < fmt.size() && fmt[j] == '*') {
                         ++j;
                     } else {
-                        while (j < format.size() && format[j] >= '0' && format[j] <= '9') {
+                        while (j < fmt.size() && fmt[j] >= '0' && fmt[j] <= '9') {
                             ++j;
                         }
                     }
                 }
-                while (j < format.size() && isLengthModifier(format[j])) {
+                while (j < fmt.size() && isLengthModifier(fmt[j])) {
                     ++j;
                 }
-                if (j < format.size() && isFormatSpecifier(format[j])) {
+                if (j < fmt.size() && isFormatSpecifier(fmt[j])) {
                     result += "{}";
                     i = j;
                 } else {
-                    result += format[i];
+                    result += fmt[i];
                 }
             } else {
-                result += format[i];
+                result += fmt[i];
             }
         }
         return result;
@@ -247,7 +270,7 @@ export {
         return Unexpected(UrlOpenError::UNSUPPORTED_PLATFORM);
         #endif
 
-        Expected<ExitStatus, ErrorCode> result = Command::from(opener)
+        Expected<ExitStatus, ErrorCode> result = Process::Builder(opener)
             .arg(url)
             .status();
         if (!result || !result->success()) {
@@ -274,7 +297,7 @@ export {
             return nullopt;
         }
         #else
-        WindowSize w;
+        unix::sys::WindowSize w;
         if (unix::sys::ioctl(unix::STDOUT_FILENO, unix::sys::TIOCGWINSZ, &w) == 0) {
             rows = w.ws_row;
             cols = w.ws_col;

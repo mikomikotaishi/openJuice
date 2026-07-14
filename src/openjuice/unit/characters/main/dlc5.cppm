@@ -29,7 +29,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::characters::main::dlc5);
 // Haruka (96)
 // Kanata (97)
 // MariPopomi (98)
-// Kurie (99)
-// Mimomo (100)
+// MajikawaMimomo (99)
+// AmatsukuriKurie (100)
 
 END_MODULE_NAMESPACE();

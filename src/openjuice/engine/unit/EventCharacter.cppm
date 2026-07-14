@@ -21,7 +21,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 /**
  * @class EventCharacter
  * @brief Abstract class representing a character unit.
- * 
  * @extends Unit
  *
  * The EventCharacter abstract class extends the Playable abstract class and represents a main character unit with a specific recovery attribute.
@@ -30,7 +29,6 @@ export class EventCharacter: public Playable {
 public:
     /**
      * @brief Constructor to initialize a EventCharacter object.
-     *
      * @param id The ID of the event character.
      * @param health The health of the event character.
      * @param attack The attack value of the event character.

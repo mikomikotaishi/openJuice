@@ -43,7 +43,6 @@ export class Censor {
 public:
     static constexpr StringView PATH_BLACKLIST_FILE = Constants::PATH_BLACKLIST_FILE; ///< The blacklist file path.
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
     Vector<String> blacklist; ///< List of inappropriate words to censor.
     Language language; ///< The language code currently being used by the game.
@@ -51,13 +50,12 @@ private:
 
     /**
      * @brief Load the blacklist for the specified language.
-     * 
      * @param language The language for which to load the blacklist.
      * @throws InvalidLanguageException if no valid language is found
      */
     void loadBlacklist() throws (InvalidLanguageException) {
         logger->info("Loading blacklist for language {}", language);
-        String filename = stdx::fmt::format(PATH_BLACKLIST_FILE, ConfigurationService::languageToCode(language));
+        String filename = Ops::fmt(PATH_BLACKLIST_FILE, ConfigurationService::languageToCode(language));
         blacklist.clear();
         Scanner file(filename);
         
@@ -71,12 +69,10 @@ private:
 public:
     /**
      * @brief Constructs a new Censor object.
-     *
      * @param loggerFactory The injected logger factory.
      * @param config The injected configuration service, used to determine the game language.
      */
     explicit Censor(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ConfigurationService> config):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("Censor")},
         language{config->getLanguage()} {
         switch (language) {
@@ -99,7 +95,6 @@ public:
 
     /**
      * @brief Censor inappropriate words in a message.
-     * 
      * @param message The message to censor.
      * @return The censored message.
      */
@@ -109,7 +104,7 @@ public:
         options.set_case_sensitive(false);
         String censoredMessage = message;
         for (const String& word: blacklist) {
-            String pattern = stdx::fmt::format("\\b{}\\b", word);
+            String pattern = Ops::fmt("\\b{}\\b", word);
             RE2 regex(pattern, options);
             String replacement(word.length(), censorChar);
             RE2::GlobalReplace(&censoredMessage, regex, replacement);

@@ -13,20 +13,16 @@ module;
 export module openjuice.chat:ChatSession;
 
 import stdx;
-import sfml;
 
 using stdx::collections::Vector;
 using stdx::linq::Query;
 using stdx::mem::EnableSharedFromThis;
-using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::mem::UniquePointer;
+using stdx::net::SocketException;
+using stdx::net::TcpStream;
 using stdx::thread::Thread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
-
-using sfml::net::Socket;
-using sfml::net::TcpSocket;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -38,9 +34,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatSession: public EnableSharedFromThis<ChatSession> {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
-    UniquePointer<TcpSocket> sessionSocket; ///< Socket for the chat session.
+    TcpStream sessionStream; ///< The connection to this session's client.
     String inputBuffer; ///< Buffer for incoming messages.
     Vector<SharedPointer<ChatSession>>& clients; ///< List of connected clients.
     Thread sessionThread; ///< Thread for handling this session.
@@ -48,7 +43,6 @@ private:
 
     /**
      * @brief Broadcast a message to all clients.
-     *
      * @param msg The message to broadcast.
      */
     void broadcast(const String& msg) {
@@ -75,47 +69,52 @@ private:
         char buffer[1024];
         
         while (active) {
-            usize received = 0;
-            Socket::Status status = sessionSocket->receive(buffer, sizeof(buffer), received);
-            
-            if (status == Socket::Status::Done && received > 0) {
-                inputBuffer.append(buffer, received);
-                
-                // Process complete messages (delimited by newline)
-                usize pos;
-                while ((pos = inputBuffer.find('\n')) != String::npos) {
-                    String message = inputBuffer.substr(0, pos + 1);
-                    inputBuffer.erase(0, pos + 1);
-                    logger->info("Received: {}", message);
-                    broadcast(message);
-                }
-            } else if (status == Socket::Status::Disconnected) {
+            Optional<usize> received;
+
+            try {
+                received = sessionStream.try_receive(as_writable_bytes(Span<char>(buffer)));
+            } catch (const SocketException& e) {
+                logger->error("Socket error occurred: {}", e.what());
+                active = false;
+                removeClient();
+                break;
+            }
+
+            // An empty Optional is "nothing has arrived yet"; a zero count is the peer closing.
+            if (!received) {
+                continue;
+            }
+
+            if (*received == 0) {
                 logger->info("Client disconnected");
                 active = false;
                 removeClient();
                 break;
-            } else if (status == Socket::Status::Error) {
-                logger->error("Socket error occurred");
-                active = false;
-                removeClient();
-                break;
+            }
+
+            inputBuffer.append(buffer, *received);
+
+            // Process complete messages (delimited by newline)
+            usize pos;
+            while ((pos = inputBuffer.find('\n')) != String::npos) {
+                String message = inputBuffer.substr(0, pos + 1);
+                inputBuffer.erase(0, pos + 1);
+                logger->info("Received: {}", message);
+                broadcast(message);
             }
         }
     }
 public:
     /**
      * @brief Constructor to initialize a ChatSession object.
-     *
-     * @param socket The socket for the chat session.
+     * @param stream The connection to the session's client.
      * @param clients The list of connected clients.
+     * @param loggerFactory Shared logger factory used to create this session's logger.
      */
-    ChatSession(UniquePointer<TcpSocket> socket, Vector<SharedPointer<ChatSession>>& clients, SharedPointer<LoggerFactory> loggerFactory):
-        loggerFactory{loggerFactory},
+    ChatSession(TcpStream stream, Vector<SharedPointer<ChatSession>>& clients, SharedPointer<LoggerFactory> loggerFactory):
         logger{loggerFactory->of("ChatSession")},
-        sessionSocket{Ops::move(socket)}, clients{clients} {
-        if (sessionSocket) {
-            sessionSocket->setBlocking(false);
-        }
+        sessionStream{Ops::move(stream)}, clients{clients} {
+        sessionStream.socket().set_blocking(false);
     }
     
     /**
@@ -132,14 +131,17 @@ public:
 
     /**
      * @brief Deliver a message to the client.
-     *
      * @param msg The message to deliver.
      */
     void deliver(StringView msg) {
-        if (sessionSocket && active) {
-            if (sessionSocket->send(msg.data(), msg.size()) != Socket::Status::Done) {
-                logger->error("Failed to send message to client");
-            }
+        if (!active || !sessionStream.is_open()) {
+            return;
+        }
+
+        try {
+            sessionStream.send_all(as_bytes(Span<const char>(msg.data(), msg.size())));
+        } catch (const SocketException& e) {
+            logger->error("Failed to send message to client: {}", e.what());
         }
     }
     
@@ -148,9 +150,7 @@ public:
      */
     ~ChatSession() {
         active = false;
-        if (sessionSocket) {
-            sessionSocket->disconnect();
-        }
+        sessionStream.close();
         sessionThread.request_stop();
     }
 };

@@ -21,7 +21,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 /**
  * @class Enemy
  * @brief Abstract class representing an enemy unit.
- * 
  * @extends Unit
  *
  * The Enemy abstract class extends the Unit abstract class and represents an enemy unit with a specific type.

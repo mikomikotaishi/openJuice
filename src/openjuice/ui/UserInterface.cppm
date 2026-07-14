@@ -34,7 +34,6 @@ protected:
 public:
     /**
      * @brief Construct a new User Interface object
-     *
      * @param game Shared pointer to the game instance
      * @param mutex Reference to mutex for thread-safe access
      */

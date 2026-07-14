@@ -40,12 +40,11 @@ public:
 
     /**
      * @brief Create a HyperCard object with the given ID.
-     *
      * @param id ID of the HyperCard to create
      * @return Shared pointer to the created HyperCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<HyperCard>> create(u16 id) noexcept {
+    static constexpr Optional<SharedPointer<HyperCard>> create(u16 id) noexcept {
         switch (id) {
             case 0:
                 return nullptr;

@@ -27,7 +27,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::regular::boost);
 /**
  * @class NullBoostMushroom
  * @brief Class representing the NullBoostMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The NullBoostMushroom class extends BoostMushroomCard to represent the card 
@@ -63,7 +62,6 @@ public:
 /**
  * @class MoveUpMushroom
  * @brief Class representing the MoveUpMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The MoveUpMushroom class extends BoostMushroomCard to represent the card 
@@ -99,7 +97,6 @@ public:
 /**
  * @class MoveDownMushroom
  * @brief Class representing the MoveDownMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The MoveDownMushroom class extends BoostMushroomCard to represent the card 
@@ -135,7 +132,6 @@ public:
 /**
  * @class GainStarsMushroom
  * @brief Class representing the GainStarsMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The GainStarsMushroom class extends BoostMushroomCard to represent the card 
@@ -171,7 +167,6 @@ public:
 /**
  * @class LoseStarsMushroom
  * @brief Class representing the LoseStarsMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The LoseStarsMushroom class extends BoostMushroomCard to represent the card 
@@ -207,7 +202,6 @@ public:
 /**
  * @class HealthUpMushroom
  * @brief Class representing the HealthUpMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The HealthUpMushroom class extends BoostMushroomCard to represent the card 
@@ -243,7 +237,6 @@ public:
 /**
  * @class HealthDownMushroom
  * @brief Class representing the HealthDownMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The HealthDownMushroom class extends BoostMushroomCard to represent the card 
@@ -279,7 +272,6 @@ public:
 /**
  * @class FrostwalkerMushroom
  * @brief Class representing the FrostwalkerMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The FrostwalkerMushroom class extends BoostMushroomCard to represent the card 
@@ -315,7 +307,6 @@ public:
 /**
  * @class WarpMushroom
  * @brief Class representing the WarpMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The WarpMushroom class extends BoostMushroomCard to represent the card 
@@ -351,7 +342,6 @@ public:
 /**
  * @class ConfusionMushroom
  * @brief Class representing the ConfusionMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The ConfusionMushroom class extends BoostMushroomCard to represent the card 
@@ -387,7 +377,6 @@ public:
 /**
  * @class DrawMushroom
  * @brief Class representing the DrawMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The DrawMushroom class extends BoostMushroomCard to represent the card 
@@ -423,7 +412,6 @@ public:
 /**
  * @class DiscardMushroom
  * @brief Class representing the DiscardMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The DiscardMushroom class extends BoostMushroomCard to represent the card 
@@ -459,7 +447,6 @@ public:
 /**
  * @class WinMushroom
  * @brief Class representing the WinMushroom card.
- *
  * @extends BoostMushroomCard
  *
  * The WinMushroom class extends BoostMushroomCard to represent the card 

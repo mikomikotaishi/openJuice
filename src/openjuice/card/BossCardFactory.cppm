@@ -64,12 +64,11 @@ public:
 
     /**
      * @brief Create a BossCard object with the given ID.
-     *
      * @param id ID of the BossCard to create
      * @return Shared pointer to the created BossCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<BossCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
+    static constexpr Optional<SharedPointer<BossCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
         switch (type) {
             case SecondaryType::STANDARD:
                 switch (id) {
@@ -409,4 +408,4 @@ struct Formatter<BossCardFactory::SecondaryType> {
     }
 };
 
-SPECIALISE_FORMATTER(BossCardFactory::SecondaryType);
+SPECIALIZE_FORMATTER(BossCardFactory::SecondaryType);

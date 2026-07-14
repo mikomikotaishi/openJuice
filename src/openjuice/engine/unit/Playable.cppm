@@ -21,7 +21,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 /**
  * @class Playable
  * @brief Abstract class representing a playable unit.
- * 
  * @extends Unit
  *
  * The Playable abstract class extends the Unit abstract class and represents a playable unit with a specific recovery attribute.
@@ -32,7 +31,6 @@ private:
 public:
     /**
      * @brief Constructor to initialize a Playable object.
-     *
      * @param id The ID of the playable.
      * @param health The health of the playable.
      * @param attack The attack value of the playable.

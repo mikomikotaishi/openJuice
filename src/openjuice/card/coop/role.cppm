@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::role);
 /**
  * @class UltimateWeaponInTheSun
  * @brief Class representing the UltimateWeaponInTheSun card.
- *
  * @extends BoostCard
  * @extends HyperCard
  * @extends CoopCard
@@ -63,7 +62,6 @@ public:
 /**
  * @class LifeguardOnTheWhiteBeach
  * @brief Class representing the LifeguardOnTheWhiteBeach card.
- *
  * @extends EventCard
  * @extends HyperCard
  * @extends CoopCard
@@ -100,7 +98,6 @@ public:
 /**
  * @class GuardianOfBloomingFlowers
  * @brief Class representing the GuardianOfBloomingFlowers card.
- *
  * @extends BoostCard
  * @extends HyperCard
  * @extends CoopCard
@@ -137,7 +134,6 @@ public:
 /**
  * @class UnforgivingAvenger
  * @brief Class representing the UnforgivingAvenger card.
- *
  * @extends BoostCard
  * @extends HyperCard
  * @extends CoopCard
@@ -174,7 +170,6 @@ public:
 /**
  * @class SummerGames
  * @brief Class representing the SummerGames card.
- *
  * @extends BoostCard
  * @extends HyperCard
  * @extends CoopCard

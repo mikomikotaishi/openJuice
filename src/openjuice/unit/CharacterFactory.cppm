@@ -16,6 +16,7 @@ import stdx;
 
 import openjuice.engine.services;
 import openjuice.engine.unit;
+import openjuice.engine.util;
 import openjuice.unit.characters;
 
 using stdx::mem::Pointers;
@@ -43,13 +44,223 @@ public:
     CharacterFactory() = delete("CharacterFactory is a utility class and cannot be instantiated.");
 
     /**
+     * @brief Get the ID of a Playable from its name.
+     * @param name Name of the Playable
+     * @return Optional containing the ID of the Playable, or nullopt if not found
+     */
+    [[nodiscard]]
+    static constexpr Optional<u8> idOf(StringView name) noexcept {
+        switch (engine::util::hashString(name)) {
+            case "Kai"_hash:
+                return Kai::ID;
+            case "Marc"_hash:
+                return Marc::ID;
+            case "QP"_hash:
+                return QP::ID;
+            case "Suguri"_hash:
+                return Suguri::ID;
+            case "Aru"_hash:
+                return Aru::ID;
+            case "Fernet"_hash:
+                return Fernet::ID;
+            case "Hime"_hash:
+                return Hime::ID;
+            case "Marie Poppo"_hash:
+                return MariePoppo::ID;
+            case "Mio"_hash:
+                return Mio::ID;
+            case "Mio (Festive)"_hash:
+                return MioFestive::ID;
+            case "Peat"_hash:
+                return Peat::ID;
+            case "Sora"_hash:
+                return Sora::ID;
+            case "Tomomo"_hash:
+                return Tomomo::ID;
+            case "Yuki"_hash:
+                return Yuki::ID;
+            // case "Chicken"_hash:
+            //     return Chicken::ID;
+            // case "Robo Ball"_hash:
+            //     return RoboBall::ID;
+            // case "Seagull"_hash:
+            //     return Seagull::ID;
+            // case "Store Manager"_hash:
+            //     return StoreManager::ID;
+            // case "Shifu Robot"_hash:
+            //     return ShifuRobot::ID;
+            // case "Flying Castle"_hash:
+            //     return FlyingCastle::ID;
+            // case "Syura"_hash:
+            //     return Syura::ID;
+            // case "Nanako"_hash:
+            //     return Nanako::ID;
+            // case "QP (Dangerous)"_hash:
+            //     return QPDangerous::ID;
+            // case "Saki"_hash:
+            //     return Saki::ID;
+            // case "Kyousuke"_hash:
+            //     return Kyousuke::ID;
+            // case "Krilalaris"_hash:
+            //     return Krilalaris::ID;
+            // case "Kae"_hash:
+            //     return Kae::ID;
+            // case "Alte"_hash:
+            //     return Alte::ID;
+            // case "Kyoko"_hash:
+            //     return Kyoko::ID;
+            // case "Marie Poppo (Mixed)"_hash:
+            //     return MariePoppoMixed::ID;
+            // case "Sham"_hash:
+            //     return Sham::ID;
+            // case "Sherry"_hash:
+            //     return Sherry::ID;
+            // case "Sora (Military)"_hash:
+            //     return SoraMilitary::ID;
+            // case "Star Breaker"_hash:
+            //     return StarBreaker::ID;
+            // case "Sweet Breaker"_hash:
+            //     return SweetBreaker::ID;
+            // case "Aru (Scramble)"_hash:
+            //     return AruScramble::ID;
+            // case "Nath"_hash:
+            //     return Nath::ID;
+            // case "Tomato"_hash:
+            //     return Tomato::ID;
+            // case "Mimyuu"_hash:
+            //     return Mimyuu::ID;
+            // case "Kiriko"_hash:
+            //     return Kiriko::ID;
+            // case "NoName"_hash:
+            //     return NoName::ID;
+            // case "NoName (Head)"_hash:
+            //     return NoNameHead::ID;
+            // case "Ceoreparque"_hash:
+            //     return Ceoreparque::ID;
+            // case "Miusaki"_hash:
+            //     return Miusaki::ID;
+            // case "Yuki (Dangerous)"_hash:
+            //     return YukiDangerous::ID;
+            // case "Tomomo (Casual)"_hash:
+            //     return TomomoCasual::ID;
+            // case "Tomomo (Sweet Eater)"_hash:
+            //     return TomomoSweetEater::ID;
+            // case "Suguri (Ver.2)"_hash:
+            //    return SuguriVer2::ID;
+            // case "Tsih"_hash:
+            //     return Tsih::ID;
+            // case "Tequila"_hash:
+            //     return Tequila::ID;
+            // case "Mei"_hash:
+            //     return Mei::ID;
+            // case "Natsumi"_hash:
+            //     return Natsumi::ID;
+            // case "Arthur"_hash:
+            //     return Arthur::ID;
+            // case "Iru"_hash:
+            //     return Iru::ID;
+            // case "Mira"_hash:
+            //     return Mira::ID;
+            // case "Cuties"_hash:
+            //     return Cuties::ID;
+            // case "Yuuki"_hash:
+            //     return Yuuki::ID;
+            // case "Islay"_hash:
+            //     return Islay::ID;
+            // case "Suguri (46 Billion Years)"_hash:
+            //     return Suguri46BillionYears::ID;
+            // case "Sumika"_hash:
+            //     return Sumika::ID;
+            // case "Ellie"_hash:
+            //     return Ellie::ID;
+            // case "Lulu"_hash:
+            //     return Lulu::ID;
+            // case "MarcPilot"_hash:
+            //     return MarcPilot::ID;
+            // case "Alicianrone"_hash:
+            //     return Alicianrone::ID;
+            // case "Teotoratta"_hash:
+            //     return Teotoratta::ID;
+            // case "Arnelle"_hash:
+            //     return Arnelle::ID;
+            // case "Maynie"_hash:
+            //     return Maynie::ID;
+            // case "Kyupita"_hash:
+            //     return Kyupita::ID;
+            // case "Chris"_hash:
+            //     return Chris::ID;
+            // case "Halena"_hash:
+            //     return Halena::ID;
+            // case "Cook"_hash:
+            //     return Cook::ID;
+            // case "Lone Rider"_hash:
+            //     return LoneRider::ID;
+            // case "Merchant"_hash:
+            //     return Merchant::ID;
+            // case "Hime (Moonlight)"_hash:
+            //     return HimeMoonlight::ID;
+            // case "Fernet (Noble)"_hash:
+            //     return FernetNoble::ID;
+            // case "Malt"_hash:
+            //     return Malt::ID;
+            // case "Mescal"_hash:
+            //     return Mescal::ID;
+            // case "Shifu"_hash:
+            //     return Shifu::ID;
+            // case "Hoshino Reika"_hash:
+            //     return HoshinoReika::ID;
+            // case "Watty"_hash:
+            //     return Watty::ID;
+            // case "Pomeranius"_hash:
+            //     return Pomeranius::ID;
+            // case "Sweet Creator"_hash:
+            //     return SweetCreator::ID;
+            // case "Saki (Sweet Maker)"_hash:
+            //     return SakiSweetMaker::ID;
+            // case "Natsumi (Sweet Blogger)"_hash:
+            //     return NatsumiSweetBlogger::ID;
+            // case "Krilalaris (Pajamas)"_hash:
+            //     return KrilalarisPajamas::ID;
+            // case "Mimyuu (Jailbird)"_hash:
+            //     return MimyuuJailbird::ID;
+            // case "Mother Poppo"_hash:
+            //     return MotherPoppo::ID;
+            // case "Dark Lulu"_hash:
+            //     return DarkLulu::ID;
+            // case "Hyper Ellie"_hash:
+            //     return HyperEllie::ID;
+            // case "Kai (Hero)"_hash:
+            //     return KaiHero::ID;
+            // case "Grain"_hash:
+            //     return Grain::ID;
+            // case "Bourbon"_hash:
+            //     return Bourbon::ID;
+            // case "Poyo"_hash:
+            //     return Poyo::ID;
+            // case "Chuu"_hash:
+            //     return Chuu::ID;
+            // case "Haruka"_hash:
+            //     return Haruka::ID;
+            // case "Kanata"_hash:
+            //     return Kanata::ID;
+            // case "Mari Popomi"_hash:
+            //     return MariPopomi::ID;
+            // case "Majikawa Mimomo"_hash:
+            //     return MajikawaMimomo::ID;
+            // case "Amatsukuri Kurie"_hash:
+            //     return AmatsukuriKurie::ID;
+            default:
+                return nullopt;
+        }
+    }
+
+    /**
      * @brief Create a Playable object with the given ID.
-     *
      * @param id ID of the Playable to create
      * @return Shared pointer to the created Playable object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<Playable>> create(u8 id) noexcept {
+    static constexpr Optional<SharedPointer<Playable>> create(u8 id) noexcept {
         switch (id) {
             case 0:
                 return nullptr;
@@ -254,10 +465,10 @@ public:
             // === All characters released from 3.28.1 onwards ===
             // case MariPopomi::ID:
             //     return Pointers::shared<MariPopomi>();
-            // case Kurie::ID:
-            //     return Pointers::shared<Kurie>();
-            // case Mimomo::ID:
-            //     return Pointers::shared<Mimomo>();
+            // case MajikawaMimomo::ID:
+            //     return Pointers::shared<MajikawaMimomo>();
+            // case AmatsukuriKurie::ID:
+            //     return Pointers::shared<AmatsukuriKurie>();
             default:
                 return nullopt;
         }

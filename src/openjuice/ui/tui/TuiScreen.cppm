@@ -11,6 +11,7 @@ module;
 export module openjuice.ui.tui.TuiScreen;
 
 export import :ScreenType;
+export import :ScreenHost;
 
 import stdx;
 
@@ -36,17 +37,61 @@ export class TuiScreen {
 protected:
     SharedPointer<Game> game; ///< A shared pointer to the game.
     Component component; ///< An abstract component
-    Function<void(ScreenType)> screenSwitchCallback; ///< An callback for screen switching
+    ScreenHost& host; ///< The interface running this screen. Outlives it, so held by reference.
     SharedPointer<LocalizationService> localization; ///< The injected localization service.
 
     /**
      * @brief Get the LocalizationService instance safely.
-     *
      * @return Reference to the LocalizationService.
      */
     [[nodiscard]]
     const LocalizationService& getLocalizationService() const noexcept {
         return *localization;
+    }
+
+    /**
+     * @brief Get a menu screen label, kept to a single line.
+     * @param key The localization key to look up
+     * @param fallback Text to use when the key is missing
+     * @return The label on one line
+     *
+     * A few labels carry a line break sized for the original game's square buttons. FTXUI's menu
+     * prefixes only the first line of an entry, so keeping the break would leave continuation lines
+     * unaligned under the selection marker. Prose from the same file keeps its breaks: it is not
+     * fetched through here.
+     */
+    [[nodiscard]]
+    String menuLabel(StringView key, StringView fallback) const noexcept {
+        String label = getLocalizationService()
+            .getMenuScreenText(key)
+            .value_or(String(fallback));
+
+        for (char& ch: label) {
+            if (ch == '\n') {
+                ch = ' ';
+            }
+        }
+
+        return label;
+    }
+
+    /**
+     * @brief Switch to a different screen.
+     * @param type The screen to switch to
+     */
+    void switchScreen(ScreenType type) const noexcept {
+        host.switchScreen(type);
+    }
+
+    /**
+     * @brief Report a failure to the user in a dialog they must acknowledge.
+     * @param message The message to show
+     *
+     * Use this instead of logging a failure that came from a service: the service already logged
+     * the technical cause, and only the screen knows the user is waiting on the outcome.
+     */
+    void showError(StringView message) const noexcept {
+        host.showError(message);
     }
 
     /**
@@ -56,19 +101,17 @@ protected:
 
     /**
      * @brief Constructor for the TuiScreen class
-     *
      * @param game Shared pointer to the game
-     * @param callback Function to call when switching screens
+     * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
      */
-    TuiScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization):
-        game{game}, screenSwitchCallback{callback}, localization{localization} {}
+    TuiScreen(SharedPointer<Game> game, ScreenHost& host, SharedPointer<LocalizationService> localization):
+        game{game}, host{host}, localization{localization} {}
 
     virtual ~TuiScreen() = default;
 public:
     /**
      * @brief Get the FTXUI component for this screen
-     *
      * @return The component
      */
     virtual Component getComponent() const noexcept {
@@ -92,7 +135,6 @@ public:
 
     /**
      * @brief Check if the screen requested exit
-     *
      * @return True if exit was requested, else false
      */
     [[nodiscard]]

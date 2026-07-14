@@ -3039,6 +3039,12 @@ public:
     /// this method will return information about that content.
     std::optional<discordpp::AdditionalContent> AdditionalContent() const;
 
+    /// \brief Returns an additional display name for this message, if one was set.
+    ///
+    /// This is an optional, game-provided name (such as a character name) that the game or lobby
+    /// integration associated with the author for this lobby.
+    std::optional<std::string> AdditionalName() const;
+
     /// \brief Returns the application ID associated with this message, if any. You can use
     /// this to identify if the mesage was sent from another child application in
     /// your catalog.
@@ -9703,6 +9709,20 @@ std::optional<discordpp::AdditionalContent> MessageHandle::AdditionalContent() c
         return {};
     }
     discordpp::AdditionalContent returnValue__(returnValueNative__, DiscordObjectState::Owned);
+    return returnValue__;
+}
+std::optional<std::string> MessageHandle::AdditionalName() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnIsNonNull__;
+    Discord_String returnValueNative__;
+    returnIsNonNull__ = Discord_MessageHandle_AdditionalName(&instance_, &returnValueNative__);
+    if (!returnIsNonNull__) {
+        return {};
+    }
+    std::string returnValue__(reinterpret_cast<char*>(returnValueNative__.ptr),
+                              returnValueNative__.size);
+    Discord_Free(returnValueNative__.ptr);
     return returnValue__;
 }
 std::optional<uint64_t> MessageHandle::ApplicationId() const

@@ -40,12 +40,11 @@ public:
 
     /**
      * @brief Create a CharacterSpecificCard object with the given ID.
-     *
      * @param id ID of the CharacterSpecificCard to create
      * @return Shared pointer to the created CharacterSpecificCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<CharacterSpecificCard>> create(u8 id) noexcept {
+    static constexpr Optional<SharedPointer<CharacterSpecificCard>> create(u8 id) noexcept {
         switch (id) {
             case 0:
                 return nullptr;

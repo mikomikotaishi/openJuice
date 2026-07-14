@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::generic);
 /**
  * @class GenericBannerCard
  * @brief Class representing the GenericBannerCard card.
- *
  * @extends BannerCard
  * @extends GenericCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class GenericBattleCard
  * @brief Class representing the GenericBattleCard card.
- *
  * @extends BattleCard
  * @extends GenericCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class GenericBoostCard
  * @brief Class representing the GenericBoostCard card.
- *
  * @extends BoostCard
  * @extends GenericCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class GenericEventCard
  * @brief Class representing the GenericEventCard card.
- *
  * @extends EventCard
  * @extends GenericCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class GenericGiftCard
  * @brief Class representing the GenericGiftCard card.
- *
  * @extends GiftCard
  * @extends GenericCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class GenericTrapCard
  * @brief Class representing the GenericTrapCard card.
- *
  * @extends TrapCard
  * @extends GenericCard
  *

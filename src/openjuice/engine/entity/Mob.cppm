@@ -29,7 +29,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::entity);
 /**
  * @class Mob
  * @brief Class representing a mob entity.
- *
  * @extends Entity
  *
  * The Mob class extends the Entity abstract class and represents a mob entity in the game.

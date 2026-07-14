@@ -24,7 +24,6 @@ using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::services::ProfileManager;
 using openjuice::engine::services::LocalizationService;
 using openjuice::ui::tui::ScreenType;
 using openjuice::ui::tui::TuiScreen;
@@ -36,7 +35,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
 /**
  * @class ShopScreen
  * @brief Shop screen implementation
- *
  * @extends TuiScreen
  */
 export class ShopScreen final: public TuiScreen {
@@ -52,12 +50,12 @@ private:
 public:
     /**
      * @brief Constructor for the ShopScreen class
-     *
      * @param game Shared pointer to the game
-     * @param callback Function to call when switching screens
+     * @param host The interface running this screen
+     * @param localization Shared pointer to the localization service
      */
-    ShopScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization):
-        TuiScreen(game, callback, localization) {
+    ShopScreen(SharedPointer<Game> game, ScreenHost& host, SharedPointer<LocalizationService> localization):
+        TuiScreen(game, host, localization) {
         createComponent();
     }
 

@@ -1179,6 +1179,8 @@ void DISCORD_API Discord_MessageHandle_Clone(Discord_MessageHandle* self,
                                              Discord_MessageHandle const* other);
 bool DISCORD_API Discord_MessageHandle_AdditionalContent(Discord_MessageHandle* self,
                                                          Discord_AdditionalContent* returnValue);
+bool DISCORD_API Discord_MessageHandle_AdditionalName(Discord_MessageHandle* self,
+                                                      Discord_String* returnValue);
 bool DISCORD_API Discord_MessageHandle_ApplicationId(Discord_MessageHandle* self,
                                                      uint64_t* returnValue);
 bool DISCORD_API Discord_MessageHandle_Author(Discord_MessageHandle* self,

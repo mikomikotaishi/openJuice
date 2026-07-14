@@ -81,7 +81,6 @@ public:
 
         /**
          * @brief Constructor to initialize a ProfileData object.
-         *
          * @param playerName The name of the player associated with a PlayerData.
          * @param totalPlayTime The total amount of time played in the save slot in seconds.
          */
@@ -116,7 +115,6 @@ public:
         }
     };
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
 
     ProfileData currentProfile; ///< The information of the current save file.
@@ -124,7 +122,6 @@ private:
 
     /**
      * @brief Deserializes a TOML into the ProfileData instance.
-     * 
      * @param table The TOML table to deserialize from
      * @return Expected<void, ProfileManager::Error> indicating success or failure.
      */
@@ -164,11 +161,9 @@ private:
 public:
     /**
      * @brief Constructs a new ProfileManager object.
-     *
      * @param loggerFactory The injected logger factory.
      */
     explicit ProfileManager(SharedPointer<LoggerFactory> loggerFactory):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("ProfileManager")} {
         try {
             stdx::fs::create_directories(USERDATA_DIR);
@@ -296,4 +291,4 @@ struct Formatter<ProfileManager::Error> {
     }
 };
 
-SPECIALISE_FORMATTER(ProfileManager::Error);
+SPECIALIZE_FORMATTER(ProfileManager::Error);

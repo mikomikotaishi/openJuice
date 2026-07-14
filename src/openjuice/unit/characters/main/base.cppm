@@ -23,7 +23,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::characters::main::base);
 /**
  * @class Kai
  * @brief Class representing the Kai character.
- *
  * @extends MainCharacter
  *
  * The Kai class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -50,7 +49,6 @@ public:
 /**
  * @class Marc
  * @brief Class representing the Marc character.
- *
  * @extends MainCharacter
  *
  * The Marc class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -77,7 +75,6 @@ public:
 /**
  * @class QP
  * @brief Class representing the QP character.
- *
  * @extends MainCharacter
  *
  * The QP class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -104,7 +101,6 @@ public:
 /**
  * @class Suguri
  * @brief Class representing the Suguri character.
- *
  * @extends MainCharacter
  *
  * The Suguri class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -131,7 +127,6 @@ public:
 /**
  * @class Aru
  * @brief Class representing the Aru character.
- *
  * @extends MainCharacter
  *
  * The Aru class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -158,7 +153,6 @@ public:
 /**
  * @class Fernet
  * @brief Class representing the Fernet character.
- *
  * @extends MainCharacter
  *
  * The Fernet class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -185,7 +179,6 @@ public:
 /**
  * @class Hime
  * @brief Class representing the Hime character.
- *
  * @extends MainCharacter
  *
  * The Hime class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -212,7 +205,6 @@ public:
 /**
  * @class MariePoppo
  * @brief Class representing the MariePoppo character.
- *
  * @extends MainCharacter
  *
  * The MariePoppo class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -239,7 +231,6 @@ public:
 /**
  * @class Mio
  * @brief Class representing the Mio character.
- *
  * @extends MainCharacter
  *
  * The Mio class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -266,7 +257,6 @@ public:
 /**
  * @class MioFestive
  * @brief Class representing the MioFestive character.
- *
  * @extends MainCharacter
  *
  * The MioFestive class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -293,7 +283,6 @@ public:
 /**
  * @class Peat
  * @brief Class representing the Peat character.
- *
  * @extends MainCharacter
  *
  * The Peat class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -320,7 +309,6 @@ public:
 /**
  * @class Sora
  * @brief Class representing the Sora character.
- *
  * @extends MainCharacter
  *
  * The Sora class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -347,7 +335,6 @@ public:
 /**
  * @class Tomomo
  * @brief Class representing the Tomomo character.
- *
  * @extends MainCharacter
  *
  * The Tomomo class is a final class that inherits from MainCharacter and represents a specific character in the game.
@@ -374,7 +361,6 @@ public:
 /**
  * @class Yuki
  * @brief Class representing the Yuki character.
- *
  * @extends MainCharacter
  *
  * The Yuki class is a final class that inherits from MainCharacter and represents a specific character in the game.

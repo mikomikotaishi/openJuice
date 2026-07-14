@@ -70,7 +70,6 @@ public:
 
     /**
      * @brief Roll a 6-sided die
-     *
      * @return A random number between 1 and 6
      */
     [[nodiscard]]
@@ -90,7 +89,6 @@ public:
 
     /**
      * @brief Get the roll history (thread-safe)
-     *
      * @return Vector of roll records (sides, result)
      */
     [[nodiscard]]
@@ -101,7 +99,6 @@ public:
 
     /**
      * @brief Get statistics for a specific die
-     *
      * @param sides Number of sides on the die
      * @return Pair of (total rolls, average result)
      */

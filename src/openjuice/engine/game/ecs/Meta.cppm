@@ -64,14 +64,12 @@ export namespace meta {
         
         /**
          * @brief Default copy constructor.
-         *
          * @param other The ComponentTypeInfo to copy from.
          */
         constexpr ComponentTypeInfo(const ComponentTypeInfo& other) = default;
 
         /**
          * @brief Constructs ComponentTypeInfo with specified size and alignment.
-         *
          * @param size The size of the component type in bytes.
          * @param alignment The alignment requirement of the component type.
          */
@@ -98,7 +96,6 @@ export namespace meta {
 
     /**
      * @brief Implementation function to count pointer types in a parameter pack.
-     *
      * @tparam Ts Types to check.
      * @return The number of pointer types in the pack.
      */
@@ -111,7 +108,6 @@ export namespace meta {
     /**
      * @struct PointerTypeCount
      * @brief Counts the number of pointer types in a parameter pack.
-     *
      * @tparam Ts Types to count pointers from.
      */
     template <typename... Ts>
@@ -121,8 +117,7 @@ export namespace meta {
 
     /**
      * @struct PointerTypeCount
-     * @brief Specialisation for Tuple types.
-     *
+     * @brief Specialization for Tuple types.
      * @tparam Ts Types within the Tuple to count pointers from.
      */
     template <typename... Ts>
@@ -132,7 +127,6 @@ export namespace meta {
 
     /**
      * @brief Implementation function to count non-pointer types in a parameter pack.
-     *
      * @tparam Ts Types to check.
      * @return The number of non-pointer types in the pack.
      */
@@ -144,7 +138,6 @@ export namespace meta {
     /**
      * @struct NonPointerTypeCount
      * @brief Counts the number of non-pointer types in a parameter pack.
-     *
      * @tparam Ts Types to count non-pointers from.
      */
     template <typename... Ts>
@@ -154,8 +147,7 @@ export namespace meta {
 
     /**
      * @struct NonPointerTypeCount
-     * @brief Specialisation for Tuple types.
-     *
+     * @brief Specialization for Tuple types.
      * @tparam Ts Types within the Tuple to count non-pointers from.
      */
     template <typename... Ts>
@@ -166,12 +158,11 @@ export namespace meta {
     /**
      * @struct RemoveSuffixConstVolatile
      * @brief Removes const and volatile qualifiers from references and pointers.
-     * 
+     * @tparam T The type to remove qualifiers from.
+     *
      * This trait removes only the suffix const/volatile qualifiers (those applied
      * to the reference or pointer itself), not those applied to the pointed-to type.
      * For example, `const int&` becomes `int&`, but `int* const` becomes `int*`.
-     * 
-     * @tparam T The type to remove qualifiers from.
      */
     template <typename T>
     struct RemoveSuffixConstVolatile {
@@ -214,28 +205,26 @@ export namespace meta {
     /**
      * @struct FunctionTraits
      * @brief Extracts type information from callable types.
-     * 
+     * @tparam Ret The return type.
+     * @tparam ArgTs The argument types.
+     *
      * Provides compile-time introspection of function signatures, including
      * return types, argument types, and argument counts. Supports function pointers,
      * member function pointers, and callable objects (lambdas, functors).
-     * 
-     * @tparam Ret The return type.
-     * @tparam ArgTypes The argument types.
      */
-    template <typename Ret, typename... ArgTypes>
+    template <typename Ret, typename... ArgTs>
     struct FunctionTraits {};
 
     /**
-     * @struct FunctionTraits<Ret(*)(ArgTypes...)>
-     * @brief Specialisation for function pointer types.
-     *
+     * @struct FunctionTraits<Ret(*)(ArgTs...)>
+     * @brief Specialization for function pointer types.
      * @tparam Ret The return type of the function.
-     * @tparam ArgTypes The parameter types of the function.
+     * @tparam ArgTs The parameter types of the function.
      */
-    template <typename Ret, typename... ArgTypes>
-    struct FunctionTraits<Ret(*)(ArgTypes...)> {
+    template <typename Ret, typename... ArgTs>
+    struct FunctionTraits<Ret(*)(ArgTs...)> {
         using ReturnType = Ret; ///< The return type of the function.
-        using ArgsTuple = Tuple<ArgTypes...>; ///< Tuple containing all argument types.
+        using ArgsTuple = Tuple<ArgTs...>; ///< Tuple containing all argument types.
 
         /**
          * @brief Retrieves the type of the argument at the given index.
@@ -244,20 +233,19 @@ export namespace meta {
         template <usize Index>
         using ArgumentAt = TupleElementType<Index, ArgsTuple>;
 
-        static constexpr usize ARG_COUNT = sizeof...(ArgTypes); ///< The number of arguments.
+        static constexpr usize ARG_COUNT = sizeof...(ArgTs); ///< The number of arguments.
     };
 
     /**
-     * @struct FunctionTraits<Ret(ArgTypes...)>
-     * @brief Specialisation for plain function types.
-     *
+     * @struct FunctionTraits<Ret(ArgTs...)>
+     * @brief Specialization for plain function types.
      * @tparam Ret The return type of the function.
-     * @tparam ArgTypes The parameter types of the function.
+     * @tparam ArgTs The parameter types of the function.
      */
-    template <typename Ret, typename... ArgTypes>
-    struct FunctionTraits<Ret(ArgTypes...)> {
+    template <typename Ret, typename... ArgTs>
+    struct FunctionTraits<Ret(ArgTs...)> {
         using ReturnType = Ret; ///< The return type of the function.
-        using ArgsTuple = Tuple<ArgTypes...>; ///< Tuple containing all argument types.
+        using ArgsTuple = Tuple<ArgTs...>; ///< Tuple containing all argument types.
 
         /**
          * @brief Retrieves the type of the argument at the given index.
@@ -266,22 +254,21 @@ export namespace meta {
         template <usize Index>
         using ArgumentAt = TupleElementType<Index, ArgsTuple>;
 
-        static constexpr usize ARG_COUNT = sizeof...(ArgTypes); ///< The number of arguments.
+        static constexpr usize ARG_COUNT = sizeof...(ArgTs); ///< The number of arguments.
     };
 
     /**
-     * @struct FunctionTraits<Ret(Obj::*)(ArgTypes...)>
-     * @brief Specialisation for non-const member function pointer types.
-     *
+     * @struct FunctionTraits<Ret(Obj::*)(ArgTs...)>
+     * @brief Specialization for non-const member function pointer types.
      * @tparam Ret The return type of the member function.
      * @tparam Obj The class type that owns the member function.
-     * @tparam ArgTypes The parameter types of the member function.
+     * @tparam ArgTs The parameter types of the member function.
      */
-    template <typename Ret, typename Obj, typename... ArgTypes>
-    struct FunctionTraits<Ret(Obj::*)(ArgTypes...)> {
+    template <typename Ret, typename Obj, typename... ArgTs>
+    struct FunctionTraits<Ret(Obj::*)(ArgTs...)> {
         using ReturnType = Ret; ///< The return type of the member function.
         using ObjectType = Obj; ///< The class type that owns this member function.
-        using ArgsTuple = Tuple<ArgTypes...>; ///< Tuple containing all argument types.
+        using ArgsTuple = Tuple<ArgTs...>; ///< Tuple containing all argument types.
 
         /**
          * @brief Retrieves the type of the argument at the given index.
@@ -290,22 +277,21 @@ export namespace meta {
         template <usize Index>
         using ArgumentAt = TupleElementType<Index, ArgsTuple>;
 
-        static constexpr usize ARG_COUNT = sizeof...(ArgTypes); ///< The number of arguments.
+        static constexpr usize ARG_COUNT = sizeof...(ArgTs); ///< The number of arguments.
     };
 
     /**
-     * @struct FunctionTraits<Ret(Obj::*)(ArgTypes...) const>
-     * @brief Specialisation for const member function pointer types.
-     *
+     * @struct FunctionTraits<Ret(Obj::*)(ArgTs...) const>
+     * @brief Specialization for const member function pointer types.
      * @tparam Ret The return type of the member function.
      * @tparam Obj The class type that owns the member function.
-     * @tparam ArgTypes The parameter types of the member function.
+     * @tparam ArgTs The parameter types of the member function.
      */
-    template <typename Ret, typename Obj, typename... ArgTypes>
-    struct FunctionTraits<Ret(Obj::*)(ArgTypes...) const> {
+    template <typename Ret, typename Obj, typename... ArgTs>
+    struct FunctionTraits<Ret(Obj::*)(ArgTs...) const> {
         using ReturnType = Ret; ///< The return type of the member function.
         using ObjectType = Obj; ///< The class type that owns this member function.
-        using ArgsTuple = Tuple<ArgTypes...>; ///< Tuple containing all argument types.
+        using ArgsTuple = Tuple<ArgTs...>; ///< Tuple containing all argument types.
 
         /**
          * @brief Retrieves the type of the argument at the given index.
@@ -314,16 +300,15 @@ export namespace meta {
         template <usize Index>
         using ArgumentAt = TupleElementType<Index, ArgsTuple>;
 
-        static constexpr usize ARG_COUNT = sizeof...(ArgTypes); ///< The number of arguments.
+        static constexpr usize ARG_COUNT = sizeof...(ArgTs); ///< The number of arguments.
     };
 
     /**
      * @struct FunctionTraits<Callable>
-     * @brief Specialisation for callable objects (lambdas, functors).
-     * 
-     * Deduces function traits from the operator() of the callable object.
-     * 
+     * @brief Specialization for callable objects (lambdas, functors).
      * @tparam Callable A type with an operator() method (lambda, functor, etc.).
+     *
+     * Deduces function traits from the operator() of the callable object.
      */
     template <typename Callable>
     struct FunctionTraits<Callable>: FunctionTraits<decltype(&Callable::operator())> {};
@@ -331,12 +316,11 @@ export namespace meta {
     /**
      * @struct SubTuple
      * @brief Extracts a sub-tuple from a tuple type by index range.
-     * 
-     * Creates a new tuple type containing elements from [Start, End) of the original tuple.
-     * 
      * @tparam Tpl The source tuple type.
      * @tparam Start The starting index (inclusive).
      * @tparam End The ending index (exclusive).
+     *
+     * Creates a new tuple type containing elements from [Start, End) of the original tuple.
      */
     template <typename Tpl, usize Start, usize End, typename = void>
     struct SubTuple {
@@ -347,13 +331,12 @@ export namespace meta {
 
     /**
      * @struct SubTuple
-     * @brief Specialisation when the range exceeds tuple size.
-     * 
-     * Returns an empty tuple when the requested range is invalid.
-     * 
+     * @brief Specialization when the range exceeds tuple size.
      * @tparam Tpl The source tuple type.
      * @tparam Start The starting index.
      * @tparam End The ending index.
+     *
+     * Returns an empty tuple when the requested range is invalid.
      */
     template <typename Tpl, usize Start, usize End>
     struct SubTuple<Tpl, Start, End, EnableIfType<((End - Start) > TupleSizeValue<Tpl>)>> {
@@ -363,7 +346,6 @@ export namespace meta {
     /**
      * @struct TransformEach
      * @brief Applies a type transformation to each element of a tuple.
-     *
      * @tparam T The tuple type to transform.
      * @tparam F The transformation template to apply to each element.
      */
@@ -372,8 +354,7 @@ export namespace meta {
 
     /**
      * @struct TransformEach<Tuple<Ts...>, F>
-     * @brief Specialisation that transforms each type in the tuple.
-     *
+     * @brief Specialization that transforms each type in the tuple.
      * @tparam Ts The types within the tuple.
      * @tparam F The transformation template to apply.
      */
@@ -385,7 +366,6 @@ export namespace meta {
     /**
      * @typedef TransformEachType
      * @brief Convenience alias for TransformEach::Type.
-     *
      * @tparam T The tuple type to transform.
      * @tparam F The transformation template to apply.
      */
@@ -395,7 +375,6 @@ export namespace meta {
     /**
      * @struct Collect
      * @brief Checks if a predicate holds for all types in a parameter pack.
-     *
      * @tparam P A unary predicate template.
      * @tparam Args The types to check.
      */
@@ -407,7 +386,6 @@ export namespace meta {
     /**
      * @struct CollectPairs
      * @brief Checks if a binary predicate holds for all corresponding pairs from two tuples.
-     *
      * @tparam P A binary predicate template.
      * @tparam Tpl1 The first tuple type.
      * @tparam Tpl2 The second tuple type.
@@ -422,16 +400,15 @@ export namespace meta {
     /**
      * @struct QueryTraits
      * @brief Analyzes query function signatures for ECS component queries.
-     * 
+     * @tparam Fn The query function type to analyze.
+     * @tparam Offset The number of parameters to skip at the beginning.
+     * @tparam Params Additional fall-through parameter types.
+     *
      * Extracts information about query parameters including:
      * - Whether the query passes EntityId as the first parameter
      * - Separation of required (non-pointer) and optional (pointer) components
      * - Handling of fall-through parameters
      * - Removal of const/volatile qualifiers for storage lookup
-     * 
-     * @tparam Fn The query function type to analyze.
-     * @tparam Offset The number of parameters to skip at the beginning.
-     * @tparam Params Additional fall-through parameter types.
      */
     template <typename Fn, usize Offset, typename... Params>
     struct QueryTraits {
@@ -461,12 +438,11 @@ export namespace meta {
 
     /**
      * @brief Checks whether type T is a valid component type.
-     * 
-     * A valid component must not be const or volatile qualified. These qualifiers
-     * are only allowed in query contexts when accessing components.
-     * 
      * @tparam T The type to validate.
      * @return bool True if T is not const and not volatile.
+     *
+     * A valid component must not be const or volatile qualified. These qualifiers
+     * are only allowed in query contexts when accessing components.
      */
     template <typename T>
     [[nodiscard]]
@@ -479,23 +455,21 @@ export namespace meta {
     /**
      * @concept ValidComponent
      * @brief Concept that enforces valid component type constraints.
-     * 
-     * Ensures that component types are not const or volatile qualified at the storage level.
-     * 
      * @tparam T The type to validate as a component.
+     *
+     * Ensures that component types are not const or volatile qualified at the storage level.
      */
     template <typename T>
     concept ValidComponent = validComponentFn<T>();
 
     /**
      * @brief Validates that fall-through parameters are convertible to query parameters.
-     * 
-     * Ensures type safety when passing additional parameters to query functions.
-     * 
      * @tparam Fn The query function type.
      * @tparam Offset The parameter offset.
      * @tparam Params The fall-through parameter types.
      * @return bool True if all parameters are convertible.
+     *
+     * Ensures type safety when passing additional parameters to query functions.
      */
     template <typename Fn, usize Offset, typename... Params>
     [[nodiscard]]
@@ -508,7 +482,6 @@ export namespace meta {
     /**
      * @concept EnsureFallthroughParameters
      * @brief Enforces that fall-through parameters match query function signature.
-     *
      * @tparam Fn The query function type.
      * @tparam Offset The parameter offset.
      * @tparam Params The fall-through parameter types.
@@ -518,7 +491,6 @@ export namespace meta {
 
     /**
      * @brief Validates that a query parameter at a given index matches expected type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index to check.
      * @tparam T The expected parameter type.
@@ -536,7 +508,6 @@ export namespace meta {
     /**
      * @concept EnsureParameter
      * @brief Enforces that a query parameter matches the expected type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index.
      * @tparam T The expected type.
@@ -547,7 +518,6 @@ export namespace meta {
 
     /**
      * @brief Validates that a query parameter is EntityId type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index to check.
      * @tparam Params Additional parameter types.
@@ -564,7 +534,6 @@ export namespace meta {
     /**
      * @concept EnsureEntityId
      * @brief Enforces that a query parameter is EntityId type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index.
      * @tparam Params Additional parameters.
@@ -574,7 +543,6 @@ export namespace meta {
 
     /**
      * @brief Validates that a query parameter is usize type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index to check.
      * @tparam Params Additional parameter types.
@@ -591,7 +559,6 @@ export namespace meta {
     /**
      * @concept EnsureSize
      * @brief Enforces that a query parameter is usize type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index.
      * @tparam Params Additional parameters.
@@ -601,7 +568,6 @@ export namespace meta {
 
     /**
      * @brief Validates that a query parameter is AlignValue type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index to check.
      * @tparam Params Additional parameter types.
@@ -618,7 +584,6 @@ export namespace meta {
     /**
      * @concept EnsureAlignment
      * @brief Enforces that a query parameter is AlignValue type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index.
      * @tparam Params Additional parameters.
@@ -628,7 +593,6 @@ export namespace meta {
 
     /**
      * @brief Validates that a query parameter is ComponentTypeInfo type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index to check.
      * @tparam Params Additional parameter types.
@@ -645,7 +609,6 @@ export namespace meta {
     /**
      * @concept EnsureComponentTypeInfo
      * @brief Enforces that a query parameter is ComponentTypeInfo type.
-     *
      * @tparam Fn The query function type.
      * @tparam Index The parameter index.
      * @tparam Params Additional parameters.

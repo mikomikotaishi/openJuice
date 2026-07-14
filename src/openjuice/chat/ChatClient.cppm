@@ -13,21 +13,19 @@ module;
 export module openjuice.chat:ChatClient;
 
 import stdx;
-import sfml;
 
 import openjuice.engine.services;
 
 using stdx::mem::SharedPointer;
 using stdx::net::BindException;
+using stdx::net::Endpoint;
+using stdx::net::Resolver;
+using stdx::net::SocketException;
+using stdx::net::TcpStream;
 using stdx::net::UnknownHostException;
 using stdx::thread::Thread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
-
-using sfml::net::Dns;
-using sfml::net::IpAddress;
-using sfml::net::Socket;
-using sfml::net::TcpSocket;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -39,9 +37,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
  */
 export class ChatClient {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
-    TcpSocket clientSocket; ///< Socket for the chat client.
+    Optional<TcpStream> clientStream; ///< The connection to the chat server, held while connected.
     Thread listenerThread; ///< Listener thread for the chat client.
     bool connected = false; ///< Connection status.
 
@@ -57,8 +54,11 @@ private:
                 break;
             }
             message += "\n";
-            if (clientSocket.send(message.c_str(), message.size()) != Socket::Status::Done) {
-                logger->error("Failed to send message");
+
+            try {
+                clientStream->send_all(as_bytes(Span<const char>(message.data(), message.size())));
+            } catch (const SocketException& e) {
+                logger->error("Failed to send message: {}", e.what());
                 connected = false;
                 break;
             }
@@ -74,22 +74,26 @@ private:
                 char buffer[1024];
                 String messageBuffer;
                 while (connected) {
-                    usize received = 0;
-                    Socket::Status status = clientSocket.receive(buffer, sizeof(buffer), received);
-                    
-                    if (status == Socket::Status::Done && received > 0) {
-                        messageBuffer.append(buffer, received);
+                    const Optional<usize> received = clientStream->try_receive(as_writable_bytes(Span<char>(buffer)));
 
-                        usize pos;
-                        while ((pos = messageBuffer.find('\n')) != String::npos) {
-                            String message = messageBuffer.substr(0, pos);
-                            System::out.print("\n[CHAT] {}\n> ", message);
-                            System::out.flush();
-                            messageBuffer.erase(0, pos + 1);
-                        }
-                    } else if (status == Socket::Status::Disconnected) {
+                    // An empty Optional is "nothing has arrived yet"; a zero count is the server closing.
+                    if (!received) {
+                        continue;
+                    }
+
+                    if (*received == 0) {
                         connected = false;
                         break;
+                    }
+
+                    messageBuffer.append(buffer, *received);
+
+                    usize pos;
+                    while ((pos = messageBuffer.find('\n')) != String::npos) {
+                        String message = messageBuffer.substr(0, pos);
+                        System::out.print("\n[CHAT] {}\n> ", message);
+                        System::out.flush();
+                        messageBuffer.erase(0, pos + 1);
                     }
                 }
             } catch (const Exception& e) {
@@ -105,42 +109,48 @@ private:
      */
     void stopListening() {
         connected = false;
-        clientSocket.disconnect();
+        if (clientStream) {
+            clientStream->close();
+        }
         listenerThread.request_stop();
     }
 public:
     /**
      * @brief Constructor to initialize a ChatClient object.
-     *
      * @param host The host to connect to.
      * @param port The port to connect to.
+     * @param loggerFactory Shared logger factory used to create this client's logger.
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
     ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory) throws (BindException, UnknownHostException):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("ChatClient")} {
+        Optional<Endpoint> serverEndpoint;
+
         try {
-            const IpAddress serverAddress = Dns::resolve(host).value_or({IpAddress::Any}).at(0);
-            if (serverAddress == IpAddress::Any) {
-                logger->error("Unknown host: {}", host);
-                throw UnknownHostException("Failed to resolve host");
-            }
-            
-            if (clientSocket.connect(serverAddress, port) != Socket::Status::Done) {
-                logger->error("Failed to connect to server at {}:{}", host, port);
-                throw BindException("Failed to connect to chat server");
-            }
-        } catch (const OutOfRangeException& e) {
-            logger->error("Failed to resolve host: {}", e.what());
+            serverEndpoint = Resolver().resolve_one(host, port);
+        } catch (const UnknownHostException& e) {
+            logger->error("Unknown host {}: {}", host, e.what());
+            throw;
+        }
+
+        if (!serverEndpoint) {
+            logger->error("Unknown host: {}", host);
             throw UnknownHostException("Failed to resolve host");
+        }
+
+        try {
+            clientStream.emplace(TcpStream::connect(*serverEndpoint));
+        } catch (const SocketException& e) {
+            logger->error("Failed to connect to server at {}:{}: {}", host, port, e.what());
+            throw BindException("Failed to connect to chat server");
         }
         
         logger->info("Connected to server at {}:{}", host, port);
         connected = true;
-        clientSocket.setBlocking(false); // Non-blocking for listener thread
+        clientStream->socket().set_blocking(false); // Non-blocking for listener thread
         startListening();
-        clientSocket.setBlocking(true); // Blocking for main chat
+        clientStream->socket().set_blocking(true); // Blocking for main chat
         startChat();
     }
     

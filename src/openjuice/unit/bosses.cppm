@@ -23,7 +23,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::bosses);
 /**
  * @class FlyingCastle
  * @brief Class representing the FlyingCastle boss enemy.
- *
  * @extends BossEnemy
  *
  * The FlyingCastle class is a final class that inherits from BossEnemy and represents a specific type of boss enemy in the game.
@@ -48,7 +47,6 @@ public:
 /**
  * @class ShifuRobot
  * @brief Class representing the ShifuRobot boss enemy.
- *
  * @extends BossEnemy
  *
  * The ShifuRobot class is a final class that inherits from BossEnemy and represents a specific type of boss enemy in the game.
@@ -73,7 +71,6 @@ public:
 /**
  * @class StoreManager
  * @brief Class representing the StoreManager boss enemy.
- *
  * @extends BossEnemy
  *
  * The StoreManager class is a final class that inherits from BossEnemy and represents a specific type of boss enemy in the game.

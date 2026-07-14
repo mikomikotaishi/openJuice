@@ -96,7 +96,6 @@ private:
     static constexpr StringView COMMENT_PREFIX = "//"; ///< A comment prefix used in the localization files.
     static constexpr StringView EOF_MARKER = "[EOF]"; ///< A marker used to denote the end of the file in the localization files.
 
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
 
     HashMap<String, String> cardNames; ///< A dictionary of all card names.
@@ -119,7 +118,6 @@ private:
 
     /**
      * @brief Parses a simple format file where values follow directly after keys.
-     *
      * @param filePath Path to the file.
      * @param targetMap The map to populate with key-value pairs.
      * @return A Error representing the parsing failure, otherwise nothing.
@@ -130,7 +128,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_NOT_FOUND, 
-                stdx::fmt::format("Failed to find file {}", filePath)
+                Ops::fmt("Failed to find file {}", filePath)
             );
         }
         InputFileStream file(filePath);
@@ -138,7 +136,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_OPEN_FAILURE,
-                stdx::fmt::format("Failed to open file {}", filePath)
+                Ops::fmt("Failed to open file {}", filePath)
             );
         }
 
@@ -156,7 +154,7 @@ private:
                 currentKey = util::trimString(line.substr(1, line.length() - 2));
                 expectingValue = true;
             } else if (expectingValue) {
-                targetMap[currentKey] = line;
+                targetMap[currentKey] = util::unescapeText(line);
                 expectingValue = false;
             }
         }
@@ -166,7 +164,6 @@ private:
 
     /**
      * @brief Parses the cards file and populates card-related maps.
-     *
      * @param filePath Path to the cards file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -180,7 +177,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_NOT_FOUND, 
-                stdx::fmt::format("Failed to find file {}", filePath)
+                Ops::fmt("Failed to find file {}", filePath)
             );
         }
         InputFileStream file(filePath);
@@ -188,7 +185,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_OPEN_FAILURE,
-                stdx::fmt::format("Failed to open file {}", filePath)
+                Ops::fmt("Failed to open file {}", filePath)
             );
         }
 
@@ -215,11 +212,11 @@ private:
                 currentDescription = "";
                 currentFlavor = "";
             } else if (line.starts_with("name=")) {
-                currentName = line.substr(5);
+                currentName = util::unescapeText(line.substr(5));
             } else if (line.starts_with("descr=")) {
-                currentDescription = line.substr(6);
+                currentDescription = util::unescapeText(line.substr(6));
             } else if (line.starts_with("flavor=")) {
-                currentFlavor = line.substr(7);
+                currentFlavor = util::unescapeText(line.substr(7));
             }
         }
 
@@ -234,7 +231,6 @@ private:
 
     /**
      * @brief Parses the card artist names file and populates the cardArtistNames map.
-     *
      * @param filePath Path to the card artist names file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -249,7 +245,6 @@ private:
 
     /**
      * @brief Parses the card artist names file and populates the commentTexts map.
-     *
      * @param filePath Path to the comments file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -265,7 +260,6 @@ private:
     /**
      * @brief Parses the card artist names file and populates the configTexts map.
      * @note It is NOT used for parsing user config files.
-     *
      * @param filePath Path to the config texts file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -280,7 +274,6 @@ private:
 
     /**
      * @brief Parses the field names file and populates the fieldNames map.
-     *
      * @param filePath Path to the field names file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -295,7 +288,6 @@ private:
 
     /**
      * @brief Parses the game messages file and populates the gameMessages map.
-     *
      * @param filePath Path to the game messages file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -310,7 +302,6 @@ private:
 
     /**
      * @brief Parses the game norma file and populates the gameNormaTexts map.
-     *
      * @param filePath Path to the game norma file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -325,7 +316,6 @@ private:
 
     /**
      * @brief Parses the game system file and populates the gameSystemTexts map.
-     *
      * @param filePath Path to the game system file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -340,7 +330,6 @@ private:
 
     /**
      * @brief Parses the menu screens file and populates the menuScreenTexts map.
-     *
      * @param filePath Path to the menu screens file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -370,7 +359,6 @@ private:
 
     /**
      * @brief Parses the units file and populates the unitNames map.
-     *
      * @param filePath Path to the units file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -384,7 +372,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_NOT_FOUND, 
-                stdx::fmt::format("Failed to find file {}", filePath)
+                Ops::fmt("Failed to find file {}", filePath)
             );
         }
         InputFileStream file(filePath);
@@ -392,7 +380,7 @@ private:
             return Unexpected<ErrorDescription<Error>>(
                 Tags::IN_PLACE,
                 Error::FILE_OPEN_FAILURE,
-                stdx::fmt::format("Failed to open file {}", filePath)
+                Ops::fmt("Failed to open file {}", filePath)
             );
         }
 
@@ -416,9 +404,9 @@ private:
                 currentName = "";
                 currentDescription = "";
             } else if (line.starts_with("name=")) {
-                currentName = line.substr(5);
+                currentName = util::unescapeText(line.substr(5));
             } else if (line.starts_with("descr=")) {
-                currentDescription = line.substr(6);
+                currentDescription = util::unescapeText(line.substr(6));
             }
         }
 
@@ -432,7 +420,6 @@ private:
 
     /**
      * @brief Parses the voice actor names file and populates the voiceActorNames map.
-     *
      * @param filePath Path to the voice actor names file.
      * @return A Error representing the parsing failure, otherwise nothing.
      */
@@ -456,21 +443,21 @@ private:
 
         bool successful = true;
 
-        Path cardsFile(stdx::fmt::format(PATH_CARDS_FILE, ConfigurationService::languageToCode(language)));
-        Path cards2File(stdx::fmt::format(PATH_CARDS_2_FILE, ConfigurationService::languageToCode(language)));
-        Path cardArtistsFile(stdx::fmt::format(PATH_CARDARTISTS_FILE, ConfigurationService::languageToCode(language)));
-        Path commentsFile(stdx::fmt::format(PATH_COMMENT_FILE, ConfigurationService::languageToCode(language)));
-        Path configFile(stdx::fmt::format(PATH_CONFIG_FILE, ConfigurationService::languageToCode(language)));
-        Path fieldNamesFile(stdx::fmt::format(PATH_FIELDNAMES_FILE, ConfigurationService::languageToCode(language)));
-        Path gameMessagesFile(stdx::fmt::format(PATH_GAME_MESSAGE_FILE, ConfigurationService::languageToCode(language)));
-        Path gameNormaFile(stdx::fmt::format(PATH_GAME_NORMA_FILE, ConfigurationService::languageToCode(language)));
-        Path gameSystemFile(stdx::fmt::format(PATH_GAME_SYSTEM_FILE, ConfigurationService::languageToCode(language)));
-        Path menuScreensFile(stdx::fmt::format(PATH_MENUSCREENS_FILE, ConfigurationService::languageToCode(language)));
-        Path resultFile(stdx::fmt::format(PATH_RESULT_FILE, ConfigurationService::languageToCode(language)));
-        Path unitsFile(stdx::fmt::format(PATH_UNITS_FILE, ConfigurationService::languageToCode(language)));
-        Path voiceActorsFile(stdx::fmt::format(PATH_VOICEACTORS_FILE, ConfigurationService::languageToCode(language)));
+        Path cardsFile(Ops::fmt(PATH_CARDS_FILE, ConfigurationService::languageToCode(language)));
+        Path cards2File(Ops::fmt(PATH_CARDS_2_FILE, ConfigurationService::languageToCode(language)));
+        Path cardArtistsFile(Ops::fmt(PATH_CARDARTISTS_FILE, ConfigurationService::languageToCode(language)));
+        Path commentsFile(Ops::fmt(PATH_COMMENT_FILE, ConfigurationService::languageToCode(language)));
+        Path configFile(Ops::fmt(PATH_CONFIG_FILE, ConfigurationService::languageToCode(language)));
+        Path fieldNamesFile(Ops::fmt(PATH_FIELDNAMES_FILE, ConfigurationService::languageToCode(language)));
+        Path gameMessagesFile(Ops::fmt(PATH_GAME_MESSAGE_FILE, ConfigurationService::languageToCode(language)));
+        Path gameNormaFile(Ops::fmt(PATH_GAME_NORMA_FILE, ConfigurationService::languageToCode(language)));
+        Path gameSystemFile(Ops::fmt(PATH_GAME_SYSTEM_FILE, ConfigurationService::languageToCode(language)));
+        Path menuScreensFile(Ops::fmt(PATH_MENUSCREENS_FILE, ConfigurationService::languageToCode(language)));
+        Path resultFile(Ops::fmt(PATH_RESULT_FILE, ConfigurationService::languageToCode(language)));
+        Path unitsFile(Ops::fmt(PATH_UNITS_FILE, ConfigurationService::languageToCode(language)));
+        Path voiceActorsFile(Ops::fmt(PATH_VOICEACTORS_FILE, ConfigurationService::languageToCode(language)));
 
-        Vector<Expected<void, ErrorDescription<Error>>> results{
+        Vector<Expected<void, ErrorDescription<Error>>> results = {
             parseCardsFile(cardsFile),
             parseCardsFile(cards2File),
             parseCardArtistNamesFile(cardArtistsFile),
@@ -534,12 +521,10 @@ private:
 public:
     /**
      * @brief Constructs a new LocalizationService object.
-     *
      * @param loggerFactory The injected logger factory.
      * @param config The injected configuration service, used to determine the game language.
      */
     explicit LocalizationService(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ConfigurationService> config):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("LocalizationService")},
         language{config->getLanguage()} {
         if (init()) {
@@ -558,7 +543,6 @@ public:
 
     /**
      * @brief Gets a card name by key.
-     *
      * @param key The lookup key.
      * @return The name, otherwise the error representing the key failure.
      */
@@ -577,7 +561,6 @@ public:
 
     /**
      * @brief Gets a card description by key.
-     *
      * @param key The lookup key.
      * @return The description, otherwise the error representing the key failure.
      */
@@ -596,7 +579,6 @@ public:
 
     /**
      * @brief Gets a card flavour text by key.
-     *
      * @param key The lookup key.
      * @return The flavour text, otherwise the error representing the key failure.
      */
@@ -615,7 +597,6 @@ public:
 
     /**
      * @brief Gets a card artist name by key.
-     *
      * @param key The lookup key.
      * @return The card artist name, otherwise the error representing the key failure.
      */
@@ -634,7 +615,6 @@ public:
 
     /**
      * @brief Gets a comment text by key.
-     *
      * @param key The lookup key.
      * @return The comment text, otherwise the error representing the key failure.
      */
@@ -653,7 +633,6 @@ public:
 
     /**
      * @brief Gets a config text by key.
-     *
      * @param key The lookup key.
      * @return The config text, otherwise the error representing the key failure.
      */
@@ -672,7 +651,6 @@ public:
 
     /**
      * @brief Gets a field name by key.
-     *
      * @param key The lookup key.
      * @return The field name, otherwise the error representing the key failure.
      */
@@ -691,7 +669,6 @@ public:
 
     /**
      * @brief Gets a game message by key.
-     *
      * @param key The lookup key.
      * @return The game message, otherwise the error representing the key failure.
      */
@@ -710,7 +687,6 @@ public:
 
     /**
      * @brief Gets a norma text by key.
-     *
      * @param key The lookup key.
      * @return The norma text, otherwise the error representing the key failure.
      */
@@ -729,7 +705,6 @@ public:
 
     /**
      * @brief Gets a game system text by key.
-     *
      * @param key The lookup key.
      * @return The game system text, otherwise the error representing the key failure.
      */
@@ -748,7 +723,6 @@ public:
 
     /**
      * @brief Gets a menu screen text by key.
-     *
      * @param key The lookup key.
      * @return The menu screen text, otherwise the error representing the key failure.
      */
@@ -767,7 +741,6 @@ public:
 
     /**
      * @brief Gets a result text by key.
-     *
      * @param key The lookup key.
      * @return The result text, otherwise the error representing the key failure.
      */
@@ -786,7 +759,6 @@ public:
 
     /**
      * @brief Gets a unit name by key.
-     *
      * @param key The lookup key.
      * @return The unit name, otherwise the error representing the key failure.
      */
@@ -805,7 +777,6 @@ public:
 
     /**
      * @brief Gets a unit description by key.
-     *
      * @param key The lookup key.
      * @return The unit description, otherwise the error representing the key failure.
      */
@@ -824,7 +795,6 @@ public:
 
     /**
      * @brief Gets a voice actor name by key.
-     *
      * @param key The lookup key.
      * @return The voice actor name, otherwise the error representing the key failure.
      */
@@ -875,4 +845,4 @@ struct Formatter<LocalizationService::Error> {
     }
 };
 
-SPECIALISE_FORMATTER(LocalizationService::Error);
+SPECIALIZE_FORMATTER(LocalizationService::Error);

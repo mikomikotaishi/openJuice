@@ -81,4 +81,4 @@ struct Formatter<Language> {
     }
 };
 
-SPECIALISE_FORMATTER(Language);
+SPECIALIZE_FORMATTER(Language);

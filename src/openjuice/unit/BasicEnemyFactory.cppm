@@ -16,6 +16,7 @@ import stdx;
 
 import openjuice.engine.services;
 import openjuice.engine.unit;
+import openjuice.engine.util;
 import openjuice.unit.enemies;
 
 using stdx::mem::Pointers;
@@ -37,13 +38,31 @@ public:
     BasicEnemyFactory() = delete("BasicEnemyFactory is a utility class and cannot be instantiated.");
 
     /**
+     * @brief Get the ID of a BasicEnemy from its name.
+     * @param name Name of the BasicEnemy
+     * @return Optional containing the ID of the BasicEnemy, or nullopt if not found
+     */
+    [[nodiscard]]
+    static constexpr Optional<u8> idOf(StringView name) noexcept {
+        switch (engine::util::hashString(name)) {
+            case "Chicken"_hash:
+                return Chicken::ID;
+            case "Robo Ball"_hash:
+                return RoboBall::ID;
+            case "Seagull"_hash:
+                return Seagull::ID;
+            default:
+                return nullopt;
+        }
+    }
+
+    /**
      * @brief Create a BasicEnemy object with the given ID.
-     *
      * @param id ID of the BasicEnemy to create
      * @return Shared pointer to the created BasicEnemy object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<BasicEnemy>> create(u8 id) noexcept {
+    static constexpr Optional<SharedPointer<BasicEnemy>> create(u8 id) noexcept {
         switch (id) {
             case 0:
                 return nullptr;

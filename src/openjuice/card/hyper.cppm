@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper);
 /**
  * @class ProtagonistsPrivilege
  * @brief Class representing the ProtagonistsPrivilege card.
- *
  * @extends BoostCard
  * @extends HyperCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class X16BigRocket
  * @brief Class representing the X16BigRocket card.
- *
  * @extends BoostCard
  * @extends HyperCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class HyperMode
  * @brief Class representing the HyperMode card.
- *
  * @extends BattleCard
  * @extends HyperCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class Accelerator
  * @brief Class representing the Accelerator card.
- *
  * @extends BoostCard
  * @extends HyperCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class PresentForYou
  * @brief Class representing the PresentForYou card.
- *
  * @extends EventCard
  * @extends HyperCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class AirStrike
  * @brief Class representing the AirStrike card.
- *
  * @extends EventCard
  * @extends HyperCard
  *
@@ -242,7 +236,6 @@ public:
 /**
  * @class BindingChains
  * @brief Class representing the BindingChains card.
- *
  * @extends EventCard
  * @extends HyperCard
  *
@@ -278,7 +271,6 @@ public:
 /**
  * @class Ubiquitous
  * @brief Class representing the Ubiquitous card.
- *
  * @extends BoostCard
  * @extends HyperCard
  *
@@ -314,7 +306,6 @@ public:
 /**
  * @class MagicalInferno
  * @brief Class representing the MagicalInferno card.
- *
  * @extends EventCard
  * @extends HyperCard
  *
@@ -350,7 +341,6 @@ public:
 /**
  * @class ChristmasInferno
  * @brief Class representing the ChristmasInferno card.
- *
  * @extends EventCard
  * @extends HyperCard
  *
@@ -386,7 +376,6 @@ public:
 /**
  * @class BlueCrowTheSecond
  * @brief Class representing the BlueCrowTheSecond card.
- *
  * @extends BattleCard
  * @extends HyperCard
  *
@@ -422,7 +411,6 @@ public:
 /**
  * @class ExtraordinarySpecs
  * @brief Class representing the ExtraordinarySpecs card.
- *
  * @extends BoostCard
  * @extends HyperCard
  *
@@ -458,7 +446,6 @@ public:
 /**
  * @class MagicalMassacre
  * @brief Class representing the MagicalMassacre card.
- *
  * @extends EventCard
  * @extends HyperCard
  *
@@ -494,7 +481,6 @@ public:
 /**
  * @class Gamble
  * @brief Class representing the Gamble card.
- *
  * @extends EventCard
  * @extends HyperCard
  *

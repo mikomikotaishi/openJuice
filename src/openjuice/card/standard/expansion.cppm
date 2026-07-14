@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::expansion);
 /**
  * @class LongDistanceShot
  * @brief Class representing the LongDistanceShot card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class StiffCrystal
  * @brief Class representing the StiffCrystal card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class Extend
  * @brief Class representing the Extend card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class PrincesssPrivilege
  * @brief Class representing the PrincesssPrivilege card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class BigMagnum
  * @brief Class representing the BigMagnum card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class Shield
  * @brief Class representing the Shield card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -242,7 +236,6 @@ public:
 /**
  * @class ReverseAttributeField
  * @brief Class representing the ReverseAttributeField card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -278,7 +271,6 @@ public:
 /**
  * @class PiggyBank
  * @brief Class representing the PiggyBank card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -314,7 +306,6 @@ public:
 /**
  * @class Invasion
  * @brief Class representing the Invasion card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -350,7 +341,6 @@ public:
 /**
  * @class GoAway
  * @brief Class representing the GoAway card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -386,7 +376,6 @@ public:
 /**
  * @class Heat300
  * @brief Class representing the Heat300 card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -422,7 +411,6 @@ public:
 /**
  * @class TragedyInTheDeadOfNight
  * @brief Class representing the TragedyInTheDeadOfNight card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -458,7 +446,6 @@ public:
 /**
  * @class Exchange
  * @brief Class representing the Exchange card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -494,7 +481,6 @@ public:
 /**
  * @class Flamethrower
  * @brief Class representing the Flamethrower card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -530,7 +516,6 @@ public:
 /**
  * @class ForTheFutureOfTheToyStore
  * @brief Class representing the ForTheFutureOfTheToyStore card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -566,7 +551,6 @@ public:
 /**
  * @class CloudOfSeagulls
  * @brief Class representing the CloudOfSeagulls card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -602,7 +586,6 @@ public:
 /**
  * @class WeAreWaruda
  * @brief Class representing the WeAreWaruda card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -638,7 +621,6 @@ public:
 /**
  * @class Dinner
  * @brief Class representing the Dinner card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -674,7 +656,6 @@ public:
 /**
  * @class SuperAllOutMode
  * @brief Class representing the SuperAllOutMode card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -712,7 +693,6 @@ public:
 /**
  * @class ForcedRevival
  * @brief Class representing the ForcedRevival card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -748,7 +728,6 @@ public:
 /**
  * @class OhMyFriend
  * @brief Class representing the OhMyFriend card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -783,7 +762,6 @@ public:
 /**
  * @class SealedGuardian
  * @brief Class representing the SealedGuardian card.
- *
  * @extends EventCard
  * @extends StandardCard
  *

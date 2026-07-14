@@ -23,12 +23,13 @@ import ftxui;
 
 using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
+using stdx::util::logging::Logger;
+using stdx::util::logging::LoggerFactory;
 
 namespace sys = stdx::sys;
 namespace util = stdx::util;
 
 using openjuice::engine::game::Game;
-using openjuice::engine::services::ProfileManager;
 using openjuice::engine::services::LocalizationService;
 using openjuice::engine::util::UrlOpenError;
 using openjuice::ui::tui::ScreenType;
@@ -41,36 +42,52 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui::tui::screens);
 /**
  * @class MainMenuScreen
  * @brief Main menu screen implementation
- *
  * @extends TuiScreen
  */
 export class MainMenuScreen final: public TuiScreen {
 private:
+    SharedPointer<Logger> logger; ///< The logger instance.
+
     Component menu; ///< The menu UI component
     Vector<String> menuOptions = {
-        getLocalizationService().getMenuScreenText("PLAYMENU_FREEBATTLE")
-            .value_or("Free battle"), // Multiplayer
-        getLocalizationService().getMenuScreenText("PLAYMENU_CAMPAIGN")
-            .value_or("Campaign"), // Campaign
-        getLocalizationService().getMenuScreenText("PLAYMENU_SHOP")
-            .value_or("Shop"), // Shop
-        getLocalizationService().getMenuScreenText("PLAYMENU_PROFILE")
-            .value_or("Profile"), // Profile
-        getLocalizationService().getMenuScreenText("PLAYMENU_CODEX")
-            .value_or("OJDex"), // OJDex
-        getLocalizationService().getMenuScreenText("PLAYMENU_MANUAL")
-            .value_or("Manual"), // Guide
-        getLocalizationService().getMenuScreenText("PLAYMENU_WIKI")
-            .value_or("Wiki"), // Wiki
-        getLocalizationService().getMenuScreenText("MENU_BUTTON_GAME_CONFIG")
-            .value_or("Config"), // Config
+        menuLabel("PLAYMENU_FREEBATTLE", "Free battle"), // Multiplayer
+        menuLabel("PLAYMENU_CAMPAIGN", "Campaign"), // Campaign
+        menuLabel("PLAYMENU_SHOP", "Shop"), // Shop
+        menuLabel("PLAYMENU_PROFILE", "Profile"), // Profile
+        menuLabel("PLAYMENU_CODEX", "OJDex"), // OJDex
+        menuLabel("PLAYMENU_MANUAL", "Manual"), // Guide
+        menuLabel("PLAYMENU_WIKI", "Wiki"), // Wiki
+        menuLabel("MENU_BUTTON_GAME_CONFIG", "Config"), // Config
         "Credits", // Credits
-        getLocalizationService().getMenuScreenText("PLAYMENU_EXIT")
-            .value_or("Exit") // Exit to title
+        menuLabel("PLAYMENU_EXIT", "Exit") // Exit to title
     }; ///< The list of menu options
 
     i32 selectedOption = 0; ///< The current option selected
     bool initialized = false; ///< Whether the screen has been initialized
+
+    /**
+     * @brief Opens the Orange Juice wiki in the user's browser.
+     *
+     * openUrl is a free function with no logger of its own, so the failure is reported here.
+     */
+    void openWiki() const noexcept {
+        Expected<void, UrlOpenError> result = engine::util::openUrl(LocalizationService::ORANGE_JUICE_WIKI_URL);
+        if (result) {
+            return;
+        }
+
+        switch (result.error()) {
+            case UrlOpenError::UNSUPPORTED_PLATFORM:
+                logger->error("Cannot open the wiki: opening URLs is unsupported on this platform");
+                break;
+            case UrlOpenError::SYSTEM_CALL_FAILED:
+                logger->error("Cannot open the wiki: the browser launch command failed");
+                break;
+            case UrlOpenError::INVALID_URL:
+                logger->error("Cannot open the wiki: invalid URL '{}'", LocalizationService::ORANGE_JUICE_WIKI_URL);
+                break;
+        }
+    }
 
     /**
      * @brief Creates the screen component
@@ -86,43 +103,34 @@ private:
             if (event.is_mouse() && event.mouse().button == Mouse::Left && event.mouse().motion == Mouse::Pressed) {
                 switch (selectedOption) {
                     case 0: // Multiplayer
-                        screenSwitchCallback(ScreenType::MULTIPLAYER_LOBBY_SELECT);
+                        switchScreen(ScreenType::MULTIPLAYER_LOBBY_SELECT);
                         return true;
                     case 1: // Singleplayer
-                        screenSwitchCallback(ScreenType::SINGLEPLAYER_LOBBY_SELECT);
+                        switchScreen(ScreenType::SINGLEPLAYER_LOBBY_SELECT);
                         return true;
                     case 2: // Shop
-                        screenSwitchCallback(ScreenType::SHOP);
+                        switchScreen(ScreenType::SHOP);
                         return true;
                     case 3: // Profile
-                        screenSwitchCallback(ScreenType::PROFILE);
+                        switchScreen(ScreenType::PROFILE);
                         return true;
                     case 4: // OJDex
-                        screenSwitchCallback(ScreenType::OJDEX);
+                        switchScreen(ScreenType::OJDEX);
                         return true;
                     case 5: // Guide
-                        screenSwitchCallback(ScreenType::GUIDE);
+                        switchScreen(ScreenType::GUIDE);
                         return true;
                     case 6: // Wiki
-                        if (Expected<void, UrlOpenError> result = engine::util::openUrl(LocalizationService::ORANGE_JUICE_WIKI_URL); !result) {
-                            switch (result.error()) {
-                                case UrlOpenError::UNSUPPORTED_PLATFORM:
-                                    break;
-                                case UrlOpenError::SYSTEM_CALL_FAILED:
-                                    break;
-                                case UrlOpenError::INVALID_URL:
-                                    break;
-                            }
-                        }
+                        openWiki();
                         return true;
                     case 7: // Config
-                        screenSwitchCallback(ScreenType::CONFIG);
+                        switchScreen(ScreenType::CONFIG);
                         return true;
                     case 8: // Credits
-                        screenSwitchCallback(ScreenType::CREDITS);
+                        switchScreen(ScreenType::CREDITS);
                         return true;
                     case 9: // Exit to title
-                        screenSwitchCallback(ScreenType::TITLE);
+                        switchScreen(ScreenType::TITLE);
                         return true;
                     default:
                         Ops::unreachable();
@@ -130,44 +138,34 @@ private:
             } else if (event == Event::Return) {
                 switch (selectedOption) {
                     case 0: // Multiplayer
-                        screenSwitchCallback(ScreenType::MULTIPLAYER_LOBBY_SELECT);
+                        switchScreen(ScreenType::MULTIPLAYER_LOBBY_SELECT);
                         return true;
                     case 1: // Singleplayer
-                        screenSwitchCallback(ScreenType::SINGLEPLAYER_LOBBY_SELECT);
+                        switchScreen(ScreenType::SINGLEPLAYER_LOBBY_SELECT);
                         return true;
                     case 2: // Shop
-                        screenSwitchCallback(ScreenType::SHOP);
+                        switchScreen(ScreenType::SHOP);
                         return true;
                     case 3: // Profile
-                        screenSwitchCallback(ScreenType::PROFILE);
+                        switchScreen(ScreenType::PROFILE);
                         return true;
                     case 4: // OJDex
-                        screenSwitchCallback(ScreenType::OJDEX);
+                        switchScreen(ScreenType::OJDEX);
                         return true;
                     case 5: // Guide
-                        screenSwitchCallback(ScreenType::GUIDE);
+                        switchScreen(ScreenType::GUIDE);
                         return true;
                     case 6: // Wiki
-                        if (Expected<void, UrlOpenError> result = engine::util::openUrl(LocalizationService::ORANGE_JUICE_WIKI_URL); !result) {
-                            switch (result.error()) {
-                                case UrlOpenError::UNSUPPORTED_PLATFORM:
-                                    break;
-                                case UrlOpenError::SYSTEM_CALL_FAILED:
-                                    break;
-                                case UrlOpenError::INVALID_URL:
-                                    break;
-                            }
-                            Ops::unreachable();
-                        }
+                        openWiki();
                         return true;
                     case 7: // Config
-                        screenSwitchCallback(ScreenType::CONFIG);
+                        switchScreen(ScreenType::CONFIG);
                         return true;
                     case 8: // Credits
-                        screenSwitchCallback(ScreenType::CREDITS);
+                        switchScreen(ScreenType::CREDITS);
                         return true;
                     case 9: // Exit to title
-                        screenSwitchCallback(ScreenType::TITLE);
+                        switchScreen(ScreenType::TITLE);
                         return true;
                     default:
                         Ops::unreachable();
@@ -193,12 +191,14 @@ private:
 public:
     /**
      * @brief Constructor for the MainMenuScreen class
-     *
      * @param game Shared pointer to the game
-     * @param callback Function to call when switching screens
+     * @param host The interface running this screen
+     * @param localization Shared pointer to the localization service
+     * @param loggerFactory Shared logger factory used to create this screen's logger
      */
-    MainMenuScreen(SharedPointer<Game> game, Function<void(ScreenType)> callback, SharedPointer<LocalizationService> localization):
-        TuiScreen(game, callback, localization) {
+    MainMenuScreen(SharedPointer<Game> game, ScreenHost& host, SharedPointer<LocalizationService> localization, SharedPointer<LoggerFactory> loggerFactory):
+        TuiScreen(game, host, localization),
+        logger{loggerFactory->of("MainMenuScreen")} {
         createComponent();
     }
 

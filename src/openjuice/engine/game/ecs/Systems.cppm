@@ -39,7 +39,6 @@ export namespace systems {
     /**
      * @class DamageSystem
      * @brief System for Damage
-     * 
      * @implements ISystem
      */
     class [[deprecated(SYSTEMS_DEPRECATION_MESSAGE)]] DamageSystem: public ISystem {
@@ -48,10 +47,8 @@ export namespace systems {
 
         /**
          * @brief 
-         * 
          * @param deadEntity 
          * @param killer 
-         *
          * @throws NullPointerException if there is an error obtaining a component
          */
         void handleDeath(EntityId deadEntity, EntityId killer) throws (NullPointerException) {
@@ -88,12 +85,10 @@ export namespace systems {
     
         /**
          * @brief 
-         * 
          * @param target 
          * @param amount 
          * @param source 
          * @return true if amount is greater or equal to the the target health's current health, false otherwise.
-         *
          * @throws NullPointerException if there is an error obtaining a component
          */
         [[nodiscard]] 
@@ -126,7 +121,6 @@ export namespace systems {
     /**
      * @class BattleSystem
      * @brief System for Battle
-     *
      * @implements ISystem 
      */
     class [[deprecated(SYSTEMS_DEPRECATION_MESSAGE)]] BattleSystem: public ISystem {
@@ -147,7 +141,6 @@ export namespace systems {
 
         /**
          * @brief Set the Damage System object
-         * 
          * @param system 
          */
         void setDamageSystem(SharedPointer<DamageSystem> system) noexcept {
@@ -156,11 +149,9 @@ export namespace systems {
 
         /**
          * @brief 
-         * 
          * @param attacker The attacker entity ID
          * @param defender The defender entity ID
          * @return The damage dealt to the defender
-         *
          * @throws NullPointerException if there is an error obtaining a component
          */
         [[nodiscard]]
@@ -204,11 +195,9 @@ export namespace systems {
 
         /**
          * @brief 
-         * 
          * @param attacker 
          * @param defender 
          * @return true if applyDamage returns true, false otherwise
-         *
          * @throws NullPointerException if the damage system is not initialized
          */
         [[nodiscard]] 
@@ -239,7 +228,6 @@ export namespace systems {
 
         /**
          * @brief 
-         * 
          * @param deltaTime 
          */
         void update(f32 deltaTime) override {
@@ -250,7 +238,6 @@ export namespace systems {
     /**
      * @class BattleManagerSystem
      * @brief System for managing battle flow and user interaction
-     * 
      * @implements ISystem
      */
     class [[deprecated(SYSTEMS_DEPRECATION_MESSAGE)]] BattleManagerSystem: public ISystem {
@@ -282,7 +269,6 @@ export namespace systems {
 
         /**
          * @brief Start a battle between two entities
-         * 
          * @param attacker 
          * @param defender 
          * @return true if a battle completes, false otherwise
@@ -302,7 +288,6 @@ export namespace systems {
 
         /**
          * @brief Set the Defense Choice object
-         * 
          * @param choice 
          */
         void setDefenseChoice(DefenseChoice choice) const {
@@ -318,7 +303,6 @@ export namespace systems {
 
         /**
          * @brief Play a battle card for an entity
-         * 
          * @param entity 
          * @param card 
          */
@@ -337,7 +321,6 @@ export namespace systems {
 
         /**
          * @brief Execute the current battle
-         *
          * @throws NullPointerException 
          */
         void executeBattle() throws (NullPointerException) {
@@ -353,7 +336,6 @@ export namespace systems {
 
         /**
          * @brief 
-         * 
          * @param deltaTime 
          */
         void update(f32 deltaTime) override {

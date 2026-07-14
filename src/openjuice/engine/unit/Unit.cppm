@@ -40,7 +40,6 @@ protected:
 
     /**
      * @brief Constructor to initialize a Unit object.
-     *
      * @param id The ID of the unit.
      * @param health The health of the unit.
      * @param attack The attack value of the unit.

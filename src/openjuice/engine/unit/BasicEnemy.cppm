@@ -21,7 +21,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 /**
  * @interface BasicEnemy
  * @brief Interface representing a basic enemy unit.
- *
  * @extends Enemy
  * 
  * The BasicEnemy interface extends the Enemy interface and represents a basic enemy unit with specific attributes.
@@ -30,7 +29,6 @@ export class BasicEnemy: public Enemy {
 public:
     /**
      * @brief Constructor to initialize a BasicEnemy object.
-     *
      * @param id The ID of the enemy.
      * @param health The health of the enemy.
      * @param attack The attack value of the enemy.

@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::acceleration);
 /**
  * @class CompletionReward
  * @brief Class representing the CompletionReward card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class GentlemansBattle
  * @brief Class representing the GentlemansBattle card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class AccelHyper
  * @brief Class representing the AccelHyper card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class Extension
  * @brief Class representing the Extension card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class QuickRestoration
  * @brief Class representing the QuickRestoration card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class BrutalPrank
  * @brief Class representing the BrutalPrank card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -242,7 +236,6 @@ public:
 /**
  * @class PresentThief
  * @brief Class representing the PresentThief card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -278,7 +271,6 @@ public:
 /**
  * @class PlayOfTheGods
  * @brief Class representing the PlayOfTheGods card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -314,7 +306,6 @@ public:
 /**
  * @class ScrambledEve
  * @brief Class representing the ScrambledEve card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -350,7 +341,6 @@ public:
 /**
  * @class StarBlastingLight
  * @brief Class representing the StarBlastingLight card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -386,7 +376,6 @@ public:
 /**
  * @class UnluckyCharm
  * @brief Class representing the UnluckyCharm card.
- *
  * @extends GiftCard
  * @extends StandardCard
  *
@@ -422,7 +411,6 @@ public:
 /**
  * @class WindyEnchantment
  * @brief Class representing the WindyEnchantment card.
- *
  * @extends GiftCard
  * @extends StandardCard
  *

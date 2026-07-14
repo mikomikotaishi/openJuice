@@ -76,7 +76,6 @@ public:
     };
 private:
     friend class Formatter<Phase>;
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
 
     // Game board and ECS components (ordered by size for optimal padding)
@@ -126,12 +125,10 @@ private:
 public:
     /**
      * @brief Constructor for the Game class.
-     *
      * @param loggerFactory The injected logger factory.
      * @param config The injected configuration service, used to determine the frame delta-time.
      */
     explicit Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ConfigurationService> config):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("Game")},
         playerEntities{{}},
         registry{Pointers::unique<Registry>(1000)},
@@ -202,10 +199,8 @@ public:
 
     /**
      * @brief Sets the character for a player.
-     *
      * @param num The player number.
      * @param id The character ID.
-     *
      * @throws OutOfRangeException if playerNumber is out of range.
      */
     void setPlayerCharacter(u8 num, u8 id) throws (OutOfRangeException) {
@@ -222,7 +217,7 @@ public:
         if (Optional<SharedPointer<Playable>> ch = CharacterFactory::create(id); ch.has_value()) {
             character = *ch;
         } else {
-            throw OutOfRangeException(stdx::fmt::format("Error: {} is not a valid character ID!", id));
+            throw OutOfRangeException(Ops::fmt("Error: {} is not a valid character ID!", id));
         }
         
         registry->emplace<UnitComponent>(player, character);
@@ -239,10 +234,8 @@ public:
 
     /**
      * @brief Get the Player Entity object.
-     *
      * @param num Player index.
      * @return EntityId ID of the player entity.
-     * 
      * @throws OutOfRangeException if playerNumber is out of range.
      */
     [[nodiscard]]
@@ -269,7 +262,6 @@ public:
 
     /**
      * @brief Get current player.
-     *
      * @return SharedPointer<Player> Current player object.
      * @throws OutOfRangeException if currentPlayerIndex is out of range.
      */
@@ -284,7 +276,6 @@ public:
 
     /**
      * @brief Get player by index
-     *
      * @param index Player index
      * @return Player object at index
      * @throws OutOfRangeException if index is out of range
@@ -311,7 +302,6 @@ public:
 
     /**
      * @brief Start a battle between two entities
-     *
      * @param attacker The attacking entity
      * @param defender The defending entity
      * @return True if battle started successfully
@@ -352,7 +342,6 @@ public:
 
     /**
      * @brief Check if battle is in progress
-     *
      * @return True if battle is ongoing
      */
     [[nodiscard]]
@@ -362,7 +351,6 @@ public:
 
     /**
      * @brief Get current battle attacker
-     *
      * @return Entity ID of attacker
      */
     [[nodiscard]]
@@ -372,7 +360,6 @@ public:
 
     /**
      * @brief Get current battle defender
-     *
      * @return Entity ID of defender
      */
     [[nodiscard]]
@@ -382,7 +369,6 @@ public:
 
     /**
      * @brief Set status message
-     *
      * @param message New status message
      */
     void setStatusMessage(const String& message) noexcept {
@@ -391,7 +377,6 @@ public:
 
     /**
      * @brief Get status message
-     *
      * @return Current status message
      */
     [[nodiscard]]
@@ -401,7 +386,6 @@ public:
 
     /**
      * @brief Get game board
-     *
      * @return Reference to game board
      */
     [[nodiscard]]
@@ -411,7 +395,6 @@ public:
 
     /**
      * @brief Add a mob entity to the game
-     *
      * @param id The mob's entity ID
      */
     void addMob(EntityId id) {
@@ -420,7 +403,6 @@ public:
 
     /**
      * @brief Get all mob entities
-     *
      * @return Vector of mob entity IDs
      */
     [[nodiscard]]
@@ -430,7 +412,6 @@ public:
 
     /**
      * @brief Get the ECS registry
-     *
      * @return Reference to the registry
      */
     [[nodiscard]]
@@ -440,12 +421,11 @@ public:
 
     /**
      * @brief Convert game state to string representation
-     *
      * @return String representation of game state
      */
     [[nodiscard]]
     String toString() const {
-        String result = stdx::fmt::format(
+        String result = Ops::fmt(
             "Chapter: {} | Current Player: {} | Phase: {} | Battle: {}",
             chapterNumber,
             currentPlayerIndex,
@@ -454,7 +434,7 @@ public:
         );
 
         if (!statusMessage.empty()) {
-            result = stdx::fmt::format("{} | {}", result, statusMessage);
+            result = Ops::fmt("{} | {}", result, statusMessage);
         }
 
         return result;
@@ -476,4 +456,4 @@ struct Formatter<Game::Phase> {
     }
 };
 
-SPECIALISE_FORMATTER(Game::Phase);
+SPECIALIZE_FORMATTER(Game::Phase);

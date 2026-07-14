@@ -21,7 +21,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 /**
  * @class MainCharacter
  * @brief Abstract class representing a character unit.
- * 
  * @extends Unit
  *
  * The MainCharacter abstract class extends the Playable abstract class and represents a main character unit with a specific recovery attribute.
@@ -47,7 +46,6 @@ private:
 public:
     /**
      * @brief Constructor to initialize a MainCharacter object.
-     *
      * @param id The ID of the main character.
      * @param difficulty The difficulty of the main character.
      * @param health The health of the main character.

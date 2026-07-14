@@ -27,7 +27,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::legendary);
 /**
  * @class LegendaryStarsMushroom
  * @brief Class representing the LegendaryStarsMushroom card.
- *
  * @extends LegendaryMushroomCard
  *
  * The LegendaryStarsMushroom class extends LegendaryMushroomCard to represent the card 
@@ -63,7 +62,6 @@ public:
 /**
  * @class LegendaryWinsMushroom
  * @brief Class representing the LegendaryWinsMushroom card.
- *
  * @extends LegendaryMushroomCard
  *
  * The LegendaryWinsMushroom class extends LegendaryMushroomCard to represent the card 

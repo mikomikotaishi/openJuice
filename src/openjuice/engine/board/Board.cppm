@@ -14,6 +14,7 @@ export module openjuice.engine.board:Board;
 
 import stdx;
 
+import :FieldEvent;
 import :Panel;
 
 import openjuice.engine.util;
@@ -21,6 +22,7 @@ import openjuice.engine.util;
 using stdx::collections::Queue;
 using stdx::collections::HashMap;
 using stdx::collections::Vector;
+using stdx::fs::Path;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
@@ -54,75 +56,109 @@ public:
     class [[nodiscard]] Info final {
     public:
         static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
+        static constexpr u8 MAX_FIELD_EVENTS = 3; ///< Maximum number of field events per board.
         using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
+        using FieldEvents = Array<FieldEvent::Data, MAX_FIELD_EVENTS>;
     private:
+        const Path path; ///< The path to the board file.
         const String name; ///< The name of the board.
         const HomePanels homePanels; ///< The home panels for each player.
+        const FieldEvents fieldEvents; ///< The field events for the board.
         const u32 id; ///< The ID of the board. 0 denotes an error.
+        const u8 bossId; ///< The ID of the boss associated with the board.
         const u8 width; ///< The width of the board.
         const u8 height; ///< The height of the board.
     public:
         /**
-        * @brief Get the name of the board
-        * @return The board's name
-        */
+         * @brief Get the path to the board file
+         * @return The board file path
+         */
+        [[nodiscard]]
+        constexpr Path getPath() const noexcept {
+            return path;
+        }
+    
+        /**
+         * @brief Get the name of the board
+         * @return The board's name
+         */
         [[nodiscard]]
         constexpr String getName() const noexcept {
             return name;
         }
 
         /**
-        * @brief Get the ID of the board
-        * @return The board's ID
-        */
-        [[nodiscard]]
-        constexpr u32 getId() const noexcept {
-            return id;
-        }
-
-        /**
-        * @brief Get the width of the board
-        * @return The board's width
-        */
-        [[nodiscard]]
-        constexpr u8 getWidth() const noexcept {
-            return width;
-        }
-
-        /**
-        * @brief Get the height of the board
-        * @return The board's height
-        */
-        [[nodiscard]]
-        constexpr u8 getHeight() const noexcept {
-            return height;
-        }
-
-        /**
-        * @brief Get the home panels of the board
-        * @return The home panels of the board (array of 4 coordinates)
-        */
+         * @brief Get the home panels of the board
+         * @return The home panels of the board (array of 4 coordinates)
+         */
         [[nodiscard]]
         constexpr HomePanels getHomePanels() const noexcept {
             return homePanels;
         }
 
         /**
-        * @brief Constructor with parameters
-        * 
-        * @param id The board ID
-        * @param name The board name
-        * @param width The board width
-        * @param height The board height
-        * @param panels The home panels for each player
-        */
-        constexpr Info(u32 id, StringView name, u8 width, u8 height, const HomePanels& panels):
-            name{String(name)}, homePanels{panels}, id{id},
-            width{width}, height{height} {}
+         * @brief Get the field events of the board
+         * @return The field events of the board (array of 3 FieldEvent::Data)
+         */
+        [[nodiscard]]
+        constexpr FieldEvents getFieldEvents() const noexcept {
+            return fieldEvents;
+        }
 
         /**
-        * @brief Destructor
-        */
+         * @brief Get the ID of the board
+         * @return The board's ID
+         */
+        [[nodiscard]]
+        constexpr u32 getId() const noexcept {
+            return id;
+        }
+
+        /**
+         * @brief Get the ID of the boss associated with the board
+         * @return The boss's ID
+         */
+        [[nodiscard]]
+        constexpr u8 getBossId() const noexcept {
+            return bossId;
+        }
+
+        /**
+         * @brief Get the width of the board
+         * @return The board's width
+         */
+        [[nodiscard]]
+        constexpr u8 getWidth() const noexcept {
+            return width;
+        }
+
+        /**
+         * @brief Get the height of the board
+         * @return The board's height
+         */
+        [[nodiscard]]
+        constexpr u8 getHeight() const noexcept {
+            return height;
+        }
+
+        /**
+         * @brief Constructor with parameters
+         * @param id The board ID
+         * @param name The board name
+         * @param path The path to the board file
+         * @param width The board width
+         * @param height The board height
+         * @param bossId The ID of the boss associated with the board
+         * @param panels The home panels for each player
+         * @param events The field events for the board
+         */
+        constexpr Info(u32 id, StringView name, Path path, u8 width, u8 height, u8 bossId, const HomePanels& panels, const FieldEvents& events):
+            path{path}, name{String(name)}, homePanels{panels}, fieldEvents{events}, id{id},
+            bossId{bossId}, width{width}, height{height} {}
+
+        /**
+         * @brief Destructor
+         */
         constexpr ~Info() = default;
     };
 private:
@@ -147,7 +183,6 @@ private:
 
         /**
          * @brief Adds an edge to the Graph.
-         *
          * @param from The Panel from which the edge originates.
          * @param to The Panel to which the edge leads.
          */
@@ -163,7 +198,6 @@ private:
     public:
         /**
          * @brief Construct a new Graph object.
-         *
          * @param gameboard The GameBoard to initialize the Graph with.
          */
         explicit Graph(const GameBoard& gameboard) {
@@ -171,9 +205,9 @@ private:
                 for (const UniquePointer<Panel>& panel: row) {
                     if (panel) {
                         for (usize i: IotaView(0uz, DIRECTION_OFFSETS.size())) {
-                            SharedPointer<Panel> neighbour = panel->getNeighbour(static_cast<Panel::Direction>(i));
-                            if (neighbour) {
-                                addEdge(SharedPointer<Panel>(panel.get()), neighbour);
+                            SharedPointer<Panel> neighbor = panel->getNeighbor(static_cast<Panel::Direction>(i));
+                            if (neighbor) {
+                                addEdge(SharedPointer<Panel>(panel.get()), neighbor);
                             }
                         }
                     }
@@ -188,7 +222,6 @@ private:
 
         /**
          * @brief Finds all panels a distance of n panels away.
-         *
          * @param start The starting panel.
          * @param n The number of panels to search away from start.
          * @return Vector<SharedPointer<Panel>> The panels at the specified distance.
@@ -215,22 +248,22 @@ private:
                     result.push_back(current);
                 }
 
-                const Vector<SharedPointer<Panel>> neighbours = n > 0
+                const Vector<SharedPointer<Panel>> neighbors = n > 0
                     ? adjList.at(current)
                     : reverseAdjList.at(current);
 
-                for (const SharedPointer<Panel>& neighbour: neighbours) {
+                for (const SharedPointer<Panel>& neighbor: neighbors) {
                     #ifndef NDEBUG
-                    if (!visited.at(neighbour)) {
-                        visited.at(neighbour) = true;
+                    if (!visited.at(neighbor)) {
+                        visited.at(neighbor) = true;
                     }
                     #else
-                    if (!visited[neighbour]) {
-                        visited[neighbour] = true;
+                    if (!visited[neighbor]) {
+                        visited[neighbor] = true;
                     }
                     #endif
 
-                    q.emplace(neighbour, distance + (n > 0 ? 1 : -1));
+                    q.emplace(neighbor, distance + (n > 0 ? 1 : -1));
                 }
             }
             return result;
@@ -245,7 +278,6 @@ private:
 public:
     /**
      * @brief Construct a new Board object.
-     *
      * @param id The ID of the Board to construct.
      */
     explicit Board(SharedPointer<Info> data):
@@ -264,7 +296,6 @@ public:
 
     /**
      * @brief Find all panels at a specific distance from a starting panel.
-     *
      * @param start The starting panel.
      * @param distance The distance to search (positive for forward, negative for backward).
      * @return A list of panels at the specified distance, or nullopt if there is no instance of graph.

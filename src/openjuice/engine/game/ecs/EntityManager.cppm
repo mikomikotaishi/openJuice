@@ -47,11 +47,10 @@ private:
 
     /**
      * @brief Updates the bidirectional mapping between entity ID and dense array index.
-     * 
+     * @param id The entity ID to add to the mapping.
+     *
      * Maintains the sparse-set invariant by updating both the dense array (entries)
      * and the sparse array (indices) to create a bidirectional mapping.
-     * 
-     * @param id The entity ID to add to the mapping.
      */
     void setEntityTableId(EntityId id) noexcept {
         entries[entryCount] = id;
@@ -60,11 +59,10 @@ private:
 public:
     /**
      * @brief Constructs a new EntityManager with the specified capacity.
-     * 
+     * @param capacity The maximum number of entities that can exist simultaneously.
+     *
      * Allocates arrays for entity tracking, including the mask, entries, indices,
      * and free list structures.
-     * 
-     * @param capacity The maximum number of entities that can exist simultaneously.
      */
     explicit EntityManager(u32 capacity):
         mask{Pointers::unique<bool[]>(capacity)},
@@ -75,11 +73,10 @@ public:
 
     /**
      * @brief Copy constructor for EntityManager.
-     * 
+     * @param other The EntityManager instance to copy from.
+     *
      * Performs a deep copy of all entity tracking structures from another
      * EntityManager instance.
-     * 
-     * @param other The EntityManager instance to copy from.
      */
     EntityManager(const EntityManager& other):
         mask{Pointers::unique<bool[]>(other.capacity)},
@@ -98,11 +95,10 @@ public:
 
     /**
      * @brief Move constructor for EntityManager.
-     * 
+     * @param other The EntityManager instance to move from.
+     *
      * Transfers ownership of all entity tracking structures from another
      * EntityManager instance, leaving the source in a valid but empty state.
-     * 
-     * @param other The EntityManager instance to move from.
      */
     EntityManager(EntityManager&& other):
         mask{Ops::move(other.mask)},
@@ -121,12 +117,11 @@ public:
 
     /**
      * @brief Copy assignment operator for EntityManager.
-     * 
-     * Releases current resources and performs a deep copy of all entity tracking
-     * structures from another EntityManager instance.
-     * 
      * @param other The EntityManager instance to copy from.
      * @return EntityManager& Reference to this instance.
+     *
+     * Releases current resources and performs a deep copy of all entity tracking
+     * structures from another EntityManager instance.
      */
     EntityManager& operator=(const EntityManager& other) {
         if (this != &other) {
@@ -152,12 +147,11 @@ public:
 
     /**
      * @brief Move assignment operator for EntityManager.
-     * 
-     * Releases current resources and transfers ownership of all entity tracking
-     * structures from another EntityManager instance.
-     * 
      * @param other The EntityManager instance to move from.
      * @return EntityManager& Reference to this instance.
+     *
+     * Releases current resources and transfers ownership of all entity tracking
+     * structures from another EntityManager instance.
      */
     EntityManager& operator=(EntityManager&& other) noexcept {
         if (this != &other) {
@@ -181,10 +175,9 @@ public:
 
     /**
      * @brief Returns an iterator to the beginning of alive entity IDs.
-     * 
-     * Enables range-based iteration over all currently alive entities.
-     * 
      * @return EntityId* Pointer to the first element in the dense entries array.
+     *
+     * Enables range-based iteration over all currently alive entities.
      */
     EntityId* begin() noexcept {
         return entries.get();
@@ -192,13 +185,12 @@ public:
 
     /**
      * @brief Returns an iterator to the end of alive entity IDs.
-     * 
-     * Enables range-based iteration over all currently alive entities.
-     * 
      * @return EntityId* Pointer to one past the last element in the dense entries array.
-     * 
-     * @note This returns entries.get() + occupied, not entryCount, which may include
-     *       freed IDs that have not been completely cleaned up yet.
+     *
+     * Enables range-based iteration over all currently alive entities.
+     *
+     * @note This returns entries.get() + occupied, not entryCount, which may
+     * include freed IDs that have not been completely cleaned up yet.
      */
     EntityId* end() noexcept {
         return entries.get() + occupied;
@@ -239,14 +231,12 @@ public:
 
     /**
      * @brief Creates a new entity and returns its ID.
-     * 
+     * @return Optional<EntityId> The newly created entity ID, or nullopt if capacity is reached.
+     *
      * Attempts to create a new entity by either:
      * 1. Reusing an ID from the free list (if available)
      * 2. Allocating a new ID from the occupied counter (if space available)
-     * 
      * The entity is marked as alive and added to the active entities tracking.
-     * 
-     * @return Optional<EntityId> The newly created entity ID, or nullopt if capacity is reached.
      */
     [[nodiscard]]
     Optional<EntityId> createEntity() noexcept {
@@ -266,12 +256,11 @@ public:
 
     /**
      * @brief Checks if an entity is currently alive.
-     * 
-     * Determines whether the entity with the given ID is active and has not
-     * been removed.
-     * 
      * @param id The entity ID to check.
      * @return bool True if the entity is alive, false otherwise.
+     *
+     * Determines whether the entity with the given ID is active and has not
+     * been removed.
      */
     [[nodiscard]]
     bool alive(EntityId id) const noexcept {
@@ -280,16 +269,14 @@ public:
 
     /**
      * @brief Removes an entity and marks its ID for reuse.
-     * 
+     * @param id The entity ID to remove.
+     *
      * Destroys the entity with the given ID by:
      * 1. Adding the ID to the free list for reuse
      * 2. Marking the ID as not alive in the mask
      * 3. Removing it from the dense array using swap-and-pop
      * 4. Updating the indices mapping
-     * 
      * If the entity is already dead, this operation does nothing.
-     * 
-     * @param id The entity ID to remove.
      */
     void remove(EntityId id) noexcept {
         if (!mask[id]) {
@@ -304,12 +291,11 @@ public:
 
     /**
      * @brief Retrieves the entity ID at a given dense array index.
-     * 
-     * Provides direct access to the entity ID stored at a specific position
-     * in the dense entries array.
-     * 
      * @param index The dense array index.
      * @return EntityId The entity ID at the specified index.
+     *
+     * Provides direct access to the entity ID stored at a specific position
+     * in the dense entries array.
      */
     [[nodiscard]]
     EntityId get(u32 index) const noexcept {
@@ -318,7 +304,6 @@ public:
 
     /**
      * @brief Array subscript operator for accessing entity IDs by index.
-     * 
      * @param index The dense array index.
      * @return EntityId The entity ID at the specified index.
      */

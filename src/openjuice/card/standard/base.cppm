@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
 /**
  * @class Dash
  * @brief Class representing the Dash card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class SakisCookie
  * @brief Class representing the SakisCookie card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class FlipOut
  * @brief Class representing the FlipOut card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class NiceJingle
  * @brief Class representing the NiceJingle card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class NicePresent
  * @brief Class representing the NicePresent card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class Pudding
  * @brief Class representing the Pudding card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -242,7 +236,6 @@ public:
 /**
  * @class ImOnFire
  * @brief Class representing the ImOnFire card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -278,7 +271,6 @@ public:
 /**
  * @class Rbits
  * @brief Class representing the Rbits card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -314,7 +306,6 @@ public:
 /**
  * @class RainbowColoredCircle
  * @brief Class representing the RainbowColoredCircle card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -350,7 +341,6 @@ public:
 /**
  * @class FinalBattle
  * @brief Class representing the FinalBattle card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -386,7 +376,6 @@ public:
 /**
  * @class BadPudding
  * @brief Class representing the BadPudding card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -422,7 +411,6 @@ public:
 /**
  * @class MimyuusHammer
  * @brief Class representing the MimyuusHammer card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -458,7 +446,6 @@ public:
 /**
  * @class DangerousPudding
  * @brief Class representing the DangerousPudding card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -494,7 +481,6 @@ public:
 /**
  * @class Assault
  * @brief Class representing the Assault card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -530,7 +516,6 @@ public:
 /**
  * @class SkyRestaurantPures
  * @brief Class representing the SkyRestaurantPures card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -566,7 +551,6 @@ public:
 /**
  * @class HereAndThere
  * @brief Class representing the HereAndThere card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -602,7 +586,6 @@ public:
 /**
  * @class HolyNight
  * @brief Class representing the HolyNight card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -638,7 +621,6 @@ public:
 /**
  * @class OutOfAmmo
  * @brief Class representing the OutOfAmmo card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -674,7 +656,6 @@ public:
 /**
  * @class GiftExchange
  * @brief Class representing the GiftExchange card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -710,7 +691,6 @@ public:
 /**
  * @class LittleWar
  * @brief Class representing the LittleWar card.
- *
  * @extends EventCard
  * @extends @StandardCard
  *

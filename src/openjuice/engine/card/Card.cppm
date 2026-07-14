@@ -115,7 +115,6 @@ protected:
 public:
     /**
      * @brief Constructor to initialize a Card object.
-     *
      * @param id The ID of the card.
      * @param cardType The card type of the card.
      * @param spawnType The spawn type of the card.
@@ -352,7 +351,7 @@ struct Formatter<Card::DeckPointError> {
     }
 };
 
-SPECIALISE_FORMATTER(Card::Of);
-SPECIALISE_FORMATTER(Card::Spawn);
-SPECIALISE_FORMATTER(Card::Rarity);
-SPECIALISE_FORMATTER(Card::DeckPointError);
+SPECIALIZE_FORMATTER(Card::Of);
+SPECIALIZE_FORMATTER(Card::Spawn);
+SPECIALIZE_FORMATTER(Card::Rarity);
+SPECIALIZE_FORMATTER(Card::DeckPointError);

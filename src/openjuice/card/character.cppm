@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::character);
 /**
  * @class MiosChristmasCake
  * @brief Class representing the MiosChristmasCake card.
- *
  * @extends BoostCard
  * @extends CharacterSpecificCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class Freight
  * @brief Class representing the Freight card.
- *
  * @extends BattleCard
  * @extends CharacterSpecificCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class RedAndBlue
  * @brief Class representing the RedAndBlue card.
- *
  * @extends GiftCard
  * @extends CharacterSpecificCard
  *

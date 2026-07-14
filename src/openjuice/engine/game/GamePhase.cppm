@@ -69,4 +69,4 @@ struct Formatter<GamePhase> {
     }
 };
 
-SPECIALISE_FORMATTER(GamePhase);
+SPECIALIZE_FORMATTER(GamePhase);

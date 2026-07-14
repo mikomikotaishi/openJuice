@@ -72,7 +72,6 @@ public:
 
     /**
      * @brief Converts a language to its persisted, human-readable code.
-     *
      * @param lang The language to convert.
      * @return The language code (e.g. "en").
      */
@@ -103,7 +102,6 @@ public:
 
     /**
      * @brief Converts a persisted language code back into a language.
-     *
      * @param code The language code (e.g. "en").
      * @return The matching language, or an empty optional if the code is unknown.
      */
@@ -132,7 +130,6 @@ public:
         return nullopt;
     }
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
 
     Language language = Language::ENGLISH; ///< The currently configured language.
@@ -140,7 +137,6 @@ private:
 
     /**
      * @brief Deserializes a TOML into this instance's settings.
-     *
      * @param table The TOML table to deserialize from.
      * @return Expected<void, ConfigurationService::Error> indicating success or failure.
      */
@@ -201,11 +197,9 @@ private:
 public:
     /**
      * @brief Constructs a new ConfigurationService object.
-     *
      * @param loggerFactory The injected logger factory.
      */
     explicit ConfigurationService(SharedPointer<LoggerFactory> loggerFactory):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("ConfigurationService")} {
         try {
             stdx::fs::create_directories(USERDATA_DIR);
@@ -224,7 +218,6 @@ public:
 
     /**
      * @brief Get the currently configured language.
-     *
      * @return The current language.
      */
     [[nodiscard]]
@@ -234,7 +227,6 @@ public:
 
     /**
      * @brief Get the currently configured frame rate.
-     *
      * @return The current frame rate, in frames per second.
      */
     [[nodiscard]]
@@ -244,7 +236,6 @@ public:
 
     /**
      * @brief Get the delta-time derived from the configured frame rate.
-     *
      * @return The delta-time (1 / frame rate). If the frame rate is 0, this is 0.
      */
     [[nodiscard]]
@@ -254,7 +245,6 @@ public:
 
     /**
      * @brief Set the configured language.
-     *
      * @param lang The language to set.
      */
     void setLanguage(Language lang) noexcept {
@@ -263,7 +253,6 @@ public:
 
     /**
      * @brief Set the configured frame rate.
-     *
      * @param rate The frame rate to set, in frames per second.
      */
     void setFrameRate(u16 rate) noexcept {
@@ -370,4 +359,4 @@ struct Formatter<ConfigurationService::Error> {
     }
 };
 
-SPECIALISE_FORMATTER(ConfigurationService::Error);
+SPECIALIZE_FORMATTER(ConfigurationService::Error);

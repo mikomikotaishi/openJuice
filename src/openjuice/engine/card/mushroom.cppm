@@ -34,7 +34,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card::mushroom);
 /**
  * @class BattleMushroomCard
  * @brief Abstract class representing a Battle-type Mushroom card.
- *
  * @extends BattleCard
  * @extends MushroomCard
  * 
@@ -114,7 +113,6 @@ protected:
 
     /**
      * @brief Constructor to initialize a BattleMushroomCard object.
-     *
      * @param color The mushroom color.
      * @param effect The Battle mushroom effect of the card.
      */
@@ -133,7 +131,6 @@ public:
 
     /**
      * @brief Get the name of the card.
-     *
      * @return The name of the card.
      */
     [[nodiscard]]
@@ -144,7 +141,6 @@ public:
 
     /**
      * @brief Get the description of the card.
-     *
      * @return The description of the card.
      */
     [[nodiscard]]
@@ -155,7 +151,6 @@ public:
 
     /**
      * @brief Get the card artist name.
-     *
      * @return The card artist name.
      */
     [[nodiscard]]
@@ -168,7 +163,6 @@ public:
 /**
  * @class BoostMushroomCard
  * @brief Abstract class representing a Boost-type Mushroom card.
- *
  * @extends BoostCard
  * @extends MushroomCard
  * 
@@ -211,7 +205,6 @@ private:
 
     /**
      * @brief Converts the mushroom type to its associated LocalizationService key.
-     * 
      * @param type The boost mushroom type.
      * @return The key to query in LocalizationService.
      */
@@ -254,7 +247,6 @@ protected:
 
     /**
      * @brief Constructor to initialize a BoostMushroomCard object.
-     *
      * @param color The mushroom color.
      * @param effect The Boost mushroom effect of the card.
      */
@@ -273,7 +265,6 @@ public:
 
     /**
      * @brief Get the name of the card.
-     *
      * @return The name of the card.
      */
     [[nodiscard]]
@@ -284,7 +275,6 @@ public:
 
     /**
      * @brief Get the description of the card.
-     *
      * @return The description of the card.
      */
     [[nodiscard]]
@@ -295,7 +285,6 @@ public:
 
     /**
      * @brief Get the card artist name.
-     *
      * @return The card artist name.
      */
     [[nodiscard]]
@@ -308,7 +297,6 @@ public:
 /**
  * @class LegendaryMushroomCard
  * @brief Abstract class representing a Legendary Mushroom card.
- *
  * @extends GiftCard
  * @extends MushroomCard
  * 
@@ -351,7 +339,6 @@ private:
 
     /**
      * @brief Converts the mushroom type to its associated LocalizationService key.
-     * 
      * @param type The legendary mushroom type.
      * @return The key to query in LocalizationService.
      */
@@ -367,7 +354,6 @@ private:
 
     /**
      * @brief Converts the mushroom color to its associated LocalizationService key.
-     * 
      * @param type The legendary mushroom color.
      * @return The key to query in LocalizationService.
      */
@@ -383,7 +369,6 @@ private:
 
     /**
      * @brief Converts the legendary mushroom color to the associated LocalizationService key of its artist.
-     * 
      * @param type The legendary mushroom color.
      * @return The key to query for the artist in LocalizationService.
      */
@@ -404,7 +389,6 @@ protected:
 
     /**
      * @brief Constructor to initialize a BoostMushroomCard object.
-     *
      * @param color The mushroom color.
      * @param effect The legendary mushroom effect of the card.
      */
@@ -423,7 +407,6 @@ public:
 
     /**
      * @brief Get the name of the card.
-     *
      * @return The name of the card.
      */
     [[nodiscard]]
@@ -434,7 +417,6 @@ public:
 
     /**
      * @brief Get the description of the card.
-     *
      * @return The description of the card.
      */
     [[nodiscard]]
@@ -445,7 +427,6 @@ public:
 
     /**
      * @brief Get the card artist name.
-     *
      * @return The card artist name.
      */
     [[nodiscard]]
@@ -601,7 +582,7 @@ struct Formatter<LegendaryMushroomCard::Effect> {
     }
 };
 
-SPECIALISE_FORMATTER(BattleMushroomCard::Effect);
-SPECIALISE_FORMATTER(BoostMushroomCard::Effect);
-SPECIALISE_FORMATTER(LegendaryMushroomCard::Color);
-SPECIALISE_FORMATTER(LegendaryMushroomCard::Effect);
+SPECIALIZE_FORMATTER(BattleMushroomCard::Effect);
+SPECIALIZE_FORMATTER(BoostMushroomCard::Effect);
+SPECIALIZE_FORMATTER(LegendaryMushroomCard::Color);
+SPECIALIZE_FORMATTER(LegendaryMushroomCard::Effect);

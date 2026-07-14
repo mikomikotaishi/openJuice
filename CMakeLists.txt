@@ -172,7 +172,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(ENABLE_SANITIZERS OFF)
 endif()
 
-
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     if(STDLIB STREQUAL "libc++")
         message(STATUS "Standard library: libc++")
@@ -240,6 +239,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 set(FTXUI_BUILD_MODULES ON CACHE BOOL "Enable FTXUI module support")
 set(TOMLPLUSPLUS_BUILD_MODULES ON CACHE BOOL "Enable tomlplusplus module support")
+set(STDLIBX_BUILD_EXAMPLES OFF CACHE BOOL "Build the examples for stdlibx" FORCE) # Disable examples
+set(STDLIBX_BUILD_TESTS OFF CACHE BOOL "Build the tests for stdlibx" FORCE) # Disable tests
 
 FetchContent_Declare(
     stdlibx
@@ -250,7 +251,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     ftxui
     GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI.git
-    GIT_TAG v7.0.0
+    GIT_TAG v7.0.3
 )
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     FetchContent_Declare(
@@ -272,7 +273,7 @@ if(NOT absl_FOUND)
     FetchContent_Declare(
         abseil-cpp
         GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-        GIT_TAG 20260107.1
+        GIT_TAG 20260526.0
         GIT_SHALLOW TRUE
     )
     set(ABSL_PROPAGATE_CXX_STD ON CACHE BOOL "Propagate project C++ standard to Abseil")
@@ -294,9 +295,8 @@ FetchContent_Declare(
     GIT_TAG master
 )
 
-# Keep `import std` (CMAKE_CXX_MODULE_STD) from leaking into third-party deps that build
-# as C++14/17 (e.g. SheenBidi via FTXUI): CMake 4.4+ rejects a sub-C++20 `import std`
-# consumer. stdlibx re-enables it in its own scope, so it is unaffected.
+# Keep `import std` (CMAKE_CXX_MODULE_STD) from leaking into third-party
+# dependencies that build as C++14/17
 set(CMAKE_CXX_MODULE_STD OFF)
 
 # Make dependencies available, including Abseil if it was fetched
@@ -321,7 +321,7 @@ else()
     )
 endif()
 
-# Re-enable `import std` for openJuice's own module targets.
+# Re-enable import std for openJuice's own module targets.
 set(CMAKE_CXX_MODULE_STD ON)
 
 add_subdirectory(deps)

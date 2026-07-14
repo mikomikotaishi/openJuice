@@ -23,7 +23,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::enemies);
 /**
  * @class Chicken
  * @brief Class representing the Chicken enemy.
- *
  * @extends BasicEnemy
  *
  * The Chicken class is a final class that inherits from BasicEnemy and represents a specific type of enemy in the game.
@@ -48,7 +47,6 @@ public:
 /**
  * @class RoboBall
  * @brief Class representing the RoboBall enemy.
- *
  * @extends BasicEnemy
  *
  * The RoboBall class is a final class that inherits from BasicEnemy and represents a specific type of enemy in the game.
@@ -73,7 +71,6 @@ public:
 /**
  * @class Seagull
  * @brief Class representing the Seagull enemy.
- *
  * @extends BasicEnemy
  *
  * The Seagull class is a final class that inherits from BasicEnemy and represents a specific type of enemy in the game.

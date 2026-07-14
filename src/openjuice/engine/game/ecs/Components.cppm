@@ -48,15 +48,6 @@ export namespace components {
     struct HealthComponent {
         u8 currentHealth;
         u8 maxHealth;
-
-        /**
-         * @brief Construct a new Health Component object
-         * 
-         * @param currentHealth 
-         * @param maxHealth 
-         */
-        HealthComponent(u8 currentHealth, u8 maxHealth):
-            currentHealth{currentHealth}, maxHealth{maxHealth} {}
     };
 
     /**
@@ -65,16 +56,6 @@ export namespace components {
      */
     struct StarComponent {
         u16 stars = 0;
-
-        /**
-         * @brief Construct a new Star Component object
-         * 
-         * @param initialStars 
-         */
-        explicit StarComponent(u16 initialStars):
-            stars{initialStars} {}
-        
-        StarComponent() = default;
     };
 
     /**
@@ -84,17 +65,6 @@ export namespace components {
     struct PlayerComponent {
         u8 wins = 0;
         u8 norma = 1;
-
-        /**
-         * @brief Construct a new Player Component object
-         * 
-         * @param initialWins 
-         * @param initialNorma 
-         */
-        explicit PlayerComponent(u8 initialWins, u8 initialNorma):
-            wins{initialWins}, norma{initialNorma} {}
-        
-        PlayerComponent() = default;
     };
 
     /**
@@ -103,38 +73,15 @@ export namespace components {
      */
     struct UnitComponent {
         SharedPointer<Unit> unit;
-
-        /**
-         * @brief Construct a new Unit Component object
-         * 
-         * @param unitPointer 
-         */
-        explicit UnitComponent(SharedPointer<Unit> unitPointer):
-            unit{Ops::move(unitPointer)} {}
-        
-        UnitComponent() = default;
     };
 
     /**
      * @struct BattleStateComponent
      * @brief Component for tracking battle state
-     * 
-     * @implements IComponent
      */
     struct BattleStateComponent {
         SharedPointer<Card> activeBattleCard = nullptr;
         DefenseChoice defenseChoice = DefenseChoice::DEFEND;
-
-        /**
-         * @brief Construct a new Battle State Component object
-         * 
-         * @param choice 
-         * @param card 
-         */
-        explicit BattleStateComponent(SharedPointer<Card> card, DefenseChoice choice):
-            activeBattleCard{card}, defenseChoice{choice} {}
-        
-        BattleStateComponent() = default;
     };
 
     /**
@@ -146,19 +93,6 @@ export namespace components {
         i8 defenseModifier = 0;
         i8 evadeModifier = 0;
         u8 extraDice = 0;
-
-        /**
-         * @brief Construct a new Battle Card Component object
-         * 
-         * @param attack 
-         * @param defense 
-         * @param evade 
-         * @param dice 
-         */
-        explicit BattleCardComponent(i8 attack, i8 defense, i8 evade, u8 dice):
-            attackModifier{attack}, defenseModifier{defense}, evadeModifier{evade}, extraDice{dice} {}
-        
-        BattleCardComponent() = default;
     };
 
     /**
@@ -167,8 +101,6 @@ export namespace components {
      */
     struct HandComponent {
         Vector<SharedPointer<Card>> cards;
-        
-        HandComponent() = default;
     };
 
     /**
@@ -183,8 +115,6 @@ export namespace components {
         // Consists of (in this order):
         // Legendary Red, Phantom Blue
         BitSet<MushroomCard::NUM_LEGENDARY_MUSHROOMS> usedLegendaryMushrooms; ///< The Legendary Mushrooms that have been used by the player.
-        
-        MushroomComponent() = default;
         
         void reset() {
             usedMushrooms.reset();

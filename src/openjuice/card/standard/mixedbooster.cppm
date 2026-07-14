@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::mixedbooster);
 /**
  * @class LonelyChariot
  * @brief Class representing the LonelyChariot card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class Ambush
  * @brief Class representing the Ambush card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class PassionateResearch
  * @brief Class representing the PassionateResearch card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class PresidentsPrivilege
  * @brief Class representing the PresidentsPrivilege card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class Mimic
  * @brief Class representing the Mimic card.
- *
  * @extends BoostCard
  * @extends StandardCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class TacticalRetreat
  * @brief Class representing the TacticalRetreat card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -242,7 +236,6 @@ public:
 /**
  * @class ShieldCounter
  * @brief Class representing the ShieldCounter card.
- *
  * @extends BattleCard
  * @extends StandardCard
  *
@@ -278,7 +271,6 @@ public:
 /**
  * @class PiyopiyoProcession
  * @brief Class representing the PiyopiyoProcession card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -314,7 +306,6 @@ public:
 /**
  * @class SealedMemories
  * @brief Class representing the SealedMemories card.
- *
  * @extends TrapCard
  * @extends StandardCard
  *
@@ -350,7 +341,6 @@ public:
 /**
  * @class MixPhenomenon
  * @brief Class representing the MixPhenomenon card.
- *
  * @extends EventCard
  * @extends StandardCard
  *
@@ -386,7 +376,6 @@ public:
 /**
  * @class ScarySolicitation
  * @brief Class representing the ScarySolicitation card.
- *
  * @extends EventCard
  * @extends StandardCard
  *

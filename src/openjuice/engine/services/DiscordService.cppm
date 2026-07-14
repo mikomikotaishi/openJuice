@@ -64,7 +64,6 @@ public:
         PAUSED, ///< Status is paused
     };
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
 
     mutable Mutex discordMutex; ///< Mutex for thread-safe operations on Discord
@@ -77,7 +76,6 @@ private:
 
     /**
      * @brief Create base activity with common properties
-     * 
      * @return Activity object with base configuration
      */
     Activity createBaseActivity() const {
@@ -119,7 +117,6 @@ public:
      * @brief Constructor of the DiscordService
      */
     explicit DiscordService(SharedPointer<LoggerFactory> loggerFactory):
-        loggerFactory{loggerFactory},
         logger{loggerFactory->of("DiscordService")},
         sessionStartTime{static_cast<u64>(System::current_time_millis())},
         currentActivityType{ActivityType::IN_MENU} {}
@@ -133,7 +130,6 @@ public:
         
     /**
      * @brief Initialize Discord integration
-     *
      * @return True if successful
      */
     [[nodiscard]]
@@ -228,4 +224,4 @@ struct Formatter<DiscordService::ActivityType> {
     }
 };
 
-SPECIALISE_FORMATTER(DiscordService::ActivityType);
+SPECIALIZE_FORMATTER(DiscordService::ActivityType);

@@ -14,12 +14,18 @@ export module openjuice.engine.board:FieldEvent;
 
 import stdx;
 
+import openjuice.engine.util;
+
 using stdx::fmt::FormatContext;
 using stdx::fmt::FormatParseContext;
 using stdx::fmt::Formatter;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
+/**
+ * @class FieldEvent
+ * @brief Class representing field event types.
+ */
 export class FieldEvent {
 public:
     /**
@@ -60,11 +66,220 @@ public:
         CONVERGENCE, ///< Current field changes to another random field (every 6 chapters)
     };
 
-    enum class Placeholder: u8 {
+    /**
+     * @enum Trigger
+     * @brief Enumeration for trigger types.
+     *
+     * The Trigger enumeration defines how the field event is triggered in the game.
+     */
+    enum class Trigger: u8 {
         NONE, ///< Empty
         DEFAULT, ///< Default field event for a map
         RANDOM, ///< Random non-duplicate field
     };
+
+    /**
+     * @struct Data
+     * @brief Struct aggregating key information about field events.
+     */
+    struct [[nodiscard]] Data {
+        Trigger trigger; ///< The trigger type for the field event.
+        Of type; ///< The field event type.
+    };
+private:
+    Data data; ///< The data for the field event.
+public:
+    /**
+     * @brief Construct a new FieldEvent object.
+     * @param data The data for the field event.
+     */
+    constexpr FieldEvent(Data data):
+        data{data} {}
+
+    /**
+     * @brief Construct a new FieldEvent object.
+     * @param trigger The trigger type for the field event.
+     * @param type The type of the field event.
+     */
+    constexpr FieldEvent(Trigger trigger, Of type):
+        data{trigger, type} {}
+
+    [[nodiscard]]
+    constexpr Data getData() const noexcept {
+        return data;
+    }
+
+    [[nodiscard]]
+    constexpr Trigger getTrigger() const noexcept {
+        return data.trigger;
+    }
+
+    [[nodiscard]]
+    constexpr Of getType() const noexcept {
+        return data.type;
+    }
+
+    /**
+     * @brief Parse a board's TOML event string into a Data slot.
+     * @param name The event string from a board's `events` array.
+     * @return The corresponding Data slot.
+     */
+    [[nodiscard]]
+    static constexpr Data fromString(StringView name) noexcept {
+        switch (engine::util::hashString(name)) {
+            case ""_hash:
+            case "None"_hash:
+                return Data {
+                    .trigger = Trigger::NONE, 
+                    .type = Of::AIR_RAID
+                };
+            case "Random"_hash:
+                return Data {
+                    .trigger = Trigger::RANDOM,
+                    .type = Of::AIR_RAID
+                };
+
+            // Standard
+            case "Air Raid"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::AIR_RAID
+                };
+            case "Amplify"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::AMPLIFY
+                };
+            case "Backtrack"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::BACKTRACK
+                };
+            case "Bomber"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::BOMBER
+                };
+            case "Cakes"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::CAKES
+                };
+            case "Charity"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::CHARITY
+                };
+            case "Confusion"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::CONFUSION
+                };
+            case "Fish-a-Fish"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::FISH_A_FISH
+                };
+            case "Freeze"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::FREEZE
+                };
+            case "Goo"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::GOO
+                };
+            case "Home Roulette"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::HOME_ROULETTE
+                };
+            case "Minelayer"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::MINELAYER
+                };
+            case "Miracle"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::MIRACLE
+                };
+            case "Mystery"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::MYSTERY
+                };
+            case "Playground"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::PLAYGROUND
+                };
+            case "Random Warp"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::RANDOM_WARP
+                };
+            case "Regeneration"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::REGENERATION
+                };
+            case "Spores"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::SPORES
+                };
+            case "Sprint"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::SPRINT
+                };
+            case "Treasure"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::TREASURE
+                };
+
+            // Automatic
+            case "Boss Encounter"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::BOSS_ENCOUNTER
+                };
+            case "Terror"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::TERROR
+                };
+            case "Chaos Battlefield"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::CHAOS_BATTLEFIELD
+                };
+            case "Starvation"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::STARVATION
+                };
+            case "Overindulgence"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::OVERINDULGENCE
+                };
+            case "Convergence"_hash:
+                return Data {
+                    .trigger = Trigger::DEFAULT,
+                    .type = Of::CONVERGENCE
+                };
+
+            default:
+                return Data {
+                    .trigger = Trigger::NONE,
+                    .type = Of::AIR_RAID
+                };
+        }
+    }
 };
 
 END_MODULE_NAMESPACE();
@@ -166,4 +381,4 @@ struct Formatter<FieldEvent::Of> {
     }
 };
 
-SPECIALISE_FORMATTER(FieldEvent::Of);
+SPECIALIZE_FORMATTER(FieldEvent::Of);

@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
 /**
  * @class SeasonalUltimateWeaponInTheSun
  * @brief Class representing the SeasonalUltimateWeaponInTheSun card.
- *
  * @extends BoostCard
  * @extends HyperCard
  * @extends CoopCard
@@ -63,7 +62,6 @@ public:
 /**
  * @class SeasonalLifeguardOnTheWhiteBeach
  * @brief Class representing the SeasonalLifeguardOnTheWhiteBeach card.
- *
  * @extends EventCard
  * @extends HyperCard
  * @extends CoopCard
@@ -100,7 +98,6 @@ public:
 /**
  * @class SeasonalGuardianOfBloomingFlowers
  * @brief Class representing the SeasonalGuardianOfBloomingFlowers card.
- *
  * @extends BoostCard
  * @extends HyperCard
  * @extends CoopCard
@@ -137,7 +134,6 @@ public:
 /**
  * @class SeasonalUnforgivingAvenger
  * @brief Class representing the SeasonalUnforgivingAvenger card.
- *
  * @extends BattleCard
  * @extends HyperCard
  * @extends CoopCard

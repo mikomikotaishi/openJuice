@@ -21,7 +21,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 /**
  * @interface BossEnemy
  * @brief Interface representing a boss enemy unit.
- *
  * @extends Enemy
  * 
  * The BossEnemy interface extends the Enemy interface and represents a boss enemy unit with specific attributes.
@@ -30,7 +29,6 @@ export class BossEnemy: public Enemy {
 public:
     /**
      * @brief Constructor to initialize a BossEnemy object.
-     *
      * @param id The ID of the boss enemy.
      * @param health The health of the boss enemy.
      * @param attack The attack value of the boss enemy.

@@ -16,6 +16,7 @@ import stdx;
 
 import openjuice.engine.services;
 import openjuice.engine.unit;
+import openjuice.engine.util;
 import openjuice.unit.bosses;
 
 using stdx::mem::Pointers;
@@ -37,13 +38,31 @@ public:
     BossEnemyFactory() = delete("BossEnemyFactory is a utility class and cannot be instantiated.");
 
     /**
+     * @brief Get the ID of a BossEnemy from its name.
+     * @param name Name of the BossEnemy
+     * @return Optional containing the ID of the BossEnemy, or nullopt if not found
+     */
+    [[nodiscard]]
+    static constexpr Optional<u8> idOf(StringView name) noexcept {
+        switch (engine::util::hashString(name)) {
+            case "Flying Castle"_hash:
+                return FlyingCastle::ID;
+            case "Shifu Robot"_hash:
+                return ShifuRobot::ID;
+            case "Store Manager"_hash:
+                return StoreManager::ID;
+            default:
+                return nullopt;
+        }
+    }
+
+    /**
      * @brief Create a BossEnemy object with the given ID.
-    *
      * @param id ID of the BossEnemy to create
      * @return Shared pointer to the created BossEnemy object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<BossEnemy>> create(u8 id) noexcept {
+    static constexpr Optional<SharedPointer<BossEnemy>> create(u8 id) noexcept {
         switch (id) {
             case 0:
                 return nullptr;

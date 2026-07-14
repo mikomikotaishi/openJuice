@@ -41,12 +41,11 @@ public:
 
     /**
      * @brief Create a GenericCard object with the given ID.
-     *
      * @param type Type of the GenericCard to create
      * @return Shared pointer to the created GenericCard object
      */
     [[nodiscard]]
-    static SharedPointer<GenericCard> create(Card::Of type) noexcept {
+    static constexpr SharedPointer<GenericCard> create(Card::Of type) noexcept {
         switch (type) {
             case Card::Of::BATTLE:
                 return Pointers::shared<GenericBattleCard>();

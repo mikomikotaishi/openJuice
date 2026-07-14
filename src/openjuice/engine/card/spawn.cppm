@@ -27,7 +27,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card::spawn);
 /**
  * @class BossCard
  * @brief Abstract class representing a Boss card.
- *
  * @extends Card
  * 
  * The BossCard abstract class extends the Card abstract class and represents a Boss card with specific attributes.
@@ -43,7 +42,6 @@ protected:
 /**
  * @class BountyHuntCard
  * @brief Abstract class representing a Bounty Hunt card.
- *
  * @extends Card
  * 
  * The BountyHuntCard abstract class extends the Card abstract class and represents a Bounty Hunt card with specific attributes.
@@ -59,7 +57,6 @@ protected:
 /**
  * @class CharacterSpecificCard
  * @brief Abstract class representing a Hyper card.
- *
  * @extends Card
  * 
  * The CharacterSpecificCard abstract class extends the Card abstract class and represents a Hyper card with specific attributes.
@@ -75,7 +72,6 @@ protected:
 /**
  * @class CoopCard
  * @brief Abstract class representing a Co-op card.
- *
  * @extends Card
  * 
  * The CoopCard abstract class extends the Card abstract class and represents a Co-op card with specific attributes.
@@ -91,7 +87,6 @@ protected:
 /**
  * @class GenericCard
  * @brief Abstract class representing a Generic (placeholder) card.
- *
  * @extends Card
  * 
  * The GenericCard abstract class extends the Card abstract class and represents a Generic (placeholder) card.
@@ -107,7 +102,6 @@ protected:
 /**
  * @class HyperCard
  * @brief Abstract class representing a Hyper card.
- *
  * @extends Card
  * 
  * The HyperCard abstract class extends the Card abstract class and represents a Hyper card with specific attributes.
@@ -123,7 +117,6 @@ protected:
 /**
  * @class MushroomCard
  * @brief Abstract class representing a Mushroom card.
- *
  * @extends Card
  * 
  * The MushroomCard abstract class extends the Card abstract class and represents a Mushroom card with specific attributes.
@@ -162,7 +155,6 @@ protected:
 
     /**
      * @brief Converts the mushroom color to its associated LocalizationService key.
-     * 
      * @param type The mushroom color.
      * @return The key to query in LocalizationService.
      */
@@ -194,30 +186,20 @@ protected:
 
     /**
      * @brief Converts the mushroom color to the associated LocalizationService key of its artist.
-     * 
      * @param type The mushroom color.
      * @return The key to query for the artist in LocalizationService.
      */
     static constexpr String colorToArtistKey(MushroomCard::Color type) noexcept {
         switch (type) {
             case MushroomCard::Color::BLUE:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::BROWN:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::GREEN:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::ORANGE:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::PINK:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::PURPLE:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::RAINBOW:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::RED:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::WHITE:
-                return "CARD_ARTIST_COFFGIRL";
             case MushroomCard::Color::YELLOW:
                 return "CARD_ARTIST_COFFGIRL";
         }
@@ -228,7 +210,6 @@ protected:
 /**
  * @class SeasonalCard
  * @brief Abstract class representing a Seasonal card.
- *
  * @extends Card
  * 
  * The SeasonalCard abstract class extends the Card abstract class and represents a Seasonal card with specific attributes.
@@ -244,7 +225,6 @@ protected:
 /**
  * @class StandardCard
  * @brief Abstract class representing a Standard card.
- *
  * @extends Card
  * 
  * The StandardCard abstract class extends the Card abstract class and represents a Standard card with specific attributes.
@@ -305,4 +285,4 @@ struct Formatter<MushroomCard::Color> {
     }
 };
 
-SPECIALISE_FORMATTER(MushroomCard::Color);
+SPECIALIZE_FORMATTER(MushroomCard::Color);

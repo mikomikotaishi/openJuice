@@ -9,9 +9,6 @@
 
 #define throws(...) noexcept(__VA_OPT__(!)true)
 
-#define extends public
-#define implements public
-
 /**
  * @brief Utility macro to import the stdx::core namespace within the module.
  */
@@ -21,7 +18,6 @@
 
 /**
  * @brief A utility to begin a namespace matching the current module name.
- * 
  * @param Name The name of the namespace to begin, which should match the module.
  */
 #define BEGIN_MODULE_NAMESPACE(Name) namespace Name {
@@ -33,7 +29,6 @@
 
 /**
  * @brief Utility macro to set the CARD_KEY and ARTIST_KEY fields in a final class that extends Card.
- * 
  * @param CardKey The string literal that will be passed as the card key to query in LocalizationService
  * @param ArtistKey The string literal that will be passed as the artist key to query in LocalizationService
  */
@@ -43,7 +38,6 @@
 
 /**
  * @brief Utility macro to set the EFFECT_KEY and ARTIST_KEY fields in a final class that extends Card.
- * 
  * @param EffectKey The string literal that will be passed as the effect key to query in LocalizationService
  */
 #define MUSHROOM_METADATA(EffectKey) \
@@ -51,7 +45,6 @@
 
 /**
  * @brief Utility macro to set the UNIT_KEY, ARTIST_KEY, and VOICEACTOR_KEY fields in a final class that extends Unit.
- * 
  * @param UnitKey The string literal that will be passed as the unit key to query in LocalizationService
  * @param ArtistKey The string literal that will be passed as the artist key to query in LocalizationService
  * @param VoiceActorKey The string literal that will be passed as the voice actor key to query in LocalizationService
@@ -69,7 +62,6 @@
 
 /**
  * @brief Automatically set all stats of a mushroom card.
- *
  * @param Type The type of the mushroom (Legendary, Battle, Boost)
  * @param EffectName The effect enum constant associated with that mushroom
  */
@@ -95,24 +87,24 @@
     BossEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE)
 
 /**
- * @brief A utility to specialise a type in std::formatter. 
+ * @brief A utility to specialize a type in std::formatter. 
+ * @param Typename The type to specialize into the formatter.
+ *
  * Requires that Formatter is imported into the current scope.
- * Used as a hack to allow std::fmt::Formatter to be used by stdlib::fmt::format().
- * 
- * @param Typename The type to specialise into the formatter.
+ * Used as a hack to allow stdx::fmt::Formatter to be used by stdx::fmt::format().
  */
-#define SPECIALISE_FORMATTER(Typename) \
+#define SPECIALIZE_FORMATTER(Typename) \
     template <> \
     struct stdx::fmt::formatter<Typename> : public Formatter<Typename> {};
 
 /**
- * @brief A utility to specialise a type in std::hash. 
+ * @brief A utility to specialize a type in std::hash. 
+ * @param Typename The type to specialize into the hash.
+ *
  * Requires that Hash is imported into the current scope.
- * Used as a hack to allow std::core::Hash to be used by hash().
- * 
- * @param Typename The type to specialise into the hash.
+ * Used as a hack to allow stdx::core::Hash to be used by hash().
  */
-#define SPECIALISE_HASH(Typename) \
+#define SPECIALIZE_HASH(Typename) \
     template <> \
     struct stdx::core::hash<Typename> : public Hash<Typename> {};
 

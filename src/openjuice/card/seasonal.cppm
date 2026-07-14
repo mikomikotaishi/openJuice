@@ -26,7 +26,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::seasonal);
 /**
  * @class SweetBattle
  * @brief Class representing the SweetBattle card.
- *
  * @extends GiftCard
  * @extends SeasonalCard
  *
@@ -62,7 +61,6 @@ public:
 /**
  * @class SnowballReflector
  * @brief Class representing the SnowballReflector card.
- *
  * @extends BattleCard
  * @extends SeasonalCard
  *
@@ -98,7 +96,6 @@ public:
 /**
  * @class GrownupSnowballFight
  * @brief Class representing the GrownupSnowballFight card.
- *
  * @extends BattleCard
  * @extends SeasonalCard
  *
@@ -134,7 +131,6 @@ public:
 /**
  * @class MiosFalseCake
  * @brief Class representing the MiosFalseCake card.
- *
  * @extends BoostCard
  * @extends SeasonalCard
  *
@@ -170,7 +166,6 @@ public:
 /**
  * @class ChaoticLaunch
  * @brief Class representing the ChaoticLaunch card.
- *
  * @extends EventCard
  * @extends SeasonalCard
  *
@@ -206,7 +201,6 @@ public:
 /**
  * @class ChaosRoost
  * @brief Class representing the ChaosRoost card.
- *
  * @extends EventCard
  * @extends SeasonalCard
  *
@@ -242,7 +236,6 @@ public:
 /**
  * @class ChaosProtect
  * @brief Class representing the ChaosProtect card.
- *
  * @extends BoostCard
  * @extends SeasonalCard
  *
@@ -278,7 +271,6 @@ public:
 /**
  * @class FromTheChaoticAbyss
  * @brief Class representing the FromTheChaoticAbyss card.
- *
  * @extends EventCard
  * @extends SeasonalCard
  *
@@ -314,7 +306,6 @@ public:
 /**
  * @class ChaoticRampage
  * @brief Class representing the ChaoticRampage card.
- *
  * @extends EventCard
  * @extends SeasonalCard
  *
@@ -350,7 +341,6 @@ public:
 /**
  * @class ChaosRoulette
  * @brief Class representing the ChaosRoulette card.
- *
  * @extends BoostCard
  * @extends SeasonalCard
  *
@@ -386,7 +376,6 @@ public:
 /**
  * @class ChaoticPool
  * @brief Class representing the ChaoticPool card.
- *
  * @extends EventCard
  * @extends SeasonalCard
  *
@@ -422,7 +411,6 @@ public:
 /**
  * @class HoldTheGremlin
  * @brief Class representing the HoldTheGremlin card.
- *
  * @extends GiftCard
  * @extends SeasonalCard
  *
@@ -458,7 +446,6 @@ public:
 /**
  * @class Terrorize
  * @brief Class representing the Terrorize card.
- *
  * @extends GiftCard
  * @extends HyperCard
  * @extends SeasonalCard

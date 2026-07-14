@@ -44,13 +44,12 @@ public:
 
     /**
      * @brief Create a MushroomCard object with the given ID.
-     *
      * @param id ID of the MushroomCard to create
      * @param color Color of the card to create
      * @return Shared pointer to the created MushroomCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<MushroomCard>> create(u8 id, MushroomCard::Color color) noexcept {
+    static constexpr Optional<SharedPointer<MushroomCard>> create(u8 id, MushroomCard::Color color) noexcept {
         switch (id) {
             case 0:
                 return nullptr;
@@ -110,13 +109,12 @@ public:
 
     /**
      * @brief Create a LegendaryMushroomCard object with the given ID.
-     *
      * @param id ID of the LegendaryMushroomCard to create
      * @param color Color of the card to create
      * @return Shared pointer to the created LegendaryMushroomCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static Optional<SharedPointer<LegendaryMushroomCard>> create(u8 id, LegendaryMushroomCard::Color color) noexcept {
+    static constexpr Optional<SharedPointer<LegendaryMushroomCard>> create(u8 id, LegendaryMushroomCard::Color color) noexcept {
         switch (id) {
             case 0:
                 return nullptr;

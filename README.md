@@ -56,7 +56,7 @@ We have also written a Python script to simplify using CMake, which can be run w
 `quick_cmake_build.py` help:
 
 ```text
-usage: quick_cmake_build.py [-h] [-r] [-c | -ca | -n | -pd | -rc] [-g] [-s SANITISER [SANITISER ...]] [-v]
+usage: quick_cmake_build.py [-h] [-r] [-c | -ca | -n | -pd | -rc] [-g] [-s SANITIZER ...] [-v]
 
 Build script for openJuice project.
 
@@ -69,8 +69,7 @@ options:
   -pd, --preserve-deps  Cleans the build directory and rebuilds everything (excluding dependencies)
   -rc, --reconfigure    Reconfigure CMake build system (for when new files are added)
   -g, --graph           Generate dependency graph
-  -s, --sanitizer, --sanitizer SANITISER [SANITISER ...]
-                        Enable sanitizers (address, undefined, thread, memory, leak, all)
+  -s, --sanitizer,      Enable sanitizers (address, undefined, thread, memory, leak, all)
   -v, --verbose         Enable verbose output (lacks progress bar or other graphical features)
 ```
 
@@ -93,7 +92,7 @@ Build script for openJuice project
                                NDEBUG defined)
       -rc, --reconfigure     Reconfigure CMake build system (for when new files
                                are added)
-  -s, --sanitizer, --sanitizer=<sanitizers>
+  -s, --sanitizer=<sanitizers>
                              Enable sanitizers (address, undefined, thread,
                                memory, leak)
   -v, --verbose              Enable verbose output (lacks progress bar or other
@@ -142,7 +141,5 @@ This project uses the following external libraries:
 * [re2](https://github.com/google/re2) (`re2`)
 * [SFML](https://github.com/SFML/SFML) (`sfml`)
 * [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)
-
-ECS adapted from [kawa_ecs](https://github.com/superPuero/kawa_ecs) (`kawa::ecs`).
 
 To generate the graph, the tool [module-graph-tool](https://github.com/sebastian-eichelbaum/module-graph-tool) is used.

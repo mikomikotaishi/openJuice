@@ -19,7 +19,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::util);
 /**
  * @class InvalidIDException
  * @brief Exception class for invalid IDs.
- *
  * @extends OutOfRangeException
  * 
  * The InvalidIDException class is used to handle exceptions related to invalid IDs in ID queries.
@@ -37,7 +36,6 @@ public:
 /**
  * @class InvalidKeyException
  * @brief Exception class for invalid keys.
- *
  * @extends OutOfRangeException
  *
  * The InvalidKeyException class is used to handle exceptions related to invalid keys in LocalizationService key queries.
@@ -55,7 +53,6 @@ public:
 /**
  * @class InvalidLanguageException
  * @brief Exception class for invalid languages.
- *
  * @extends InvalidArgumentException (stdx::invalid_argument)
  *
  * The InvalidLanguageException class is used to handle exceptions related to invalid languages.

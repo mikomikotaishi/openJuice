@@ -27,7 +27,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::regular::battle);
 /**
  * @class NullBattleMushroom
  * @brief Class representing the NullBattleMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The NullBattleMushroom class extends BattleMushroomCard to represent the card 
@@ -63,7 +62,6 @@ public:
 /**
  * @class AttackUpMushroom
  * @brief Class representing the AttackUpMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The AttackUpMushroom class extends BattleMushroomCard to represent the card 
@@ -99,7 +97,6 @@ public:
 /**
  * @class AttackDownMushroom
  * @brief Class representing the AttackDownMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The AttackDownMushroom class extends BattleMushroomCard to represent the card 
@@ -135,7 +132,6 @@ public:
 /**
  * @class DefenseUpMushroom
  * @brief Class representing the DefenseUpMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The DefenseUpMushroom class extends BattleMushroomCard to represent the card 
@@ -171,7 +167,6 @@ public:
 /**
  * @class DefenseDownMushroom
  * @brief Class representing the DefenseDownMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The DefenseDownMushroom class extends BattleMushroomCard to represent the card 
@@ -207,7 +202,6 @@ public:
 /**
  * @class EvadeUpMushroom
  * @brief Class representing the EvadeUpMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The EvadeUpMushroom class extends BattleMushroomCard to represent the card 
@@ -243,7 +237,6 @@ public:
 /**
  * @class EvadeDownMushroom
  * @brief Class representing the EvadeDownMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The EvadeDownMushroom class extends BattleMushroomCard to represent the card 
@@ -279,7 +272,6 @@ public:
 /**
  * @class HealMushroom
  * @brief Class representing the HealMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The HealMushroom class extends BattleMushroomCard to represent the card 
@@ -315,7 +307,6 @@ public:
 /**
  * @class DamageMushroom
  * @brief Class representing the DamageMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The DamageMushroom class extends BattleMushroomCard to represent the card 
@@ -351,7 +342,6 @@ public:
 /**
  * @class RollOneMushroom
  * @brief Class representing the RollOneMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The RollOneMushroom class extends BattleMushroomCard to represent the card 
@@ -387,7 +377,6 @@ public:
 /**
  * @class RollSixMushroom
  * @brief Class representing the RollSixMushroom card.
- *
  * @extends BattleMushroomCard
  *
  * The RollSixMushroom class extends BattleMushroomCard to represent the card 

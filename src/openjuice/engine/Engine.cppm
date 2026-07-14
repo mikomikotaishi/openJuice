@@ -83,12 +83,11 @@ private:
     
     /**
      * @brief Runs the actual game loop (all computational parts of the game)
-     * 
+     * @param token Token for cooperative cancellation
+     *
      * This method executes in its own thread and handles all game state updates.
      * It uses condition variables for pause/resume functionality and minimizes
      * lock duration to ensure UI responsiveness.
-     * 
-     * @param token Token for cooperative cancellation
      */
     void runGameLoop(StopToken token) {
         while (!token.stop_requested()) {
@@ -97,18 +96,18 @@ private:
                 gameUpdate.wait(lock, [this, &token] -> bool { 
                     return !gamePaused.load() || token.stop_requested(); 
                 });
-                
+
                 if (token.stop_requested()) {
                     break;
                 }
             }
-            
+
             {
                 ScopedLock<Mutex> lock(stateMutex);
                 game->update(); 
             }
-            
-            System::Thread::sleep_for(config->getDeltaTime());
+
+            Thread::sleep_for(config->getDeltaTime());
         }
     }
 
@@ -125,12 +124,11 @@ private:
     
     /**
      * @brief Runs the UI loop (separate from game calculations)
-     * 
+     * @param token Token for cooperative cancellation
+     *
      * This method executes in its own thread and handles all UI rendering and
      * event processing. It creates the appropriate UI based on the selected
      * launch mode and synchronizes with the game thread for state access.
-     * 
-     * @param token Token for cooperative cancellation
      */
     void runUiLoop(StopToken token) {
         UniquePointer<UserInterface> ui = uiOf(launchMode);
@@ -139,26 +137,26 @@ private:
         switch (launchMode) {
             case LaunchMode::TUI:
                 ui->render();
-                
+
                 gameThread.request_stop();
                 gameUpdate.notify_all();
                 break;
             case LaunchMode::CLI:
                 while (!token.stop_requested()) {
                     ui->processEvents();
-                    
+
                     if (ui->shouldExit()) {
                         gameThread.request_stop();
                         gameUpdate.notify_all();
                         break;
                     }
-                    
+
                     {
                         ScopedLock<Mutex> lock(stateMutex);
                         ui->render();
                     }
-                    
-                    System::Thread::sleep_for(config->getDeltaTime());
+
+                    Thread::sleep_for(config->getDeltaTime());
                 }
                 break;
         }
@@ -167,7 +165,6 @@ private:
 public:
     /**
      * @brief Constructs a new Engine object
-     *
      * @param mode The launch mode determining which UI to initialize
      * @param loggerFactory The injected logger factory
      */
@@ -187,8 +184,6 @@ public:
 
     /**
      * @brief Destroy the Engine object
-     * 
-     * Thread automatically joins in its destructor, so explicit join calls are not needed.
      */
     ~Engine() {
         #ifndef NDEBUG
@@ -213,12 +208,11 @@ public:
     
     /**
      * @brief Initializes and starts the engine
-     * 
+     * @throws RuntimeException
+     *
      * Launches both game and UI threads and waits for them to complete.
      * The UI thread drives the application lifecycle; when it exits,
      * this method ensures the game thread is also terminated properly.
-     *
-     * @throws RuntimeException
      */
     void init() throws (RuntimeException) {
         #ifndef NDEBUG
@@ -232,7 +226,7 @@ public:
             logger->warn("Discord integration unsuccessful!");
         }
         if (Expected<void, Registry::Error> r = game->init(); !r) {
-            throw RuntimeException(stdx::fmt::format("Game failed to initialize: {}", r.error()));
+            throw RuntimeException(Ops::fmt("Game failed to initialize: {}", r.error()));
         }
         gameThread = Thread([this](StopToken token) -> void {
             runGameLoop(token);

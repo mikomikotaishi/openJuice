@@ -29,11 +29,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  * @class Panel
  * @brief Class representing a panel on the game board.
  *
- * The Panel class represents a panel on the game board with attributes such as type, neighbours, and entry/exit directions.
+ * The Panel class represents a panel on the game board with attributes such as type, neighbors, and entry/exit directions.
  */
 export class [[nodiscard]] Panel {
 public:
-    using Neighbours = Array<WeakPointer<Panel>, 4>;
+    using Neighbors = Array<WeakPointer<Panel>, 4>;
     using Adjacents = BitSet<4>;
 
     /**
@@ -85,7 +85,7 @@ public:
         RANDOM, ///< 26 - Causes either a positive or negative effect of any normal panel
     };
 private:
-    Neighbours neighbours; ///< The neighbouring panels.
+    Neighbors neighbors; ///< The neighboring panels.
     Adjacents enters; ///< The directions from which the panel can be entered.
     Adjacents exits; ///< The directions from which the panel can be exited.
     u16 id; ///< The ID of the panel.
@@ -94,7 +94,6 @@ private:
 public:
     /**
      * @brief Constructor to initialize a Panel object.
-     *
      * @param id The ID of the panel.
      * @param type The type of the panel.
      * @param enters The directions from which the panel can be entered.
@@ -102,7 +101,7 @@ public:
      * @param alternativeType The alternative type of the panel (if any).
      */
     Panel(u16 id, Of type, Of alternativeType, const Adjacents& enters, const Adjacents& exits):
-        neighbours{{}}, enters{enters}, exits{exits}, id{id}, type{type}, alternativeType{alternativeType} {}
+        neighbors{{}}, enters{enters}, exits{exits}, id{id}, type{type}, alternativeType{alternativeType} {}
 
     [[nodiscard]]
     u16 getId() const noexcept {
@@ -138,36 +137,34 @@ public:
     }
 
     [[nodiscard]]
-    const Neighbours& getNeighbours() const noexcept {
-        return neighbours;
+    const Neighbors& getNeighbors() const noexcept {
+        return neighbors;
     }
 
     /**
-     * @brief Set the neighbour of the panel in a specific direction.
-     *
-     * @param direction The direction of the neighbour.
-     * @param neighbour The neighbouring panel.
+     * @brief Set the neighbor of the panel in a specific direction.
+     * @param direction The direction of the neighbor.
+     * @param neighbor The neighboring panel.
      */
-    void setNeighbour(Direction direction, const SharedPointer<Panel>& neighbour) RELEASE_NOEXCEPT {
+    void setNeighbor(Direction direction, const SharedPointer<Panel>& neighbor) RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        neighbours.at(Ops::to_underlying(direction)) = neighbour;
+        neighbors.at(Ops::to_underlying(direction)) = neighbor;
         #else
-        neighbours[Ops::to_underlying(direction)] = neighbour;
+        neighbors[Ops::to_underlying(direction)] = neighbor;
         #endif
     }
 
     /**
-     * @brief Get the neighbour of the panel in a specific direction.
-     *
-     * @param direction The direction of the neighbour.
-     * @return The neighbouring panel.
+     * @brief Get the neighbor of the panel in a specific direction.
+     * @param direction The direction of the neighbor.
+     * @return The neighboring panel.
      */
     [[nodiscard]]
-    SharedPointer<Panel> getNeighbour(Direction direction) const RELEASE_NOEXCEPT {
+    SharedPointer<Panel> getNeighbor(Direction direction) const RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        return neighbours.at(Ops::to_underlying(direction)).lock();
+        return neighbors.at(Ops::to_underlying(direction)).lock();
         #else
-        return neighbours[Ops::to_underlying(direction)].lock();
+        return neighbors[Ops::to_underlying(direction)].lock();
         #endif
     }
 };
@@ -297,5 +294,5 @@ struct Formatter<Panel::Of> {
     }
 };
 
-SPECIALISE_FORMATTER(Panel::Direction);
-SPECIALISE_FORMATTER(Panel::Of);
+SPECIALIZE_FORMATTER(Panel::Direction);
+SPECIALIZE_FORMATTER(Panel::Of);

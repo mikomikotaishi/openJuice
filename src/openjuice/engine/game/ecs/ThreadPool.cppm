@@ -48,13 +48,12 @@ private:
 public:
     /**
      * @brief Construct a new ThreadPool object.
-     * 
+     * @param threadCount The number of worker threads to create in the pool.
+     * If 0, no threads are created and all work is done on the main thread.
+     *
      * Creates a pool of worker threads that will wait at a barrier for tasks to execute.
      * Each thread runs in a loop, waiting for tasks at the barrier, executing them,
      * and then waiting again until the pool is destroyed.
-     * 
-     * @param threadCount The number of worker threads to create in the pool.
-     *                    If 0, no threads are created and all work is done on the main thread.
      *
      * @note The actual number of task chunks is threadCount + 1, as the main thread
      * that calls execTask() also executes a chunk of work.
@@ -87,11 +86,11 @@ public:
 
     /**
      * @brief Destroy the ThreadPool object.
-     * 
+     *
      * Signals all worker threads to shut down by setting shouldJoin flag and
      * synchronizing through the barrier. Waits for all threads to complete
      * their current work and join before returning.
-     * 
+     *
      * @note This destructor blocks until all worker threads have been joined.
      */
     ~ThreadPool() {
@@ -105,25 +104,20 @@ public:
 
     /**
      * @brief Execute a task in parallel across all threads in the pool.
-     * 
+     * @tparam Fn A callable type that accepts two usize parameters (start, end).
+     * Should have the signature: void(usize start, usize end).
+     * @param query The function to execute on each chunk. Will be called with
+     * (start, end) indices defining the range to process.
+     * @param work The total amount of work to divide (upper bound of the range).
+     * The work will be split across all threads in the pool.
+     *
      * Divides the work into chunks and distributes them across worker threads.
      * The work range [0, work) is split into taskCount chunks, with any remainder
      * added to the last chunk. Each thread (including the calling thread) executes
      * the query function on its assigned range [start, end).
-     * 
+     *
      * This function blocks until all threads have completed their work chunks.
-     * 
-     * @tparam Fn A callable type that accepts two usize parameters (start, end).
-     *            Should have the signature: void(usize start, usize end).
-     * 
-     * @param query The function to execute on each chunk. Will be called with
-     *              (start, end) indices defining the range to process.
-     * @param work The total amount of work to divide (upper bound of the range).
-     *             The work will be split across all threads in the pool.
-     * 
-     * @note The calling thread also participates in the work, executing the last chunk.
-     * @note If a chunk would be empty (start >= end), it is skipped.
-     * 
+     *
      * @par Example:
      * @code
      * ThreadPool pool(4);
@@ -133,6 +127,9 @@ public:
      *     }
      * }, 1000); // Process 1000 elements across 5 threads (4 workers + main)
      * @endcode
+     *
+     * @note The calling thread also participates in the work, executing the last chunk.
+     * @note If a chunk would be empty (start >= end), it is skipped.
      */
     template <typename Fn>
     void execTask(Fn&& query, usize work) {
