@@ -15,9 +15,7 @@ export module openjuice.engine.game.ecs:ThreadPool;
 
 import stdx;
 
-using stdx::alloc::AlignValue;
-using stdx::mem::Pointers;
-using stdx::mem::UniquePointer;
+using stdx::collections::Vector;
 using stdx::ranges::IotaView;
 using stdx::sync::Barrier;
 using stdx::thread::Thread;
@@ -37,13 +35,24 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game::ecs);
  */
 export class ThreadPool {
 private:
+    /**
+     * @struct Range
+     * @brief One task's half-open slice of the work.
+     *
+     * Kept together rather than in parallel start/end arrays so that a worker reads its whole
+     * slice from one cache line. Only the main thread writes these, and only before a barrier the
+     * workers read after, so packing them adjacently cannot cause false sharing.
+     */
+    struct Range {
+        usize start = 0; ///< First index in the slice.
+        usize end = 0; ///< One past the last index in the slice.
+    };
+
     Barrier<> barrier; ///< Synchronization barrier for coordinating thread execution.
     Function<void(usize, usize)> task = nullptr; ///< The current task function to execute.
-    UniquePointer<Thread[]> threads; ///< Array of worker threads in the pool.
-    UniquePointer<usize[]> starts; ///< Starting indices for each thread's work chunk.
-    UniquePointer<usize[]> ends; ///< Ending indices for each thread's work chunk.
-    const u32 threadCount = 0; ///< Number of worker threads in the pool.
-    const u32 taskCount = 0; ///< Total number of tasks (threadCount + 1, including main thread).
+    Vector<Thread> threads; ///< Worker threads in the pool.
+    Vector<Range> ranges; ///< Each task's slice of the current work, indexed by task number.
+    const u32 taskCount = 0; ///< Total number of tasks (worker threads + 1, including main thread).
     bool shouldJoin = false; ///< Flag indicating whether threads should terminate.
 public:
     /**
@@ -60,24 +69,20 @@ public:
      */
     explicit ThreadPool(u32 threadCount):
         barrier(threadCount + 1),
-        threads{
-            threadCount > 0 
-                ? reinterpret_cast<Thread*>(::operator new(sizeof(Thread) * threadCount, AlignValue{alignof(Thread)}))
-                : nullptr
-        },
-        starts{Pointers::unique<usize[]>(threadCount + 1)},
-        ends{Pointers::unique<usize[]>(threadCount + 1)},
-        threadCount{threadCount},
+        ranges(threadCount + 1),
         taskCount{threadCount + 1} {
+        // Reserved up front so that no emplace_back below reallocates.
+        threads.reserve(threadCount);
+
         for (u32 i: IotaView(0u, threadCount)) {
-            new (&threads[i])Thread([this, i] -> void {
+            threads.emplace_back([this, i] -> void {
                 while (true) {
                     barrier.arrive_and_wait();
                     if (shouldJoin) {
                         barrier.arrive_and_wait();
                         return;
                     }
-                    task(starts[i], ends[i]);
+                    task(ranges[i].start, ranges[i].end);
                     barrier.arrive_and_wait();
                 }
             });
@@ -97,8 +102,8 @@ public:
         shouldJoin = true;
         barrier.arrive_and_wait(); // signal worker threads to shut down
         barrier.arrive_and_wait(); // synchronize before joining
-        for (u32 i: IotaView(0u, threadCount)) {
-            threads[i].join();
+        for (Thread& thread: threads) {
+            thread.join();
         }
     }
 
@@ -137,18 +142,19 @@ public:
         usize chunk = work / taskCount;
         usize tail = work - chunk * taskCount;
         for (u32 i: IotaView(0u, taskCount)) {
-            usize start = i * chunk;
-            usize end = start + chunk + (i == taskCount - 1
+            const usize start = i * chunk;
+            const usize end = start + chunk + (i == taskCount - 1
                 ? tail
                 : 0);
-            if (start >= end) {
-                continue;
-            }
-            starts[i] = start;
-            ends[i] = end;
+
+            // Assigned even when the slice is empty. The workers read these unconditionally, so
+            // skipping an index would leave it holding the previous call's slice and run that
+            // slice a second time.
+            ranges[i] = Range{.start = start, .end = end};
         }
         barrier.arrive_and_wait();
-        task(starts[taskCount - 1], ends[taskCount - 1]);
+        const Range& own = ranges[taskCount - 1];
+        task(own.start, own.end);
         barrier.arrive_and_wait();
     }
 };

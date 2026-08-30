@@ -14,8 +14,7 @@ export module openjuice.chat:ChatClient;
 
 import stdx;
 
-import openjuice.engine.services;
-
+using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 using stdx::net::BindException;
 using stdx::net::Endpoint;
@@ -23,6 +22,9 @@ using stdx::net::Resolver;
 using stdx::net::SocketException;
 using stdx::net::TcpStream;
 using stdx::net::UnknownHostException;
+using stdx::sync::Atomic;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
 using stdx::thread::Thread;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
@@ -31,100 +33,96 @@ BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
 /**
  * @class ChatClient
- * @brief Class for managing chat client connections.
- * 
- * The ChatClient class manages chat client connections and handles communication with the chat server.
+ * @brief A connection to a chat server, owned by whatever is displaying the chat.
+ *
+ * The client connects and returns; it does not own the terminal and does not run a chat loop. One
+ * thread blocks on the socket and parks whatever arrives in a queue, and the owner drains that queue
+ * whenever it is ready to draw. Delivering messages by queue rather than by calling back on the
+ * network thread is what lets a UI consume them without being thread-safe itself.
  */
 export class ChatClient {
+public:
+    static constexpr usize MAX_MESSAGE_LENGTH = 4096; ///< Longest single message accepted from the server.
 private:
+    static constexpr usize RECEIVE_CHUNK = 1024; ///< How much is taken off the socket per read.
+
     SharedPointer<Logger> logger; ///< The logger instance.
-    Optional<TcpStream> clientStream; ///< The connection to the chat server, held while connected.
-    Thread listenerThread; ///< Listener thread for the chat client.
-    bool connected = false; ///< Connection status.
+    Optional<TcpStream> stream; ///< The connection to the chat server.
+    Atomic<bool> connected{false}; ///< Whether the connection is still usable.
+    mutable Mutex inboxMutex; ///< Guards inbox, which the listener fills and the owner drains.
+    Vector<String> inbox; ///< Messages received but not yet collected.
+    Function<void()> onMessage; ///< Called on the listener thread when a message lands. May be empty.
+    Thread listenerThread; ///< Receives from the server. Joined by the destructor.
 
     /**
-     * @brief Start the chat client.
+     * @brief Receive from the server until the connection ends.
+     *
+     * The socket is left blocking, so this parks in the kernel rather than polling. The destructor
+     * shuts the connection down to wake it.
      */
-    void startChat() {
-        logger->info("Starting chat");
-        String message;
-        while (connected) {
-            message = System::in.readln();
-            if (message.empty()) {
-                break;
-            }
-            message += "\n";
+    void listen() {
+        Array<char, RECEIVE_CHUNK> buffer;
+        String messageBuffer;
 
-            try {
-                clientStream->send_all(as_bytes(Span<const char>(message.data(), message.size())));
-            } catch (const SocketException& e) {
-                logger->error("Failed to send message: {}", e.what());
-                connected = false;
-                break;
-            }
-        }
-    }
+        try {
+            while (connected.load()) {
+                const usize received = stream->receive(as_writable_bytes(Span<char>(buffer)));
 
-    /**
-     * @brief Start listening for messages from the server.
-     */
-    void startListening() {
-        listenerThread = Thread([this] -> void {
-            try {
-                char buffer[1024];
-                String messageBuffer;
-                while (connected) {
-                    const Optional<usize> received = clientStream->try_receive(as_writable_bytes(Span<char>(buffer)));
+                if (received == 0) {
+                    break;
+                }
 
-                    // An empty Optional is "nothing has arrived yet"; a zero count is the server closing.
-                    if (!received) {
-                        continue;
-                    }
+                messageBuffer.append(buffer.data(), received);
 
-                    if (*received == 0) {
-                        connected = false;
-                        break;
-                    }
+                usize pos;
+                Vector<String> complete;
+                while ((pos = messageBuffer.find('\n')) != String::npos) {
+                    complete.push_back(messageBuffer.substr(0, pos));
+                    messageBuffer.erase(0, pos + 1);
+                }
 
-                    messageBuffer.append(buffer, *received);
+                if (messageBuffer.length() > MAX_MESSAGE_LENGTH) {
+                    logger->error("Server exceeded the maximum message length");
+                    break;
+                }
 
-                    usize pos;
-                    while ((pos = messageBuffer.find('\n')) != String::npos) {
-                        String message = messageBuffer.substr(0, pos);
-                        System::out.print("\n[CHAT] {}\n> ", message);
-                        System::out.flush();
-                        messageBuffer.erase(0, pos + 1);
+                if (complete.empty()) {
+                    continue;
+                }
+
+                {
+                    ScopedLock lock{inboxMutex};
+                    for (String& message: complete) {
+                        inbox.push_back(Ops::move(message));
                     }
                 }
-            } catch (const Exception& e) {
-                logger->error("Exception in listener thread: {}", e.what());
-                connected = false;
-                logger->error("Disconnected from server.");
-            }
-        });
-    }
 
-    /**
-     * @brief Stop listening for messages from the server.
-     */
-    void stopListening() {
-        connected = false;
-        if (clientStream) {
-            clientStream->close();
+                if (onMessage) {
+                    onMessage();
+                }
+            }
+        } catch (const SocketException& e) {
+            if (connected.load()) {
+                logger->error("Disconnected from server: {}", e.what());
+            }
         }
-        listenerThread.request_stop();
+
+        connected.store(false);
     }
 public:
     /**
-     * @brief Constructor to initialize a ChatClient object.
+     * @brief Connect to a chat server.
      * @param host The host to connect to.
      * @param port The port to connect to.
      * @param loggerFactory Shared logger factory used to create this client's logger.
+     * @param onMessage Called on the listener thread once messages are waiting; keep it cheap and
+     * do not touch the UI from it. Use it to wake the owner, which then calls @ref collect.
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
-    ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory) throws (BindException, UnknownHostException):
-        logger{loggerFactory->of("ChatClient")} {
+    ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory, Function<void()> onMessage = nullptr) throws (BindException, UnknownHostException):
+        logger{loggerFactory->of("ChatClient")},
+        onMessage{Ops::move(onMessage)} {
         Optional<Endpoint> serverEndpoint;
 
         try {
@@ -140,25 +138,81 @@ public:
         }
 
         try {
-            clientStream.emplace(TcpStream::connect(*serverEndpoint));
+            stream.emplace(TcpStream::connect(*serverEndpoint));
         } catch (const SocketException& e) {
             logger->error("Failed to connect to server at {}:{}: {}", host, port, e.what());
             throw BindException("Failed to connect to chat server");
         }
-        
+
         logger->info("Connected to server at {}:{}", host, port);
-        connected = true;
-        clientStream->socket().set_blocking(false); // Non-blocking for listener thread
-        startListening();
-        clientStream->socket().set_blocking(true); // Blocking for main chat
-        startChat();
+        connected.store(true);
+
+        listenerThread = Thread([this] -> void {
+            listen();
+        });
     }
-    
+
+    /**
+     * @brief Whether the connection is still usable.
+     * @return true until the server closes or an error ends the connection
+     */
+    [[nodiscard]]
+    bool isConnected() const noexcept {
+        return connected.load();
+    }
+
+    /**
+     * @brief Send a message to the server.
+     * @param message The message to send, without a trailing newline.
+     * @return true if the message was sent
+     */
+    bool send(StringView message) noexcept {
+        if (!connected.load() || !stream) {
+            return false;
+        }
+
+        String line{message};
+        line += '\n';
+
+        try {
+            stream->send_all(as_bytes(Span<const char>(line.data(), line.size())));
+            return true;
+        } catch (const SocketException& e) {
+            logger->error("Failed to send message: {}", e.what());
+            connected.store(false);
+            return false;
+        }
+    }
+
+    /**
+     * @brief Take everything received since the last call.
+     * @return The messages, oldest first, with their newlines removed.
+     */
+    [[nodiscard]]
+    Vector<String> collect() {
+        ScopedLock lock{inboxMutex};
+        Vector<String> taken = Ops::move(inbox);
+        inbox.clear();
+        return taken;
+    }
+
     /**
      * @brief Destructor to clean up resources.
      */
     ~ChatClient() {
-        stopListening();
+        connected.store(false);
+
+        if (stream) {
+            try {
+                stream->shutdown();
+            } catch (const Exception& _) {
+                // Stream already down
+            }
+        }
+
+        if (listenerThread.joinable()) {
+            listenerThread.join();
+        }
     }
 };
 

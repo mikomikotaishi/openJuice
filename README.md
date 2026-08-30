@@ -139,7 +139,6 @@ This project uses the following external libraries:
 * [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (`ftxui`)
 * [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)
 * [re2](https://github.com/google/re2) (`re2`)
-* [SFML](https://github.com/SFML/SFML) (`sfml`)
 * [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)
 
 To generate the graph, the tool [module-graph-tool](https://github.com/sebastian-eichelbaum/module-graph-tool) is used.

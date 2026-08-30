@@ -21,7 +21,6 @@ end
 
 add_requires("boost[asio,regex,system] >= 1.88.0", { alias = "boost" })
 add_requires("ftxui >= 6.1.9", { alias = "ftxui" })
-add_requires("sfml >= 3.0.0", { alias = "sfml" })
 add_requires("sqlitecpp >= 3.3.3", { alias = "sqlitecpp" })
 add_requires("tomlplusplus >= 3.4.0", { alias = "tomlpp" })
 
@@ -42,7 +41,6 @@ add_files(
 add_packages(
     "ftxui", 
     "nlohmann-json",
-    "sfml", 
     "sqlitecpp",
     "tomlpp", 
     { public = true }

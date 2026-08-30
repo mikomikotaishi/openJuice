@@ -285,11 +285,6 @@ FetchContent_Declare(
     GIT_TAG 2025-11-05
 )
 FetchContent_Declare(
-    SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.1.0
-)
-FetchContent_Declare(
     tomlplusplus
     GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
     GIT_TAG master
@@ -307,7 +302,6 @@ if(NOT absl_FOUND)
         ftxui
         nlohmann-json
         re2
-        SFML
         tomlplusplus
     )
 else()
@@ -316,7 +310,6 @@ else()
         ftxui
         nlohmann-json
         re2
-        SFML
         tomlplusplus
     )
 endif()
@@ -334,7 +327,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
         modules
         ftxui-modules
         nlohmann_json
-        sfml
         re2_module
         ${DISCORD_LIBRARY}
     )
@@ -343,14 +335,12 @@ else()
         stdlibx
         modules
         ftxui-modules
-        sfml
         re2_module
     )
 endif()
 
 target_include_directories(openJuice 
-    PRIVATE 
-    ${SFML_INCLUDE_DIRECTORIES}
+    PRIVATE
     ${tomlplusplus_INCLUDE_DIRS} 
 )
 

@@ -15,143 +15,100 @@ export module openjuice.chat:ChatSession;
 import stdx;
 
 using stdx::collections::Vector;
-using stdx::linq::Query;
-using stdx::mem::EnableSharedFromThis;
-using stdx::mem::SharedPointer;
+using stdx::net::Socket;
 using stdx::net::SocketException;
 using stdx::net::TcpStream;
-using stdx::thread::Thread;
-using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
 /**
  * @class ChatSession
- * @brief Class for managing individual chat sessions.
- * 
- * The ChatSession class manages individual chat sessions and handles communication with clients.
+ * @brief One connected client, owned and driven by the ChatServer.
+ *
+ * A session holds a connection and the bytes that have arrived on it so far, and does nothing on
+ * its own: the server's reactor decides when it is worth reading, and the server decides who a
+ * message reaches. There is no thread here and no reference back to the other clients, which is
+ * what keeps every session reachable from exactly one thread.
  */
-export class ChatSession: public EnableSharedFromThis<ChatSession> {
+export class ChatSession {
+public:
+    static constexpr usize MAX_MESSAGE_LENGTH = 4096; ///< Longest single message accepted from a client.
 private:
-    SharedPointer<Logger> logger; ///< The logger instance.
-    TcpStream sessionStream; ///< The connection to this session's client.
-    String inputBuffer; ///< Buffer for incoming messages.
-    Vector<SharedPointer<ChatSession>>& clients; ///< List of connected clients.
-    Thread sessionThread; ///< Thread for handling this session.
-    bool active = false; ///< Session active status.
+    static constexpr usize RECEIVE_CHUNK = 1024; ///< How much is taken off the socket per read.
 
-    /**
-     * @brief Broadcast a message to all clients.
-     * @param msg The message to broadcast.
-     */
-    void broadcast(const String& msg) {
-        for (SharedPointer<ChatSession>& client: clients) {
-            if (client.get() != this) {
-                client->deliver(msg);
-            }
-        }
-    }
-
-    /**
-     * @brief Remove the client from the list of connected clients.
-     */
-    void removeClient() {
-        clients = Query<>::from(clients)
-            .where([this](const auto& c) -> bool { return c.get() != this; })
-            .to<Vector>();
-    }
-
-    /**
-     * @brief Read messages from the client.
-     */
-    void readMessages() {
-        char buffer[1024];
-        
-        while (active) {
-            Optional<usize> received;
-
-            try {
-                received = sessionStream.try_receive(as_writable_bytes(Span<char>(buffer)));
-            } catch (const SocketException& e) {
-                logger->error("Socket error occurred: {}", e.what());
-                active = false;
-                removeClient();
-                break;
-            }
-
-            // An empty Optional is "nothing has arrived yet"; a zero count is the peer closing.
-            if (!received) {
-                continue;
-            }
-
-            if (*received == 0) {
-                logger->info("Client disconnected");
-                active = false;
-                removeClient();
-                break;
-            }
-
-            inputBuffer.append(buffer, *received);
-
-            // Process complete messages (delimited by newline)
-            usize pos;
-            while ((pos = inputBuffer.find('\n')) != String::npos) {
-                String message = inputBuffer.substr(0, pos + 1);
-                inputBuffer.erase(0, pos + 1);
-                logger->info("Received: {}", message);
-                broadcast(message);
-            }
-        }
-    }
+    TcpStream stream; ///< The connection to this session's client.
+    String peerName; ///< How this client is named in the log.
+    String inputBuffer; ///< Bytes received but not yet forming a complete message.
 public:
     /**
      * @brief Constructor to initialize a ChatSession object.
      * @param stream The connection to the session's client.
-     * @param clients The list of connected clients.
-     * @param loggerFactory Shared logger factory used to create this session's logger.
+     * @param peerName How to name this client in the log.
      */
-    ChatSession(TcpStream stream, Vector<SharedPointer<ChatSession>>& clients, SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("ChatSession")},
-        sessionStream{Ops::move(stream)}, clients{clients} {
-        sessionStream.socket().set_blocking(false);
-    }
-    
+    ChatSession(TcpStream stream, String peerName) noexcept:
+        stream{Ops::move(stream)}, peerName{Ops::move(peerName)} {}
+
     /**
-     * @brief Start the chat session.
+     * @brief How this client is named in the log.
+     * @return The peer's address, or a placeholder if it could not be read.
      */
-    void start() {
-        active = true;
-        
-        // Start reading messages in a separate thread
-        sessionThread = Thread([this] -> void {
-            readMessages();
-        });
+    [[nodiscard]]
+    StringView peer() const noexcept {
+        return peerName;
+    }
+
+    /**
+     * @brief The descriptor this session is reachable by.
+     * @return The connection's native handle.
+     */
+    [[nodiscard]]
+    Socket::NativeHandle handle() const noexcept {
+        return stream.native_handle();
+    }
+
+    /**
+     * @brief Reads everything that has arrived and splits off the complete messages.
+     * @param messages Receives each complete message, newline included.
+     * @return false once the peer has closed its writing half.
+     * @throws SocketException if the receive fails, or the peer overruns MAX_MESSAGE_LENGTH.
+     */
+    [[nodiscard]]
+    bool drain(Vector<String>& messages) throws (SocketException) {
+        Array<char, RECEIVE_CHUNK> buffer;
+
+        while (true) {
+            const Optional<usize> received = stream.try_receive(as_writable_bytes(Span<char>(buffer)));
+            if (!received) {
+                break;
+            }
+
+            if (*received == 0) {
+                return false;
+            }
+
+            inputBuffer.append(buffer.data(), *received);
+        }
+
+        usize pos;
+        while ((pos = inputBuffer.find('\n')) != String::npos) {
+            messages.push_back(inputBuffer.substr(0, pos + 1));
+            inputBuffer.erase(0, pos + 1);
+        }
+
+        if (inputBuffer.length() > MAX_MESSAGE_LENGTH) {
+            throw SocketException("Client exceeded the maximum message length");
+        }
+
+        return true;
     }
 
     /**
      * @brief Deliver a message to the client.
      * @param msg The message to deliver.
+     * @throws SocketException if the send fails.
      */
-    void deliver(StringView msg) {
-        if (!active || !sessionStream.is_open()) {
-            return;
-        }
-
-        try {
-            sessionStream.send_all(as_bytes(Span<const char>(msg.data(), msg.size())));
-        } catch (const SocketException& e) {
-            logger->error("Failed to send message to client: {}", e.what());
-        }
-    }
-    
-    /**
-     * @brief Destructor to clean up resources.
-     */
-    ~ChatSession() {
-        active = false;
-        sessionStream.close();
-        sessionThread.request_stop();
+    void deliver(StringView msg) throws (SocketException) {
+        stream.send_all(as_bytes(Span<const char>(msg.data(), msg.size())));
     }
 };
 
