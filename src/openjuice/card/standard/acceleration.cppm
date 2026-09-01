@@ -33,7 +33,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::acceleration);
  */
 export class CompletionReward final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_COMPLETIONREWARD", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_COMPLETIONREWARD",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 54; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -68,7 +71,10 @@ public:
  */
 export class GentlemansBattle final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_GENTLEMANSBATTLE", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_GENTLEMANSBATTLE",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 55; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -103,7 +109,10 @@ public:
  */
 export class AccelHyper final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_ACCELHYPER", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_ACCELHYPER",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 56; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -138,7 +147,10 @@ public:
  */
 export class Extension final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_EXTENSION", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_EXTENSION",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 57; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -173,7 +185,10 @@ public:
  */
 export class QuickRestoration final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_QUICKRESTORATION", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_QUICKRESTORATION",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 58; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -208,7 +223,10 @@ public:
  */
 export class BrutalPrank final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_BRUTALPRANK", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_BRUTALPRANK",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 59; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -243,7 +261,10 @@ public:
  */
 export class PresentThief final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_PRESENTTHIEF", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_PRESENTTHIEF",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 60; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -278,7 +299,10 @@ public:
  */
 export class PlayOfTheGods final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_PLAYOFTHEGODS", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_PLAYOFTHEGODS",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 61; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -313,7 +337,10 @@ public:
  */
 export class ScrambledEve final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_SCRAMBLEDEVE", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_SCRAMBLEDEVE",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 62; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -348,7 +375,10 @@ public:
  */
 export class StarBlastingLight final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_STARBLAZINGLIGHT", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_STARBLAZINGLIGHT",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 63; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -383,7 +413,10 @@ public:
  */
 export class UnluckyCharm final: public GiftCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_GIFT_UNLUCKYCHARM", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_GIFT_UNLUCKYCHARM",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 64; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
@@ -418,7 +451,10 @@ public:
  */
 export class WindyEnchantment final: public GiftCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_GIFT_WINDYENCHANTMENT", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_GIFT_WINDYENCHANTMENT",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 65; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card

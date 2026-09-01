@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.unit:Enemy;
 
-import stdx;
-
 import :Unit;
+
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -42,16 +42,16 @@ private:
 public:
     /**
      * @brief Constructor to initialize an Enemy object.
-     *
      * @param Encounter The encounter type of the enemy.
      * @param id The ID of the enemy.
      * @param health The health of the enemy.
      * @param attack The attack value of the enemy.
      * @param defense The defense value of the enemy.
      * @param evade The evade value of the enemy.
+     * @param metadata The unit metadata.
      */
-    Enemy(Encounter encounter, u16 id, u8 health, i8 attack, i8 defense, i8 evade):
-        Unit(id, health, attack, defense, evade), encounter{encounter} {}
+    Enemy(Encounter encounter, u16 id, u8 health, i8 attack, i8 defense, i8 evade, Metadata metadata):
+        Unit(id, health, attack, defense, evade, metadata), encounter{encounter} {}
 
     Encounter getEncounter() const noexcept {
         return encounter;

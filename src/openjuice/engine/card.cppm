@@ -1,9 +1,9 @@
 /**
  * @file card.cppm
  * @module openjuice.engine.card
- * @brief Import of Card modules.
+ * @brief Import of card modules.
  *
- * This file imports the modules for the Card system.
+ * This file imports the modules for the card system.
  */
 
 export module openjuice.engine.card;

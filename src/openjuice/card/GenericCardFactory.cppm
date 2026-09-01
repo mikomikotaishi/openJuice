@@ -12,12 +12,11 @@ module;
 
 export module openjuice.card:GenericCardFactory;
 
-import stdx;
-
 import :generic;
 
+import stdx;
+
 import openjuice.engine.card;
-import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;

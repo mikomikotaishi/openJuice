@@ -33,7 +33,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::generic);
  */
 export class GenericBannerCard final: public BannerCard, public GenericCard {
 private:
-    CARD_METADATA("", "CARD_GENERIC_BANNER")
+    static constexpr Metadata METADATA = {
+        .cardKey = "",
+        .artistKey = "CARD_GENERIC_BANNER",
+    };
 public:
     static constexpr u8 ID = Ops::to_underlying(Card::Of::BANNER); ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BANNER; ///< The card type of this specific card
@@ -68,7 +71,10 @@ public:
  */
 export class GenericBattleCard final: public BattleCard, public GenericCard {
 private:
-    CARD_METADATA("", "CARD_GENERIC_BATTLE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "",
+        .artistKey = "CARD_GENERIC_BATTLE",
+    };
 public:
     static constexpr u8 ID = Ops::to_underlying(Card::Of::BATTLE); ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -103,7 +109,10 @@ public:
  */
 export class GenericBoostCard final: public BoostCard, public GenericCard {
 private:
-    CARD_METADATA("", "CARD_GENERIC_BOOST")
+    static constexpr Metadata METADATA = {
+        .cardKey = "",
+        .artistKey = "CARD_GENERIC_BOOST",
+    };
 public:
     static constexpr u8 ID = Ops::to_underlying(Card::Of::BOOST); ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -138,7 +147,10 @@ public:
  */
 export class GenericEventCard final: public EventCard, public GenericCard {
 private:
-    CARD_METADATA("", "CARD_GENERIC_EVENT")
+    static constexpr Metadata METADATA = {
+        .cardKey = "",
+        .artistKey = "CARD_GENERIC_EVENT",
+    };
 public:
     static constexpr u8 ID = Ops::to_underlying(Card::Of::EVENT); ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -173,7 +185,10 @@ public:
  */
 export class GenericGiftCard final: public GiftCard, public GenericCard {
 private:
-    CARD_METADATA("", "CARD_GENERIC_GIFT")
+    static constexpr Metadata METADATA = {
+        .cardKey = "",
+        .artistKey = "CARD_GENERIC_GIFT",
+    };
 public:
     static constexpr u8 ID = Ops::to_underlying(Card::Of::GIFT); ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
@@ -208,7 +223,10 @@ public:
  */
 export class GenericTrapCard final: public TrapCard, public GenericCard {
 private:
-    CARD_METADATA("", "CARD_GENERIC_TRAP")
+    static constexpr Metadata METADATA = {
+        .cardKey = "",
+        .artistKey = "CARD_GENERIC_TRAP",
+    };
 public:
     static constexpr u8 ID = Ops::to_underlying(Card::Of::TRAP); ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card

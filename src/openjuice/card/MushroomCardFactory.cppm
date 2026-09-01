@@ -12,13 +12,12 @@ module;
 
 export module openjuice.card:MushroomCardFactory;
 
-import stdx;
-
 import :mushroom;
+
+import stdx;
 
 import openjuice.engine.card;
 import openjuice.engine.card.mushroom;
-import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;

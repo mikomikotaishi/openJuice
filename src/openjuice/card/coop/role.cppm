@@ -34,7 +34,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::role);
  */
 export class UltimateWeaponInTheSun final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_COOP_CLASS_ATTACKER", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_COOP_CLASS_ATTACKER",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 1; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -70,7 +73,10 @@ public:
  */
 export class LifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_COOP_CLASS_GUARDIAN", "CARD_ARTIST_HEXUN")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_COOP_CLASS_GUARDIAN",
+        .artistKey = "CARD_ARTIST_HEXUN",
+    };
 public:
     static constexpr u8 ID = 2; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -106,7 +112,10 @@ public:
  */
 export class GuardianOfBloomingFlowers final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_COOP_CLASS_SUPPORT", "CARD_ARTIST_COFFGIRL")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_COOP_CLASS_SUPPORT",
+        .artistKey = "CARD_ARTIST_COFFGIRL",
+    };
 public:
     static constexpr u8 ID = 3; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -142,7 +151,10 @@ public:
  */
 export class UnforgivingAvenger final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_COOP_CLASS_AVENGER", "CARD_ARTIST_LENDO_KHAR")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_COOP_CLASS_AVENGER",
+        .artistKey = "CARD_ARTIST_LENDO_KHAR",
+    };
 public:
     static constexpr u8 ID = 4; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -178,7 +190,10 @@ public:
  */
 export class SummerGames final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_COOP_CLASS_DEALER", "CARD_ARTIST_AIRIE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_COOP_CLASS_DEALER",
+        .artistKey = "CARD_ARTIST_AIRIE",
+    };
 public:
     static constexpr u8 ID = 5; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card

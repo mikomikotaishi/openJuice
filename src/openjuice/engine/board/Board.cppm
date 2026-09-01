@@ -12,12 +12,10 @@ module;
 
 export module openjuice.engine.board:Board;
 
-import stdx;
-
 import :FieldEvent;
 import :Panel;
 
-import openjuice.engine.util;
+import stdx;
 
 using stdx::collections::Queue;
 using stdx::collections::HashMap;
@@ -29,7 +27,6 @@ using stdx::mem::UniquePointer;
 using stdx::ranges::IotaView;
 
 using openjuice::engine::board::Panel;
-using openjuice::engine::util::Constants;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
@@ -41,9 +38,8 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  */
 export class [[nodiscard]] Board {
 public:
-    static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
-    static constexpr usize GAME_MAX_WIDTH = Constants::GAME_MAX_WIDTH; ///< Maximum game width.
-    static constexpr usize GAME_MAX_HEIGHT = Constants::GAME_MAX_HEIGHT; ///< Maximum game height.
+    static constexpr usize GAME_MAX_WIDTH = 20; ///< Maximum game width.
+    static constexpr usize GAME_MAX_HEIGHT = 20; ///< Maximum game height.
 
     using GameBoard = Array<Array<UniquePointer<Panel>, GAME_MAX_WIDTH>, GAME_MAX_HEIGHT>;
 
@@ -55,7 +51,7 @@ public:
      */
     class [[nodiscard]] Info final {
     public:
-        static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
+        static constexpr u8 MAX_PLAYERS = 4; ///< Maximum number of players.
         static constexpr u8 MAX_FIELD_EVENTS = 3; ///< Maximum number of field events per board.
         using HomePanels = Array<Pair<u8, u8>, MAX_PLAYERS>;
         using FieldEvents = Array<FieldEvent::Data, MAX_FIELD_EVENTS>;
@@ -185,15 +181,12 @@ private:
          * @brief Adds an edge to the Graph.
          * @param from The Panel from which the edge originates.
          * @param to The Panel to which the edge leads.
+         * @throws OutOfRangeException if from not in adjList, or if to not in reverseAdjList
          */
+        THROWS(OutOfRangeException)
         void addEdge(const SharedPointer<Panel>& from, const SharedPointer<Panel>& to) {
-            #ifndef NDEBUG
             adjList.at(from).push_back(to);
             reverseAdjList.at(to).push_back(from);
-            #else
-            adjList[from].push_back(to);
-            reverseAdjList[to].push_back(from);
-            #endif
         }
     public:
         /**
@@ -203,10 +196,10 @@ private:
         explicit Graph(const GameBoard& gameboard) {
             for (const Array<UniquePointer<Panel>, GAME_MAX_WIDTH>& row: gameboard) {
                 for (const UniquePointer<Panel>& panel: row) {
-                    if (panel) {
+                    if (panel != nullptr) {
                         for (usize i: IotaView(0uz, DIRECTION_OFFSETS.size())) {
                             SharedPointer<Panel> neighbor = panel->getNeighbor(static_cast<Panel::Direction>(i));
-                            if (neighbor) {
+                            if (neighbor != nullptr) {
                                 addEdge(SharedPointer<Panel>(panel.get()), neighbor);
                             }
                         }
@@ -234,11 +227,7 @@ private:
 
             q.emplace(start, 0);
 
-            #ifndef NDEBUG
             visited.at(start) = true;
-            #else
-            visited[start] = true;
-            #endif
 
             while (!q.empty()) {
                 auto [current, distance] = q.front();
@@ -253,15 +242,9 @@ private:
                     : reverseAdjList.at(current);
 
                 for (const SharedPointer<Panel>& neighbor: neighbors) {
-                    #ifndef NDEBUG
                     if (!visited.at(neighbor)) {
                         visited.at(neighbor) = true;
                     }
-                    #else
-                    if (!visited[neighbor]) {
-                        visited[neighbor] = true;
-                    }
-                    #endif
 
                     q.emplace(neighbor, distance + (n > 0 ? 1 : -1));
                 }
@@ -302,7 +285,7 @@ public:
      */
     [[nodiscard]]
     Optional<Vector<SharedPointer<Panel>>> getPanelsAtDistance(const SharedPointer<Panel>& start, i8 distance) const {
-        if (!graph) {
+        if (graph == nullptr) {
             return nullopt;
         }
         return graph->atDistance(start, distance);

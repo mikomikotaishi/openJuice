@@ -73,12 +73,13 @@ public:
      * @throws SocketException if the receive fails, or the peer overruns MAX_MESSAGE_LENGTH.
      */
     [[nodiscard]]
-    bool drain(Vector<String>& messages) throws (SocketException) {
+    THROWS(SocketException)
+    bool drain(Vector<String>& messages) {
         Array<char, RECEIVE_CHUNK> buffer;
 
         while (true) {
             const Optional<usize> received = stream.try_receive(as_writable_bytes(Span<char>(buffer)));
-            if (!received) {
+            if (!received.has_value()) {
                 break;
             }
 
@@ -107,7 +108,8 @@ public:
      * @param msg The message to deliver.
      * @throws SocketException if the send fails.
      */
-    void deliver(StringView msg) throws (SocketException) {
+    THROWS(SocketException)
+    void deliver(StringView msg) {
         stream.send_all(as_bytes(Span<const char>(msg.data(), msg.size())));
     }
 };

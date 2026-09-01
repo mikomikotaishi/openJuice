@@ -14,13 +14,9 @@ export module openjuice.engine.card.Card;
 
 import stdx;
 
-import openjuice.engine.services;
+import openjuice.engine.localization;
 
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
-
-using openjuice::engine::services::LocalizationService;
+using openjuice::engine::localization::LocalizationService;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 
@@ -33,10 +29,17 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card);
 export class [[nodiscard]] Card {
 public:
     /**
+     * @struct Metadata
+     * @brief 
+     */
+    struct Metadata {
+        StringView cardKey; ///< The localization key of the card.
+        StringView artistKey; ///< The localization key of the card's artist.
+    };
+
+    /**
      * @enum Of
      * @brief Enumeration for card types.
-     * 
-     * The Card::Of enumeration defines the types of cards in the game.
      */
     enum class Of: u8 {
         BATTLE, ///< Battle card type.
@@ -50,8 +53,6 @@ public:
     /**
      * @enum Spawn
      * @brief Enumeration for card spawn types.
-     * 
-     * The Spawn enumeration defines the spawn types of cards in the game.
      */
     enum class Spawn: u8 {
         STANDARD, ///< Standard spawn type.
@@ -68,8 +69,6 @@ public:
     /**
      * @enum Rarity
      * @brief Enumeration for card rarities.
-     * 
-     * The Rarity enumeration defines the rarities of cards in the game.
      */
     enum class Rarity: u8 {
         NONE, ///< No rarity (for hyper cards).
@@ -81,8 +80,6 @@ public:
     /**
      * @enum DeckPointError
      * @brief Enumeration for deck point errors.
-     * 
-     * The DeckPointError enumeration defines the types of errors in retrieving deck points of a card.
      */
     enum class DeckPointError: u8 {
         NOT_PLAYABLE_IN_COOP, ///< Card cannot be played in Co-op mode
@@ -98,15 +95,7 @@ private:
     const Spawn spawnType; ///< The spawn type of the card.
     const u8 level; ///< The level of the card.
 protected:
-    static constexpr StringView CARD_KEY = ""; ///< The key belonging to the card to query in LocalizationService
-    static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in LocalizationService
-
-    /**
-     * @brief Default constructor to initialize a Card object.
-     */
-    Card():
-        deckPoints{0}, rarity{nullopt}, cost{nullopt}, limitPerDeck{0},
-        id{0}, cardType{Card::Of()}, spawnType{Spawn()}, level{0} {}
+    const Metadata metadata;
 
     /**
      * @brief Virtual default destructor.
@@ -123,10 +112,11 @@ public:
      * @param level The level of the card.
      * @param limit The limit of the card per deck.
      * @param deckPoints The deck points of the card.
+     * @param metadata The card metadata.
      */
-    Card(u16 id, Of cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints):
+    Card(u16 id, Of cardType, Spawn spawnType, Optional<Rarity> rarity, Optional<u16> cost, u8 level, Optional<u8> limit, Expected<u8, DeckPointError> deckPoints, Metadata metadata):
         deckPoints{Ops::move(deckPoints)}, rarity{rarity}, cost{cost}, limitPerDeck{limit},
-        id{id}, cardType{cardType}, spawnType{spawnType}, level{level} {}
+        id{id}, cardType{cardType}, spawnType{spawnType}, level{level}, metadata{metadata} {}
 
     [[nodiscard]]
     u16 getId() const noexcept {
@@ -168,7 +158,8 @@ public:
      * @return The deck points of the card.
      *
      * Returns a signed integer:
-     * DeckPointError::NOT_PLAYABLE_IN_COOP if the card cannot be played in co-op, DeckPointError::NOT_STANDARD_CARD if the card is not a Standard card, 
+     * DeckPointError::NOT_PLAYABLE_IN_COOP if the card cannot be played in co-op,
+     * DeckPointError::NOT_STANDARD_CARD if the card is not a Standard card, 
      * non-negative otherwise.
      */
     [[nodiscard]]
@@ -190,7 +181,7 @@ public:
     [[nodiscard]]
     virtual String getName(const LocalizationService& loc) const noexcept {
         return loc
-            .getCardName(CARD_KEY)
+            .getCardName(metadata.cardKey)
             .value_or("");
     }
 
@@ -201,7 +192,7 @@ public:
     [[nodiscard]]
     virtual String getDescription(const LocalizationService& loc) const noexcept {
         return loc
-            .getCardDescription(CARD_KEY)
+            .getCardDescription(metadata.cardKey)
             .value_or("");
     }
 
@@ -212,7 +203,7 @@ public:
     [[nodiscard]]
     String getFlavour(const LocalizationService& loc) const noexcept {
         return loc
-            .getCardFlavour(CARD_KEY)
+            .getCardFlavour(metadata.cardKey)
             .value_or("");
     }
 
@@ -223,7 +214,7 @@ public:
     [[nodiscard]]
     virtual String getArtistName(const LocalizationService& loc) const noexcept {
         return loc
-            .getCardArtistName(ARTIST_KEY)
+            .getCardArtistName(metadata.artistKey)
             .value_or("");
     }
 };
@@ -232,124 +223,126 @@ END_MODULE_NAMESPACE();
 
 using openjuice::engine::card::Card;
 
-template <>
-struct Formatter<Card::Of> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(Card::Of type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case Card::Of::BATTLE:
-                name = "Battle";
-                break;
-            case Card::Of::BOOST:
-                name = "Boost";
-                break;
-            case Card::Of::TRAP:
-                name = "Trap";
-                break;
-            case Card::Of::EVENT:
-                name = "Event";
-                break;
-            case Card::Of::GIFT:
-                name = "Gift";
-                break;
-            case Card::Of::BANNER:
-                name = "Banner";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<Card::Of> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
 
-template <>
-struct Formatter<Card::Spawn> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(Card::Spawn type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case Card::Spawn::STANDARD:
-                name = "Standard";
-                break;
-            case Card::Spawn::HYPER:
-                name = "Hyper";
-                break;
-            case Card::Spawn::CHARACTER_SPECIFIC:
-                name = "Character-specific";
-                break;
-            case Card::Spawn::SEASONAL:
-                name = "Seasonal";
-                break;
-            case Card::Spawn::MUSHROOM:
-                name = "Mushroom";
-                break;
-            case Card::Spawn::COOP:
-                name = "Co-op";
-                break;
-            case Card::Spawn::BOSS:
-                name = "Boss";
-                break;
-            case Card::Spawn::BOUNTY_HUNT:
-                name = "Bounty Hunt";
-                break;
-            case Card::Spawn::GENERIC:
-                name = "Generic";
-                break;
+        static FormatContext::iterator format(Card::Of type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case Card::Of::BATTLE:
+                    name = "Battle";
+                    break;
+                case Card::Of::BOOST:
+                    name = "Boost";
+                    break;
+                case Card::Of::TRAP:
+                    name = "Trap";
+                    break;
+                case Card::Of::EVENT:
+                    name = "Event";
+                    break;
+                case Card::Of::GIFT:
+                    name = "Gift";
+                    break;
+                case Card::Of::BANNER:
+                    name = "Banner";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+    };
 
-template <>
-struct Formatter<Card::Rarity> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(Card::Rarity type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case Card::Rarity::NONE:
-                name = "None";
-                break;
-            case Card::Rarity::COMMON:
-                name = "Common";
-                break;
-            case Card::Rarity::UNCOMMON:
-                name = "Uncommon";
-                break;
-            case Card::Rarity::RARE:
-                name = "Rare";
-                break;
+    template <>
+    struct Formatter<Card::Spawn> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
 
-template <>
-struct Formatter<Card::DeckPointError> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(Card::DeckPointError err, FormatContext& ctx) {
-        StringView name;
-        switch (err) {
-            case Card::DeckPointError::NOT_PLAYABLE_IN_COOP:
-                name = "Not playable in co-op";
-                break;
-            case Card::DeckPointError::NOT_STANDARD_CARD:
-                name = "Not standard card";
-                break;
+        static FormatContext::iterator format(Card::Spawn type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case Card::Spawn::STANDARD:
+                    name = "Standard";
+                    break;
+                case Card::Spawn::HYPER:
+                    name = "Hyper";
+                    break;
+                case Card::Spawn::CHARACTER_SPECIFIC:
+                    name = "Character-specific";
+                    break;
+                case Card::Spawn::SEASONAL:
+                    name = "Seasonal";
+                    break;
+                case Card::Spawn::MUSHROOM:
+                    name = "Mushroom";
+                    break;
+                case Card::Spawn::COOP:
+                    name = "Co-op";
+                    break;
+                case Card::Spawn::BOSS:
+                    name = "Boss";
+                    break;
+                case Card::Spawn::BOUNTY_HUNT:
+                    name = "Bounty Hunt";
+                    break;
+                case Card::Spawn::GENERIC:
+                    name = "Generic";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+    };
+
+    template <>
+    struct Formatter<Card::Rarity> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
+        }
+
+        static FormatContext::iterator format(Card::Rarity type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case Card::Rarity::NONE:
+                    name = "None";
+                    break;
+                case Card::Rarity::COMMON:
+                    name = "Common";
+                    break;
+                case Card::Rarity::UNCOMMON:
+                    name = "Uncommon";
+                    break;
+                case Card::Rarity::RARE:
+                    name = "Rare";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+
+    template <>
+    struct Formatter<Card::DeckPointError> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
+        }
+
+        static FormatContext::iterator format(Card::DeckPointError err, FormatContext& ctx) {
+            StringView name;
+            switch (err) {
+                case Card::DeckPointError::NOT_PLAYABLE_IN_COOP:
+                    name = "Not playable in co-op";
+                    break;
+                case Card::DeckPointError::NOT_STANDARD_CARD:
+                    name = "Not standard card";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(Card::Of);
 SPECIALIZE_FORMATTER(Card::Spawn);

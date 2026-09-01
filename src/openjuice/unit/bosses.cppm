@@ -29,7 +29,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::bosses);
  */
 export class FlyingCastle final: public BossEnemy {
 private:
-    UNIT_METADATA("CARD_UNIT_CASTLE", "CARD_ARTIST_HONO", "")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_CASTLE",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "",
+    };
 public:
     static constexpr u16 ID = 1; ///< ID of this specific boss
     static constexpr u8 HEALTH = 10; ///< Health stat of this specific boss
@@ -53,7 +57,11 @@ public:
  */
 export class ShifuRobot final: public BossEnemy {
 private:
-    UNIT_METADATA("CARD_UNIT_SHIFUROBOT", "CARD_ARTIST_HONO", "")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_SHIFUROBOT",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "",
+    };
 public:
     static constexpr u16 ID = 2; ///< ID of this specific boss
     static constexpr u8 HEALTH = 7; ///< Health stat of this specific boss
@@ -77,7 +85,11 @@ public:
  */
 export class StoreManager final: public BossEnemy {
 private:
-    UNIT_METADATA("CARD_UNIT_MANAGER", "CARD_ARTIST_HONO", "")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_MANAGER",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "",
+    };
 public:
     static constexpr u16 ID = 3; ///< ID of this specific boss
     static constexpr u8 HEALTH = 8; ///< Health stat of this specific boss

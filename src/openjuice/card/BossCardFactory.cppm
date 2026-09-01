@@ -12,16 +12,12 @@ module;
 
 export module openjuice.card:BossCardFactory;
 
-import stdx;
-
 import :boss;
 
-import openjuice.engine.card;
-import openjuice.engine.services;
+import stdx;
 
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
+import openjuice.engine.card;
+
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 
@@ -388,24 +384,26 @@ END_MODULE_NAMESPACE();
 
 using openjuice::card::BossCardFactory;
 
-template <>
-struct Formatter<BossCardFactory::SecondaryType> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(BossCardFactory::SecondaryType type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case BossCardFactory::SecondaryType::STANDARD:
-                name = "Standard";
-                break;
-            case BossCardFactory::SecondaryType::HYPER:
-                name = "Hyper";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<BossCardFactory::SecondaryType> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+
+        static FormatContext::iterator format(BossCardFactory::SecondaryType type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case BossCardFactory::SecondaryType::STANDARD:
+                    name = "Standard";
+                    break;
+                case BossCardFactory::SecondaryType::HYPER:
+                    name = "Hyper";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(BossCardFactory::SecondaryType);

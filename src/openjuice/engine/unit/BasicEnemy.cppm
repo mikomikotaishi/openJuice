@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.unit:BasicEnemy;
 
-import stdx;
-
 import :Enemy;
+
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -34,9 +34,10 @@ public:
      * @param attack The attack value of the enemy.
      * @param defense The defense value of the enemy.
      * @param evade The evade value of the enemy.
+     * @param metadata The unit metadata.
      */
-    BasicEnemy(u16 id, u8 health, i8 attack, i8 defense, i8 evade):
-        Enemy(Encounter::BASIC, id, health, attack, defense, evade) {}
+    BasicEnemy(u16 id, u8 health, i8 attack, i8 defense, i8 evade, Metadata metadata):
+        Enemy(Encounter::BASIC, id, health, attack, defense, evade, metadata) {}
 };
 
 END_MODULE_NAMESPACE();

@@ -12,12 +12,11 @@ module;
 
 export module openjuice.card:CharacterSpecificCardFactory;
 
-import stdx;
-
 import :character;
 
+import stdx;
+
 import openjuice.engine.card;
-import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;

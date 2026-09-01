@@ -16,10 +16,6 @@ import stdx;
 
 import openjuice.engine.util;
 
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
-
 BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
 
 /**
@@ -286,99 +282,101 @@ END_MODULE_NAMESPACE();
 
 using openjuice::engine::board::FieldEvent;
 
-template <>
-struct Formatter<FieldEvent::Of> {
-    static constexpr const char* parse(FormatParseContext& ctx) {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(FieldEvent::Of type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            // Standard
-            case FieldEvent::Of::AIR_RAID:
-                name = "Air Raid"; 
-                break;
-            case FieldEvent::Of::AMPLIFY:
-                name = "Amplify"; 
-                break;
-            case FieldEvent::Of::BACKTRACK:
-                name = "Backtrack"; 
-                break;
-            case FieldEvent::Of::BOMBER:
-                name = "Bomber"; 
-                break;
-            case FieldEvent::Of::CAKES:
-                name = "Cakes";
-                break;
-            case FieldEvent::Of::CHARITY:
-                name = "Charity"; 
-                break;
-            case FieldEvent::Of::CONFUSION:
-                name = "Confusion"; 
-                break;
-            case FieldEvent::Of::FISH_A_FISH:
-                name = "Fish-a-Fish"; 
-                break;
-            case FieldEvent::Of::FREEZE:
-                name = "Freeze"; 
-                break;
-            case FieldEvent::Of::GOO:
-                name = "Goo"; 
-                break;
-            case FieldEvent::Of::HOME_ROULETTE:
-                name = "Home Roulette"; 
-                break;
-            case FieldEvent::Of::MINELAYER:
-                name = "Minelayer"; 
-                break;
-            case FieldEvent::Of::MIRACLE:
-                name = "Miracle"; 
-                break;
-            case FieldEvent::Of::MYSTERY:
-                name = "Mystery"; 
-                break;
-            case FieldEvent::Of::PLAYGROUND:
-                name = "Playground"; 
-                break;
-            case FieldEvent::Of::RANDOM_WARP:
-                name = "Random Warp"; 
-                break;
-            case FieldEvent::Of::REGENERATION:
-                name = "Regeneration"; 
-                break;
-            case FieldEvent::Of::SPORES:
-                name = "Spores"; 
-                break;
-            case FieldEvent::Of::SPRINT:
-                name = "Sprint"; 
-                break;
-            case FieldEvent::Of::TREASURE:
-                name = "Treasure"; 
-                break;
-            
-            // Automatic
-            case FieldEvent::Of::BOSS_ENCOUNTER:
-                name = "Boss Encounter"; 
-                break;
-            case FieldEvent::Of::TERROR:
-                name = "Terror"; 
-                break;
-            case FieldEvent::Of::CHAOS_BATTLEFIELD:
-                name = "Chaos Battlefield"; 
-                break;
-            case FieldEvent::Of::STARVATION:
-                name = "Starvation"; 
-                break;
-            case FieldEvent::Of::OVERINDULGENCE:
-                name = "Overindulgence"; 
-                break;
-            case FieldEvent::Of::CONVERGENCE:
-                name = "Convergence"; 
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<FieldEvent::Of> {
+        static constexpr const char* parse(FormatParseContext& ctx) {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+
+        static FormatContext::iterator format(FieldEvent::Of type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                // Standard
+                case FieldEvent::Of::AIR_RAID:
+                    name = "Air Raid"; 
+                    break;
+                case FieldEvent::Of::AMPLIFY:
+                    name = "Amplify"; 
+                    break;
+                case FieldEvent::Of::BACKTRACK:
+                    name = "Backtrack"; 
+                    break;
+                case FieldEvent::Of::BOMBER:
+                    name = "Bomber"; 
+                    break;
+                case FieldEvent::Of::CAKES:
+                    name = "Cakes";
+                    break;
+                case FieldEvent::Of::CHARITY:
+                    name = "Charity"; 
+                    break;
+                case FieldEvent::Of::CONFUSION:
+                    name = "Confusion"; 
+                    break;
+                case FieldEvent::Of::FISH_A_FISH:
+                    name = "Fish-a-Fish"; 
+                    break;
+                case FieldEvent::Of::FREEZE:
+                    name = "Freeze"; 
+                    break;
+                case FieldEvent::Of::GOO:
+                    name = "Goo"; 
+                    break;
+                case FieldEvent::Of::HOME_ROULETTE:
+                    name = "Home Roulette"; 
+                    break;
+                case FieldEvent::Of::MINELAYER:
+                    name = "Minelayer"; 
+                    break;
+                case FieldEvent::Of::MIRACLE:
+                    name = "Miracle"; 
+                    break;
+                case FieldEvent::Of::MYSTERY:
+                    name = "Mystery"; 
+                    break;
+                case FieldEvent::Of::PLAYGROUND:
+                    name = "Playground"; 
+                    break;
+                case FieldEvent::Of::RANDOM_WARP:
+                    name = "Random Warp"; 
+                    break;
+                case FieldEvent::Of::REGENERATION:
+                    name = "Regeneration"; 
+                    break;
+                case FieldEvent::Of::SPORES:
+                    name = "Spores"; 
+                    break;
+                case FieldEvent::Of::SPRINT:
+                    name = "Sprint"; 
+                    break;
+                case FieldEvent::Of::TREASURE:
+                    name = "Treasure"; 
+                    break;
+                
+                // Automatic
+                case FieldEvent::Of::BOSS_ENCOUNTER:
+                    name = "Boss Encounter"; 
+                    break;
+                case FieldEvent::Of::TERROR:
+                    name = "Terror"; 
+                    break;
+                case FieldEvent::Of::CHAOS_BATTLEFIELD:
+                    name = "Chaos Battlefield"; 
+                    break;
+                case FieldEvent::Of::STARVATION:
+                    name = "Starvation"; 
+                    break;
+                case FieldEvent::Of::OVERINDULGENCE:
+                    name = "Overindulgence"; 
+                    break;
+                case FieldEvent::Of::CONVERGENCE:
+                    name = "Convergence"; 
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(FieldEvent::Of);

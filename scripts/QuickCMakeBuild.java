@@ -20,7 +20,6 @@
  *   -n, --new            Clean the build directory and rebuilds everything, including dependencies
  *   -pd, --preserve-deps Clean the build directory and rebuilds everything (excluding dependencies)
  *   -rc, --reconfigure   Reconfigure CMake build system (for when new files are added)
- *   -g, --graph          Generate dependency graph
  *   -s, --sanitizer      Enable sanitizers (address, undefined, thread, memory, leak)
  *   -v, --verbose        Enable verbose output (disables progress bar)
  *
@@ -77,12 +76,11 @@ public class QuickCMakeBuild implements Callable<Integer> {
     private static final Pattern DETECT_WARNINGS_PATTERN = Pattern.compile("([^:\\s]+:\\d+:\\d+: warning: .+)");
     private static final Pattern DETECT_ERRORS_PATTERN = Pattern.compile("([^:\\s]+:\\d+:\\d+: error: .+)");
     private static final Pattern DETECT_BUILD_STOPPED_PATTERN = Pattern.compile("ninja: build stopped: (.+)");
-    private static final Set<String> EXTENSIONS_TO_REMOVE = new HashSet<>(Arrays.asList(".o", ".obj", ".a", ".so", ".dylib", ".dll", ".exe"));
-    private static final List<String> CMAKE_INIT_COMMAND = Arrays.asList("cmake", "-S", ".", "-G", "Ninja", "-B", "build");
-    private static final List<String> CMAKE_BUILD_COMMAND = Arrays.asList("cmake", "--build", "build");
-    private static final List<String> CMAKE_REGENERATE_COMMAND = Arrays.asList("cmake", "-G", "Ninja", ".");
-    private static final List<String> CMAKE_RECONFIGURE_COMMAND = Arrays.asList("cmake", "-S", ".", "-B", "build");
-    private static final List<String> GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND = Arrays.asList("dot", "-Tpng", "graph.dot", "-o", "dependencies.png");
+    private static final Set<String> EXTENSIONS_TO_REMOVE = new HashSet<>(List.of(".o", ".obj", ".a", ".so", ".dylib", ".dll", ".exe"));
+    private static final List<String> CMAKE_INIT_COMMAND = List.of("cmake", "-S", ".", "-G", "Ninja", "-B", "build");
+    private static final List<String> CMAKE_BUILD_COMMAND = List.of("cmake", "--build", "build");
+    private static final List<String> CMAKE_REGENERATE_COMMAND = List.of("cmake", "-G", "Ninja", ".");
+    private static final List<String> CMAKE_RECONFIGURE_COMMAND = List.of("cmake", "-S", ".", "-B", "build");
 
     private static File workingDirectory = null;
 
@@ -131,9 +129,6 @@ public class QuickCMakeBuild implements Callable<Integer> {
 
     @ArgGroup(exclusive = true)
     private BuildOperationGroup buildOperation = new BuildOperationGroup();
-
-    @Option(names = {"-g", "--graph"}, description = "Generate dependency graph")
-    private boolean generateGraph = false;
 
     @Option(names = {"-r", "--release"}, description = "Build in release mode (optimized, no sanitizers, NDEBUG defined)")
     private boolean release = false;
@@ -957,12 +952,6 @@ public class QuickCMakeBuild implements Callable<Integer> {
             
             if (!buildOperation.cleanall && !buildOperation.clean) {
                 runCMakeBuild(verbose);
-            }
-            
-            if (generateGraph) {
-                System.out.printf("%sGenerating%s dependency graph (output: graph.dot, dependencies.png)%n", ANSI.GREEN, ANSI.RESET);
-                runCommand(Arrays.asList("mgt"), verbose, false);
-                runCommand(GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND, verbose, false);
             }
             
             long endTime = System.currentTimeMillis();

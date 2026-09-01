@@ -82,7 +82,7 @@ private:
                 }
 
                 if (messageBuffer.length() > MAX_MESSAGE_LENGTH) {
-                    logger->error("Server exceeded the maximum message length");
+                    logger->error("Server exceeded the maximum message length!");
                     break;
                 }
 
@@ -91,19 +91,19 @@ private:
                 }
 
                 {
-                    ScopedLock lock{inboxMutex};
+                    ScopedLock<Mutex> lock(inboxMutex);
                     for (String& message: complete) {
                         inbox.push_back(Ops::move(message));
                     }
                 }
 
-                if (onMessage) {
+                if (onMessage != nullptr) {
                     onMessage();
                 }
             }
         } catch (const SocketException& e) {
             if (connected.load()) {
-                logger->error("Disconnected from server: {}", e.what());
+                logger->error("Disconnected from server: {}!", e.what());
             }
         }
 
@@ -120,7 +120,8 @@ public:
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
-    ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory, Function<void()> onMessage = nullptr) throws (BindException, UnknownHostException):
+    THROWS(BindException, UnknownHostException)
+    ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory, Function<void()> onMessage = nullptr):
         logger{loggerFactory->of("ChatClient")},
         onMessage{Ops::move(onMessage)} {
         Optional<Endpoint> serverEndpoint;
@@ -128,23 +129,23 @@ public:
         try {
             serverEndpoint = Resolver().resolve_one(host, port);
         } catch (const UnknownHostException& e) {
-            logger->error("Unknown host {}: {}", host, e.what());
+            logger->error("Unknown host {}: {}!", host, e.what());
             throw;
         }
 
-        if (!serverEndpoint) {
-            logger->error("Unknown host: {}", host);
+        if (!serverEndpoint.has_value()) {
+            logger->error("Unknown host: {}!", host);
             throw UnknownHostException("Failed to resolve host");
         }
 
         try {
             stream.emplace(TcpStream::connect(*serverEndpoint));
         } catch (const SocketException& e) {
-            logger->error("Failed to connect to server at {}:{}: {}", host, port, e.what());
+            logger->error("Failed to connect to server at {}:{}: {}!", host, port, e.what());
             throw BindException("Failed to connect to chat server");
         }
 
-        logger->info("Connected to server at {}:{}", host, port);
+        logger->info("Connected to server at {}:{}.", host, port);
         connected.store(true);
 
         listenerThread = Thread([this] -> void {
@@ -178,7 +179,7 @@ public:
             stream->send_all(as_bytes(Span<const char>(line.data(), line.size())));
             return true;
         } catch (const SocketException& e) {
-            logger->error("Failed to send message: {}", e.what());
+            logger->error("Failed to send message: {}!", e.what());
             connected.store(false);
             return false;
         }
@@ -190,7 +191,7 @@ public:
      */
     [[nodiscard]]
     Vector<String> collect() {
-        ScopedLock lock{inboxMutex};
+        ScopedLock<Mutex> lock(inboxMutex);
         Vector<String> taken = Ops::move(inbox);
         inbox.clear();
         return taken;
@@ -202,7 +203,7 @@ public:
     ~ChatClient() {
         connected.store(false);
 
-        if (stream) {
+        if (stream.has_value()) {
             try {
                 stream->shutdown();
             } catch (const Exception& _) {

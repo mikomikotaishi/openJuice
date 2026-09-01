@@ -33,8 +33,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::regular::boost);
  * providing the BoostMushroomCard::Effect::NULL_BOOST effect in the game.
  */
 export class NullBoostMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::NULL_BOOST); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -47,8 +45,9 @@ public:
 
     /**
      * @brief Constructor to initialize a NullBoostMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    NullBoostMushroom(MushroomCard::Color color):
+    explicit NullBoostMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, NULL_BOOST) {}
 
     /**
@@ -68,8 +67,6 @@ public:
  * providing the BoostMushroomCard::Effect::MOVE_UP effect in the game.
  */
 export class MoveUpMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_MOVEUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::MOVE_UP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -82,8 +79,9 @@ public:
 
     /**
      * @brief Constructor to initialize a MoveUpMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    MoveUpMushroom(MushroomCard::Color color):
+    explicit MoveUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, MOVE_UP) {}
 
     /**
@@ -103,8 +101,6 @@ public:
  * providing the BoostMushroomCard::Effect::MOVE_DOWN effect in the game.
  */
 export class MoveDownMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_MOVEDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::MOVE_DOWN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -117,8 +113,9 @@ public:
 
     /**
      * @brief Constructor to initialize a MoveDownMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    MoveDownMushroom(MushroomCard::Color color):
+    explicit MoveDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, MOVE_DOWN) {}
 
     /**
@@ -138,8 +135,6 @@ public:
  * providing the BoostMushroomCard::Effect::GAIN_STARS effect in the game.
  */
 export class GainStarsMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_GAINSTARS")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::GAIN_STARS); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -152,8 +147,9 @@ public:
 
     /**
      * @brief Constructor to initialize a GainStarsMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    GainStarsMushroom(MushroomCard::Color color):
+    explicit GainStarsMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, GAIN_STARS) {}
 
     /**
@@ -173,8 +169,6 @@ public:
  * providing the BoostMushroomCard::Effect::LOSE_STARS effect in the game.
  */
 export class LoseStarsMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_LOSESTARS")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::LOSE_STARS); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -187,8 +181,9 @@ public:
 
     /**
      * @brief Constructor to initialize a LoseStarsMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    LoseStarsMushroom(MushroomCard::Color color):
+    explicit LoseStarsMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, LOSE_STARS) {}
 
     /**
@@ -208,8 +203,6 @@ public:
  * providing the BoostMushroomCard::Effect::HEALTH_UP effect in the game.
  */
 export class HealthUpMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_HEALTHUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::HEALTH_UP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -222,8 +215,9 @@ public:
 
     /**
      * @brief Constructor to initialize a HealthUpMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    HealthUpMushroom(MushroomCard::Color color):
+    explicit HealthUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, HEALTH_UP) {}
 
     /**
@@ -243,8 +237,6 @@ public:
  * providing the BoostMushroomCard::Effect::HEALTH_DOWN effect in the game.
  */
 export class HealthDownMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_HEALTHDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::HEALTH_DOWN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -257,8 +249,9 @@ public:
 
     /**
      * @brief Constructor to initialize a HealthDownMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    HealthDownMushroom(MushroomCard::Color color):
+    explicit HealthDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, HEALTH_DOWN) {}
 
     /**
@@ -278,8 +271,6 @@ public:
  * providing the BoostMushroomCard::Effect::FROSTWALKER effect in the game.
  */
 export class FrostwalkerMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_FROSTWALKER")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::FROSTWALKER); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -292,8 +283,9 @@ public:
 
     /**
      * @brief Constructor to initialize a FrostwalkerMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    FrostwalkerMushroom(MushroomCard::Color color):
+    explicit FrostwalkerMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, FROSTWALKER) {}
 
     /**
@@ -313,8 +305,6 @@ public:
  * providing the BoostMushroomCard::Effect::WARP effect in the game.
  */
 export class WarpMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_WARP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::WARP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -327,8 +317,9 @@ public:
 
     /**
      * @brief Constructor to initialize a WarpMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    WarpMushroom(MushroomCard::Color color):
+    explicit WarpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, WARP) {}
 
     /**
@@ -348,8 +339,6 @@ public:
  * providing the BoostMushroomCard::Effect::CONFUSION effect in the game.
  */
 export class ConfusionMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_CONFUSION")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::CONFUSION); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -362,8 +351,9 @@ public:
 
     /**
      * @brief Constructor to initialize a ConfusionMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    ConfusionMushroom(MushroomCard::Color color):
+    explicit ConfusionMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, CONFUSION) {}
 
     /**
@@ -383,8 +373,6 @@ public:
  * providing the BoostMushroomCard::Effect::DRAW effect in the game.
  */
 export class DrawMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_DRAW")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::DRAW); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -397,8 +385,9 @@ public:
 
     /**
      * @brief Constructor to initialize a DrawMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    DrawMushroom(MushroomCard::Color color):
+    explicit DrawMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, DRAW) {}
 
     /**
@@ -418,8 +407,6 @@ public:
  * providing the BoostMushroomCard::Effect::DISCARD effect in the game.
  */
 export class DiscardMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_DISCARD")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::DISCARD); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -432,8 +419,9 @@ public:
 
     /**
      * @brief Constructor to initialize a DiscardMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    DiscardMushroom(MushroomCard::Color color):
+    explicit DiscardMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, DISCARD) {}
 
     /**
@@ -453,8 +441,6 @@ public:
  * providing the BoostMushroomCard::Effect::WIN effect in the game.
  */
 export class WinMushroom final: public BoostMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_WIN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BoostMushroomCard::Effect::WIN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -467,8 +453,9 @@ public:
 
     /**
      * @brief Constructor to initialize a WinMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    WinMushroom(MushroomCard::Color color):
+    explicit WinMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Boost, WIN) {}
 
     /**

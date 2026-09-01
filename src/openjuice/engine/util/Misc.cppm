@@ -14,6 +14,7 @@ export module openjuice.engine.util:Misc;
 
 import stdx;
 
+using stdx::net::Uri;
 using stdx::sys::ExitStatus;
 using stdx::sys::Process;
 
@@ -278,6 +279,16 @@ export {
         }
 
         return {};
+    }
+
+    /**
+     * @brief Opens a URL on the browser.
+     * @param url The URL to open
+     * @return Expected<void, UrlOpenError> 
+     */
+    [[nodiscard]]
+    Expected<void, UrlOpenError> openUrl(Uri url) noexcept {
+        return openUrl(url.to_string());
     }
 
     /**

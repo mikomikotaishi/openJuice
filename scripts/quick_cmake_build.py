@@ -28,7 +28,6 @@ CMAKE_BUILD_COMMAND: list[str] = ["cmake", "--build", "build"]
 CMAKE_REGENERATE_COMMAND: list[str] = ["cmake", "-G", "Ninja", "."]
 CMAKE_RECONFIGURE_COMMAND: list[str] = ["cmake", "-S", ".", "-B", "build"]
 ANSI_PATTERN: Pattern = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND: list[str] = ["dot", "-Tpng", "graph.dot", "-o", "dependencies.png"]
 
 class ANSI:
     """
@@ -638,7 +637,6 @@ def main() -> int:
     operation_group.add_argument("-rc", "--reconfigure", action = "store_true",
                                 help = "Reconfigure CMake build system (for when new files are added)")
 
-    parser.add_argument("-g", "--graph", action = "store_true", help = "Generate dependency graph")
     parser.add_argument("-s", "--sanitizer", nargs = "+", default = [],
                         help = "Enable sanitizers (address, undefined, thread, memory, leak, all)")
     parser.add_argument("-v", "--verbose", action = "store_true",
@@ -648,7 +646,6 @@ def main() -> int:
     release: bool = args.release
     clean: bool = args.clean
     clean_all: bool = args.clean_all
-    generate_graph: bool = args.graph
     build_new: bool = args.new
     preserve_deps: bool = args.preserve_deps
     reconfigure: bool = args.reconfigure
@@ -678,11 +675,6 @@ def main() -> int:
 
         if not (clean_all or clean):
             run_cmake_build(verbose)
-
-        if generate_graph:
-            print(f"{ANSI.GREEN}Generating{ANSI.RESET} dependency graph (output: graph.dot, dependencies.png)")
-            run_command(["mgt"], verbose)
-            run_command(GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND, verbose)
 
     except CalledProcessError as e:
         if verbose:

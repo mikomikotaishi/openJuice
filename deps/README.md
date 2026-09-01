@@ -1,6 +1,7 @@
 # Dependencies
 
 This directory contains all dependencies consumed by the `openJuice` project. These are, at the time of writing:
+
 - [Discord Social SDK](https://discord.com/developers/social-sdk) (as `discordpp`; v1.8.14856)
 - [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (as `ftxui`; latest version (target v7.0.0))
 - [nlohmann-json](https://github.com/nlohmann/json) (aliased as `me::nlohmann::json`; latest version (target next release))

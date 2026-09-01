@@ -12,16 +12,12 @@ module;
 
 export module openjuice.card:CoopCardFactory;
 
-import stdx;
-
 import :coop;
 
-import openjuice.engine.card;
-import openjuice.engine.services;
+import stdx;
 
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
+import openjuice.engine.card;
+
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 
@@ -72,7 +68,7 @@ public:
      * @return Shared pointer to the created CoopCard object, or nullopt if invalid ID
      */
     [[nodiscard]]
-    static constexpr Optional<SharedPointer<CoopCard>> create(u8 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
+    static constexpr Optional<SharedPointer<CoopCard>> create(u16 id, SecondaryType type = SecondaryType::STANDARD) noexcept {
         switch (type) {
             case SecondaryType::STANDARD:
                 switch (id) {
@@ -123,27 +119,29 @@ END_MODULE_NAMESPACE();
 
 using openjuice::card::CoopCardFactory;
 
-template <>
-struct Formatter<CoopCardFactory::SecondaryType> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(CoopCardFactory::SecondaryType type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case CoopCardFactory::SecondaryType::STANDARD:
-                name = "Standard";
-                break;
-            case CoopCardFactory::SecondaryType::ROLE:
-                name = "Role";
-                break;
-            case CoopCardFactory::SecondaryType::SEASONAL:
-                name = "Seasonal";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<CoopCardFactory::SecondaryType> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+
+        static FormatContext::iterator format(CoopCardFactory::SecondaryType type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case CoopCardFactory::SecondaryType::STANDARD:
+                    name = "Standard";
+                    break;
+                case CoopCardFactory::SecondaryType::ROLE:
+                    name = "Role";
+                    break;
+                case CoopCardFactory::SecondaryType::SEASONAL:
+                    name = "Seasonal";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(CoopCardFactory::SecondaryType);

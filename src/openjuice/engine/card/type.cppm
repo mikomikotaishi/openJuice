@@ -29,10 +29,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card::type);
  */
 export class BannerCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for Banner.
-     */
-    BannerCard() = default;
+    virtual ~BannerCard() = default;
 };
 
 /**
@@ -44,10 +41,7 @@ protected:
  */
 export class BattleCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for BattleCard.
-     */
-    BattleCard() = default;
+    virtual ~BattleCard() = default;
 };
 
 /**
@@ -59,10 +53,7 @@ protected:
  */
 export class BoostCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for BoostCard.
-     */
-    BoostCard() = default;
+    virtual ~BoostCard() = default;
 };
 
 /**
@@ -74,10 +65,7 @@ protected:
  */
 export class EventCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for EventCard.
-     */
-    EventCard() = default;
+    virtual ~EventCard() = default;
 };
 
 /**
@@ -89,10 +77,7 @@ protected:
  */
 export class GiftCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for GiftCard.
-     */
-    GiftCard() = default;
+    virtual ~GiftCard() = default;
 };
 
 /**
@@ -104,10 +89,7 @@ protected:
  */
 export class TrapCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for TrapCard.
-     */
-    TrapCard() = default;
+    virtual ~TrapCard() = default;
 };
 
 END_MODULE_NAMESPACE();

@@ -1,6 +1,6 @@
 /**
  * @file Dice.cppm
- * @module openjuice.engine.game.Dice
+ * @module openjuice.engine.game:Dice
  * @brief Thread-safe singleton dice system with roll history using RAII.
  */
 
@@ -8,19 +8,15 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.Dice;
+export module openjuice.engine.game:Dice;
 
 import stdx;
-
-import openjuice.engine.util;
 
 using stdx::collections::Deque;
 using stdx::collections::Vector;
 using stdx::random::RandomDevice;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
-
-using openjuice::engine::util::Constants;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 
@@ -30,7 +26,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  */
 export class Dice {
 public:
-    static constexpr usize DICEROLL_HISTORY_CAPACITY = Constants::DICEROLL_HISTORY_CAPACITY; ///< Maximum number of dice rolls stored.
+    static constexpr usize DICEROLL_HISTORY_CAPACITY = 100; ///< Maximum number of dice rolls stored.
 
     /**
      * @enum Sides
@@ -52,13 +48,13 @@ public:
 private:
     Random<> rng; ///< Random number generator for dice rolls
     Deque<Roll> history; ///< The history of all dice rolls
-    mutable Mutex mutex; /// A mutex for the dice roll history
+    mutable Mutex diceMutex; /// A mutex for the dice roll history
 
     void recordRoll(Sides sides, u8 result) {
-        ScopedLock<Mutex> lock(mutex);
+        ScopedLock<Mutex> lock(diceMutex);
         history.push_back(Roll {
             .sides = sides,
-            .result = result
+            .result = result,
         });
         if (history.size() > DICEROLL_HISTORY_CAPACITY) {
             history.pop_front();
@@ -93,7 +89,7 @@ public:
      */
     [[nodiscard]]
     Vector<Roll> getHistory() const {
-        ScopedLock<Mutex> lock(mutex);
+        ScopedLock<Mutex> lock(diceMutex);
         return Vector<Roll>(history.begin(), history.end());
     }
 
@@ -104,7 +100,7 @@ public:
      */
     [[nodiscard]]
     Pair<usize, f32> getStats(Sides sides) const noexcept {
-        ScopedLock<Mutex> lock(mutex);
+        ScopedLock<Mutex> lock(diceMutex);
         usize count = 0;
         f32 sum = 0.0f;
 
@@ -115,14 +111,17 @@ public:
             }
         }
 
-        return {count, count > 0 ? sum / static_cast<f32>(count) : 0.0f};
+        return Pair<usize, f32> {
+            count,
+            count > 0 ? sum / static_cast<f32>(count) : 0.0f,
+        };
     }
 
     /**
      * @brief Clear the roll history
      */
     void clearHistory() noexcept {
-        ScopedLock<Mutex> lock(mutex);
+        ScopedLock<Mutex> lock(diceMutex);
         history.clear();
     }
 };

@@ -16,8 +16,12 @@ export module openjuice.engine:Engine;
 
 import stdx;
 
+import openjuice.engine.board;
 import openjuice.engine.game;
-import openjuice.engine.services;
+import openjuice.engine.localization;
+import openjuice.engine.net;
+import openjuice.engine.save;
+import openjuice.engine.settings;
 import openjuice.ui;
 
 using stdx::mem::Pointers;
@@ -33,14 +37,12 @@ using stdx::thread::StopToken;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
+using openjuice::engine::board::BoardLibrary;
 using openjuice::engine::game::Game;
-using openjuice::engine::game::ecs::Registry;
-using openjuice::engine::services::ConfigurationService;
-using openjuice::engine::services::DiscordService;
-using openjuice::engine::services::LocalizationService;
-using openjuice::engine::services::ProfileManager;
-using openjuice::ui::cli::CommandLineInterface;
-using openjuice::ui::tui::TextUserInterface;
+using openjuice::engine::localization::LocalizationService;
+using openjuice::engine::net::DiscordService;
+using openjuice::engine::save::ProfileManager;
+using openjuice::engine::settings::SettingsService;
 using openjuice::ui::UserInterface;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine);
@@ -54,31 +56,20 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine);
  * to ensure responsive gameplay even during computation-heavy operations.
  */
 export class Engine {
-public:
-    /**
-     * @enum LaunchMode
-     * @brief Launch modes for the game engine
-     * 
-     * Specifies which user interface should be used when running the game.
-     */
-    enum class LaunchMode: u8 {
-        CLI, ///< Command Line Interface mode
-        TUI, ///< Text User Interface mode
-    };
 private:
     SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
-    SharedPointer<ConfigurationService> config; ///< The persisted configuration/settings service.
+    SharedPointer<SettingsService> settings; ///< The persisted configuration/settings service.
     SharedPointer<LocalizationService> localization; ///< The localization service.
     SharedPointer<ProfileManager> profile; ///< The profile manager.
+    SharedPointer<DiscordService> discord; ///< The manager for Discord integration.
+    SharedPointer<BoardLibrary> boardLibrary; ///< The board library.
 
     ConditionVariable gameUpdate; ///< Condition variable for signaling game thread
     Mutex stateMutex; ///< Mutex for thread-safe access to game state
     Thread gameThread; ///< Thread for running game logic
     Thread uiThread; ///< Thread for running UI logic
     SharedPointer<Game> game; ///< The main game instance containing game state
-    UniquePointer<DiscordService> discord; ///< The manager for Discord integration.
-    LaunchMode launchMode; ///< The selected user interface mode
     Atomic<bool> gamePaused = false; ///< Flag indicating if the game is paused
     
     /**
@@ -107,21 +98,12 @@ private:
                 game->update(); 
             }
 
-            Thread::sleep_for(config->getDeltaTime());
+            discord->runCallbacks();
+
+            Thread::sleep_for(settings->getDeltaTime());
         }
     }
 
-    [[nodiscard]]
-    UniquePointer<UserInterface> uiOf(LaunchMode mode) {
-        switch (mode) {
-            case LaunchMode::CLI:
-                return Pointers::unique<CommandLineInterface>(game, stateMutex, config);
-            case LaunchMode::TUI:
-                return Pointers::unique<TextUserInterface>(game, stateMutex, loggerFactory, localization, profile);
-        }
-        Ops::unreachable();
-    }
-    
     /**
      * @brief Runs the UI loop (separate from game calculations)
      * @param token Token for cooperative cancellation
@@ -131,54 +113,31 @@ private:
      * launch mode and synchronizes with the game thread for state access.
      */
     void runUiLoop(StopToken token) {
-        UniquePointer<UserInterface> ui = uiOf(launchMode);
+        UniquePointer<UserInterface> ui = Pointers::unique<UserInterface>(game, loggerFactory, localization, profile);
+
         ui->init();
+        ui->render();
 
-        switch (launchMode) {
-            case LaunchMode::TUI:
-                ui->render();
-
-                gameThread.request_stop();
-                gameUpdate.notify_all();
-                break;
-            case LaunchMode::CLI:
-                while (!token.stop_requested()) {
-                    ui->processEvents();
-
-                    if (ui->shouldExit()) {
-                        gameThread.request_stop();
-                        gameUpdate.notify_all();
-                        break;
-                    }
-
-                    {
-                        ScopedLock<Mutex> lock(stateMutex);
-                        ui->render();
-                    }
-
-                    Thread::sleep_for(config->getDeltaTime());
-                }
-                break;
-        }
+        gameThread.request_stop();
+        gameUpdate.notify_all();
     }
 
 public:
     /**
      * @brief Constructs a new Engine object
-     * @param mode The launch mode determining which UI to initialize
      * @param loggerFactory The injected logger factory
      */
-    Engine(LaunchMode mode, SharedPointer<LoggerFactory> loggerFactory):
+    explicit Engine(SharedPointer<LoggerFactory> loggerFactory):
         loggerFactory{loggerFactory},
         logger{loggerFactory->of("Engine")},
-        config{Pointers::shared<ConfigurationService>(loggerFactory)},
-        localization{Pointers::shared<LocalizationService>(loggerFactory, config)},
+        settings{Pointers::shared<SettingsService>(loggerFactory)},
+        localization{Pointers::shared<LocalizationService>(loggerFactory, settings)},
         profile{Pointers::shared<ProfileManager>(loggerFactory)},
-        game{Pointers::shared<Game>(loggerFactory, config)},
-        discord{Pointers::unique<DiscordService>(loggerFactory)},
-        launchMode{mode} {
+        discord{Pointers::shared<DiscordService>(loggerFactory)},
+        boardLibrary{Pointers::shared<BoardLibrary>(loggerFactory)},
+        game{Pointers::shared<Game>(loggerFactory, settings)} {
         #ifndef NDEBUG
-        logger->debug("Creating Engine object");
+        logger->debug("Created Engine!");
         #endif
     }
 
@@ -187,7 +146,7 @@ public:
      */
     ~Engine() {
         #ifndef NDEBUG
-        logger->debug("Destroying Engine object");
+        logger->debug("Destroying Engine...");
         #endif
 
         stop();
@@ -214,9 +173,10 @@ public:
      * The UI thread drives the application lifecycle; when it exits,
      * this method ensures the game thread is also terminated properly.
      */
-    void init() throws (RuntimeException) {
+    THROWS(RuntimeException)
+    void init() {
         #ifndef NDEBUG
-        logger->debug("Initializing Engine");
+        logger->debug("Initializing Engine...");
         #endif
 
         if (discord->init()) {
@@ -225,9 +185,7 @@ public:
         } else {
             logger->warn("Discord integration unsuccessful!");
         }
-        if (Expected<void, Registry::Error> r = game->init(); !r) {
-            throw RuntimeException(Ops::fmt("Game failed to initialize: {}", r.error()));
-        }
+        game->init();
         gameThread = Thread([this](StopToken token) -> void {
             runGameLoop(token);
         });

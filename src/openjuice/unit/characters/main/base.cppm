@@ -29,7 +29,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::characters::main::base);
  */
 export class Kai final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_KAI", "CARD_ARTIST_HONO", "VOICEACTOR_MATSUURA_YOSHIYUKI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_KAI",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_MATSUURA_YOSHIYUKI",
+    };
 public:
     static constexpr u16 ID = 1; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
@@ -55,7 +59,11 @@ public:
  */
 export class Marc final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_MARC", "CARD_ARTIST_HONO", "VOICEACTOR_TAKAI_MAIKA")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_MARC",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_TAKAI_MAIKA",
+    };
 public:
     static constexpr u16 ID = 2; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
@@ -81,7 +89,11 @@ public:
  */
 export class QP final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_QP", "CARD_ARTIST_HONO", "VOICEACTOR_SATO_AZUSA")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_QP",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_SATO_AZUSA",
+    };
 public:
     static constexpr u16 ID = 3; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
@@ -107,7 +119,11 @@ public:
  */
 export class Suguri final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_SUGURI", "CARD_ARTIST_HONO", "VOICEACTOR_YOSHIDA_SEIKO")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_SUGURI",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_YOSHIDA_SEIKO",
+    };
 public:
     static constexpr u16 ID = 4; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
@@ -133,7 +149,11 @@ public:
  */
 export class Aru final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_ARU", "CARD_ARTIST_HONO", "VOICEACTOR_MOTOMIYA_KANA")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_ARU",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_MOTOMIYA_KANA",
+    };
 public:
     static constexpr u16 ID = 5; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
@@ -159,7 +179,11 @@ public:
  */
 export class Fernet final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_FERNET", "CARD_ARTIST_HONO", "VOICEACTOR_ARUNAMI_KAZUSA")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_FERNET",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_ARUNAMI_KAZUSA",
+    };
 public:
     static constexpr u16 ID = 6; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
@@ -185,7 +209,11 @@ public:
  */
 export class Hime final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_HIME", "CARD_ARTIST_HONO", "VOICEACTOR_MOTOMIYA_KANA")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_HIME",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_MOTOMIYA_KANA",
+    };
 public:
     static constexpr u16 ID = 7; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::THREE; ///< Difficulty of this specific character
@@ -211,7 +239,11 @@ public:
  */
 export class MariePoppo final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_POPPO", "CARD_ARTIST_HONO", "VOICEACTOR_MARUYAMA_MIKI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_POPPO",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_MARUYAMA_MIKI",
+    };
 public:
     static constexpr u16 ID = 8; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::FOUR; ///< Difficulty of this specific character
@@ -237,7 +269,11 @@ public:
  */
 export class Mio final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_MIO", "CARD_ARTIST_HONO", "VOICEACTOR_IZAWA_SHIORI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_MIO",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_IZAWA_SHIORI",
+    };
 public:
     static constexpr u16 ID = 9; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
@@ -263,7 +299,11 @@ public:
  */
 export class MioFestive final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_MIOFESTIVE", "CARD_ARTIST_YULAY_DEVLET", "VOICEACTOR_IZAWA_SHIORI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_MIOFESTIVE",
+        .artistKey = "CARD_ARTIST_YULAY_DEVLET",
+        .voiceActorKey = "VOICEACTOR_IZAWA_SHIORI",
+    };
 public:
     static constexpr u16 ID = 10; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::TWO; ///< Difficulty of this specific character
@@ -289,7 +329,11 @@ public:
  */
 export class Peat final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_PEAT", "CARD_ARTIST_HONO", "VOICEACTOR_KOUSAKA_ATSUSHI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_PEAT",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_KOUSAKA_ATSUSHI",
+    };
 public:
     static constexpr u16 ID = 11; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
@@ -315,7 +359,11 @@ public:
  */
 export class Sora final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_SORA", "CARD_ARTIST_HONO", "VOICEACTOR_MARUYAMA_MIKI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_SORA",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_MARUYAMA_MIKI",
+    };
 public:
     static constexpr u16 ID = 12; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
@@ -341,7 +389,11 @@ public:
  */
 export class Tomomo final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_TOMOMO", "CARD_ARTIST_HONO", "VOICEACTOR_ARANAMI_KAZUSA")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_TOMOMO",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_ARANAMI_KAZUSA",
+    };
 public:
     static constexpr u16 ID = 13; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character
@@ -367,7 +419,11 @@ public:
  */
 export class Yuki final: public MainCharacter {
 private:
-    UNIT_METADATA("CARD_UNIT_YUKI", "CARD_ARTIST_HONO", "VOICEACTOR_AIYA_SAKI")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_YUKI",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "VOICEACTOR_AIYA_SAKI",
+    };
 public:
     static constexpr u16 ID = 14; ///< ID of this specific character
     static constexpr MainCharacter::Difficulty DIFFICULTY = MainCharacter::Difficulty::ONE; ///< Difficulty of this specific character

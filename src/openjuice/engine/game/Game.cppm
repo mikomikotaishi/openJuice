@@ -1,6 +1,6 @@
 /**
  * @file Game.cppm
- * @module openjuice.engine.game.Game
+ * @module openjuice.engine.game:Game
  * @brief Module file for game operations.
  *
  * This file contains the implementation of the game operations, including state management
@@ -11,43 +11,33 @@ module;
 
 #include "Macros.hpp"
 
-export module openjuice.engine.game.Game;
+export module openjuice.engine.game:Game;
 
 import stdx;
-
-import :GamePhase;
 
 import openjuice.card;
 import openjuice.chat;
 import openjuice.engine.board;
 import openjuice.engine.entity;
-import openjuice.engine.game.ecs;
-import openjuice.engine.services;
+import openjuice.engine.settings;
 import openjuice.engine.unit;
-import openjuice.engine.util;
 import openjuice.unit;
 
 using stdx::collections::Vector;
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
+using stdx::fmt::Formatter;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
-using stdx::mem::UniquePointer;
-using stdx::ranges::IotaView;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::board::Board;
+using openjuice::engine::entity::Combatant;
+using openjuice::engine::entity::Mob;
 using openjuice::engine::entity::Player;
-using openjuice::engine::game::ecs::EntityId;
-using openjuice::engine::game::ecs::Registry;
-using openjuice::engine::services::ConfigurationService;
+using openjuice::engine::settings::SettingsService;
 using openjuice::engine::unit::Playable;
-using openjuice::engine::util::Constants;
 using openjuice::unit::CharacterFactory;
-
-using namespace openjuice::engine::game::ecs::components;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
 
@@ -60,7 +50,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  */
 export class Game {
 public:
-    static constexpr u8 MAX_PLAYERS = Constants::GAME_MAX_PLAYERS; ///< Maximum number of players.
+    static constexpr u8 MAX_PLAYERS = Board::Info::MAX_PLAYERS; ///< Maximum number of players.
 
     /**
      * @enum Phase
@@ -78,21 +68,28 @@ private:
     friend class Formatter<Phase>;
     SharedPointer<Logger> logger; ///< The logger instance.
 
-    // Game board and ECS components (ordered by size for optimal padding)
+    // Game state (ordered by size for optimal padding)
     Array<SharedPointer<Player>, MAX_PLAYERS> players; ///< Player array
     String statusMessage; ///< Status message
-    Vector<EntityId> mobEntities; ///< Mob entities
+    Vector<SharedPointer<Mob>> mobs; ///< The mobs currently on the board
     SharedPointer<Board> gameBoard; ///< The game board (null until a board is loaded for a match)
-    Array<EntityId, MAX_PLAYERS> playerEntities; ///< Store player entity IDs
-    UniquePointer<Registry> registry; ///< The ECS registry
     Milliseconds deltaTime; ///< Delta time
-    EntityId activeBattleAttacker = 0; ///< Battle attacker
-    EntityId activeBattleDefender = 0; ///< Battle defender
+    SharedPointer<Combatant> activeBattleAttacker; ///< Battle attacker
+    SharedPointer<Combatant> activeBattleDefender; ///< Battle defender
     Phase currentPhase = Phase::SETUP; ///< Current phase
     u8 currentPlayerIndex = 0; ///< Current player index
     u8 chapterNumber = 1; ///< Chapter number
     bool battleInProgress = false; ///< Battle in progress flag
     // TODO: Add a spectator list
+
+    /**
+     * @brief Puts every player slot back to a freshly created player with no character assigned.
+     */
+    void resetPlayers() {
+        for (SharedPointer<Player> p: players) {
+            p = Pointers::shared<Player>();
+        }
+    }
 
     /**
      * @brief Advances the game to the next player.
@@ -126,16 +123,15 @@ public:
     /**
      * @brief Constructor for the Game class.
      * @param loggerFactory The injected logger factory.
-     * @param config The injected configuration service, used to determine the frame delta-time.
+     * @param settings The injected settings service, used to determine the frame delta-time.
      */
-    explicit Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<ConfigurationService> config):
+    Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
         logger{loggerFactory->of("Game")},
-        playerEntities{{}},
-        registry{Pointers::unique<Registry>(1000)},
-        deltaTime{config->getDeltaTime()} {
+        deltaTime{settings->getDeltaTime()} {
+        resetPlayers();
 
         #ifndef NDEBUG
-        logger->debug("Creating Game object");
+        logger->debug("Created Game!");
         #endif
     }
 
@@ -144,40 +140,34 @@ public:
      */
     ~Game() {
         #ifndef NDEBUG
-        logger->debug("Destroying Game object");
+        logger->debug("Destroying Game...");
+        #endif
+
+        #ifndef NDEBUG
+        logger->debug("Game shutdown complete!");
         #endif
     }
 
     /**
      * @brief Initialize the game state and prepare for running
+     *
+     * Discards any state left over from a previous match, so this doubles as the reset for starting a new game.
      */
-    [[nodiscard]]
-    Expected<void, Registry::Error> init() {
-        for (u8 i: IotaView(u8{0}, MAX_PLAYERS)) {
-            Optional<EntityId> playerOpt = registry->entity(
-                PlayerTag(),
-                PlayerComponent(),
-                StarComponent(0),
-                HandComponent()
-            );
-            
-            if (!playerOpt.has_value()) {
-                return Unexpected(Registry::Error::ENTITY_CREATE_FAILURE);
-            }
-            EntityId player = playerOpt.value();
-            
-            #ifndef NDEBUG
-            playerEntities.at(i) = player;
-            #else
-            playerEntities[i] = player;
-            #endif
-        }
-
+    void init() {
         #ifndef NDEBUG
-        logger->debug("Game initialized");
+        logger->debug("Initializing Game...");
         #endif
 
-        return {};
+        resetPlayers();
+        mobs.clear();
+        endBattle();
+        currentPhase = Phase::SETUP;
+        currentPlayerIndex = 0;
+        chapterNumber = 1;
+
+        #ifndef NDEBUG
+        logger->debug("Game initialized!");
+        #endif
     }
 
     /**
@@ -201,61 +191,29 @@ public:
      * @brief Sets the character for a player.
      * @param num The player number.
      * @param id The character ID.
-     * @throws OutOfRangeException if playerNumber is out of range.
+     * @throws OutOfRangeException if id does not correspond to a valid character ID.
      */
-    void setPlayerCharacter(u8 num, u8 id) throws (OutOfRangeException) {
+    THROWS(OutOfRangeException)
+    void setPlayerCharacter(u8 num, u8 id) {
         #ifndef NDEBUG
-        logger->debug("Setting player {} to character of ID {}", num, id);
+        logger->debug("Setting player {} to character of ID {}...", num, id);
         #endif
 
-        if (num >= MAX_PLAYERS) {
-            throw OutOfRangeException("Invalid player number!");
-        }
-
-        EntityId player = getPlayerEntity(num);
-        SharedPointer<Playable> character; 
+        SharedPointer<Playable> character;
         if (Optional<SharedPointer<Playable>> ch = CharacterFactory::create(id); ch.has_value()) {
             character = *ch;
         } else {
             throw OutOfRangeException(Ops::fmt("Error: {} is not a valid character ID!", id));
         }
-        
-        registry->emplace<UnitComponent>(player, character);
-        registry->emplace<HealthComponent>(player, character->getHealth(), character->getHealth());
 
-        SharedPointer<Player> playerWrapper = Pointers::shared<Player>(*registry, character);
-
-        #ifndef NDEBUG
-        players.at(num) = playerWrapper;
-        #else
-        players[num] = playerWrapper;
-        #endif
-    }
-
-    /**
-     * @brief Get the Player Entity object.
-     * @param num Player index.
-     * @return EntityId ID of the player entity.
-     * @throws OutOfRangeException if playerNumber is out of range.
-     */
-    [[nodiscard]]
-    EntityId getPlayerEntity(u8 num) throws (OutOfRangeException) {
-        if (num >= MAX_PLAYERS) {
-            throw OutOfRangeException("Invalid player number!");
-        }
-
-        #ifndef NDEBUG
-        return playerEntities.at(num);
-        #else
-        return playerEntities[num];
-        #endif
+        players[num]->setUnit(character);
     }
 
     /**
      * @brief Runs the game.
      */
     void run() {
-        logger->info("Beginning game");
+        logger->info("Beginning game...");
 
         currentPhase = Phase::PLAYER_TURN;
     }
@@ -263,34 +221,20 @@ public:
     /**
      * @brief Get current player.
      * @return SharedPointer<Player> Current player object.
-     * @throws OutOfRangeException if currentPlayerIndex is out of range.
      */
     [[nodiscard]]
-    SharedPointer<Player> getCurrentPlayer() const RELEASE_NOEXCEPT {
-        #ifndef NDEBUG
-        return players.at(currentPlayerIndex);
-        #else
+    SharedPointer<Player> getCurrentPlayer() const noexcept {
         return players[currentPlayerIndex];
-        #endif
     }
 
     /**
      * @brief Get player by index
      * @param index Player index
      * @return Player object at index
-     * @throws OutOfRangeException if index is out of range
      */
     [[nodiscard]]
-    SharedPointer<Player> getPlayer(u8 index) const throws (OutOfRangeException) {
-        if (index >= MAX_PLAYERS) {
-            throw OutOfRangeException("Invalid index!");
-        }
-
-        #ifndef NDEBUG
-        return players.at(index);
-        #else
+    SharedPointer<Player> getPlayer(u8 index) const noexcept {
         return players[index];
-        #endif
     }
 
     /**
@@ -306,7 +250,7 @@ public:
      * @param defender The defending entity
      * @return True if battle started successfully
      */
-    bool startBattle(EntityId attacker, EntityId defender) {
+    bool startBattle(const SharedPointer<Combatant>& attacker, const SharedPointer<Combatant>& defender) {
         if (battleInProgress) {
             return false;
         }
@@ -335,8 +279,8 @@ public:
      */
     void endBattle() noexcept {
         battleInProgress = false;
-        activeBattleAttacker = 0;
-        activeBattleDefender = 0;
+        activeBattleAttacker = nullptr;
+        activeBattleDefender = nullptr;
         currentPhase = Phase::PLAYER_TURN;
     }
 
@@ -351,19 +295,19 @@ public:
 
     /**
      * @brief Get current battle attacker
-     * @return Entity ID of attacker
+     * @return The attacking entity, or null when no battle is in progress
      */
     [[nodiscard]]
-    EntityId getBattleAttacker() const noexcept {
+    SharedPointer<Combatant> getBattleAttacker() const noexcept {
         return activeBattleAttacker;
     }
 
     /**
      * @brief Get current battle defender
-     * @return Entity ID of defender
+     * @return The defending entity, or null when no battle is in progress
      */
     [[nodiscard]]
-    EntityId getBattleDefender() const noexcept {
+    SharedPointer<Combatant> getBattleDefender() const noexcept {
         return activeBattleDefender;
     }
 
@@ -371,8 +315,8 @@ public:
      * @brief Set status message
      * @param message New status message
      */
-    void setStatusMessage(const String& message) noexcept {
-        statusMessage = message;
+    void setStatusMessage(StringView message) noexcept {
+        statusMessage = String(message);
     }
 
     /**
@@ -394,50 +338,20 @@ public:
     }
 
     /**
-     * @brief Add a mob entity to the game
-     * @param id The mob's entity ID
+     * @brief Add a mob to the game
+     * @param mob The mob to add
      */
-    void addMob(EntityId id) {
-        mobEntities.push_back(id);
+    void addMob(const SharedPointer<Mob>& mob) {
+        mobs.push_back(mob);
     }
 
     /**
-     * @brief Get all mob entities
-     * @return Vector of mob entity IDs
+     * @brief Get all mobs
+     * @return The mobs currently on the board
      */
     [[nodiscard]]
-    const Vector<EntityId>& getMobs() const noexcept {
-        return mobEntities;
-    }
-
-    /**
-     * @brief Get the ECS registry
-     * @return Reference to the registry
-     */
-    [[nodiscard]]
-    Registry& getRegistry() noexcept {
-        return *registry;
-    }
-
-    /**
-     * @brief Convert game state to string representation
-     * @return String representation of game state
-     */
-    [[nodiscard]]
-    String toString() const {
-        String result = Ops::fmt(
-            "Chapter: {} | Current Player: {} | Phase: {} | Battle: {}",
-            chapterNumber,
-            currentPlayerIndex,
-            phaseName(currentPhase),
-            battleInProgress ? "Yes" : "No"
-        );
-
-        if (!statusMessage.empty()) {
-            result = Ops::fmt("{} | {}", result, statusMessage);
-        }
-
-        return result;
+    const Vector<SharedPointer<Mob>>& getMobs() const noexcept {
+        return mobs;
     }
 };
 
@@ -445,15 +359,17 @@ END_MODULE_NAMESPACE();
 
 using openjuice::engine::game::Game;
 
-template <>
-struct Formatter<Game::Phase> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
+namespace stdx::fmt {
+    template <>
+    struct Formatter<Game::Phase> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
+        }
 
-    static FormatContext::iterator format(Game::Phase phase, FormatContext& ctx) {
-        return stdx::fmt::format_to(ctx.out(), "{}", Game::phaseName(phase));
-    }
-};
+        static FormatContext::iterator format(Game::Phase phase, FormatContext& ctx) {
+            return format_to(ctx.out(), "{}", Game::phaseName(phase));
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(Game::Phase);

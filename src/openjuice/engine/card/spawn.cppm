@@ -16,10 +16,6 @@ import stdx;
 
 import openjuice.engine.card.Card;
 
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
-
 using openjuice::engine::card::Card;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card::spawn);
@@ -33,10 +29,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::card::spawn);
  */
 export class BossCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for BossCard.
-     */
-    BossCard() = default;
+    virtual ~BossCard() = default;
 };
 
 /**
@@ -48,10 +41,7 @@ protected:
  */
 export class BountyHuntCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for BountyHuntCard.
-     */
-    BountyHuntCard() = default;
+    virtual ~BountyHuntCard() = default;
 };
 
 /**
@@ -63,10 +53,7 @@ protected:
  */
 export class CharacterSpecificCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for CharacterSpecificCard.
-     */
-    CharacterSpecificCard() = default;
+    virtual ~CharacterSpecificCard() = default;
 };
 
 /**
@@ -78,10 +65,7 @@ protected:
  */
 export class CoopCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for CoopCard.
-     */
-    CoopCard() = default;
+    virtual ~CoopCard() = default;
 };
 
 /**
@@ -93,10 +77,7 @@ protected:
  */
 export class GenericCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for GenericCard.
-     */
-    GenericCard() = default;
+    virtual ~GenericCard() = default;
 };
 
 /**
@@ -108,10 +89,7 @@ protected:
  */
 export class HyperCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for HyperCard.
-     */
-    HyperCard() = default;
+    virtual ~HyperCard() = default;
 };
 
 /**
@@ -129,8 +107,6 @@ public:
     /**
      * @enum Color
      * @brief Enumeration for mushroom colors.
-     * 
-     * The Color enumeration defines the possible colors a mushroom card may have.
      */
     enum class Color: u8 {
         BLUE,
@@ -144,20 +120,23 @@ public:
         WHITE,
         YELLOW,
     };
+private:
+    const StringView effectKey;
 protected:
     // Uses "CARD_SHROOM_BLUE" because all (regular) mushroom cards have the same description.
-    static constexpr char EFFECT_KEY[] = "CARD_SHROOM_BLUE"; ///< The key belonging to the effect to query in LocalizationService
+    static constexpr StringView EFFECT_KEY = "CARD_SHROOM_BLUE"; ///< The key belonging to the effect to query in LocalizationService
 
-    /**
-     * @brief Default constructor for MushroomCard.
-     */
-    MushroomCard() = default;
+    explicit MushroomCard(StringView effectKey) noexcept:
+        effectKey{effectKey} {}
+
+    virtual ~MushroomCard() = default;
 
     /**
      * @brief Converts the mushroom color to its associated LocalizationService key.
      * @param type The mushroom color.
      * @return The key to query in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String colorToKey(MushroomCard::Color type) noexcept {
         switch (type) {
             case MushroomCard::Color::BLUE:
@@ -181,6 +160,7 @@ protected:
             case MushroomCard::Color::YELLOW:
                 return "CARD_SHROOM_YELLOW";
         }
+
         Ops::unreachable();
     }
 
@@ -189,6 +169,7 @@ protected:
      * @param type The mushroom color.
      * @return The key to query for the artist in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String colorToArtistKey(MushroomCard::Color type) noexcept {
         switch (type) {
             case MushroomCard::Color::BLUE:
@@ -216,10 +197,7 @@ protected:
  */
 export class SeasonalCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for SeasonalCard.
-     */
-    SeasonalCard() = default;
+    virtual ~SeasonalCard() = default;
 };
 
 /**
@@ -231,58 +209,57 @@ protected:
  */
 export class StandardCard: virtual public Card {
 protected:
-    /**
-     * @brief Default constructor for StandardCard.
-     */
-    StandardCard() = default;
+    virtual ~StandardCard() = default;
 };
 
 END_MODULE_NAMESPACE();
 
 using openjuice::engine::card::spawn::MushroomCard;
 
-template <>
-struct Formatter<MushroomCard::Color> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(MushroomCard::Color type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case MushroomCard::Color::BLUE:
-                name = "Blue Mushroom";
-                break;
-            case MushroomCard::Color::BROWN:
-                name = "Brown Mushroom";
-                break;
-            case MushroomCard::Color::GREEN:
-                name = "Green Mushroom";
-                break;
-            case MushroomCard::Color::ORANGE:
-                name = "Orange Mushroom";
-                break;
-            case MushroomCard::Color::PINK:
-                name = "Pink Mushroom";
-                break;
-            case MushroomCard::Color::PURPLE:
-                name = "Purple Mushroom";
-                break;
-            case MushroomCard::Color::RAINBOW:
-                name = "Rainbow Mushroom";
-                break;
-            case MushroomCard::Color::RED:
-                name = "Red Mushroom";
-                break;
-            case MushroomCard::Color::WHITE:
-                name = "White Mushroom";
-                break;
-            case MushroomCard::Color::YELLOW:
-                name = "Yellow Mushroom";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<MushroomCard::Color> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+
+        static FormatContext::iterator format(MushroomCard::Color type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case MushroomCard::Color::BLUE:
+                    name = "Blue Mushroom";
+                    break;
+                case MushroomCard::Color::BROWN:
+                    name = "Brown Mushroom";
+                    break;
+                case MushroomCard::Color::GREEN:
+                    name = "Green Mushroom";
+                    break;
+                case MushroomCard::Color::ORANGE:
+                    name = "Orange Mushroom";
+                    break;
+                case MushroomCard::Color::PINK:
+                    name = "Pink Mushroom";
+                    break;
+                case MushroomCard::Color::PURPLE:
+                    name = "Purple Mushroom";
+                    break;
+                case MushroomCard::Color::RAINBOW:
+                    name = "Rainbow Mushroom";
+                    break;
+                case MushroomCard::Color::RED:
+                    name = "Red Mushroom";
+                    break;
+                case MushroomCard::Color::WHITE:
+                    name = "White Mushroom";
+                    break;
+                case MushroomCard::Color::YELLOW:
+                    name = "Yellow Mushroom";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(MushroomCard::Color);

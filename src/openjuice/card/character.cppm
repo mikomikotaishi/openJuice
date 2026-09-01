@@ -42,7 +42,10 @@ public:
     static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card per deck
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 private:
-    CARD_METADATA("CARD_BOOST_XMASCAKE", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_XMASCAKE",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     /**
      * @brief Constructor to initialize a MiosChristmasCake object.
@@ -77,7 +80,10 @@ public:
     static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card per deck
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 private:
-    CARD_METADATA("CARD_BATTLE_FREIGHT", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_FREIGHT",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     /**
      * @brief Constructor to initialize a Freight object.
@@ -112,7 +118,10 @@ public:
     static constexpr Optional<u8> LIMIT = nullopt; ///< The limit of this specific card per deck
     static constexpr Expected<u8, Card::DeckPointError> DECK_POINTS = Unexpected(Card::DeckPointError::NOT_STANDARD_CARD); ///< The deck points of this specific card
 private:
-    CARD_METADATA("CARD_GIFT_REDBLUE", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_GIFT_REDBLUE",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     /**
      * @brief Constructor to initialize a RedAndBlue object.

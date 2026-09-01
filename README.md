@@ -2,8 +2,7 @@
 
 ## Overview
 
-🍊 Open-source re-engineering of the game [*100% Orange Juice!*](https://store.steampowered.com/app/282800), written as a love letter to the original game.
-This does not aim to be a one-to-one recreation of the game but rather a port of the game as a TUI program.
+🍊 Open-source re-engineering of the game [*100% Orange Juice!*](https://store.steampowered.com/app/282800), written as a love letter to the original game. This does not aim to be a one-to-one recreation of the game but rather a port of the game as a TUI program.
 
 This project is written independently for fun and as a learning project, and not written for the purposes of piracy. The author(s) encourage the user to support the original developers. No code has been obtained through decompiling, disassembling, or reverse-engineering the original program. Everything in this project, except for external dependencies and original assets from the game (such as text and audio) were developed independently.
 
@@ -23,7 +22,7 @@ Audio files are not included either.
 
 ## Build
 
-Requires C++26, and a build system such as CMake (minimum version 3.30) or XMake. The project has not yet been tested for GCC or MSVC, so we recommend only compiling with Clang for now.
+Requires C++26, and a build system such as CMake (minimum version 3.30) or XMake. The project has not yet been tested with MSVC, so we recommend only compiling with GCC or Clang for now.
 
 ### CMake
 
@@ -68,7 +67,6 @@ options:
   -n, --new             Cleans the build directory and rebuilds everything, including dependencies (mandatory for first build)
   -pd, --preserve-deps  Cleans the build directory and rebuilds everything (excluding dependencies)
   -rc, --reconfigure    Reconfigure CMake build system (for when new files are added)
-  -g, --graph           Generate dependency graph
   -s, --sanitizer,      Enable sanitizers (address, undefined, thread, memory, leak, all)
   -v, --verbose         Enable verbose output (lacks progress bar or other graphical features)
 ```
@@ -81,7 +79,6 @@ Build script for openJuice project
   -c, --clean                Clean only project source files (no building)
       -ca, --clean-all       Clean entire project, including dependencies (no
                                building)
-  -g, --graph                Generate dependency graph
   -h, --help                 Show this help message and exit.
   -n, --new                  Cleans the build directory and rebuilds
                                everything, including dependencies (mandatory
@@ -124,7 +121,6 @@ To be written.
 
 ## TODO:
 
-* Resolve all `#warning` markers, if possible
 * Complete design document
 * Continue documentation (Doxygen)
 * Implement online multiplayer functionality
@@ -134,11 +130,9 @@ To be written.
 
 This project uses the following external libraries:
 
-* [stdlib](https://github.com/mikomikotaishi/stdlib) (`std`)
+* [stdlibx](https://github.com/mikomikotaishi/stdlibx) (`stdx`)
 * [Discord Social SDK](https://discord.com/developers/social-sdk) (`discordpp`)
 * [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (`ftxui`)
 * [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)
 * [re2](https://github.com/google/re2) (`re2`)
 * [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)
-
-To generate the graph, the tool [module-graph-tool](https://github.com/sebastian-eichelbaum/module-graph-tool) is used.

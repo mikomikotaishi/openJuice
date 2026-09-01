@@ -33,7 +33,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::hyper);
  */
 export class ProtagonistsPrivilege final: public BoostCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_KAI", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_KAI",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 1; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -68,7 +71,10 @@ public:
  */
 export class X16BigRocket final: public BoostCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_MARC", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_MARC",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 2; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -103,7 +109,10 @@ public:
  */
 export class HyperMode final: public BattleCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_QP", "CARD_ARTIST_MEGANE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_QP",
+        .artistKey = "CARD_ARTIST_MEGANE",
+    };
 public:
     static constexpr u16 ID = 3; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -138,7 +147,10 @@ public:
  */
 export class Accelerator final: public BoostCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_SUGURI", "CARD_ARTIST_MIZUKISEO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_SUGURI",
+        .artistKey = "CARD_ARTIST_MIZUKISEO",
+    };
 public:
     static constexpr u16 ID = 4; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -173,7 +185,10 @@ public:
  */
 export class PresentForYou final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_ARU", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_ARU",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 5; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -208,7 +223,10 @@ public:
  */
 export class AirStrike final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_FERNET", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_FERNET",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 6; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -243,7 +261,10 @@ public:
  */
 export class BindingChains final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_HIME", "CARD_ARTIST_TORI")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_HIME",
+        .artistKey = "CARD_ARTIST_TORI",
+    };
 public:
     static constexpr u16 ID = 7; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -278,7 +299,10 @@ public:
  */
 export class Ubiquitous final: public BoostCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_POPPO", "CARD_ARTIST_MEGANE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_POPPO",
+        .artistKey = "CARD_ARTIST_MEGANE",
+    };
 public:
     static constexpr u16 ID = 8; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -313,7 +337,10 @@ public:
  */
 export class MagicalInferno final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_MIO", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_MIO",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 9; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -348,7 +375,10 @@ public:
  */
 export class ChristmasInferno final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_MIOFESTIVE", "CARD_ARTIST_SENCA")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_MIOFESTIVE",
+        .artistKey = "CARD_ARTIST_SENCA",
+    };
 public:
     static constexpr u16 ID = 10; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -383,7 +413,10 @@ public:
  */
 export class BlueCrowTheSecond final: public BattleCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_PEAT", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_PEAT",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 11; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -418,7 +451,10 @@ public:
  */
 export class ExtraordinarySpecs final: public BoostCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_SORA", "CARD_ARTIST_ERINA")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_SORA",
+        .artistKey = "CARD_ARTIST_ERINA",
+    };
 public:
     static constexpr u16 ID = 12; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -453,7 +489,10 @@ public:
  */
 export class MagicalMassacre final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_TOMOMO", "CARD_ARTIST_MEGANE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_TOMOMO",
+        .artistKey = "CARD_ARTIST_MEGANE",
+    };
 public:
     static constexpr u16 ID = 13; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -488,7 +527,10 @@ public:
  */
 export class Gamble final: public EventCard, public HyperCard {
 private:
-    CARD_METADATA("CARD_HYPER_YUKI", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_YUKI",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 14; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card

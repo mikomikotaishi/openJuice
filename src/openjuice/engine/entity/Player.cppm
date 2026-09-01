@@ -1,6 +1,6 @@
 /**
  * @file Player.cppm
- * @module openjuice.engine.entity.Player
+ * @module openjuice.engine.entity:Player
  * @brief Implementation of the Player class.
  *
  * This file contains the implementation of the Player class, which represents a player entity in the game.
@@ -12,10 +12,11 @@ module;
 
 export module openjuice.engine.entity:Player;
 
+import :Combatant;
+
 import stdx;
 
 import openjuice.engine.card;
-import openjuice.engine.game.ecs;
 import openjuice.engine.unit;
 
 using stdx::collections::BitSet;
@@ -25,12 +26,6 @@ using stdx::mem::SharedPointer;
 
 using openjuice::engine::card::Card;
 using openjuice::engine::card::spawn::MushroomCard;
-using openjuice::engine::game::ecs::Entity;
-using openjuice::engine::game::ecs::Registry;
-using openjuice::engine::game::ecs::components::PlayerTag;
-using openjuice::engine::game::ecs::components::PlayerComponent;
-using openjuice::engine::game::ecs::components::HandComponent;
-using openjuice::engine::game::ecs::components::MushroomComponent;
 using openjuice::engine::unit::Playable;
 using openjuice::engine::unit::Unit;
 
@@ -39,24 +34,31 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::entity);
 /**
  * @class Player
  * @brief Class representing a player entity.
- * @extends Entity
+ * @extends Combatant
  *
- * The Player class extends the Entity abstract class and represents a player entity with attributes such as wins, norma, and hand.
+ * The Player class extends the Combatant abstract class and represents a player entity with attributes such as wins, norma, and hand.
  */
-export class Player: public Entity {
+export class Player: public Combatant {
+private:
+    Vector<SharedPointer<Card>> hand; ///< The cards currently held by the player.
+
+    // Consists of (in this order):
+    // Blue, Brown, Green, Orange, Pink, Purple, Rainbow, Red, White, Yellow
+    BitSet<MushroomCard::NUM_MUSHROOMS> usedMushrooms; ///< The Mushrooms that have been used by the player.
+
+    // Consists of (in this order):
+    // Legendary Red, Phantom Blue
+    BitSet<MushroomCard::NUM_LEGENDARY_MUSHROOMS> usedLegendaryMushrooms; ///< The Legendary Mushrooms that have been used by the player.
+
+    u8 wins = 0; ///< The number of battles the player has won.
+    u8 norma = 1; ///< The player's current norma level.
 public:
     /**
      * @brief Constructor to initialize a Player object.
-     * @param reg Reference to the ECS registry
      * @param character The character associated with the player.
      */
-    explicit Player(Registry& reg, const SharedPointer<Playable>& character = nullptr):
-        Entity(reg, character) {
-        registry->emplace<PlayerTag>(getEntityId());
-        registry->emplace<PlayerComponent>(getEntityId());
-        registry->emplace<HandComponent>(getEntityId());
-        registry->emplace<MushroomComponent>(getEntityId());
-    }
+    explicit Player(const SharedPointer<Playable>& character = nullptr) noexcept:
+        Combatant(character) {}
 
     /**
      * @brief Get the number of wins the player has.
@@ -64,18 +66,15 @@ public:
      */
     [[nodiscard]]
     u8 getWins() const noexcept {
-        PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId());
-        return playerComp ? playerComp->wins : 0;
+        return wins;
     }
 
     /**
      * @brief Set the number of wins the player has.
-     * @param wins The number of wins to set.
+     * @param newWins The number of wins to set.
      */
-    void setWins(u8 wins) noexcept {
-        if (PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId())) {
-            playerComp->wins = wins;
-        }
+    void setWins(u8 newWins) noexcept {
+        wins = newWins;
     }
 
     /**
@@ -84,18 +83,15 @@ public:
      */
     [[nodiscard]]
     u8 getNorma() const noexcept {
-        PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId());
-        return playerComp ? playerComp->norma : 1;
+        return norma;
     }
 
     /**
      * @brief Set the norma level of the player.
-     * @param norma The norma level to set.
+     * @param newNorma The norma level to set.
      */
-    void setNorma(u8 norma) noexcept {
-        if (PlayerComponent* playerComp = registry->getIf<PlayerComponent>(getEntityId())) {
-            playerComp->norma = norma;
-        }
+    void setNorma(u8 newNorma) noexcept {
+        norma = newNorma;
     }
 
     /**
@@ -103,19 +99,16 @@ public:
      * @param card The card to add.
      */
     void addCard(const SharedPointer<Card>& card) {
-        if (HandComponent* hand = registry->getIf<HandComponent>(getEntityId())) {
-            hand->cards.push_back(card);
-        }
+        hand.push_back(card);
     }
 
     /**
      * @brief Get all cards in the player's hand.
-     * @return Vector of cards in hand.
+     * @return The cards in hand.
      */
     [[nodiscard]]
-    Vector<SharedPointer<Card>> getCards() const {
-        HandComponent* hand = registry->getIf<HandComponent>(getEntityId());
-        return hand ? hand->cards : Vector<SharedPointer<Card>>();
+    const Vector<SharedPointer<Card>>& getCards() const noexcept {
+        return hand;
     }
 
     /**
@@ -124,7 +117,6 @@ public:
      */
     [[nodiscard]]
     u8 getRecovery() const {
-        SharedPointer<Unit> unit = getUnit();
         SharedPointer<Playable> character = Pointers::dynamic_pointer_cast<Playable>(unit);
         return character ? character->getRecovery() : 0;
     }
@@ -134,9 +126,8 @@ public:
      * @return BitSet representing used mushrooms.
      */
     [[nodiscard]]
-    BitSet<MushroomCard::NUM_MUSHROOMS> getUsedMushrooms() const {
-        MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId());
-        return mushrooms ? mushrooms->usedMushrooms : BitSet<MushroomCard::NUM_MUSHROOMS>();
+    const BitSet<MushroomCard::NUM_MUSHROOMS>& getUsedMushrooms() const noexcept {
+        return usedMushrooms;
     }
 
     /**
@@ -144,9 +135,8 @@ public:
      * @return BitSet representing used legendary mushrooms.
      */
     [[nodiscard]]
-    BitSet<MushroomCard::NUM_LEGENDARY_MUSHROOMS> getUsedLegendaryMushrooms() const {
-        MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId());
-        return mushrooms ? mushrooms->usedLegendaryMushrooms : BitSet<MushroomCard::NUM_LEGENDARY_MUSHROOMS>();
+    const BitSet<MushroomCard::NUM_LEGENDARY_MUSHROOMS>& getUsedLegendaryMushrooms() const noexcept {
+        return usedLegendaryMushrooms;
     }
 
     /**
@@ -156,75 +146,73 @@ public:
      */
     [[nodiscard]]
     bool hasMushroom(usize index) const noexcept {
-        MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId());
-        if (mushrooms && index < MushroomCard::NUM_MUSHROOMS) { 
-            #ifndef NDEBUG
-            return mushrooms->usedMushrooms.test(index);
-            #else
-            return mushrooms->usedMushrooms[index];
-            #endif
-        } else {
+        if (index >= MushroomCard::NUM_MUSHROOMS) {
             return false;
         }
+
+        #ifndef NDEBUG
+        return usedMushrooms.test(index);
+        #else
+        return usedMushrooms[index];
+        #endif
     }
 
     /**
      * @brief Check if a specific legendary mushroom has been used.
-     *
      * @param index The index of the legendary mushroom to check.
      * @return True if the legendary mushroom has been used, false otherwise.
      */
     [[nodiscard]]
     bool hasLegendaryMushroom(usize index) const noexcept {
-        MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId());
-        if (mushrooms && index < MushroomCard::NUM_LEGENDARY_MUSHROOMS) { 
-            #ifndef NDEBUG
-            return mushrooms->usedLegendaryMushrooms.test(index);
-            #else
-            return mushrooms->usedLegendaryMushrooms[index];
-            #endif
-        } else {
+        if (index >= MushroomCard::NUM_LEGENDARY_MUSHROOMS) {
             return false;
         }
+
+        #ifndef NDEBUG
+        return usedLegendaryMushrooms.test(index);
+        #else
+        return usedLegendaryMushrooms[index];
+        #endif
     }
 
     /**
      * @brief Use a mushroom at the specified index.
-     *
      * @param index The index of the mushroom to use.
      */
     void useMushroom(usize index) noexcept {
-        if (MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId()); mushrooms && index < MushroomCard::NUM_MUSHROOMS) {
-            #ifndef NDEBUG
-            mushrooms->usedMushrooms.set(index);
-            #else
-            mushrooms->usedMushrooms[index] = true;
-            #endif
+        if (index >= MushroomCard::NUM_MUSHROOMS) {
+            return;
         }
+
+        #ifndef NDEBUG
+        usedMushrooms.set(index);
+        #else
+        usedMushrooms[index] = true;
+        #endif
     }
 
     /**
      * @brief Use a legendary mushroom at the specified index.
-     *
      * @param index The index of the legendary mushroom to use.
      */
     void useLegendaryMushroom(usize index) noexcept {
-        if (MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId()); mushrooms && index < MushroomCard::NUM_LEGENDARY_MUSHROOMS) {
-            #ifndef NDEBUG
-            mushrooms->usedLegendaryMushrooms.set(index);
-            #else
-            mushrooms->usedLegendaryMushrooms[index] = true;
-            #endif
+        if (index >= MushroomCard::NUM_LEGENDARY_MUSHROOMS) {
+            return;
         }
+
+        #ifndef NDEBUG
+        usedLegendaryMushrooms.set(index);
+        #else
+        usedLegendaryMushrooms[index] = true;
+        #endif
     }
 
     /**
      * @brief Reset all mushrooms.
      */
     void resetMushrooms() noexcept {
-        if (MushroomComponent* mushrooms = registry->getIf<MushroomComponent>(getEntityId())) {
-            mushrooms->reset();
-        }
+        usedMushrooms.reset();
+        usedLegendaryMushrooms.reset();
     }
 };
 
