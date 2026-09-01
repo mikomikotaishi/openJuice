@@ -27,7 +27,6 @@ dependency "commandr" version="~>0.2.0"
  *   -n, --new            Clean the build directory and rebuilds everything, including dependencies
  *   -pd, --preserve-deps Clean the build directory and rebuilds everything (excluding dependencies)
  *   -rc, --reconfigure   Reconfigure CMake build system (for when new files are added)
- *   -g, --graph          Generate dependency graph
  *   -r, --release        Build in release mode (optimized, no sanitizers, NDEBUG defined)
  *   -s, --sanitizer      Enable sanitizers (address, undefined, thread, memory, leak)
  *   -v, --verbose        Enable verbose output (disables progress bar)
@@ -68,7 +67,6 @@ const string[] CMAKE_INIT_COMMAND = ["cmake", "-S", ".", "-G", "Ninja", "-B", "b
 const string[] CMAKE_BUILD_COMMAND = ["cmake", "--build", "build"];
 const string[] CMAKE_REGENERATE_COMMAND = ["cmake", "-G", "Ninja", "."];
 const string[] CMAKE_RECONFIGURE_COMMAND = ["cmake", "-S", ".", "-B", "build"];
-const string[] GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND = ["dot", "-Tpng", "graph.dot", "-o", "dependencies.png"];
 
 /**
  * Main class for the QuickCMakeBuild script.
@@ -90,7 +88,6 @@ class QuickCMakeBuild {
     bool buildNew = false;
     bool preserveDeps = false;
     bool reconfigure = false;
-    bool generateGraph = false;
     bool release = false;
     bool verbose = false;
     string[] sanitizers;
@@ -809,7 +806,6 @@ class QuickCMakeBuild {
                 .add(new Flag("n", "new", "Clean the build directory and rebuilds everything, including dependencies").optional)
                 .add(new Flag("pd", "preserve-deps", "Clean the build directory and rebuilds everything (excluding dependencies)").optional)
                 .add(new Flag("rc", "reconfigure", "Reconfigure CMake build system (for when new files are added)").optional)
-                .add(new Flag("g", "graph", "Generate dependency graph").optional)
                 .add(new Flag("r", "release", "Build in release mode (optimized, no sanitizers, NDEBUG defined)").optional)
                 .add(new Flag("v", "verbose", "Enable verbose output (disables progress bar)").optional)
                 .add(new ListArgument("s", "sanitizer", "Enable sanitizers").optional);
@@ -831,7 +827,6 @@ class QuickCMakeBuild {
             buildNew = parsedArgs.hasFlag("new") || parsedArgs.hasFlag("n");
             preserveDeps = parsedArgs.hasFlag("preserve-deps") || parsedArgs.hasFlag("pd");
             reconfigure = parsedArgs.hasFlag("reconfigure") || parsedArgs.hasFlag("rc");
-            generateGraph = parsedArgs.hasFlag("graph") || parsedArgs.hasFlag("g");
             release = parsedArgs.hasFlag("release") || parsedArgs.hasFlag("r");
             verbose = parsedArgs.hasFlag("verbose") || parsedArgs.hasFlag("v");
             
@@ -856,12 +851,6 @@ class QuickCMakeBuild {
             
             if (!cleanAll && !clean) {
                 runCMakeBuild();
-            }
-            
-            if (generateGraph) {
-                writeln(format("%sGenerating%s dependency graph (output: graph.dot, dependencies.png)", ANSI.GREEN, ANSI.RESET));
-                runCommand(["mgt"], verbose, false);
-                runCommand(GENERATE_DEPENDENCIES_GRAPH_IMAGE_COMMAND.dup, verbose, false);
             }
             
             sw.stop();

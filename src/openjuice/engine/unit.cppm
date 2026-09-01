@@ -1,9 +1,9 @@
 /**
  * @file unit.cppm
  * @module openjuice.engine.unit
- * @brief Import of Unit modules.
+ * @brief Import of unit modules.
  *
- * This file imports the modules for the Unit system.
+ * This file imports the modules for the game unit system.
  */
 
 export module openjuice.engine.unit;

@@ -33,7 +33,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::seasonal);
  */
 export class SweetBattle final: public GiftCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_GIFT_VALENTINESDAY2018", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_GIFT_VALENTINESDAY2018",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u8 ID = 1; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
@@ -68,7 +71,10 @@ public:
  */
 export class SnowballReflector final: public BattleCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_XMAS2018_SNOWBALLREFLECTOR", "CARD_ARTIST_COFFGIRL")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_XMAS2018_SNOWBALLREFLECTOR",
+        .artistKey = "CARD_ARTIST_COFFGIRL",
+    };
 public:
     static constexpr u8 ID = 2; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -103,7 +109,10 @@ public:
  */
 export class GrownupSnowballFight final: public BattleCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_XMAS2018_GROWNUPSNOWBALLFIGHT", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_XMAS2018_GROWNUPSNOWBALLFIGHT",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 3; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -138,7 +147,10 @@ public:
  */
 export class MiosFalseCake final: public BoostCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_WINTER2022_FALSECAKE", "CARD_ARTIST_YULAY_DEVLET")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_WINTER2022_FALSECAKE",
+        .artistKey = "CARD_ARTIST_YULAY_DEVLET",
+    };
 public:
     static constexpr u8 ID = 4; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -173,7 +185,10 @@ public:
  */
 export class ChaoticLaunch final: public EventCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_LAUNCH", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_LAUNCH",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 5; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -208,7 +223,10 @@ public:
  */
 export class ChaosRoost final: public EventCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_ROOST", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_ROOST",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 6; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -243,7 +261,10 @@ public:
  */
 export class ChaosProtect final: public BoostCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_PROTECT", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_PROTECT",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 7; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -278,7 +299,10 @@ public:
  */
 export class FromTheChaoticAbyss final: public EventCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_ABYSS", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_ABYSS",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 8; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -313,7 +337,10 @@ public:
  */
 export class ChaoticRampage final: public EventCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_RAMPAGE", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_RAMPAGE",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 9; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -348,7 +375,10 @@ public:
  */
 export class ChaosRoulette final: public BoostCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_ROULETTE", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_ROULETTE",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 10; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -383,7 +413,10 @@ public:
  */
 export class ChaoticPool final: public EventCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_POOL", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_POOL",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u8 ID = 11; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -418,7 +451,10 @@ public:
  */
 export class HoldTheGremlin final: public GiftCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_GIFT_HOTPOTATO", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_GIFT_HOTPOTATO",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u8 ID = 12; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
@@ -454,7 +490,10 @@ public:
  */
 export class Terrorize final: public BoostCard, public HyperCard, public SeasonalCard {
 private:
-    CARD_METADATA("CARD_CHAOS_GIFT_HOTPOTATO", "CARD_CHAOS_BDTT_HYPER")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_CHAOS_GIFT_HOTPOTATO",
+        .artistKey = "CARD_CHAOS_BDTT_HYPER",
+    };
 public:
     static constexpr u8 ID = 13; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card

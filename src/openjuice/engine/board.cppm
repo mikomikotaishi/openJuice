@@ -1,9 +1,9 @@
 /**
  * @file board.cppm
  * @module openjuice.engine.board
- * @brief Import of Board modules.
+ * @brief Import of board modules.
  *
- * This file imports the modules for the Board system.
+ * This file imports the modules for the board system.
  */
 
 export module openjuice.engine.board;

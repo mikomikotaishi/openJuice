@@ -14,12 +14,7 @@ export module openjuice.engine.board:Panel;
 
 import stdx;
 
-import openjuice.engine.util;
-
 using stdx::collections::BitSet;
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
 using stdx::mem::SharedPointer;
 using stdx::mem::WeakPointer;
 
@@ -173,126 +168,128 @@ END_MODULE_NAMESPACE();
 
 using openjuice::engine::board::Panel;
 
-template <>
-struct Formatter<Panel::Direction> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(Panel::Direction dir, FormatContext& ctx) {
-        StringView name;
-        switch (dir) {
-            case Panel::Direction::UP:
-                name = "Up";
-                break;
-            case Panel::Direction::LEFT:
-                name = "Left";
-                break;
-            case Panel::Direction::RIGHT:
-                name = "Right";
-                break;
-            case Panel::Direction::DOWN:
-                name = "Down";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<Panel::Direction> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
 
-template <>
-struct Formatter<Panel::Of> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(Panel::Of type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case Panel::Of::HOME:
-                name = "Home";
-                break;
-            case Panel::Of::NEUTRAL:
-                name = "Neutral";
-                break;
-            case Panel::Of::BONUS:
-                name = "Bonus";
-                break;
-            case Panel::Of::BONUS_2:
-                name = "Double Bonus";
-                break;
-            case Panel::Of::DROP:
-                name = "Drop";
-                break;
-            case Panel::Of::DROP_2:
-                name = "Double Drop";
-                break;
-            case Panel::Of::DRAW:
-                name = "Draw";
-                break;
-            case Panel::Of::DRAW_2:
-                name = "Double Draw";
-                break;
-            case Panel::Of::WARP:
-                name = "Warp";
-                break;
-            case Panel::Of::WARP_MOVE:
-                name = "Warp Move";
-                break;
-            case Panel::Of::WARP_MOVE_2:
-                name = "Double Warp Move";
-                break;
-            case Panel::Of::ENCOUNTER:
-                name = "Encounter";
-                break;
-            case Panel::Of::ENCOUNTER_2:
-                name = "Double Encounter";
-                break;
-            case Panel::Of::BOSS_ENCOUNTER:
-                name = "Boss Encounter";
-                break;
-            case Panel::Of::MOVE:
-                name = "Move";
-                break;
-            case Panel::Of::MOVE_2:
-                name = "Double Move";
-                break;
-            case Panel::Of::ICE:
-                name = "Ice";
-                break;
-            case Panel::Of::GOO:
-                name = "Goo";
-                break;
-            case Panel::Of::HEAL:
-                name = "Heal";
-                break;
-            case Panel::Of::HEAL_2:
-                name = "Double Heal";
-                break;
-            case Panel::Of::DAMAGE:
-                name = "Damage";
-                break;
-            case Panel::Of::DAMAGE_2:
-                name = "Double Damage";
-                break;
-            case Panel::Of::MINIGAME:
-                name = "Minigame";
-                break;
-            case Panel::Of::BOSS_HOME:
-                name = "Boss Home";
-                break;
-            case Panel::Of::DECORATION:
-                name = "Decoration";
-                break;
-            case Panel::Of::PLAYER_ENCOUNTER:
-                name = "Player Encounter";
-                break;
-            case Panel::Of::RANDOM:
-                name = "Random";
-                break;
+        static FormatContext::iterator format(Panel::Direction dir, FormatContext& ctx) {
+            StringView name;
+            switch (dir) {
+                case Panel::Direction::UP:
+                    name = "Up";
+                    break;
+                case Panel::Direction::LEFT:
+                    name = "Left";
+                    break;
+                case Panel::Direction::RIGHT:
+                    name = "Right";
+                    break;
+                case Panel::Direction::DOWN:
+                    name = "Down";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+    };
+
+    template <>
+    struct Formatter<Panel::Of> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
+        }
+
+        static FormatContext::iterator format(Panel::Of type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case Panel::Of::HOME:
+                    name = "Home";
+                    break;
+                case Panel::Of::NEUTRAL:
+                    name = "Neutral";
+                    break;
+                case Panel::Of::BONUS:
+                    name = "Bonus";
+                    break;
+                case Panel::Of::BONUS_2:
+                    name = "Double Bonus";
+                    break;
+                case Panel::Of::DROP:
+                    name = "Drop";
+                    break;
+                case Panel::Of::DROP_2:
+                    name = "Double Drop";
+                    break;
+                case Panel::Of::DRAW:
+                    name = "Draw";
+                    break;
+                case Panel::Of::DRAW_2:
+                    name = "Double Draw";
+                    break;
+                case Panel::Of::WARP:
+                    name = "Warp";
+                    break;
+                case Panel::Of::WARP_MOVE:
+                    name = "Warp Move";
+                    break;
+                case Panel::Of::WARP_MOVE_2:
+                    name = "Double Warp Move";
+                    break;
+                case Panel::Of::ENCOUNTER:
+                    name = "Encounter";
+                    break;
+                case Panel::Of::ENCOUNTER_2:
+                    name = "Double Encounter";
+                    break;
+                case Panel::Of::BOSS_ENCOUNTER:
+                    name = "Boss Encounter";
+                    break;
+                case Panel::Of::MOVE:
+                    name = "Move";
+                    break;
+                case Panel::Of::MOVE_2:
+                    name = "Double Move";
+                    break;
+                case Panel::Of::ICE:
+                    name = "Ice";
+                    break;
+                case Panel::Of::GOO:
+                    name = "Goo";
+                    break;
+                case Panel::Of::HEAL:
+                    name = "Heal";
+                    break;
+                case Panel::Of::HEAL_2:
+                    name = "Double Heal";
+                    break;
+                case Panel::Of::DAMAGE:
+                    name = "Damage";
+                    break;
+                case Panel::Of::DAMAGE_2:
+                    name = "Double Damage";
+                    break;
+                case Panel::Of::MINIGAME:
+                    name = "Minigame";
+                    break;
+                case Panel::Of::BOSS_HOME:
+                    name = "Boss Home";
+                    break;
+                case Panel::Of::DECORATION:
+                    name = "Decoration";
+                    break;
+                case Panel::Of::PLAYER_ENCOUNTER:
+                    name = "Player Encounter";
+                    break;
+                case Panel::Of::RANDOM:
+                    name = "Random";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(Panel::Direction);
 SPECIALIZE_FORMATTER(Panel::Of);

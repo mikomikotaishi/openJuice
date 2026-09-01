@@ -12,12 +12,11 @@ module;
 
 export module openjuice.card:BountyHuntCardFactory;
 
-import stdx;
-
 import :bountyhunt;
 
+import stdx;
+
 import openjuice.engine.card;
-import openjuice.engine.services;
 
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;

@@ -14,7 +14,6 @@ export module openjuice.unit:BasicEnemyFactory;
 
 import stdx;
 
-import openjuice.engine.services;
 import openjuice.engine.unit;
 import openjuice.engine.util;
 import openjuice.unit.enemies;

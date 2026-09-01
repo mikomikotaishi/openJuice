@@ -15,16 +15,15 @@ export module openjuice:Main;
 import stdx;
 
 import openjuice.engine;
-import openjuice.engine.util;
 
 using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 using stdx::util::ArgumentParser;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
+using stdx::util::logging::SourceLocationFormat;
 
 using openjuice::engine::Engine;
-using openjuice::engine::util::Constants;
 
 BEGIN_MODULE_NAMESPACE(openjuice);
 
@@ -34,9 +33,17 @@ BEGIN_MODULE_NAMESPACE(openjuice);
  */
 export class Main final {
 private:
+    #ifndef NDEBUG
+    static constexpr SourceLocationFormat TRACE_FORMAT = SourceLocationFormat::FILE_LINE;
+    #else
+    static constexpr SourceLocationFormat TRACE_FORMAT = SourceLocationFormat::NONE;
+    #endif
+
+    static constexpr StringView PATH_DEBUG_FILE = "./userdata/debug.txt"; ///< The debug file path.
+
     inline static const SharedPointer<LoggerFactory> logging = LoggerFactory::Builder()
-        .trace_source(Constants::ENABLE_SOURCE_LOCATION)
-        .with_file(Constants::PATH_DEBUG_FILE)
+        .of_source_location_format(TRACE_FORMAT)
+        .with_file(PATH_DEBUG_FILE)
         .with_banner()
         .build_shared(); ///< The injected logger factory.
 
@@ -51,24 +58,16 @@ public:
     static void main(Span<const StringView> args) {
         try {
             ArgumentParser parser("openJuice", "0.0.x");
-            parser.add_argument("-c", "--cli")
-                .help("launch in CLI mode")
-                .default_value(false)
-                .implicit_value(true)
-                .nargs(0uz);
 
             parser.parse_args(args);
 
-            Engine::LaunchMode mode = parser.get<bool>("-c")
-                ? Engine::LaunchMode::CLI
-                : Engine::LaunchMode::TUI;
-            Engine eng(mode, logging);
+            Engine eng(logging);
             eng.init();
         } catch (const Exception& e) {
-            logger->error("An error occurred: {}", e.what());
+            logger->error("An error occurred: {}!", e.what());
             throw;
         } catch (...) {
-            logger->error("An unknown error occurred.");
+            logger->error("An unknown error occurred!");
             throw;
         }
     }

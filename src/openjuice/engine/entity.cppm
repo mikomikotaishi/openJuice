@@ -8,5 +8,6 @@
 
 export module openjuice.engine.entity;
 
+export import :Combatant;
 export import :Mob;
 export import :Player;

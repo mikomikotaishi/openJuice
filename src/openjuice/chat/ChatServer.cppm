@@ -12,9 +12,9 @@ module;
 
 export module openjuice.chat:ChatServer;
 
-import stdx;
-
 import :ChatSession;
+
+import stdx;
 
 using stdx::collections::TreeMap;
 using stdx::collections::Vector;
@@ -68,11 +68,11 @@ private:
             try {
                 accepted = listener->try_accept();
             } catch (const SocketException& e) {
-                logger->error("Failed to accept connection: {}", e.what());
+                logger->error("Failed to accept connection: {}!", e.what());
                 return;
             }
 
-            if (!accepted) {
+            if (!accepted.has_value()) {
                 return;
             }
 
@@ -91,11 +91,11 @@ private:
         try {
             stream.socket().set_blocking(false);
 
-            if (const Optional<Endpoint> peer = stream.remote_endpoint(); peer) {
+            if (const Optional<Endpoint> peer = stream.remote_endpoint(); peer.has_value()) {
                 peerName = Ops::fmt("{}", *peer);
             }
         } catch (const SocketException& e) {
-            logger->error("Failed to set up accepted connection: {}", e.what());
+            logger->error("Failed to set up accepted connection: {}!", e.what());
             return;
         }
 
@@ -106,12 +106,12 @@ private:
                 onSessionReady(handle, event);
             });
         } catch (const Exception& e) {
-            logger->error("Failed to register client with the reactor: {}", e.what());
+            logger->error("Failed to register client with the reactor: {}!", e.what());
             sessions.erase(handle);
             return;
         }
 
-        logger->info("[{}] connected", peerName);
+        logger->info("[{}] connected.", peerName);
     }
 
     /**
@@ -132,7 +132,7 @@ private:
         try {
             open = found->second->drain(messages);
         } catch (const SocketException& e) {
-            logger->error("[{}] dropped after a socket error: {}", peer, e.what());
+            logger->error("[{}] dropped after a socket error: {}!", peer, e.what());
             drop(handle);
             return;
         }
@@ -143,7 +143,7 @@ private:
         }
 
         if (!open || event.error || event.hangup) {
-            logger->info("[{}] disconnected", peer);
+            logger->info("[{}] disconnected.", peer);
             drop(handle);
         }
     }
@@ -203,19 +203,20 @@ public:
      * @param loggerFactory Shared logger factory used to create this server's logger.
      * @throws BindException if the server fails to start
      */
-    ChatServer(u16 port, SharedPointer<LoggerFactory> loggerFactory) throws (BindException):
+    THROWS(BindException)
+    ChatServer(u16 port, SharedPointer<LoggerFactory> loggerFactory):
         logger{loggerFactory->of("ChatServer")} {
         try {
             listener.emplace(TcpListener::bind_dual_stack(port));
             listener->socket().set_blocking(false);
         } catch (const SocketException& e) {
-            logger->error("Failed to bind server to port {}: {}", port, e.what());
+            logger->error("Failed to bind server to port {}: {}!", port, e.what());
             throw BindException("Failed to start chat server");
         }
 
         reactor.add(listener->native_handle(), Interest::READ, [this](const Event& event) -> void {
             if (event.error || event.hangup) {
-                logger->error("Listening socket failed; the server is no longer accepting clients");
+                logger->error("Listening socket failed; the server is no longer accepting clients!");
                 reactor.stop();
                 return;
             }
@@ -223,13 +224,13 @@ public:
             acceptPending();
         });
 
-        logger->info("Chat server listening on port {}", port);
+        logger->info("Chat server listening on port {}.", port);
 
         reactorThread = Thread([this] -> void {
             try {
                 reactor.run();
             } catch (const Exception& e) {
-                logger->error("Reactor loop ended: {}", e.what());
+                logger->error("Reactor loop ended: {}!", e.what());
             }
         });
     }

@@ -33,8 +33,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::legendary);
  * providing the LegendaryMushroomCard::Effect::STARS effect in the game.
  */
 export class LegendaryStarsMushroom final: public LegendaryMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_LEGEND_STARS")
 public:
     static constexpr u16 ID = Ops::to_underlying(LegendaryMushroomCard::Effect::STARS); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
@@ -47,8 +45,9 @@ public:
 
     /**
      * @brief Constructor to initialize a LegendaryStarsMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    LegendaryStarsMushroom(LegendaryMushroomCard::Color color):
+    explicit LegendaryStarsMushroom(LegendaryMushroomCard::Color color):
         SET_MUSHROOM_STATS(Legendary, STARS) {}
 
     /**
@@ -68,8 +67,6 @@ public:
  * providing the LegendaryMushroomCard::Effect::WINS effect in the game.
  */
 export class LegendaryWinsMushroom final: public LegendaryMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_LEGEND_WINS")
 public:
     static constexpr u16 ID = Ops::to_underlying(LegendaryMushroomCard::Effect::WINS); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::GIFT; ///< The card type of this specific card
@@ -82,8 +79,9 @@ public:
 
     /**
      * @brief Constructor to initialize a LegendaryWinsMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    LegendaryWinsMushroom(LegendaryMushroomCard::Color color):
+    explicit LegendaryWinsMushroom(LegendaryMushroomCard::Color color):
         SET_MUSHROOM_STATS(Legendary, WINS) {}
 
     /**

@@ -16,8 +16,6 @@ using openjuice::Main;
 
 /**
  * @brief The main function of the openJuice application.
- * @param argc Number of command line arguments
- * @param argv Command line arguments
  * @return Exit code
  *
  * Delegates to the Main class to launch the engine.
@@ -27,11 +25,11 @@ int main() {
     try {
         Main::main(Environment::args());
     } catch (const Exception& e) {
-        System::err.println("An error occured: {}", e.what());
+        System::err.println("An error occured: {}!", e.what());
         System::err.printf("Stack trace: %n%s%n", StackTrace::current());
         return System::EXIT_FAILURE;
     } catch (...) {
-        System::err.println("An unknown error occured.");
+        System::err.println("An unknown error occured!");
         System::err.printf("Stack trace: %n%s%n", StackTrace::current());
         return System::EXIT_FAILURE;
     }

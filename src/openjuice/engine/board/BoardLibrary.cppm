@@ -12,20 +12,16 @@ module;
 
 export module openjuice.engine.board:BoardLibrary;
 
-import stdx;
 import :Board;
 import :FieldEvent;
 
-import openjuice.engine.services;
-import openjuice.engine.util;
+import stdx;
+
 import openjuice.unit;
 
 import marzer.toml;
 
 using stdx::collections::Vector;
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
 using stdx::fs::DirectoryEntry;
 using stdx::fs::DirectoryIterator;
 using stdx::mem::Pointers;
@@ -33,8 +29,6 @@ using stdx::mem::SharedPointer;
 using stdx::ranges::IotaView;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
-
-using openjuice::engine::util::Constants;
 
 using openjuice::unit::BossEnemyFactory;
 
@@ -51,8 +45,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  */
 export class BoardLibrary final {
 public:
-    static constexpr StringView MAPS_DIR = Constants::MAPS_DIR; ///< The maps directory path.
-
     /**
      * @enum Error
      * @brief Enumeration of errors occurring in BoardLibrary operations
@@ -64,6 +56,8 @@ public:
         CORRUPTED_LIBRARY_TOML, ///< The TOML file storing the board library is corrupted or has invalid data
     };
 private:
+    static constexpr StringView MAPS_DIR = "./maps"; ///< The maps directory path.
+
     SharedPointer<Logger> logger; ///< The logger instance.
 
     Vector<SharedPointer<Board::Info>> boardList; ///< List of loaded boards.
@@ -76,7 +70,7 @@ private:
     [[nodiscard]]
     SharedPointer<Board::Info> infoAt(u32 id) const RELEASE_NOEXCEPT {
         #ifndef NDEBUG
-        logger->debug("Returning board ID: {}", id);
+        logger->debug("Returning board ID: {}...", id);
         #endif 
 
         return id > 0
@@ -94,11 +88,11 @@ public:
      */
     explicit BoardLibrary(SharedPointer<LoggerFactory> loggerFactory):
         logger{loggerFactory->of("BoardLibrary")} {
-        if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r) {
+        if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r.has_value()) {
             logger->info("Successfully loaded {} boards!", boardList.size());
         } else {
             logger->warn(
-                "Board libraries were not successfully initialized! ErrorDescription: {}, {} boards successfully loaded",
+                "Board libraries were not successfully initialized! Error description: {}, {} boards successfully loaded.",
                 r.error().message(),
                 boardList.size()
             );
@@ -117,7 +111,7 @@ public:
     [[nodiscard]]
     Expected<void, ErrorDescription<Error>> loadBoards(StringView directory = MAPS_DIR) {
         #ifndef NDEBUG
-        logger->debug("Loading boards from directory: {}", directory);
+        logger->debug("Loading boards from directory: {}...", directory);
         #endif
         
         if (!stdx::fs::exists(directory)) {
@@ -147,10 +141,10 @@ public:
 
                 Array<Pair<u8, u8>, Board::Info::MAX_PLAYERS> homePanels;
                 const TomlArray* homePanelsData = data["homePanels"].as_array();
-                if (homePanelsData) {
+                if (homePanelsData != nullptr) {
                     for (usize i: IotaView(0uz, Math::min(Board::Info::MAX_PLAYERS, homePanelsData->size()))) {
                         const TomlArray* panel = (*homePanelsData)[i].as_array();
-                        if (panel) {
+                        if (panel != nullptr) {
                             if (panel->size() != 2) {
                                 return Unexpected<ErrorDescription<Error>>(
                                     Tags::IN_PLACE,
@@ -189,7 +183,7 @@ public:
 
                 Board::Info::FieldEvents fieldEvents{};
                 const TomlArray* eventsData = data["events"].as_array();
-                if (eventsData) {
+                if (eventsData != nullptr) {
                     for (usize i: IotaView(0uz, Math::min(Board::Info::MAX_FIELD_EVENTS, eventsData->size()))) {
                         #ifndef NDEBUG
                         fieldEvents.at(i) = FieldEvent::fromString((*eventsData)[i].value_or<String>(""));
@@ -225,30 +219,32 @@ END_MODULE_NAMESPACE();
 
 using openjuice::engine::board::BoardLibrary;
 
-template <>
-struct Formatter<BoardLibrary::Error> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(BoardLibrary::Error err, FormatContext& ctx) {
-        StringView name;
-        switch (err) {
-            case BoardLibrary::Error::DIRECTORY_NOT_FOUND:
-                name = "Directory not found"; 
-                break;
-            case BoardLibrary::Error::INVALID_TOML_ARRAY:
-                name = "Invalid TOML array"; 
-                break;
-            case BoardLibrary::Error::INVALID_TOML_ARRAY_SIZE:
-                name = "Invalid TOML array size"; 
-                break;
-            case BoardLibrary::Error::CORRUPTED_LIBRARY_TOML:
-                name = "Corrupted library TOML";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<BoardLibrary::Error> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+
+        static FormatContext::iterator format(BoardLibrary::Error err, FormatContext& ctx) {
+            StringView name;
+            switch (err) {
+                case BoardLibrary::Error::DIRECTORY_NOT_FOUND:
+                    name = "Directory not found"; 
+                    break;
+                case BoardLibrary::Error::INVALID_TOML_ARRAY:
+                    name = "Invalid TOML array"; 
+                    break;
+                case BoardLibrary::Error::INVALID_TOML_ARRAY_SIZE:
+                    name = "Invalid TOML array size"; 
+                    break;
+                case BoardLibrary::Error::CORRUPTED_LIBRARY_TOML:
+                    name = "Corrupted library TOML";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(BoardLibrary::Error);

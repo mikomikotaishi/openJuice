@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.unit:EventCharacter;
 
-import stdx;
-
 import :Playable;
+
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -35,9 +35,10 @@ public:
      * @param defense The defense value of the event character.
      * @param evade The evade value of the event character.
      * @param recovery The recovery value of the event character.
+     * @param metadata The unit metadata.
      */
-    EventCharacter(u16 id, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery):
-        Playable(id, health, attack, defense, evade, recovery) {}
+    EventCharacter(u16 id, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery, Metadata metadata):
+        Playable(id, health, attack, defense, evade, recovery, metadata) {}
 };
 
 END_MODULE_NAMESPACE();

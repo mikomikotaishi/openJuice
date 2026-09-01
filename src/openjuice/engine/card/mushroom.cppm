@@ -17,17 +17,13 @@ import stdx;
 import openjuice.engine.card.Card;
 import openjuice.engine.card.type;
 import openjuice.engine.card.spawn;
-import openjuice.engine.services;
-
-using stdx::fmt::FormatContext;
-using stdx::fmt::FormatParseContext;
-using stdx::fmt::Formatter;
+import openjuice.engine.localization;
 
 using openjuice::engine::card::spawn::MushroomCard;
 using openjuice::engine::card::type::BattleCard;
 using openjuice::engine::card::type::BoostCard;
 using openjuice::engine::card::type::GiftCard;
-using openjuice::engine::services::LocalizationService;
+using openjuice::engine::localization::LocalizationService;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::card::mushroom);
 
@@ -71,17 +67,18 @@ private:
 
     Effect effect; ///< The effect of the battle mushroom card.
     MushroomCard::Color color; ///< The color of the card.
-
+protected:
     /**
      * @brief Converts the mushroom type to its associated LocalizationService key.
-     * 
      * @param type The battle mushroom type.
      * @return The key to query in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String typeToKey(Effect type) noexcept {
         switch (type) {
             case Effect::NULL_BATTLE:
-                return "No effect.";
+                // Doze maps to "No effect."
+                return "CARD_BOSS_COOP_DOZE";
             case Effect::ATTACK_UP:
                 return "CARD_SHROOM_ATTACKUP";
             case Effect::ATTACK_DOWN:
@@ -105,19 +102,15 @@ private:
         }
         Ops::unreachable();
     }
-protected:
-    /**
-     * @brief Default constructor for BattleMushroomCard.
-     */
-    BattleMushroomCard() = default;
 
     /**
      * @brief Constructor to initialize a BattleMushroomCard object.
      * @param color The mushroom color.
      * @param effect The Battle mushroom effect of the card.
      */
-    BattleMushroomCard(MushroomCard::Color color, Effect effect):
-        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, color{color} {}
+    BattleMushroomCard(MushroomCard::Color color, Effect effect) noexcept:
+        MushroomCard(typeToKey(effect)),
+        effect{effect}, color{color} {}
 public:
     [[nodiscard]]
     Effect getEffect() const noexcept {
@@ -202,16 +195,18 @@ private:
 
     Effect effect; ///< The effect of the boost mushroom card.
     MushroomCard::Color color; ///< The color of the card.
-
+protected:
     /**
      * @brief Converts the mushroom type to its associated LocalizationService key.
      * @param type The boost mushroom type.
      * @return The key to query in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String typeToKey(Effect type) noexcept {
         switch (type) {
             case Effect::NULL_BOOST:
-                return "No effect.";
+                // Doze maps to "No effect."
+                return "CARD_BOSS_COOP_DOZE";
             case Effect::MOVE_UP:
                 return "CARD_SHROOM_MOVEUP";
             case Effect::MOVE_DOWN:
@@ -239,19 +234,15 @@ private:
         }
         Ops::unreachable();
     }
-protected:
-    /**
-     * @brief Default constructor for BoostMushroomCard.
-     */
-    BoostMushroomCard() = default;
 
     /**
      * @brief Constructor to initialize a BoostMushroomCard object.
      * @param color The mushroom color.
      * @param effect The Boost mushroom effect of the card.
      */
-    BoostMushroomCard(MushroomCard::Color color, Effect effect):
-        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, color{color} {}
+    BoostMushroomCard(MushroomCard::Color color, Effect effect) noexcept:
+        MushroomCard(typeToKey(effect)),
+        effect{effect}, color{color} {}
 public:
     [[nodiscard]]
     Effect getEffect() const noexcept {
@@ -336,12 +327,13 @@ private:
 
     Effect effect; ///< The effect of the legendary mushroom card.
     Color color; ///< The color of the card.
-
+protected:
     /**
      * @brief Converts the mushroom type to its associated LocalizationService key.
      * @param type The legendary mushroom type.
      * @return The key to query in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String typeToKey(Effect type) noexcept {
         switch (type) {
             case Effect::STARS:
@@ -357,12 +349,13 @@ private:
      * @param type The legendary mushroom color.
      * @return The key to query in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String colorToKey(Color type) noexcept {
         switch (type) {
             case Color::LEGENDARY_RED:
-                return "CARD_ARTIST_COFFGIRL";
+                return "CARD_SHROOM_LEGENDARYRED";
             case Color::PHANTOM_BLUE:
-                return "CARD_ARTIST_COFFGIRL";
+                return "CARD_SHROOM_PHANTOMBLUE";
         }
         Ops::unreachable();
     }
@@ -372,28 +365,25 @@ private:
      * @param type The legendary mushroom color.
      * @return The key to query for the artist in LocalizationService.
      */
+    [[nodiscard]]
     static constexpr String colorToArtistKey(Color type) noexcept {
         switch (type) {
             case Color::LEGENDARY_RED:
-                return "CARD_SHROOM_LEGENDARYRED";
+                return "CARD_ARTIST_COFFGIRL";
             case Color::PHANTOM_BLUE:
-                return "CARD_SHROOM_PHANTOMBLUE";
+                return "CARD_ARTIST_COFFGIRL";
         }
         Ops::unreachable();
     }
-protected:
-    /**
-     * @brief Default constructor for BoostMushroomCard.
-     */
-    LegendaryMushroomCard() = default;
 
     /**
      * @brief Constructor to initialize a BoostMushroomCard object.
      * @param color The mushroom color.
      * @param effect The legendary mushroom effect of the card.
      */
-    LegendaryMushroomCard(Color color, Effect effect):
-        Card(static_cast<u16>(effect), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS), effect{effect}, color{color} {}
+    LegendaryMushroomCard(Color color, Effect effect) noexcept:
+        MushroomCard(typeToKey(effect)),
+        effect{effect}, color{color} {}
 public:
     [[nodiscard]]
     Effect getEffect() const noexcept {
@@ -442,145 +432,147 @@ using openjuice::engine::card::mushroom::BattleMushroomCard;
 using openjuice::engine::card::mushroom::BoostMushroomCard;
 using openjuice::engine::card::mushroom::LegendaryMushroomCard;
 
-template <>
-struct Formatter<BattleMushroomCard::Effect> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(BattleMushroomCard::Effect type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case BattleMushroomCard::Effect::NULL_BATTLE:
-                name = "No Effect";
-                break;
-            case BattleMushroomCard::Effect::ATTACK_UP:
-                name = "Gain Attack";
-                break;
-            case BattleMushroomCard::Effect::ATTACK_DOWN:
-                name = "Lose Attack";
-                break;
-            case BattleMushroomCard::Effect::DEFENSE_UP:
-                name = "Gain Defense";
-                break;
-            case BattleMushroomCard::Effect::DEFENSE_DOWN:
-                name = "Lose Defense";
-                break;
-            case BattleMushroomCard::Effect::EVADE_UP:
-                name = "Gain Evade";
-                break;
-            case BattleMushroomCard::Effect::EVADE_DOWN:
-                name = "Lose Evade";
-                break;
-            case BattleMushroomCard::Effect::HEAL:
-                name = "Heal";
-                break;
-            case BattleMushroomCard::Effect::DAMAGE:
-                name = "Damage";
-                break;
-            case BattleMushroomCard::Effect::ROLL_ONE:
-                name = "Roll 1";
-                break;
-            case BattleMushroomCard::Effect::ROLL_SIX:
-                name = "Roll 6";
-                break;
+namespace stdx::fmt {
+    template <>
+    struct Formatter<BattleMushroomCard::Effect> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
 
-template <>
-struct Formatter<BoostMushroomCard::Effect> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(BoostMushroomCard::Effect type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case BoostMushroomCard::Effect::NULL_BOOST:
-                name = "No Effect";
-                break;
-            case BoostMushroomCard::Effect::MOVE_UP:
-                name = "Gain Movement";
-                break;
-            case BoostMushroomCard::Effect::MOVE_DOWN:
-                name = "Lose Movement";
-                break;
-            case BoostMushroomCard::Effect::GAIN_STARS:
-                name = "Gain Stars";
-                break;
-            case BoostMushroomCard::Effect::LOSE_STARS:
-                name = "Lose Stars";
-                break;
-            case BoostMushroomCard::Effect::HEALTH_UP:
-                name = "Gain HP";
-                break;
-            case BoostMushroomCard::Effect::HEALTH_DOWN:
-                name = "Lose HP";
-                break;
-            case BoostMushroomCard::Effect::FROSTWALKER:
-                name = "Frostwalker";
-                break;
-            case BoostMushroomCard::Effect::WARP:
-                name = "Warp";
-                break;
-            case BoostMushroomCard::Effect::CONFUSION:
-                name = "Confusion";
-                break;
-            case BoostMushroomCard::Effect::DRAW:
-                name = "Draw Cards";
-                break;
-            case BoostMushroomCard::Effect::DISCARD:
-                name = "Discard Card";
-                break;
-            case BoostMushroomCard::Effect::WIN:
-                name = "Gain Win";
-                break;
+        static FormatContext::iterator format(BattleMushroomCard::Effect type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case BattleMushroomCard::Effect::NULL_BATTLE:
+                    name = "No Effect";
+                    break;
+                case BattleMushroomCard::Effect::ATTACK_UP:
+                    name = "Gain Attack";
+                    break;
+                case BattleMushroomCard::Effect::ATTACK_DOWN:
+                    name = "Lose Attack";
+                    break;
+                case BattleMushroomCard::Effect::DEFENSE_UP:
+                    name = "Gain Defense";
+                    break;
+                case BattleMushroomCard::Effect::DEFENSE_DOWN:
+                    name = "Lose Defense";
+                    break;
+                case BattleMushroomCard::Effect::EVADE_UP:
+                    name = "Gain Evade";
+                    break;
+                case BattleMushroomCard::Effect::EVADE_DOWN:
+                    name = "Lose Evade";
+                    break;
+                case BattleMushroomCard::Effect::HEAL:
+                    name = "Heal";
+                    break;
+                case BattleMushroomCard::Effect::DAMAGE:
+                    name = "Damage";
+                    break;
+                case BattleMushroomCard::Effect::ROLL_ONE:
+                    name = "Roll 1";
+                    break;
+                case BattleMushroomCard::Effect::ROLL_SIX:
+                    name = "Roll 6";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+    };
 
-template <>
-struct Formatter<LegendaryMushroomCard::Color> {
-    static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(LegendaryMushroomCard::Color type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case LegendaryMushroomCard::Color::LEGENDARY_RED:
-                name = "Legendary Red Mushroom";
-                break;
-            case LegendaryMushroomCard::Color::PHANTOM_BLUE:
-                name = "Phantom Blue Mushroom";
-                break;
+    template <>
+    struct Formatter<BoostMushroomCard::Effect> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
         }
-        return stdx::fmt::format_to(ctx.out(), "{}", name);
-    }
-};
 
-template <>
-struct Formatter<LegendaryMushroomCard::Effect> {
-    static constexpr const char* parse(FormatParseContext& ctx) {
-        return ctx.begin();
-    }
-
-    static FormatContext::iterator format(LegendaryMushroomCard::Effect type, FormatContext& ctx) {
-        StringView name;
-        switch (type) {
-            case LegendaryMushroomCard::Effect::STARS:
-                name = "Gain +Lvl stars from all sources";
-                break;
-            case LegendaryMushroomCard::Effect::WINS:
-                name = "Gain +1 win from all sources";
-                break;
+        static FormatContext::iterator format(BoostMushroomCard::Effect type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case BoostMushroomCard::Effect::NULL_BOOST:
+                    name = "No Effect";
+                    break;
+                case BoostMushroomCard::Effect::MOVE_UP:
+                    name = "Gain Movement";
+                    break;
+                case BoostMushroomCard::Effect::MOVE_DOWN:
+                    name = "Lose Movement";
+                    break;
+                case BoostMushroomCard::Effect::GAIN_STARS:
+                    name = "Gain Stars";
+                    break;
+                case BoostMushroomCard::Effect::LOSE_STARS:
+                    name = "Lose Stars";
+                    break;
+                case BoostMushroomCard::Effect::HEALTH_UP:
+                    name = "Gain HP";
+                    break;
+                case BoostMushroomCard::Effect::HEALTH_DOWN:
+                    name = "Lose HP";
+                    break;
+                case BoostMushroomCard::Effect::FROSTWALKER:
+                    name = "Frostwalker";
+                    break;
+                case BoostMushroomCard::Effect::WARP:
+                    name = "Warp";
+                    break;
+                case BoostMushroomCard::Effect::CONFUSION:
+                    name = "Confusion";
+                    break;
+                case BoostMushroomCard::Effect::DRAW:
+                    name = "Draw Cards";
+                    break;
+                case BoostMushroomCard::Effect::DISCARD:
+                    name = "Discard Card";
+                    break;
+                case BoostMushroomCard::Effect::WIN:
+                    name = "Gain Win";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
         }
-        return fmt::format_to(ctx.out(), "{}", name);
-    }
-};
+    };
+
+    template <>
+    struct Formatter<LegendaryMushroomCard::Color> {
+        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+            return ctx.begin();
+        }
+
+        static FormatContext::iterator format(LegendaryMushroomCard::Color type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case LegendaryMushroomCard::Color::LEGENDARY_RED:
+                    name = "Legendary Red Mushroom";
+                    break;
+                case LegendaryMushroomCard::Color::PHANTOM_BLUE:
+                    name = "Phantom Blue Mushroom";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+
+    template <>
+    struct Formatter<LegendaryMushroomCard::Effect> {
+        static constexpr const char* parse(FormatParseContext& ctx) {
+            return ctx.begin();
+        }
+
+        static FormatContext::iterator format(LegendaryMushroomCard::Effect type, FormatContext& ctx) {
+            StringView name;
+            switch (type) {
+                case LegendaryMushroomCard::Effect::STARS:
+                    name = "Gain +Lvl stars from all sources";
+                    break;
+                case LegendaryMushroomCard::Effect::WINS:
+                    name = "Gain +1 win from all sources";
+                    break;
+            }
+            return format_to(ctx.out(), "{}", name);
+        }
+    };
+}
 
 SPECIALIZE_FORMATTER(BattleMushroomCard::Effect);
 SPECIALIZE_FORMATTER(BoostMushroomCard::Effect);

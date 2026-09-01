@@ -14,9 +14,9 @@ export module openjuice.engine.unit:Unit;
 
 import stdx;
 
-import openjuice.engine.services;
+import openjuice.engine.localization;
 
-using openjuice::engine::services::LocalizationService;
+using openjuice::engine::localization::LocalizationService;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -27,6 +27,12 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
  * The Unit class represents a generic unit in the game with the following attributes: ID, health, attack, defense, and evade.
  */
 export class [[nodiscard]] Unit {
+public:
+    struct Metadata {
+        StringView unitKey; ///< The localization key of the unit.
+        StringView artistKey; ///< The localization key of the unit's artist.
+        StringView voiceActorKey; ///< The localization key of the unit's voice actor.
+    };
 private:
     const u16 id; ///< The ID of the unit.
     const u8 health; ///< The health of the unit.
@@ -34,9 +40,7 @@ private:
     const i8 defense; ///< The defense value of the unit.
     const i8 evade; ///< The evade value of the unit.
 protected:
-    static constexpr StringView UNIT_KEY = ""; ///< The key belonging to the card to query in LocalizationService
-    static constexpr StringView ARTIST_KEY = ""; ///< The key belonging to the name of the artist to query in LocalizationService
-    static constexpr StringView VOICEACTOR_KEY = ""; ///< The key belonging to the name of the voice actor to query in LocalizationService
+    const Metadata metadata;
 
     /**
      * @brief Constructor to initialize a Unit object.
@@ -45,9 +49,10 @@ protected:
      * @param attack The attack value of the unit.
      * @param defense The defense value of the unit.
      * @param evade The evade value of the unit.
+     * @param metadata The unit metadata.
      */
-    Unit(u16 id, u8 health, i8 attack, i8 defense, i8 evade):
-        id{id}, health{health}, attack{attack}, defense{defense}, evade{evade} {}
+    Unit(u16 id, u8 health, i8 attack, i8 defense, i8 evade, Metadata metadata):
+        id{id}, health{health}, attack{attack}, defense{defense}, evade{evade}, metadata{metadata} {}
 
     virtual ~Unit() = default;
 public:
@@ -103,7 +108,7 @@ public:
     [[nodiscard]]
     String getName(const LocalizationService& loc) const noexcept {
         return loc
-            .getUnitName(UNIT_KEY)
+            .getUnitName(metadata.unitKey)
             .value_or("");
     }
 
@@ -114,7 +119,7 @@ public:
     [[nodiscard]]
     String getDescription(const LocalizationService& loc) const noexcept {
         return loc
-            .getUnitDescription(UNIT_KEY)
+            .getUnitDescription(metadata.unitKey)
             .value_or("");
     }
 
@@ -125,7 +130,7 @@ public:
     [[nodiscard]]
     String getArtistName(const LocalizationService& loc) const noexcept {
         return loc
-            .getCardArtistName(ARTIST_KEY)
+            .getCardArtistName(metadata.artistKey)
             .value_or("");
     }
 
@@ -136,7 +141,7 @@ public:
     [[nodiscard]]
     String getVoiceActorName(const LocalizationService& loc) const noexcept {
         return loc
-            .getVoiceActorName(VOICEACTOR_KEY)
+            .getVoiceActorName(metadata.voiceActorKey)
             .value_or("");
     }
 };

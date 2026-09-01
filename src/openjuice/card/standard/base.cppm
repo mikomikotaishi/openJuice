@@ -33,7 +33,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::standard::base);
  */
 export class Dash final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_DASH", "CARD_ARTIST_TORI")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_DASH",
+        .artistKey = "CARD_ARTIST_TORI",
+    };
 public:
     static constexpr u16 ID = 1; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -68,7 +71,10 @@ public:
  */
 export class SakisCookie final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_COOKIE", "CARD_ARTIST_TORI")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_COOKIE",
+        .artistKey = "CARD_ARTIST_TORI",
+    };
 public:
     static constexpr u16 ID = 2; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -103,7 +109,10 @@ public:
  */
 export class FlipOut final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_FLIPOUT", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_FLIPOUT",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 3; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -138,7 +147,10 @@ public:
  */
 export class NiceJingle final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_NICEJINGLE", "CARD_ARTIST_MIZUKISEO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_NICEJINGLE",
+        .artistKey = "CARD_ARTIST_MIZUKISEO",
+    };
 public:
     static constexpr u16 ID = 4; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -173,7 +185,10 @@ public:
  */
 export class NicePresent final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_NICEPRESENT", "CARD_ARTIST_KITSUNE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_NICEPRESENT",
+        .artistKey = "CARD_ARTIST_KITSUNE",
+    };
 public:
     static constexpr u16 ID = 5; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -208,7 +223,10 @@ public:
  */
 export class Pudding final: public BoostCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BOOST_PUDDING", "CARD_ARTIST_TAMAKISEO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BOOST_PUDDING",
+        .artistKey = "CARD_ARTIST_TAMAKISEO",
+    };
 public:
     static constexpr u16 ID = 6; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -243,7 +261,10 @@ public:
  */
 export class ImOnFire final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_ONFIRE", "CARD_ARTIST_TORI")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_ONFIRE",
+        .artistKey = "CARD_ARTIST_TORI",
+    };
 public:
     static constexpr u16 ID = 7; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -278,7 +299,10 @@ public:
  */
 export class Rbits final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_RBITS", "CARD_ARTIST_MIZUKISEO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_RBITS",
+        .artistKey = "CARD_ARTIST_MIZUKISEO",
+    };
 public:
     static constexpr u16 ID = 8; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -313,7 +337,10 @@ public:
  */
 export class RainbowColoredCircle final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_RAINBOW", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_RAINBOW",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 9; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -348,7 +375,10 @@ public:
  */
 export class FinalBattle final: public BattleCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_BATTLE_FINALBATTLE", "CARD_ARTIST_TORI")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_BATTLE_FINALBATTLE",
+        .artistKey = "CARD_ARTIST_TORI",
+    };
 public:
     static constexpr u16 ID = 10; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -383,7 +413,10 @@ public:
  */
 export class BadPudding final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_BADPUDDING", "CARD_ARTIST_HONO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_BADPUDDING",
+        .artistKey = "CARD_ARTIST_HONO",
+    };
 public:
     static constexpr u16 ID = 11; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -418,7 +451,10 @@ public:
  */
 export class MimyuusHammer final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_MIMYUU", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_MIMYUU",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 12; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -453,7 +489,10 @@ public:
  */
 export class DangerousPudding final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_DANGEROUSPUDDING", "CARD_ARTIST_MEGANE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_DANGEROUSPUDDING",
+        .artistKey = "CARD_ARTIST_MEGANE",
+    };
 public:
     static constexpr u16 ID = 13; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -488,7 +527,10 @@ public:
  */
 export class Assault final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_ASSAULT", "CARD_ARTIST_JUNPYON")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_ASSAULT",
+        .artistKey = "CARD_ARTIST_JUNPYON",
+    };
 public:
     static constexpr u16 ID = 14; ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -523,7 +565,10 @@ public:
  */
 export class SkyRestaurantPures final: public TrapCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_TRAP_PURES", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_TRAP_PURES",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 15; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::TRAP; ///< The card type of this specific card
@@ -558,7 +603,10 @@ public:
  */
 export class HereAndThere final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_HEREANDTHERE", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_HEREANDTHERE",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 16; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -593,7 +641,10 @@ public:
  */
 export class HolyNight final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_HOLYNIGHT", "CARD_ARTIST_MEGANE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_HOLYNIGHT",
+        .artistKey = "CARD_ARTIST_MEGANE",
+    };
 public:
     static constexpr u16 ID = 17; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -628,7 +679,10 @@ public:
  */
 export class OutOfAmmo final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_OUTOFAMMO", "CARD_ARTIST_NERIUME")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_OUTOFAMMO",
+        .artistKey = "CARD_ARTIST_NERIUME",
+    };
 public:
     static constexpr u16 ID = 18; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -663,7 +717,10 @@ public:
  */
 export class GiftExchange final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_GIFTEXCHANGE", "CARD_ARTIST_TAMAKISEO")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_GIFTEXCHANGE",
+        .artistKey = "CARD_ARTIST_TAMAKISEO",
+    };
 public:
     static constexpr u16 ID = 19; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -698,7 +755,10 @@ public:
  */
 export class LittleWar final: public EventCard, public StandardCard {
 private:
-    CARD_METADATA("CARD_EVENT_LITTLEWAR", "CARD_ARTIST_TORI")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_EVENT_LITTLEWAR",
+        .artistKey = "CARD_ARTIST_TORI",
+    };
 public:
     static constexpr u16 ID = 20; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card

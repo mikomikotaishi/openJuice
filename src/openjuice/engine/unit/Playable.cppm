@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.unit:Playable;
 
-import stdx;
-
 import :Unit;
+
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -37,9 +37,10 @@ public:
      * @param defense The defense value of the playable.
      * @param evade The evade value of the playable.
      * @param recovery The recovery value of the playable.
+     * @param metadata The unit metadata.
      */
-    Playable(u16 id, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery):
-        Unit(id, health, attack, defense, evade), recovery{recovery} {}
+    Playable(u16 id, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery, Metadata metadata):
+        Unit(id, health, attack, defense, evade, metadata), recovery{recovery} {}
 
     /**
      * @brief Get the recovery stat of the unit.

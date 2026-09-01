@@ -29,7 +29,11 @@ BEGIN_MODULE_NAMESPACE(openjuice::unit::enemies);
  */
 export class Chicken final: public BasicEnemy {
 private:
-    UNIT_METADATA("CARD_UNIT_CHICKEN", "CARD_ARTIST_HONO", "")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_CHICKEN",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "",
+    };
 public:
     static constexpr u16 ID = 1; ///< ID of this specific enemy
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy
@@ -53,7 +57,11 @@ public:
  */
 export class RoboBall final: public BasicEnemy {
 private:
-    UNIT_METADATA("CARD_UNIT_ROBOBALL", "CARD_ARTIST_HONO", "")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_ROBOBALL",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "",
+    };
 public:
     static constexpr u16 ID = 2; ///< ID of this specific enemy
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy
@@ -77,7 +85,11 @@ public:
  */
 export class Seagull final: public BasicEnemy {
 private:
-    UNIT_METADATA("CARD_UNIT_SEAGULL", "CARD_ARTIST_HONO", "")
+    static constexpr Metadata METADATA = {
+        .unitKey = "CARD_UNIT_SEAGULL",
+        .artistKey = "CARD_ARTIST_HONO",
+        .voiceActorKey = "",
+    };
 public:
     static constexpr u16 ID = 3; ///< ID of this specific enemy
     static constexpr u8 HEALTH = 3; ///< Health stat of this specific enemy

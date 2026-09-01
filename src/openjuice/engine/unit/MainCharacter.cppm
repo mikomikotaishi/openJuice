@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.unit:MainCharacter;
 
-import stdx;
-
 import :Playable;
+
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -53,9 +53,10 @@ public:
      * @param defense The defense value of the main character.
      * @param evade The evade value of the main character.
      * @param recovery The recovery value of the main character.
+     * @param metadata The unit metadata.
      */
-    MainCharacter(u16 id, Difficulty difficulty, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery):
-        Playable(id, health, attack, defense, evade, recovery), difficulty{difficulty} {}
+    MainCharacter(u16 id, Difficulty difficulty, u8 health, i8 attack, i8 defense, i8 evade, u8 recovery, Metadata metadata):
+        Playable(id, health, attack, defense, evade, recovery, metadata), difficulty{difficulty} {}
 
     Difficulty getDifficulty() const noexcept {
         return difficulty;

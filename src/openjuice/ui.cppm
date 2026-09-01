@@ -8,6 +8,8 @@
 
 export module openjuice.ui;
 
-export import openjuice.ui.UserInterface;
-export import openjuice.ui.cli;
-export import openjuice.ui.tui;
+export import :ScreenFactory;
+export import :UserInterface;
+
+export import openjuice.ui.Screen;
+export import openjuice.ui.screens;

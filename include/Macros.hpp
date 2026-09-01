@@ -7,14 +7,11 @@
 
 #pragma once
 
-#define throws(...) noexcept(__VA_OPT__(!)true)
-
-/**
- * @brief Utility macro to import the stdx::core namespace within the module.
- */
-#define STDLIBX_PREPARE_IMPORT_CORE() \
-    namespace stdx::core {} \
-    using namespace stdx::core;
+#ifdef __cpp_lib_reflection
+#define THROWS(...) [[=Throws<__VA_ARGS__>]]
+#else
+#define THROWS(...)
+#endif
 
 /**
  * @brief A utility to begin a namespace matching the current module name.
@@ -28,37 +25,10 @@
 #define END_MODULE_NAMESPACE() }
 
 /**
- * @brief Utility macro to set the CARD_KEY and ARTIST_KEY fields in a final class that extends Card.
- * @param CardKey The string literal that will be passed as the card key to query in LocalizationService
- * @param ArtistKey The string literal that will be passed as the artist key to query in LocalizationService
- */
-#define CARD_METADATA(CardKey, ArtistKey) \
-    static constexpr StringView CARD_KEY = CardKey; /** The key belonging to the card to query in LocalizationService */ \
-    static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in LocalizationService */
-
-/**
- * @brief Utility macro to set the EFFECT_KEY and ARTIST_KEY fields in a final class that extends Card.
- * @param EffectKey The string literal that will be passed as the effect key to query in LocalizationService
- */
-#define MUSHROOM_METADATA(EffectKey) \
-    static constexpr char EFFECT_KEY[] = EffectKey; /** The key belonging to the effect to query in LocalizationService */ \
-
-/**
- * @brief Utility macro to set the UNIT_KEY, ARTIST_KEY, and VOICEACTOR_KEY fields in a final class that extends Unit.
- * @param UnitKey The string literal that will be passed as the unit key to query in LocalizationService
- * @param ArtistKey The string literal that will be passed as the artist key to query in LocalizationService
- * @param VoiceActorKey The string literal that will be passed as the voice actor key to query in LocalizationService
- */
-#define UNIT_METADATA(UnitKey, ArtistKey, VoiceActorKey) \
-    static constexpr StringView UNIT_KEY = UnitKey; /** The key belonging to the card to query in LocalizationService */ \
-    static constexpr StringView ARTIST_KEY = ArtistKey; /** The key belonging to the name of the artist to query in LocalizationService */ \
-    static constexpr StringView VOICEACTOR_KEY = VoiceActorKey; /** The key belonging to the name of the voice actor to query in LocalizationService */
-
-/**
  * @brief Automatically sets all stats of card.
  */
 #define SET_CARD_STATS() \
-    Card(ID, CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS)
+    Card(ID, CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS, METADATA)
 
 /**
  * @brief Automatically set all stats of a mushroom card.
@@ -66,25 +36,29 @@
  * @param EffectName The effect enum constant associated with that mushroom
  */
 #define SET_MUSHROOM_STATS(Type, EffectName) \
+    Card(static_cast<u16>(Type##MushroomCard::Effect::EffectName), CARD_TYPE, SPAWN_TYPE, RARITY, COST, LEVEL, LIMIT, DECK_POINTS, Metadata { \
+        .cardKey = typeToKey(Type##MushroomCard::Effect::EffectName), \
+        .artistKey = colorToArtistKey(color), \
+    }), \
     Type##MushroomCard(color, Type##MushroomCard::Effect::EffectName)
 
 /**
  * @brief Automatically sets all stats of a main character.
  */
 #define SET_MAIN_CHARACTER_STATS() \
-    MainCharacter(ID, DIFFICULTY, HEALTH, ATTACK, DEFENSE, EVADE, RECOVERY)
+    MainCharacter(ID, DIFFICULTY, HEALTH, ATTACK, DEFENSE, EVADE, RECOVERY, METADATA)
 
 /**
  * @brief Automatically sets all stats of a basic enemy.
  */
 #define SET_BASIC_ENEMY_STATS() \
-    BasicEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE)
+    BasicEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE, METADATA)
 
 /**
  * @brief Automatically sets all stats of a boss enemy.
  */
 #define SET_BOSS_ENEMY_STATS() \
-    BossEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE)
+    BossEnemy(ID, HEALTH, ATTACK, DEFENSE, EVADE, METADATA)
 
 /**
  * @brief A utility to specialize a type in std::formatter. 
@@ -95,7 +69,7 @@
  */
 #define SPECIALIZE_FORMATTER(Typename) \
     template <> \
-    struct stdx::fmt::formatter<Typename> : public Formatter<Typename> {};
+    struct stdx::fmt::formatter<Typename> : public stdx::fmt::Formatter<Typename> {};
 
 /**
  * @brief A utility to specialize a type in std::hash. 
@@ -106,7 +80,7 @@
  */
 #define SPECIALIZE_HASH(Typename) \
     template <> \
-    struct stdx::core::hash<Typename> : public Hash<Typename> {};
+    struct stdx::core::hash<Typename> : public stdx::core::Hash<Typename> {};
 
 #ifdef NDEBUG
 #define RELEASE_NOEXCEPT noexcept
@@ -116,8 +90,4 @@
 #define RELEASE_NOEXCEPT
 #define RELEASE_INLINE
 #define RELEASE_CONSTEXPR
-#endif
-
-#ifdef __GNUC__
-STDLIBX_PREPARE_IMPORT_CORE();
 #endif

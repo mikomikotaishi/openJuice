@@ -19,9 +19,7 @@ else
     set_strip("all")
 end
 
-add_requires("boost[asio,regex,system] >= 1.88.0", { alias = "boost" })
 add_requires("ftxui >= 6.1.9", { alias = "ftxui" })
-add_requires("sqlitecpp >= 3.3.3", { alias = "sqlitecpp" })
 add_requires("tomlplusplus >= 3.4.0", { alias = "tomlpp" })
 
 set_policy("build.sanitizer.address", true)
@@ -41,8 +39,6 @@ add_files(
 add_packages(
     "ftxui", 
     "nlohmann-json",
-    "sqlitecpp",
     "tomlpp", 
     { public = true }
 )
-add_packages("boost", { links = {"boost_asio", "boost_regex", "boost_system"} })

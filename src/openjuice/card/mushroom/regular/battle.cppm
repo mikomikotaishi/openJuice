@@ -33,8 +33,6 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::mushroom::regular::battle);
  * providing the BattleMushroomCard::Effect::NULL_BATTLE effect in the game.
  */
 export class NullBattleMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::NULL_BATTLE); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -47,8 +45,9 @@ public:
 
     /**
      * @brief Constructor to initialize a NullBattleMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    NullBattleMushroom(MushroomCard::Color color):
+    explicit NullBattleMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, NULL_BATTLE) {}
 
     /**
@@ -68,8 +67,6 @@ public:
  * providing the BattleMushroomCard::Effect::ATTACK_UP effect in the game.
  */
 export class AttackUpMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_ATTACKUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ATTACK_UP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -82,8 +79,9 @@ public:
 
     /**
      * @brief Constructor to initialize a AttackUpMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    AttackUpMushroom(MushroomCard::Color color):
+    explicit AttackUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ATTACK_UP) {}
 
     /**
@@ -103,8 +101,6 @@ public:
  * providing the BattleMushroomCard::Effect::ATTACK_DOWN effect in the game.
  */
 export class AttackDownMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_ATTACKDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ATTACK_DOWN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -117,8 +113,9 @@ public:
 
     /**
      * @brief Constructor to initialize a AttackDownMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    AttackDownMushroom(MushroomCard::Color color):
+    explicit AttackDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ATTACK_DOWN) {}
 
     /**
@@ -138,8 +135,6 @@ public:
  * providing the BattleMushroomCard::Effect::DEFENSE_UP effect in the game.
  */
 export class DefenseUpMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_DEFENSEUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENSE_UP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -152,8 +147,9 @@ public:
 
     /**
      * @brief Constructor to initialize a DefenseUpMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    DefenseUpMushroom(MushroomCard::Color color):
+    explicit DefenseUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, DEFENSE_UP) {}
 
     /**
@@ -173,8 +169,6 @@ public:
  * providing the BattleMushroomCard::Effect::DEFENSE_DOWN effect in the game.
  */
 export class DefenseDownMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_DEFENSEDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DEFENSE_DOWN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -187,8 +181,9 @@ public:
 
     /**
      * @brief Constructor to initialize a DefenseDownMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    DefenseDownMushroom(MushroomCard::Color color):
+    explicit DefenseDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, DEFENSE_DOWN) {}
 
     /**
@@ -208,8 +203,6 @@ public:
  * providing the BattleMushroomCard::Effect::EVADE_UP effect in the game.
  */
 export class EvadeUpMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_EVADEUP")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::EVADE_UP); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -222,8 +215,9 @@ public:
 
     /**
      * @brief Constructor to initialize a EvadeUpMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    EvadeUpMushroom(MushroomCard::Color color):
+    explicit EvadeUpMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, EVADE_UP) {}
 
     /**
@@ -243,8 +237,6 @@ public:
  * providing the BattleMushroomCard::Effect::EVADE_DOWN effect in the game.
  */
 export class EvadeDownMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_EVADEDOWN")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::EVADE_DOWN); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -257,8 +249,9 @@ public:
 
     /**
      * @brief Constructor to initialize a EvadeDownMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    EvadeDownMushroom(MushroomCard::Color color):
+    explicit EvadeDownMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, EVADE_DOWN) {}
 
     /**
@@ -278,8 +271,6 @@ public:
  * providing the BattleMushroomCard::Effect::HEAL effect in the game.
  */
 export class HealMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_HEAL")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::HEAL); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -292,8 +283,9 @@ public:
 
     /**
      * @brief Constructor to initialize a HealMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    HealMushroom(MushroomCard::Color color):
+    explicit HealMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, HEAL) {}
 
     /**
@@ -313,8 +305,6 @@ public:
  * providing the BattleMushroomCard::Effect::DAMAGE effect in the game.
  */
 export class DamageMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_DAMAGE")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::DAMAGE); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -327,8 +317,9 @@ public:
 
     /**
      * @brief Constructor to initialize a DamageMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    DamageMushroom(MushroomCard::Color color):
+    explicit DamageMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, DAMAGE) {}
 
     /**
@@ -348,8 +339,6 @@ public:
  * providing the BattleMushroomCard::Effect::ROLL_ONE effect in the game.
  */
 export class RollOneMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_ROLLONE")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ROLL_ONE); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -362,8 +351,9 @@ public:
 
     /**
      * @brief Constructor to initialize a RollOneMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    RollOneMushroom(MushroomCard::Color color):
+    explicit RollOneMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ROLL_ONE) {}
 
     /**
@@ -383,8 +373,6 @@ public:
  * providing the BattleMushroomCard::Effect::ROLL_SIX effect in the game.
  */
 export class RollSixMushroom final: public BattleMushroomCard {
-private:
-    MUSHROOM_METADATA("CARD_SHROOM_ROLLSIX")
 public:
     static constexpr u16 ID = Ops::to_underlying(BattleMushroomCard::Effect::ROLL_SIX); ///< The ID of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card
@@ -397,8 +385,9 @@ public:
 
     /**
      * @brief Constructor to initialize a RollSixMushroom object.
+     * @param color The color to associate with the mushroom.
      */
-    RollSixMushroom(MushroomCard::Color color):
+    explicit RollSixMushroom(MushroomCard::Color color):
         SET_MUSHROOM_STATS(Battle, ROLL_SIX) {}
 
     /**

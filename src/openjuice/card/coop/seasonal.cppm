@@ -34,7 +34,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::card::coop::seasonal);
  */
 export class SeasonalUltimateWeaponInTheSun final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_SUMMER2018_ATTACKER", "CARD_ARTIST_IKUSE")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_SUMMER2018_ATTACKER",
+        .artistKey = "CARD_ARTIST_IKUSE",
+    };
 public:
     static constexpr u16 ID = 1; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -70,7 +73,10 @@ public:
  */
 export class SeasonalLifeguardOnTheWhiteBeach final: public EventCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_SUMMER2018_DEFENDER", "CARD_ARTIST_HEXUN")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_SUMMER2018_DEFENDER",
+        .artistKey = "CARD_ARTIST_HEXUN",
+    };
 public:
     static constexpr u16 ID = 2; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::EVENT; ///< The card type of this specific card
@@ -106,7 +112,10 @@ public:
  */
 export class SeasonalGuardianOfBloomingFlowers final: public BoostCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_SUMMER2018_SUPPORT", "CARD_ARTIST_COFFGIRL")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_SUMMER2018_SUPPORT",
+        .artistKey = "CARD_ARTIST_COFFGIRL",
+    };
 public:
     static constexpr u16 ID = 3; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BOOST; ///< The card type of this specific card
@@ -142,7 +151,10 @@ public:
  */
 export class SeasonalUnforgivingAvenger final: public BattleCard, public HyperCard, public CoopCard {
 private:
-    CARD_METADATA("CARD_HYPER_SUMMER2018_AVENGER", "CARD_ARTIST_LENDO_KHAR")
+    static constexpr Metadata METADATA = {
+        .cardKey = "CARD_HYPER_SUMMER2018_AVENGER",
+        .artistKey = "CARD_ARTIST_LENDO_KHAR",
+    };
 public:
     static constexpr u16 ID = 2004; ///< The id of this specific card
     static constexpr Card::Of CARD_TYPE = Card::Of::BATTLE; ///< The card type of this specific card

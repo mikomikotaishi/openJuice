@@ -1,7 +1,5 @@
 {
   "dependencies": [
-    "boost-asio",
-    "boost-regex",
     "ftxui",
     "tomlplusplus"
   ]

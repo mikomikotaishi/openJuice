@@ -12,9 +12,9 @@ module;
 
 export module openjuice.engine.unit:BossEnemy;
 
-import stdx;
-
 import :Enemy;
+
+import stdx;
 
 BEGIN_MODULE_NAMESPACE(openjuice::engine::unit);
 
@@ -34,9 +34,10 @@ public:
      * @param attack The attack value of the boss enemy.
      * @param defense The defense value of the boss enemy.
      * @param evade The evade value of the boss enemy.
+     * @param metadata The unit metadata.
      */
-    BossEnemy(u16 id, u8 health, i8 attack, i8 defense, i8 evade):
-        Enemy(Encounter::BOSS, id, health, attack, defense, evade) {}
+    BossEnemy(u16 id, u8 health, i8 attack, i8 defense, i8 evade, Metadata metadata):
+        Enemy(Encounter::BOSS, id, health, attack, defense, evade, metadata) {}
 };
 
 END_MODULE_NAMESPACE();
