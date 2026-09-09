@@ -24,13 +24,16 @@ import marzer.toml;
 
 using stdx::fs::FileSystemException;
 using stdx::fs::Path;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::io::IOException;
 using stdx::io::IOState;
 using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::localization::Language;
 using openjuice::engine::save::ProfileManager;
@@ -50,7 +53,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::settings);
  * to a TOML file so they survive across sessions. It is injected wherever these settings
  * are read or written.
  */
-export class SettingsService final {
+export class [[=Singleton]] SettingsService final {
 public:
     static constexpr StringView PATH_SETTINGS_FILE = "./userdata/settings.toml"; ///< The configuration/settings file path.
     static constexpr u16 DEFAULT_FRAME_RATE = 60; ///< The default frame rate (fps) used when none is configured.
@@ -195,17 +198,18 @@ private:
 public:
     /**
      * @brief Constructs a new SettingsService object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      */
-    explicit SettingsService(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("SettingsService")} {
+    [[=Inject]]
+    explicit SettingsService([[=Named(*Class<SettingsService>().name())]] SharedPointer<Logger> logger):
+        logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(ProfileManager::USERDATA_DIR);
             if (Expected<void, Error> result = load(); !result.has_value()) {
-                logger->warn("Failed to load settings during initialization!");
+                this->logger->warn("Failed to load settings during initialization!");
             }
         } catch (const FileSystemException& e) {
-            logger->warn("Failed to create directory {}: {}!", ProfileManager::USERDATA_DIR, e.what());
+            this->logger->warn("Failed to create directory {}: {}!", ProfileManager::USERDATA_DIR, e.what());
         }
     }
 

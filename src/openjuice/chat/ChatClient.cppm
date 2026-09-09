@@ -120,7 +120,7 @@ public:
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
-    THROWS(BindException, UnknownHostException)
+    [[=Throws<BindException, UnknownHostException>]]
     ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory, Function<void()> onMessage = nullptr):
         logger{loggerFactory->of("ChatClient")},
         onMessage{Ops::move(onMessage)} {

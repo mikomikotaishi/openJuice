@@ -20,13 +20,16 @@ import openjuice.engine.util;
 using stdx::collections::HashMap;
 using stdx::collections::Vector;
 using stdx::fs::Path;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::io::IOException;
 using stdx::io::InputFileStream;
 using stdx::io::Scanner;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::net::Uri;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::settings::SettingsService;
 
@@ -36,7 +39,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::localization);
  * @class LocalizationService
  * @brief Service class for loading localization and game initialization.
  */
-export class LocalizationService final {
+export class [[=Singleton]] LocalizationService final {
 public:
     static constexpr StringView PATH_ABILITIES_FILE = "./assets/define/{}/abilities.txt"; ///< File containing ability localization.
     static constexpr StringView PATH_CARDARTISTS_FILE = "./assets/define/{}/cardartists.txt"; ///< File containing card artist localization.
@@ -519,16 +522,20 @@ private:
 public:
     /**
      * @brief Constructs a new LocalizationService object.
-     * @param loggerFactory The injected logger factory.
-     * @param settings The injected settings service, used to determine the game language.
+     * @param logger The injected logger.
+     * @param settings The injected settings service.
      */
-    LocalizationService(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("LocalizationService")},
+    [[=Inject]]
+    LocalizationService(
+        [[=Named(*Class<LocalizationService>().name())]] SharedPointer<Logger> logger,
+        SharedPointer<SettingsService> settings
+    ):
+        logger{Ops::move(logger)},
         language{settings->getLanguage()} {
         if (init()) {
-            logger->info("Successfully loaded all text assets!");
+            this->logger->info("Successfully loaded all text assets!");
         } else {
-            logger->warn("Text assets were not successfully initialized!");
+            this->logger->warn("Text assets were not successfully initialized!");
         }
     }
 

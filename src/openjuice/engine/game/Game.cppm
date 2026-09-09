@@ -25,12 +25,15 @@ import openjuice.unit;
 
 using stdx::collections::Vector;
 using stdx::fmt::Formatter;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::ranges::IotaView;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::board::Board;
 using openjuice::engine::entity::Combatant;
@@ -49,7 +52,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  * This class unifies game logic and state management with thread-safe access
  * for UI and game threads.
  */
-export class Game {
+export class [[=Singleton]] Game {
 public:
     static constexpr u8 MAX_PLAYERS = Board::Info::MAX_PLAYERS; ///< Maximum number of players.
 
@@ -127,16 +130,19 @@ private:
 public:
     /**
      * @brief Constructor for the Game class.
-     * @param loggerFactory The injected logger factory.
-     * @param settings The injected settings service, used to determine the frame delta-time.
+     * @param logger The injected logger.
+     * @param settings The injected settings service.
      */
-    Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("Game")},
+    [[=Inject]]
+    Game(
+        [[=Named(*Class<Game>().name())]] SharedPointer<Logger> logger,
+        SharedPointer<SettingsService> settings
+    ):
+        logger{Ops::move(logger)},
         deltaTime{settings->getDeltaTime()} {
         resetPlayers();
-
         #ifndef NDEBUG
-        logger->debug("Created Game!");
+        this->logger->debug("Created Game!");
         #endif
     }
 
@@ -198,7 +204,7 @@ public:
      * @param id The character ID.
      * @throws OutOfRangeException if playerNumber is out of range.
      */
-    THROWS(OutOfRangeException)
+    [[=Throws<OutOfRangeException>]]
     void setPlayerCharacter(u8 num, u8 id) {
         #ifndef NDEBUG
         logger->debug("Setting player {} to character of ID {}...", num, id);
@@ -252,7 +258,7 @@ public:
      * @throws OutOfRangeException if index is out of range
      */
     [[nodiscard]]
-    THROWS(OutOfRangeException)
+    [[=Throws<OutOfRangeException>]]
     SharedPointer<Player> getPlayer(u8 index) const {
         if (index >= MAX_PLAYERS) {
             throw OutOfRangeException("Invalid index");

@@ -203,7 +203,7 @@ public:
      * @param loggerFactory Shared logger factory used to create this server's logger.
      * @throws BindException if the server fails to start
      */
-    THROWS(BindException)
+    [[=Throws<BindException>]]
     ChatServer(u16 port, SharedPointer<LoggerFactory> loggerFactory):
         logger{loggerFactory->of("ChatServer")} {
         try {

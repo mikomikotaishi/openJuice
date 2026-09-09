@@ -24,9 +24,13 @@ import openjuice.engine.save;
 import openjuice.engine.settings;
 import openjuice.ui;
 
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
+using stdx::meta::reflect::Class;
 using stdx::sync::Atomic;
 using stdx::sync::ConditionVariable;
 using stdx::sync::Mutex;
@@ -35,7 +39,6 @@ using stdx::sync::UniqueLock;
 using stdx::thread::Thread;
 using stdx::thread::StopToken;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::board::BoardLibrary;
 using openjuice::engine::game::Game;
@@ -55,10 +58,10 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine);
  * synchronization. It uses separate threads for game logic and UI rendering
  * to ensure responsive gameplay even during computation-heavy operations.
  */
-export class Engine {
+export class [[=Singleton]] Engine {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
+    SharedPointer<Logger> uiLogger; ///< The logger instance for the user interface.
     SharedPointer<SettingsService> settings; ///< The persisted configuration/settings service.
     SharedPointer<LocalizationService> localization; ///< The localization service.
     SharedPointer<ProfileManager> profile; ///< The profile manager.
@@ -113,7 +116,12 @@ private:
      * launch mode and synchronizes with the game thread for state access.
      */
     void runUiLoop(StopToken token) {
-        UniquePointer<UserInterface> ui = Pointers::unique<UserInterface>(game, loggerFactory, localization, profile);
+        UniquePointer<UserInterface> ui = Pointers::unique<UserInterface>(
+            game,
+            uiLogger,
+            localization,
+            profile
+        );
 
         ui->init();
         ui->render();
@@ -125,19 +133,36 @@ private:
 public:
     /**
      * @brief Constructs a new Engine object
-     * @param loggerFactory The injected logger factory
+     * @param logger The injected logger.
+     * @param uiLogger The injected logger for the UI.
+     * @param settings The injected settings service.
+     * @param localization The injected localization service.
+     * @param profile The injected profile manager.
+     * @param discord The injected Discord service.
+     * @param discord The injected board library.
+     * @param game The injected game.
      */
-    explicit Engine(SharedPointer<LoggerFactory> loggerFactory):
-        loggerFactory{loggerFactory},
-        logger{loggerFactory->of("Engine")},
-        settings{Pointers::shared<SettingsService>(loggerFactory)},
-        localization{Pointers::shared<LocalizationService>(loggerFactory, settings)},
-        profile{Pointers::shared<ProfileManager>(loggerFactory)},
-        discord{Pointers::shared<DiscordService>(loggerFactory)},
-        boardLibrary{Pointers::shared<BoardLibrary>(loggerFactory)},
-        game{Pointers::shared<Game>(loggerFactory, settings)} {
+    [[=Inject]]
+    explicit Engine(
+        [[=Named(*Class<Engine>().name())]] SharedPointer<Logger> logger,
+        [[=Named(*Class<UserInterface>().name())]] SharedPointer<Logger> uiLogger,
+        SharedPointer<SettingsService> settings,
+        SharedPointer<LocalizationService> localization,
+        SharedPointer<ProfileManager> profile,
+        SharedPointer<DiscordService> discord,
+        SharedPointer<BoardLibrary> boardLibrary,
+        SharedPointer<Game> game
+    ):
+        logger{Ops::move(logger)},
+        uiLogger{Ops::move(uiLogger)},
+        settings{Ops::move(settings)},
+        localization{Ops::move(localization)},
+        profile{Ops::move(profile)},
+        discord{Ops::move(discord)},
+        boardLibrary{Ops::move(boardLibrary)},
+        game{Ops::move(game)} {
         #ifndef NDEBUG
-        logger->debug("Created Engine!");
+        this->logger->debug("Created Engine!");
         #endif
     }
 
@@ -173,7 +198,7 @@ public:
      * The UI thread drives the application lifecycle; when it exits,
      * this method ensures the game thread is also terminated properly.
      */
-    THROWS(RuntimeException)
+    [[=Throws<RuntimeException>]]
     void init() {
         #ifndef NDEBUG
         logger->debug("Initializing Engine...");

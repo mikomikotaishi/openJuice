@@ -26,7 +26,6 @@ using stdx::collections::TreeMap;
 using stdx::mem::SharedPointer;
 using stdx::sync::Atomic;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
@@ -282,15 +281,20 @@ public:
     /**
      * @brief Constructor that initializes the base UserInterface
      * @param game Shared pointer to game instance
-     * @param loggerFactory Shared logger factory for creating loggers and screens
+     * @param logger The logger for the user interface.
      * @param localization Shared localization service forwarded into screens
      * @param profile Shared profile manager forwarded into screens
      */
-    UserInterface(SharedPointer<Game> game, SharedPointer<LoggerFactory> loggerFactory, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
-        logger{loggerFactory->of("UserInterface")},
+    UserInterface(
+        SharedPointer<Game> game,
+        SharedPointer<Logger> logger,
+        SharedPointer<LocalizationService> localization,
+        SharedPointer<ProfileManager> profile
+    ):
+        logger{Ops::move(logger)},
         localization{localization},
         profile{profile},
-        screenFactory{loggerFactory, localization, profile},
+        screenFactory{this->logger, localization, profile},
         game{Ops::move(game)} {
         screen.ForceHandleCtrlC(false);
     }

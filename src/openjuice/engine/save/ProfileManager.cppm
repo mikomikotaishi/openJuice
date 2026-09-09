@@ -18,14 +18,17 @@ import marzer.toml;
 
 using stdx::fs::FileSystemException;
 using stdx::fs::Path;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::io::IOException;
 using stdx::io::IOS;
 using stdx::io::IOState;
 using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::time::Seconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using marzer::toml::NodeView;
 using marzer::toml::TomlNode;
@@ -40,7 +43,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::save);
  *
  * The ProfileManager class is a service class that manages profile information for the application.
  */
-export class ProfileManager {
+export class [[=Singleton]] ProfileManager {
 public:
     static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
     static constexpr StringView PATH_SAVE_FILE = "./userdata/savedata.toml"; ///< The save file path.
@@ -154,17 +157,18 @@ private:
 public:
     /**
      * @brief Constructs a new ProfileManager object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      */
-    explicit ProfileManager(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("ProfileManager")} {
+    [[=Inject]]
+    explicit ProfileManager([[=Named(*Class<ProfileManager>().name())]] SharedPointer<Logger> logger):
+        logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(USERDATA_DIR);
             if (Expected<void, Error> result = loadProfile(); !result.has_value()) {
-                logger->warn("Failed to load profile during initialization!");
+                this->logger->warn("Failed to load profile during initialization!");
             }
         } catch (const FileSystemException& e) {
-            logger->warn("Failed to create directory {}: {}!", USERDATA_DIR, e.what());
+            this->logger->warn("Failed to create directory {}: {}!", USERDATA_DIR, e.what());
         }
     }
 

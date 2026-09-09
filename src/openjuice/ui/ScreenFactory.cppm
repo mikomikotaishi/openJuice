@@ -23,7 +23,6 @@ import openjuice.ui.screens;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
@@ -42,21 +41,22 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui);
  */
 export class ScreenFactory final {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
     SharedPointer<LocalizationService> localization; ///< The injected localization service.
     SharedPointer<ProfileManager> profile; ///< The injected profile manager.
 public:
     /**
      * @brief Construct the factory with its injected dependencies.
-     * @param loggerFactory The shared logger factory used to create this factory's logger
-     * and each screen's logger.
+     * @param logger The logger for this factory.
      * @param localization The shared localization service forwarded into every screen.
      * @param profile The shared profile manager forwarded into screens that need it.
      */
-    ScreenFactory(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
-        loggerFactory{loggerFactory},
-        logger{loggerFactory->of("ScreenFactory")},
+    ScreenFactory(
+        SharedPointer<Logger> logger,
+        SharedPointer<LocalizationService> localization,
+        SharedPointer<ProfileManager> profile
+    ):
+        logger{Ops::move(logger)},
         localization{localization},
         profile{profile} {}
 
@@ -79,7 +79,7 @@ public:
             case Screen::Of::TITLE:
                 return Pointers::shared<TitleScreen>(game, host, localization, profile);
             case Screen::Of::MAIN_MENU:
-                return Pointers::shared<MainMenuScreen>(game, host, localization, loggerFactory);
+                return Pointers::shared<MainMenuScreen>(game, host, localization, logger);
             case Screen::Of::SINGLEPLAYER_LOBBY_SELECT:
                 return Pointers::shared<SingleplayerLobbySelectScreen>(game, host, localization);
             case Screen::Of::SINGLEPLAYER_CUSTOM:

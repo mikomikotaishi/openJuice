@@ -71,7 +71,7 @@ public:
      * @param settings The injected settings service, used to determine the game language.
      */
     Censor(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("Censor")},
+        logger{loggerFactory->of<Censor>()},
         language{settings->getLanguage()} {
         switch (language) {
             case Language::ENGLISH:

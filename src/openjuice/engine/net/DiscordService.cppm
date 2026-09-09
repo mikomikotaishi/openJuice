@@ -16,14 +16,17 @@ import stdx;
 
 import discordpp;
 
+using stdx::inject::Singleton;
+using stdx::inject::Inject;
+using stdx::inject::Named;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
+using stdx::meta::reflect::Class;
 using stdx::sync::Atomic;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using discordpp::Activity;
 using discordpp::ActivityAssets;
@@ -40,7 +43,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::net);
  * 
  * Owned by Engine, handles all Discord Partner SDK interactions.
  */
-export class DiscordService final {
+export class [[=Singleton]] DiscordService final {
 public:
     static constexpr u64 APPLICATION_ID = 1374097529788039318; ///< Application ID
     static constexpr StringView APPLICATION_NAME = "openJuice"; ///< The name of the application on Discord
@@ -147,9 +150,11 @@ private:
 public:
     /**
      * @brief Constructor of the DiscordService
+     * @param logger The injected logger.
      */
-    explicit DiscordService(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("DiscordService")},
+    [[=Inject]]
+    explicit DiscordService([[=Named(*Class<DiscordService>().name())]] SharedPointer<Logger> logger):
+        logger{Ops::move(logger)},
         sessionStartTime{static_cast<u64>(System::current_time_millis())},
         currentActivityType{ActivityType::IN_MENU} {}
 

@@ -24,7 +24,6 @@ import ftxui;
 using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
@@ -62,7 +61,7 @@ private:
     bool initialized = false; ///< Whether the screen has been initialized
 
     /**
-     * @brief Opens the Orange Juice wiki in the user's browser.
+     * @brief Opens the 100% Orange Juice! wiki in the user's browser.
      *
      * openUrl is a free function with no logger of its own, so the failure is reported here.
      */
@@ -190,11 +189,11 @@ public:
      * @param game Shared pointer to the game
      * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
-     * @param loggerFactory Shared logger factory used to create this screen's logger
+     * @param logger The shared UI logger
      */
-    MainMenuScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization, SharedPointer<LoggerFactory> loggerFactory):
+    MainMenuScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization, SharedPointer<Logger> logger):
         Screen(game, host, localization),
-        logger{loggerFactory->of("MainMenuScreen")} {
+        logger{Ops::move(logger)} {
         createComponent();
     }
 
