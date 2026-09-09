@@ -47,7 +47,7 @@ namespace stdx::fmt {
 
         Mode mode = Mode::FULL;
 
-        THROWS(FormatException)
+        [[=Throws<FormatException>]]
         constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) {
             auto it = ctx.begin();
             auto end = ctx.end();
