@@ -18,7 +18,11 @@ import stdx;
 import openjuice.chat;
 
 using stdx::collections::Vector;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::net::BindException;
 using stdx::net::UnknownHostException;
 using stdx::sync::Atomic;
@@ -41,7 +45,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::net);
  * that use it. The public surface is thread-safe: it is reached from the UI thread (via screens)
  * and from the service's own I/O work, so all mutable state is guarded.
  */
-export class NetworkingService final {
+export class [[=Singleton]] NetworkingService final {
 public:
     static constexpr u16 DEFAULT_LOBBY_PORT = 49152; ///< Default TCP port a host binds and a joiner reaches, absent an override.
 
@@ -83,7 +87,11 @@ public:
      * @param logger The injected logger.
      * @param chatConnectionFactory The injected factory used to build chat connections on demand.
      */
-    NetworkingService(SharedPointer<Logger> logger, SharedPointer<ChatConnectionFactory> chatConnectionFactory):
+    [[=Inject]]
+    NetworkingService(
+        [[=Named(*Class<NetworkingService>().name())]] SharedPointer<Logger> logger,
+        SharedPointer<ChatConnectionFactory> chatConnectionFactory
+    ):
         logger{Ops::move(logger)},
         chatConnectionFactory{Ops::move(chatConnectionFactory)} {}
 

@@ -410,7 +410,13 @@ public:
      * @param profile Shared profile manager forwarded into screens
      * @param networking Shared networking service forwarded into the online screens
      */
-    UserInterface(SharedPointer<Game> game, SharedPointer<Logger> logger, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile, SharedPointer<NetworkingService> networking):
+    UserInterface(
+        SharedPointer<Game> game,
+        SharedPointer<Logger> logger,
+        SharedPointer<LocalizationService> localization,
+        SharedPointer<ProfileManager> profile,
+        SharedPointer<NetworkingService> networking
+    ):
         logger{Ops::move(logger)},
         localization{localization},
         profile{profile},

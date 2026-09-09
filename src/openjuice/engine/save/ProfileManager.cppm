@@ -18,11 +18,15 @@ import marzer.toml;
 
 using stdx::fs::FileSystemException;
 using stdx::fs::Path;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::io::IOException;
 using stdx::io::IOS;
 using stdx::io::IOState;
 using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::time::Seconds;
 using stdx::util::logging::Logger;
 
@@ -39,7 +43,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::save);
  *
  * The ProfileManager class is a service class that manages profile information for the application.
  */
-export class ProfileManager {
+export class [[=Singleton]] ProfileManager {
 public:
     static constexpr StringView USERDATA_DIR = "./userdata"; ///< The user data directory path.
     static constexpr StringView PATH_SAVE_FILE = "./userdata/savedata.toml"; ///< The save file path.
@@ -152,7 +156,8 @@ public:
      * @brief Constructs a new ProfileManager object.
      * @param logger The injected logger.
      */
-    explicit ProfileManager(SharedPointer<Logger> logger):
+    [[=Inject]]
+    explicit ProfileManager([[=Named(*Class<ProfileManager>().name())]] SharedPointer<Logger> logger):
         logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(USERDATA_DIR);

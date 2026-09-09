@@ -8,6 +8,7 @@
 
 export module openjuice;
 
+export import :AppConfiguration;
 export import :Main;
 
 export import openjuice.card;

@@ -18,9 +18,12 @@ import stdx;
 
 using stdx::collections::TreeMap;
 using stdx::collections::Vector;
+using stdx::inject::Inject;
+using stdx::inject::Named;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
+using stdx::meta::reflect::Class;
 using stdx::net::BindException;
 using stdx::net::Endpoint;
 using stdx::net::Event;
@@ -202,8 +205,9 @@ public:
      * @param port The port to listen on.
      * @throws BindException if the server fails to start
      */
-    THROWS(BindException)
-    ChatServer(SharedPointer<Logger> logger, u16 port):
+    [[=Inject]]
+    [[=Throws<BindException>]]
+    ChatServer([[=Named(*Class<ChatServer>().name())]] SharedPointer<Logger> logger, u16 port):
         logger{Ops::move(logger)} {
         try {
             listener.emplace(TcpListener::bind_dual_stack(port));

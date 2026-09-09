@@ -12,11 +12,14 @@ module;
 
 export module openjuice:Main;
 
+import :AppConfiguration;
+
 import stdx;
 
 import openjuice.engine;
 
 using stdx::collections::Vector;
+using stdx::inject::Injector;
 using stdx::mem::SharedPointer;
 using stdx::util::ArgumentParser;
 using stdx::util::logging::Logger;
@@ -47,7 +50,7 @@ private:
         .with_banner()
         .build_shared(); ///< The injected logger factory.
 
-    inline static const SharedPointer<Logger> logger = logging->of("Main"); ///< The logger instance for the Main class.
+    inline static const SharedPointer<Logger> logger = logging->of<Main>(); ///< The logger instance for the Main class.
 public:
     Main() = delete("Main is a utility class and cannot be instantiated.");
 
@@ -58,10 +61,11 @@ public:
     static void main(Span<const StringView> args) {
         try {
             ArgumentParser parser("openJuice", "0.0.x");
-
             parser.parse_args(args);
 
-            Engine eng(logging);
+            AppConfiguration config(logging, logging->of<AppConfiguration>());
+            Injector injector = Injector::create(config);
+            Engine& eng = injector.get<Engine&>();
             eng.init();
         } catch (const Exception& e) {
             logger->error("An error occurred: {}!", e.what());
