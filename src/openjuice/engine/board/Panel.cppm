@@ -151,7 +151,8 @@ public:
      * @return The neighboring panel.
      */
     [[nodiscard]]
-    SharedPointer<Panel> getNeighbor(Direction direction) const noexcept {
+    SharedPointer<Panel> getNeighbor(Direction direction) const noexcept
+        pre (Ops::to_underlying(direction) < neighbors.size()) {
         return neighbors[Ops::to_underlying(direction)].lock();
     }
 };

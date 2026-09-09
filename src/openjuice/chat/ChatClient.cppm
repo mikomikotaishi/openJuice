@@ -15,7 +15,10 @@ export module openjuice.chat:ChatClient;
 import stdx;
 
 using stdx::collections::Vector;
+using stdx::inject::Inject;
+using stdx::inject::Named;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::net::BindException;
 using stdx::net::Endpoint;
 using stdx::net::Resolver;
@@ -119,8 +122,9 @@ public:
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
-    THROWS(BindException, UnknownHostException)
-    ChatClient(SharedPointer<Logger> logger, StringView host, u16 port, Function<void()> onMessage = nullptr):
+    [[=Inject]]
+    [[=Throws<BindException, UnknownHostException>]]
+    ChatClient([[=Named(*Class<ChatClient>().name())]] SharedPointer<Logger> logger, StringView host, u16 port, Function<void()> onMessage = nullptr):
         logger{Ops::move(logger)},
         onMessage{Ops::move(onMessage)} {
         Optional<Endpoint> serverEndpoint;

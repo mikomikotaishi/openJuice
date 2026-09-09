@@ -25,8 +25,12 @@ import openjuice.unit;
 
 using stdx::collections::Vector;
 using stdx::fmt::Formatter;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
 
@@ -47,7 +51,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::game);
  * This class unifies game logic and state management with thread-safe access
  * for UI and game threads.
  */
-export class Game {
+export class [[=Singleton]] Game {
 public:
     static constexpr u8 MAX_PLAYERS = Board::Info::MAX_PLAYERS; ///< Maximum number of players.
 
@@ -134,13 +138,16 @@ public:
     /**
      * @brief Constructor for the Game class.
      * @param logger The injected logger.
-     * @param settings The injected settings service, used to determine the frame delta-time.
+     * @param settings The injected settings service.
      */
-    Game(SharedPointer<Logger> logger, SharedPointer<SettingsService> settings):
+    [[=Inject]]
+    Game(
+        [[=Named(*Class<Game>().name())]] SharedPointer<Logger> logger,
+        SharedPointer<SettingsService> settings
+    ):
         logger{Ops::move(logger)},
         deltaTime{settings->getDeltaTime()} {
         resetPlayers();
-
         #ifndef NDEBUG
         this->logger->debug("Created Game!");
         #endif
@@ -204,8 +211,9 @@ public:
      * @param id The character ID.
      * @throws OutOfRangeException if id does not correspond to a valid character ID.
      */
-    THROWS(OutOfRangeException)
-    void setPlayerCharacter(u8 num, u8 id) {
+    [[=Throws<OutOfRangeException>]]
+    void setPlayerCharacter(u8 num, u8 id)
+        pre (num < players.size()) {
         #ifndef NDEBUG
         logger->debug("Setting player {} to character of ID {}...", num, id);
         #endif
@@ -235,6 +243,7 @@ public:
      */
     [[nodiscard]]
     SharedPointer<Player> getCurrentPlayer() const noexcept {
+        contract_assert(currentPlayerIndex < players.size());
         return players[currentPlayerIndex];
     }
 
@@ -244,7 +253,8 @@ public:
      * @return Player object at index
      */
     [[nodiscard]]
-    SharedPointer<Player> getPlayer(u8 index) const noexcept {
+    SharedPointer<Player> getPlayer(u8 index) const noexcept
+        pre (index < players.size()) {
         return players[index];
     }
 

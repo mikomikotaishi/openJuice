@@ -50,12 +50,17 @@ private:
 public:
     /**
      * @brief Construct the factory with its injected dependencies.
-     * @param logger The logger for this factory, also forwarded into screens that need one.
+     * @param logger The logger for this factory.
      * @param localization The shared localization service forwarded into every screen.
      * @param profile The shared profile manager forwarded into screens that need it.
      * @param networking The shared networking service forwarded into the online screens.
      */
-    ScreenFactory(SharedPointer<Logger> logger, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile, SharedPointer<NetworkingService> networking):
+    ScreenFactory(
+        SharedPointer<Logger> logger,
+        SharedPointer<LocalizationService> localization,
+        SharedPointer<ProfileManager> profile,
+        SharedPointer<NetworkingService> networking
+    ):
         logger{Ops::move(logger)},
         localization{localization},
         profile{profile},

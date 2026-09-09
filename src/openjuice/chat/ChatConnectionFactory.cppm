@@ -4,10 +4,7 @@
  * @brief Implementation of the ChatConnectionFactory class.
  *
  * This file contains the ChatConnectionFactory, which constructs ChatServer and ChatClient
- * instances on demand. It exists because those types mix a dependency they always need (their
- * logger) with runtime arguments the caller supplies (host, port, the message callback): the
- * factory holds the logger-minting capability and takes the runtime part per call, so that callers
- * such as NetworkingService depend on this factory rather than on a LoggerFactory of their own.
+ * instances on demand.
  */
 
 module;
@@ -21,8 +18,11 @@ import :ChatServer;
 
 import stdx;
 
+using stdx::inject::Inject;
+using stdx::inject::Named;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::net::BindException;
 using stdx::net::UnknownHostException;
 using stdx::util::logging::LoggerFactory;
@@ -44,6 +44,7 @@ public:
      * @brief Constructs a new ChatConnectionFactory object.
      * @param loggerFactory The injected logger factory, used to name each connection's logger.
      */
+    [[=Inject]]
     explicit ChatConnectionFactory(SharedPointer<LoggerFactory> loggerFactory):
         loggerFactory{Ops::move(loggerFactory)} {}
 
@@ -55,9 +56,9 @@ public:
      * @throws BindException if the server fails to bind.
      */
     [[nodiscard]]
-    THROWS(BindException)
+    [[=Throws<BindException>]]
     SharedPointer<ChatServer> createServer(u16 port) const {
-        return Pointers::shared<ChatServer>(loggerFactory->of("ChatServer"), port);
+        return Pointers::shared<ChatServer>(loggerFactory->of<ChatServer>(), port);
     }
 
     /**
@@ -70,9 +71,9 @@ public:
      * @throws UnknownHostException if the host is unknown.
      */
     [[nodiscard]]
-    THROWS(BindException, UnknownHostException)
+    [[=Throws<BindException, UnknownHostException>]]
     SharedPointer<ChatClient> createClient(StringView host, u16 port, Function<void()> onMessage = nullptr) const {
-        return Pointers::shared<ChatClient>(loggerFactory->of("ChatClient"), host, port, Ops::move(onMessage));
+        return Pointers::shared<ChatClient>(loggerFactory->of<ChatClient>(), host, port, Ops::move(onMessage));
     }
 };
 

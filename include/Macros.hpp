@@ -7,12 +7,6 @@
 
 #pragma once
 
-#ifdef __cpp_lib_reflection
-#define THROWS(...) [[=Throws<__VA_ARGS__>]]
-#else
-#define THROWS(...)
-#endif
-
 /**
  * @brief A utility to begin a namespace matching the current module name.
  * @param Name The name of the namespace to begin, which should match the module.

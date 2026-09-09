@@ -17,6 +17,7 @@ import :Panel;
 
 import stdx;
 
+using stdx::collections::EnumSet;
 using stdx::collections::Queue;
 using stdx::collections::HashMap;
 using stdx::collections::Vector;
@@ -183,7 +184,7 @@ private:
          * @param to The Panel to which the edge leads.
          * @throws OutOfRangeException if from not in adjList, or if to not in reverseAdjList
          */
-        THROWS(OutOfRangeException)
+        [[=Throws<OutOfRangeException>]]
         void addEdge(const SharedPointer<Panel>& from, const SharedPointer<Panel>& to) {
             adjList.at(from).push_back(to);
             reverseAdjList.at(to).push_back(from);
@@ -197,8 +198,8 @@ private:
             for (const Array<UniquePointer<Panel>, GAME_MAX_WIDTH>& row: gameboard) {
                 for (const UniquePointer<Panel>& panel: row) {
                     if (panel != nullptr) {
-                        for (usize i: IotaView(0uz, DIRECTION_OFFSETS.size())) {
-                            SharedPointer<Panel> neighbor = panel->getNeighbor(static_cast<Panel::Direction>(i));
+                        for (Panel::Direction dir: EnumSet<Panel::Direction>::all_of()) {
+                            SharedPointer<Panel> neighbor = panel->getNeighbor(dir);
                             if (neighbor != nullptr) {
                                 addEdge(SharedPointer<Panel>(panel.get()), neighbor);
                             }

@@ -24,8 +24,12 @@ import marzer.toml;
 using stdx::collections::Vector;
 using stdx::fs::DirectoryEntry;
 using stdx::fs::DirectoryIterator;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::ranges::IotaView;
 using stdx::util::logging::Logger;
 
@@ -42,7 +46,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::board);
  *
  * The BoardLibrary class is a service class that loads and manages boards from files.
  */
-export class BoardLibrary final {
+export class [[=Singleton]] BoardLibrary final {
 public:
     /**
      * @enum Error
@@ -67,7 +71,8 @@ private:
      * @return SharedPointer to board information (nullptr if id is 0)
      */
     [[nodiscard]]
-    SharedPointer<Board::Info> infoAt(u32 id) const noexcept {
+    SharedPointer<Board::Info> infoAt(u32 id) const noexcept
+        pre (id < boardList.size()) {
         #ifndef NDEBUG
         logger->debug("Returning board ID: {}...", id);
         #endif 
@@ -78,10 +83,11 @@ private:
     }
 public:
     /**
-     * @brief Construct the board library with an injected logger.
+     * @brief Construct the board library with an injected logger factory.
      * @param logger The injected logger.
      */
-    explicit BoardLibrary(SharedPointer<Logger> logger):
+    [[=Inject]]
+    explicit BoardLibrary([[=Named(*Class<BoardLibrary>().name())]] SharedPointer<Logger> logger):
         logger{Ops::move(logger)} {
         if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r.has_value()) {
             this->logger->info("Successfully loaded {} boards!", boardList.size());
