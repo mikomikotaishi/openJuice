@@ -24,10 +24,14 @@ import marzer.toml;
 
 using stdx::fs::FileSystemException;
 using stdx::fs::Path;
+using stdx::inject::Inject;
+using stdx::inject::Named;
+using stdx::inject::Singleton;
 using stdx::io::IOException;
 using stdx::io::IOState;
 using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
 
@@ -49,7 +53,7 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::settings);
  * to a TOML file so they survive across sessions. It is injected wherever these settings
  * are read or written.
  */
-export class SettingsService final {
+export class [[=Singleton]] SettingsService final {
 public:
     static constexpr StringView PATH_SETTINGS_FILE = "./userdata/settings.toml"; ///< The configuration/settings file path.
     static constexpr u16 DEFAULT_FRAME_RATE = 60; ///< The default frame rate (fps) used when none is configured.
@@ -196,7 +200,8 @@ public:
      * @brief Constructs a new SettingsService object.
      * @param logger The injected logger.
      */
-    explicit SettingsService(SharedPointer<Logger> logger):
+    [[=Inject]]
+    explicit SettingsService([[=Named(*Class<SettingsService>().name())]] SharedPointer<Logger> logger):
         logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(ProfileManager::USERDATA_DIR);
@@ -237,7 +242,7 @@ public:
      */
     [[nodiscard]]
     Milliseconds getDeltaTime() const noexcept {
-        return (frameRate == 0) ? Milliseconds{0} : Milliseconds{1000 / frameRate};
+        return (frameRate == 0) ? 0ms : Milliseconds(1000 / frameRate);
     }
 
     /**

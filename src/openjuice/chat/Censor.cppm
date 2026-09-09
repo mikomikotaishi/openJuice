@@ -19,10 +19,12 @@ import openjuice.engine.localization;
 import openjuice.engine.settings;
 
 using stdx::collections::Vector;
+using stdx::inject::Inject;
+using stdx::inject::Named;
 using stdx::io::Scanner;
 using stdx::mem::SharedPointer;
+using stdx::meta::reflect::Class;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::localization::Language;
 using openjuice::engine::settings::SettingsService;
@@ -67,12 +69,13 @@ private:
 public:
     /**
      * @brief Constructs a new Censor object.
-     * @param loggerFactory The injected logger factory.
-     * @param settings The injected settings service, used to determine the game language.
+     * @param logger The injected logger.
+     * @param settings The language of the censor.
      */
-    Censor(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("Censor")},
-        language{settings->getLanguage()} {
+    [[=Inject]]
+    Censor([[=Named(*Class<Censor>().name())]] SharedPointer<Logger> logger, Language language):
+        logger{Ops::move(logger)},
+        language{language} {
         switch (language) {
             case Language::ENGLISH:
             case Language::SPANISH:

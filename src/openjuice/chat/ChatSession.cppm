@@ -73,7 +73,7 @@ public:
      * @throws SocketException if the receive fails, or the peer overruns MAX_MESSAGE_LENGTH.
      */
     [[nodiscard]]
-    THROWS(SocketException)
+    [[=Throws<SocketException>]]
     bool drain(Vector<String>& messages) {
         Array<char, RECEIVE_CHUNK> buffer;
 
@@ -108,7 +108,7 @@ public:
      * @param msg The message to deliver.
      * @throws SocketException if the send fails.
      */
-    THROWS(SocketException)
+    [[=Throws<SocketException>]]
     void deliver(StringView msg) {
         stream.send_all(as_bytes(Span<const char>(msg.data(), msg.size())));
     }

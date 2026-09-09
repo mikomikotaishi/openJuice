@@ -22,7 +22,7 @@ Audio files are not included either.
 
 ## Build
 
-Requires C++26, and a build system such as CMake (minimum version 3.30) or XMake. The project has not yet been tested with MSVC, so we recommend only compiling with GCC or Clang for now.
+Requires C++26, and a build system such as CMake (minimum version 3.30) or XMake. This requires a reflection-capable compiler (at the moment, only GCC implements reflection).
 
 ### CMake
 
