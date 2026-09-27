@@ -26,7 +26,6 @@ using stdx::io::Scanner;
 using stdx::mem::SharedPointer;
 using stdx::net::Uri;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::settings::SettingsService;
 
@@ -102,6 +101,7 @@ private:
     HashMap<String, String> cardArtistNames; ///< A dictionary of all card artist names.
     HashMap<String, String> commentTexts; ///< A dictionary of all comment texts.
     HashMap<String, String> configTexts; ///< A dictionary of all config menu texts.
+    HashMap<String, String> errorTexts; ///< A dictionary of all error messages.
     HashMap<String, String> fieldNames; ///< A dictionary of all field names.
     HashMap<String, String> gameMessages; ///< A dictionary of all game messages.
     HashMap<String, String> gameNormaTexts; ///< A dictionary of all messages issued during norma.
@@ -268,6 +268,20 @@ private:
         #endif
 
         return parseSimpleFormatFile(filePath, configTexts);
+    }
+
+    /**
+     * @brief Parses the error messages file and populates the errorTexts map.
+     * @param filePath Path to the error messages file.
+     * @return A Error representing the parsing failure, otherwise nothing.
+     */
+    [[nodiscard]]
+    Expected<void, ErrorDescription<Error>> parseErrorFile(const Path& filePath) noexcept {
+        #ifndef NDEBUG
+        logger->debug("Parsing error messages file: {}...", filePath);
+        #endif
+
+        return parseSimpleFormatFile(filePath, errorTexts);
     }
 
     /**
@@ -446,6 +460,7 @@ private:
         Path cardArtistsFile(Ops::fmt(PATH_CARDARTISTS_FILE, SettingsService::languageToCode(language)));
         Path commentsFile(Ops::fmt(PATH_COMMENT_FILE, SettingsService::languageToCode(language)));
         Path configFile(Ops::fmt(PATH_CONFIG_FILE, SettingsService::languageToCode(language)));
+        Path errorFile(Ops::fmt(PATH_ERROR_FILE, SettingsService::languageToCode(language)));
         Path fieldNamesFile(Ops::fmt(PATH_FIELDNAMES_FILE, SettingsService::languageToCode(language)));
         Path gameMessagesFile(Ops::fmt(PATH_GAME_MESSAGE_FILE, SettingsService::languageToCode(language)));
         Path gameNormaFile(Ops::fmt(PATH_GAME_NORMA_FILE, SettingsService::languageToCode(language)));
@@ -461,6 +476,7 @@ private:
             parseCardArtistNamesFile(cardArtistsFile),
             parseCommentsFile(commentsFile),
             parseConfigFile(configFile),
+            parseErrorFile(errorFile),
             parseFieldNamesFile(fieldNamesFile),
             parseGameMessagesFile(gameMessagesFile),
             parseGameNormaFile(gameNormaFile),
@@ -502,6 +518,7 @@ private:
         cardArtistNames.clear();
         commentTexts.clear();
         configTexts.clear();
+        errorTexts.clear();
         fieldNames.clear();
         gameMessages.clear();
         gameNormaTexts.clear();
@@ -519,16 +536,16 @@ private:
 public:
     /**
      * @brief Constructs a new LocalizationService object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      * @param settings The injected settings service, used to determine the game language.
      */
-    LocalizationService(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("LocalizationService")},
+    LocalizationService(SharedPointer<Logger> logger, SharedPointer<SettingsService> settings):
+        logger{Ops::move(logger)},
         language{settings->getLanguage()} {
         if (init()) {
-            logger->info("Successfully loaded all text assets!");
+            this->logger->info("Successfully loaded all text assets!");
         } else {
-            logger->warn("Text assets were not successfully initialized!");
+            this->logger->warn("Text assets were not successfully initialized!");
         }
     }
 
@@ -641,6 +658,24 @@ public:
         }
 
         if (auto it = configTexts.find(String(key)); it != configTexts.end()) {
+            return it->second;
+        } else {
+            return Unexpected(Error::INVALID_KEY);
+        }
+    }
+
+    /**
+     * @brief Gets an error text by key.
+     * @param key The lookup key.
+     * @return The error text, otherwise the error representing the key failure.
+     */
+    [[nodiscard]]
+    Expected<String, Error> getErrorText(StringView key) const noexcept {
+        if (key.empty()) {
+            return Unexpected(Error::EMPTY_KEY);
+        }
+
+        if (auto it = errorTexts.find(String(key)); it != errorTexts.end()) {
             return it->second;
         } else {
             return Unexpected(Error::INVALID_KEY);

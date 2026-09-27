@@ -29,7 +29,6 @@ using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::board::Board;
 using openjuice::engine::entity::Combatant;
@@ -122,16 +121,16 @@ private:
 public:
     /**
      * @brief Constructor for the Game class.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      * @param settings The injected settings service, used to determine the frame delta-time.
      */
-    Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("Game")},
+    Game(SharedPointer<Logger> logger, SharedPointer<SettingsService> settings):
+        logger{Ops::move(logger)},
         deltaTime{settings->getDeltaTime()} {
         resetPlayers();
 
         #ifndef NDEBUG
-        logger->debug("Created Game!");
+        this->logger->debug("Created Game!");
         #endif
     }
 

@@ -23,7 +23,6 @@ using stdx::sync::Atomic;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using discordpp::Activity;
 using discordpp::ActivityAssets;
@@ -147,9 +146,10 @@ private:
 public:
     /**
      * @brief Constructor of the DiscordService
+     * @param logger The injected logger.
      */
-    explicit DiscordService(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("DiscordService")},
+    explicit DiscordService(SharedPointer<Logger> logger):
+        logger{Ops::move(logger)},
         sessionStartTime{static_cast<u64>(System::current_time_millis())},
         currentActivityType{ActivityType::IN_MENU} {}
 

@@ -10,5 +10,6 @@ export module openjuice.chat;
 
 export import :Censor;
 export import :ChatClient;
+export import :ChatConnectionFactory;
 export import :ChatServer;
 export import :ChatSession;

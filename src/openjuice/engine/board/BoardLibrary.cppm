@@ -28,7 +28,6 @@ using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::ranges::IotaView;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::unit::BossEnemyFactory;
 
@@ -79,15 +78,15 @@ private:
     }
 public:
     /**
-     * @brief Construct the board library with an injected logger factory.
-     * @param loggerFactory The shared logger factory used to create this library's logger.
+     * @brief Construct the board library with an injected logger.
+     * @param logger The injected logger.
      */
-    explicit BoardLibrary(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("BoardLibrary")} {
+    explicit BoardLibrary(SharedPointer<Logger> logger):
+        logger{Ops::move(logger)} {
         if (Expected<void, ErrorDescription<Error>> r = loadBoards(); r.has_value()) {
-            logger->info("Successfully loaded {} boards!", boardList.size());
+            this->logger->info("Successfully loaded {} boards!", boardList.size());
         } else {
-            logger->warn(
+            this->logger->warn(
                 "Board libraries were not successfully initialized! Error description: {}, {} boards successfully loaded.",
                 r.error().message(),
                 boardList.size()

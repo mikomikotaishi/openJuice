@@ -25,7 +25,6 @@ using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
 using stdx::time::Seconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using marzer::toml::NodeView;
 using marzer::toml::TomlNode;
@@ -151,17 +150,17 @@ private:
 public:
     /**
      * @brief Constructs a new ProfileManager object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      */
-    explicit ProfileManager(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("ProfileManager")} {
+    explicit ProfileManager(SharedPointer<Logger> logger):
+        logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(USERDATA_DIR);
             if (Expected<void, Error> result = loadProfile(); !result.has_value()) {
-                logger->warn("Failed to load profile during initialization!");
+                this->logger->warn("Failed to load profile during initialization!");
             }
         } catch (const FileSystemException& e) {
-            logger->warn("Failed to create directory {}: {}!", USERDATA_DIR, e.what());
+            this->logger->warn("Failed to create directory {}: {}!", USERDATA_DIR, e.what());
         }
     }
 

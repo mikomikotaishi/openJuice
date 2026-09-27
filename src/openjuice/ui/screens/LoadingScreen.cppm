@@ -3,7 +3,9 @@
  * @module openjuice.ui.screens:LoadingScreen
  * @brief Definition of the LoadingScreen class.
  *
- * This file contains the definition of the LoadingScreen class.
+ * This is the loading screen. This is currently used during the buffering
+ * phases at any point of the program, as well as a sentinel screen for any
+ * screen that is currently unimplemented and cannot be switched to.
  */
 
 module;

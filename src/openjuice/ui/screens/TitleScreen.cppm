@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:TitleScreen
  * @brief Definition of the TitleScreen class.
  *
- * This file contains the definition of the TitleScreen class.
+ * This is the title screen, the first screen that appears when the program begins.
  */
 
 module;

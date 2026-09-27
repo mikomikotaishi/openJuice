@@ -1,16 +1,16 @@
 /**
- * @file SingleplayerGameLobbyScreen.cppm
- * @module openjuice.ui.screens:SingleplayerGameLobbyScreen
- * @brief Definition of the SingleplayerGameLobbyScreen class.
+ * @file SingleplayerLobbyCreationScreen.cppm
+ * @module openjuice.ui.screens:SingleplayerLobbyCreationScreen
+ * @brief Definition of the SingleplayerLobbyCreationScreen class.
  *
- * This file contains the definition of the SingleplayerGameLobbyScreen class.
+ * This is the singleplayer lobby creation screen.
  */
 
 module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.screens:SingleplayerGameLobbyScreen;
+export module openjuice.ui.screens:SingleplayerLobbyCreationScreen;
 
 import stdx;
 
@@ -32,11 +32,11 @@ using namespace ftxui;
 BEGIN_MODULE_NAMESPACE(openjuice::ui::screens);
 
 /**
- * @class SingleplayerGameLobbyScreen
- * @brief Singleplayer game lobby screen implementation
+ * @class SingleplayerLobbyCreationScreen
+ * @brief Multiplayer custom game screen implementation
  * @extends Screen
  */
-export class SingleplayerGameLobbyScreen final: public Screen {
+export class SingleplayerLobbyCreationScreen final: public Screen {
 private:
     [[maybe_unused]]
     bool initialized = false; ///< Whether the screen has been initialized
@@ -49,12 +49,12 @@ private:
     }
 public:
     /**
-     * @brief Constructor for the SingleplayerGameLobbyScreen class
+     * @brief Constructor for the SingleplayerLobbyCreationScreen class
      * @param game Shared pointer to the game
      * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
      */
-    SingleplayerGameLobbyScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization):
+    SingleplayerLobbyCreationScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization):
         Screen(game, host, localization) {
         createComponent();
     }

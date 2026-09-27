@@ -324,7 +324,7 @@ add_subdirectory(src)
 if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
     target_link_libraries(openJuice PRIVATE 
         stdlibx
-        modules
+        ojmodules
         ftxui-modules
         nlohmann_json
         re2_module
@@ -333,7 +333,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
 else()
     target_link_libraries(openJuice PRIVATE 
         stdlibx
-        modules
+        ojmodules
         ftxui-modules
         re2_module
     )

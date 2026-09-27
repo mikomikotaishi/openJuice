@@ -27,7 +27,6 @@ using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 using stdx::thread::Thread;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -48,7 +47,7 @@ private:
 
     SharedPointer<Logger> logger; ///< The logger instance.
     Optional<TcpStream> stream; ///< The connection to the chat server.
-    Atomic<bool> connected{false}; ///< Whether the connection is still usable.
+    Atomic<bool> connected = false; ///< Whether the connection is still usable.
     mutable Mutex inboxMutex; ///< Guards inbox, which the listener fills and the owner drains.
     Vector<String> inbox; ///< Messages received but not yet collected.
     Function<void()> onMessage; ///< Called on the listener thread when a message lands. May be empty.
@@ -112,40 +111,40 @@ private:
 public:
     /**
      * @brief Connect to a chat server.
+     * @param logger The injected logger.
      * @param host The host to connect to.
      * @param port The port to connect to.
-     * @param loggerFactory Shared logger factory used to create this client's logger.
      * @param onMessage Called on the listener thread once messages are waiting; keep it cheap and
      * do not touch the UI from it. Use it to wake the owner, which then calls @ref collect.
      * @throws BindException if the client fails to connect
      * @throws UnknownHostException if the host is unknown
      */
     THROWS(BindException, UnknownHostException)
-    ChatClient(StringView host, u16 port, SharedPointer<LoggerFactory> loggerFactory, Function<void()> onMessage = nullptr):
-        logger{loggerFactory->of("ChatClient")},
+    ChatClient(SharedPointer<Logger> logger, StringView host, u16 port, Function<void()> onMessage = nullptr):
+        logger{Ops::move(logger)},
         onMessage{Ops::move(onMessage)} {
         Optional<Endpoint> serverEndpoint;
 
         try {
             serverEndpoint = Resolver().resolve_one(host, port);
         } catch (const UnknownHostException& e) {
-            logger->error("Unknown host {}: {}!", host, e.what());
+            this->logger->error("Unknown host {}: {}!", host, e.what());
             throw;
         }
 
         if (!serverEndpoint.has_value()) {
-            logger->error("Unknown host: {}!", host);
+            this->logger->error("Unknown host: {}!", host);
             throw UnknownHostException("Failed to resolve host");
         }
 
         try {
             stream.emplace(TcpStream::connect(*serverEndpoint));
         } catch (const SocketException& e) {
-            logger->error("Failed to connect to server at {}:{}: {}!", host, port, e.what());
+            this->logger->error("Failed to connect to server at {}:{}: {}!", host, port, e.what());
             throw BindException("Failed to connect to chat server");
         }
 
-        logger->info("Connected to server at {}:{}.", host, port);
+        this->logger->info("Connected to server at {}:{}.", host, port);
         connected.store(true);
 
         listenerThread = Thread([this] -> void {

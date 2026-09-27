@@ -9,3 +9,4 @@
 export module openjuice.engine.net;
 
 export import :DiscordService;
+export import :NetworkingService;

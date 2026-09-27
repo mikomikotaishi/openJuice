@@ -3,7 +3,8 @@
  * @module openjuice.ui.screens:GameResultsScreen
  * @brief Definition of the GameResultsScreen class.
  *
- * This file contains the definition of the GameResultsScreen class.
+ * This is the game results screen, in both singleplayer and multiplayer.
+ * Displayed after the conclusion of a game.
  */
 
 module;
