@@ -232,20 +232,20 @@ def configure_sanitizers(cmake_command: list[str], release: bool, sanitizers: li
                     print(f"{ANSI.YELLOW}Warning:{ANSI.RESET} Invalid sanitizer specified: {sanitizer}")
 
         if address_san:
-            cmake_command.append("-DUSE_SANITIZER_ADDRESS=ON")
-            cmake_command.append("-DUSE_SANITIZER_LEAK=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_ADDRESS=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_LEAK=ON")
         if kernel_san:
-            cmake_command.append("-DUSE_SANITIZER_KERNEL=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_KERNEL=ON")
         if hardware_san:
-            cmake_command.append("-DUSE_SANITIZER_HW=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_HW=ON")
         if undefined_san:
-            cmake_command.append("-DUSE_SANITIZER_UNDEFINED=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_UNDEFINED=ON")
         if thread_san:
-            cmake_command.append("-DUSE_SANITIZER_THREAD=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_THREAD=ON")
         if memory_san:
-            cmake_command.append("-DUSE_SANITIZER_MEMORY=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_MEMORY=ON")
         if leak_san and not address_san:
-            cmake_command.append("-DUSE_SANITIZER_LEAK=ON")
+            cmake_command.append("-DOPENJUICE_USE_SANITIZER_LEAK=ON")
 
     return cmake_command
 

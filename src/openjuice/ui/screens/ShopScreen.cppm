@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:ShopScreen
  * @brief Definition of the ShopScreen class.
  *
- * This file contains the definition of the ShopScreen class.
+ * This is the screen for the shop.
  */
 
 module;
