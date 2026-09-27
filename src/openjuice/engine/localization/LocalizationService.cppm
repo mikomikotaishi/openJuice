@@ -23,10 +23,10 @@ using stdx::fs::Path;
 using stdx::io::IOException;
 using stdx::io::InputFileStream;
 using stdx::io::Scanner;
+using stdx::linq::Query;
 using stdx::mem::SharedPointer;
 using stdx::net::Uri;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::settings::SettingsService;
 
@@ -38,43 +38,43 @@ BEGIN_MODULE_NAMESPACE(openjuice::engine::localization);
  */
 export class LocalizationService final {
 public:
-    static constexpr StringView PATH_ABILITIES_FILE = "./assets/define/{}/abilities.txt"; ///< File containing ability localization.
-    static constexpr StringView PATH_CARDARTISTS_FILE = "./assets/define/{}/cardartists.txt"; ///< File containing card artist localization.
-    static constexpr StringView PATH_CARDS_FILE = "./assets/define/{}/cards.txt"; ///< File containing main cards localization.
-    static constexpr StringView PATH_CARDS_2_FILE = "./assets/define/{}/cards_2.txt"; ///< File containing secondary cards localization.
-    static constexpr StringView PATH_CARDS_BOUNTY_FILE = "./assets/define/{}/cards_bounty.txt"; ///< File containing bounty mode card localization.
-    static constexpr StringView PATH_CARDS_COOP_FILE = "./assets/define/{}/cards_coop.txt"; ///< File containing co-op mode card localization.
-    static constexpr StringView PATH_CARDS_EFFECT_COOP_FILE = "./assets/define/{}/cards_effect_coop.txt"; ///< File containing co-op mode card effect localization.
-    static constexpr StringView PATH_CARDS_EFFECT_FILE = "./assets/define/{}/cards_effect.txt"; ///< File containing general card effect localization.
-    static constexpr StringView PATH_CARDS_MISC_FILE = "./assets/define/{}/cards_misc.txt"; ///< File containing miscellaneous cards localization.
-    static constexpr StringView PATH_CARDS_MUSHROOM_FILE = "./assets/define/{}/cards_mushroom.txt"; ///< File containing mushroom cards localization.
-    static constexpr StringView PATH_CHALLENGES_FILE = "./assets/define/{}/challenges.txt"; ///< File containing challenge localization.
-    static constexpr StringView PATH_CHAOS_MUTATORS_FILE = "./assets/define/{}/chaos_mutators.txt"; ///< File containing chaos mutator localization.
-    static constexpr StringView PATH_CHARACTERSELECT_FILE = "./assets/define/{}/characterselect.txt"; ///< File containing character selection localization.
-    static constexpr StringView PATH_CODEX_FILE = "./assets/define/{}/codex.txt"; ///< File containing codex/lore localization.
-    static constexpr StringView PATH_COMMENT_FILE = "./assets/define/{}/comment.txt"; ///< File containing UI comments and messages.
-    static constexpr StringView PATH_CONFIG_FILE = "./assets/define/{}/config.txt"; ///< File containing configuration settings localization.
-    static constexpr StringView PATH_CONSUMABLES_FILE = "./assets/define/{}/consumables.txt"; ///< File containing consumable item localization.
-    static constexpr StringView PATH_ERROR_FILE = "./assets/define/{}/error.txt"; ///< File containing error messages.
-    static constexpr StringView PATH_EVENTNAMES_FILE = "./assets/define/{}/eventnames.txt"; ///< File containing event name localization.
-    static constexpr StringView PATH_FIELDEVENTS_FILE = "./assets/define/{}/fieldevents.txt"; ///< File containing field event localization.
-    static constexpr StringView PATH_FIELDNAMES_FILE = "./assets/define/{}/fieldnames.txt"; ///< File containing field name localization.
-    static constexpr StringView PATH_GAME_MESSAGE_FILE = "./assets/define/{}/game_message.txt"; ///< File containing game message localization.
-    static constexpr StringView PATH_GAME_NORMA_FILE = "./assets/define/{}/game_norma.txt"; ///< File containing norma level localization.
-    static constexpr StringView PATH_GAME_SYSTEM_FILE = "./assets/define/{}/game_system.txt"; ///< File containing game system messages.
-    static constexpr StringView PATH_GAME_TUTORIAL_FILE = "./assets/define/{}/game_tutorial.txt"; ///< File containing tutorial messages.
-    static constexpr StringView PATH_LAUNCHER_FILE = "./assets/define/{}/launcher.txt"; ///< File containing launcher localization.
-    static constexpr StringView PATH_MENUSCREENS_FILE = "./assets/define/{}/menuscreens.txt"; ///< File containing menu screen localization.
-    static constexpr StringView PATH_MIXERS_FILE = "./assets/define/{}/mixers.txt"; ///< File containing mixer localization.
-    static constexpr StringView PATH_MULTIPLAYER_FILE = "./assets/define/{}/multiplayer.txt"; ///< File containing multiplayer localization.
-    static constexpr StringView PATH_PETS_FILE = "./assets/define/{}/pets.txt"; ///< File containing pet localization.
-    static constexpr StringView PATH_PINS_FILE = "./assets/define/{}/pins.txt"; ///< File containing pin localization.
-    static constexpr StringView PATH_PROFILE_FILE = "./assets/define/{}/profile.txt"; ///< File containing profile localization.
-    static constexpr StringView PATH_RESULT_FILE = "./assets/define/{}/result.txt"; ///< File containing result screen localization.
-    static constexpr StringView PATH_SHOP_FILE = "./assets/define/{}/shop.txt"; ///< File containing shop localization.
-    static constexpr StringView PATH_UNIT_GAMES_FILE = "./assets/define/{}/unitgames.txt"; ///< File containing unit game localization.
-    static constexpr StringView PATH_UNITS_FILE = "./assets/define/{}/units.txt"; ///< File containing unit localization.
-    static constexpr StringView PATH_VOICEACTORS_FILE = "./assets/define/{}/voiceactors.txt"; ///< File containing voice actor localization.
+    static constexpr StringView PATH_ABILITIES_FILE = "./assets/define/{:s}/abilities.txt"; ///< File containing ability localization.
+    static constexpr StringView PATH_CARDARTISTS_FILE = "./assets/define/{:s}/cardartists.txt"; ///< File containing card artist localization.
+    static constexpr StringView PATH_CARDS_FILE = "./assets/define/{:s}/cards.txt"; ///< File containing main cards localization.
+    static constexpr StringView PATH_CARDS_2_FILE = "./assets/define/{:s}/cards_2.txt"; ///< File containing secondary cards localization.
+    static constexpr StringView PATH_CARDS_BOUNTY_FILE = "./assets/define/{:s}/cards_bounty.txt"; ///< File containing bounty mode card localization.
+    static constexpr StringView PATH_CARDS_COOP_FILE = "./assets/define/{:s}/cards_coop.txt"; ///< File containing co-op mode card localization.
+    static constexpr StringView PATH_CARDS_EFFECT_COOP_FILE = "./assets/define/{:s}/cards_effect_coop.txt"; ///< File containing co-op mode card effect localization.
+    static constexpr StringView PATH_CARDS_EFFECT_FILE = "./assets/define/{:s}/cards_effect.txt"; ///< File containing general card effect localization.
+    static constexpr StringView PATH_CARDS_MISC_FILE = "./assets/define/{:s}/cards_misc.txt"; ///< File containing miscellaneous cards localization.
+    static constexpr StringView PATH_CARDS_MUSHROOM_FILE = "./assets/define/{:s}/cards_mushroom.txt"; ///< File containing mushroom cards localization.
+    static constexpr StringView PATH_CHALLENGES_FILE = "./assets/define/{:s}/challenges.txt"; ///< File containing challenge localization.
+    static constexpr StringView PATH_CHAOS_MUTATORS_FILE = "./assets/define/{:s}/chaos_mutators.txt"; ///< File containing chaos mutator localization.
+    static constexpr StringView PATH_CHARACTERSELECT_FILE = "./assets/define/{:s}/characterselect.txt"; ///< File containing character selection localization.
+    static constexpr StringView PATH_CODEX_FILE = "./assets/define/{:s}/codex.txt"; ///< File containing codex/lore localization.
+    static constexpr StringView PATH_COMMENT_FILE = "./assets/define/{:s}/comment.txt"; ///< File containing UI comments and messages.
+    static constexpr StringView PATH_CONFIG_FILE = "./assets/define/{:s}/config.txt"; ///< File containing configuration settings localization.
+    static constexpr StringView PATH_CONSUMABLES_FILE = "./assets/define/{:s}/consumables.txt"; ///< File containing consumable item localization.
+    static constexpr StringView PATH_ERROR_FILE = "./assets/define/{:s}/error.txt"; ///< File containing error messages.
+    static constexpr StringView PATH_EVENTNAMES_FILE = "./assets/define/{:s}/eventnames.txt"; ///< File containing event name localization.
+    static constexpr StringView PATH_FIELDEVENTS_FILE = "./assets/define/{:s}/fieldevents.txt"; ///< File containing field event localization.
+    static constexpr StringView PATH_FIELDNAMES_FILE = "./assets/define/{:s}/fieldnames.txt"; ///< File containing field name localization.
+    static constexpr StringView PATH_GAME_MESSAGE_FILE = "./assets/define/{:s}/game_message.txt"; ///< File containing game message localization.
+    static constexpr StringView PATH_GAME_NORMA_FILE = "./assets/define/{:s}/game_norma.txt"; ///< File containing norma level localization.
+    static constexpr StringView PATH_GAME_SYSTEM_FILE = "./assets/define/{:s}/game_system.txt"; ///< File containing game system messages.
+    static constexpr StringView PATH_GAME_TUTORIAL_FILE = "./assets/define/{:s}/game_tutorial.txt"; ///< File containing tutorial messages.
+    static constexpr StringView PATH_LAUNCHER_FILE = "./assets/define/{:s}/launcher.txt"; ///< File containing launcher localization.
+    static constexpr StringView PATH_MENUSCREENS_FILE = "./assets/define/{:s}/menuscreens.txt"; ///< File containing menu screen localization.
+    static constexpr StringView PATH_MIXERS_FILE = "./assets/define/{:s}/mixers.txt"; ///< File containing mixer localization.
+    static constexpr StringView PATH_MULTIPLAYER_FILE = "./assets/define/{:s}/multiplayer.txt"; ///< File containing multiplayer localization.
+    static constexpr StringView PATH_PETS_FILE = "./assets/define/{:s}/pets.txt"; ///< File containing pet localization.
+    static constexpr StringView PATH_PINS_FILE = "./assets/define/{:s}/pins.txt"; ///< File containing pin localization.
+    static constexpr StringView PATH_PROFILE_FILE = "./assets/define/{:s}/profile.txt"; ///< File containing profile localization.
+    static constexpr StringView PATH_RESULT_FILE = "./assets/define/{:s}/result.txt"; ///< File containing result screen localization.
+    static constexpr StringView PATH_SHOP_FILE = "./assets/define/{:s}/shop.txt"; ///< File containing shop localization.
+    static constexpr StringView PATH_UNIT_GAMES_FILE = "./assets/define/{:s}/unitgames.txt"; ///< File containing unit game localization.
+    static constexpr StringView PATH_UNITS_FILE = "./assets/define/{:s}/units.txt"; ///< File containing unit localization.
+    static constexpr StringView PATH_VOICEACTORS_FILE = "./assets/define/{:s}/voiceactors.txt"; ///< File containing voice actor localization.
 
     static inline const Uri ORANGE_JUICE_WIKI_URL = "https://orangejuice.wiki"_uri; ///< The URL for the 100% Orange Juice! wiki
 
@@ -102,6 +102,7 @@ private:
     HashMap<String, String> cardArtistNames; ///< A dictionary of all card artist names.
     HashMap<String, String> commentTexts; ///< A dictionary of all comment texts.
     HashMap<String, String> configTexts; ///< A dictionary of all config menu texts.
+    HashMap<String, String> errorTexts; ///< A dictionary of all error messages.
     HashMap<String, String> fieldNames; ///< A dictionary of all field names.
     HashMap<String, String> gameMessages; ///< A dictionary of all game messages.
     HashMap<String, String> gameNormaTexts; ///< A dictionary of all messages issued during norma.
@@ -149,7 +150,12 @@ private:
             }
 
             if (line[0] == '<' && line[line.length() - 1] == '>') {
-                currentKey = util::trimString(line.substr(1, line.length() - 2));
+                currentKey = Query(line.substr(1, line.length() - 2))
+                    .skip_while([](char c) -> bool { return Character::is_whitespace(c); })
+                    .reverse()
+                    .skip_while([](char c) -> bool { return Character::is_whitespace(c); })
+                    .reverse()
+                    .to<String>();
                 expectingValue = true;
             } else if (expectingValue) {
                 targetMap[currentKey] = util::unescapeText(line);
@@ -205,7 +211,12 @@ private:
                     cardDescriptions[currentKey] = currentDescription;
                     cardFlavours[currentKey] = currentFlavor;
                 }
-                currentKey = util::trimString(line.substr(1, line.length() - 2));
+                currentKey = Query(line.substr(1, line.length() - 2))
+                    .skip_while([](char c) -> bool { return Character::is_whitespace(c); })
+                    .reverse()
+                    .skip_while([](char c) -> bool { return Character::is_whitespace(c); })
+                    .reverse()
+                    .to<String>();
                 currentName = "";
                 currentDescription = "";
                 currentFlavor = "";
@@ -268,6 +279,20 @@ private:
         #endif
 
         return parseSimpleFormatFile(filePath, configTexts);
+    }
+
+    /**
+     * @brief Parses the error messages file and populates the errorTexts map.
+     * @param filePath Path to the error messages file.
+     * @return A Error representing the parsing failure, otherwise nothing.
+     */
+    [[nodiscard]]
+    Expected<void, ErrorDescription<Error>> parseErrorFile(const Path& filePath) noexcept {
+        #ifndef NDEBUG
+        logger->debug("Parsing error messages file: {}...", filePath);
+        #endif
+
+        return parseSimpleFormatFile(filePath, errorTexts);
     }
 
     /**
@@ -398,7 +423,12 @@ private:
                     unitNames[currentKey] = currentName;
                     unitDescriptions[currentKey] = currentDescription;
                 }
-                currentKey = util::trimString(line.substr(1, line.length() - 2));
+                currentKey = Query(line.substr(1, line.length() - 2))
+                    .skip_while([](char c) -> bool { return Character::is_whitespace(c); })
+                    .reverse()
+                    .skip_while([](char c) -> bool { return Character::is_whitespace(c); })
+                    .reverse()
+                    .to<String>();
                 currentName = "";
                 currentDescription = "";
             } else if (line.starts_with("name=")) {
@@ -441,19 +471,20 @@ private:
 
         bool successful = true;
 
-        Path cardsFile(Ops::fmt(PATH_CARDS_FILE, SettingsService::languageToCode(language)));
-        Path cards2File(Ops::fmt(PATH_CARDS_2_FILE, SettingsService::languageToCode(language)));
-        Path cardArtistsFile(Ops::fmt(PATH_CARDARTISTS_FILE, SettingsService::languageToCode(language)));
-        Path commentsFile(Ops::fmt(PATH_COMMENT_FILE, SettingsService::languageToCode(language)));
-        Path configFile(Ops::fmt(PATH_CONFIG_FILE, SettingsService::languageToCode(language)));
-        Path fieldNamesFile(Ops::fmt(PATH_FIELDNAMES_FILE, SettingsService::languageToCode(language)));
-        Path gameMessagesFile(Ops::fmt(PATH_GAME_MESSAGE_FILE, SettingsService::languageToCode(language)));
-        Path gameNormaFile(Ops::fmt(PATH_GAME_NORMA_FILE, SettingsService::languageToCode(language)));
-        Path gameSystemFile(Ops::fmt(PATH_GAME_SYSTEM_FILE, SettingsService::languageToCode(language)));
-        Path menuScreensFile(Ops::fmt(PATH_MENUSCREENS_FILE, SettingsService::languageToCode(language)));
-        Path resultFile(Ops::fmt(PATH_RESULT_FILE, SettingsService::languageToCode(language)));
-        Path unitsFile(Ops::fmt(PATH_UNITS_FILE, SettingsService::languageToCode(language)));
-        Path voiceActorsFile(Ops::fmt(PATH_VOICEACTORS_FILE, SettingsService::languageToCode(language)));
+        Path cardsFile(Ops::fmt(PATH_CARDS_FILE, language));
+        Path cards2File(Ops::fmt(PATH_CARDS_2_FILE, language));
+        Path cardArtistsFile(Ops::fmt(PATH_CARDARTISTS_FILE, language));
+        Path commentsFile(Ops::fmt(PATH_COMMENT_FILE, language));
+        Path configFile(Ops::fmt(PATH_CONFIG_FILE, language));
+        Path errorFile(Ops::fmt(PATH_ERROR_FILE, language));
+        Path fieldNamesFile(Ops::fmt(PATH_FIELDNAMES_FILE, language));
+        Path gameMessagesFile(Ops::fmt(PATH_GAME_MESSAGE_FILE, language));
+        Path gameNormaFile(Ops::fmt(PATH_GAME_NORMA_FILE, language));
+        Path gameSystemFile(Ops::fmt(PATH_GAME_SYSTEM_FILE, language));
+        Path menuScreensFile(Ops::fmt(PATH_MENUSCREENS_FILE, language));
+        Path resultFile(Ops::fmt(PATH_RESULT_FILE, language));
+        Path unitsFile(Ops::fmt(PATH_UNITS_FILE, language));
+        Path voiceActorsFile(Ops::fmt(PATH_VOICEACTORS_FILE, language));
 
         Vector<Expected<void, ErrorDescription<Error>>> results = {
             parseCardsFile(cardsFile),
@@ -461,6 +492,7 @@ private:
             parseCardArtistNamesFile(cardArtistsFile),
             parseCommentsFile(commentsFile),
             parseConfigFile(configFile),
+            parseErrorFile(errorFile),
             parseFieldNamesFile(fieldNamesFile),
             parseGameMessagesFile(gameMessagesFile),
             parseGameNormaFile(gameNormaFile),
@@ -502,6 +534,7 @@ private:
         cardArtistNames.clear();
         commentTexts.clear();
         configTexts.clear();
+        errorTexts.clear();
         fieldNames.clear();
         gameMessages.clear();
         gameNormaTexts.clear();
@@ -519,16 +552,16 @@ private:
 public:
     /**
      * @brief Constructs a new LocalizationService object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      * @param settings The injected settings service, used to determine the game language.
      */
-    LocalizationService(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("LocalizationService")},
+    LocalizationService(SharedPointer<Logger> logger, SharedPointer<SettingsService> settings):
+        logger{Ops::move(logger)},
         language{settings->getLanguage()} {
         if (init()) {
-            logger->info("Successfully loaded all text assets!");
+            this->logger->info("Successfully loaded all text assets!");
         } else {
-            logger->warn("Text assets were not successfully initialized!");
+            this->logger->warn("Text assets were not successfully initialized!");
         }
     }
 
@@ -641,6 +674,24 @@ public:
         }
 
         if (auto it = configTexts.find(String(key)); it != configTexts.end()) {
+            return it->second;
+        } else {
+            return Unexpected(Error::INVALID_KEY);
+        }
+    }
+
+    /**
+     * @brief Gets an error text by key.
+     * @param key The lookup key.
+     * @return The error text, otherwise the error representing the key failure.
+     */
+    [[nodiscard]]
+    Expected<String, Error> getErrorText(StringView key) const noexcept {
+        if (key.empty()) {
+            return Unexpected(Error::EMPTY_KEY);
+        }
+
+        if (auto it = errorTexts.find(String(key)); it != errorTexts.end()) {
             return it->second;
         } else {
             return Unexpected(Error::INVALID_KEY);
@@ -817,11 +868,11 @@ using openjuice::engine::localization::LocalizationService;
 namespace stdx::fmt {
     template <>
     struct Formatter<LocalizationService::Error> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(LocalizationService::Error err, FormatContext& ctx) {
+        FormatContext::iterator format(LocalizationService::Error err, FormatContext& ctx) const {
             StringView name;
             switch (err) {
                 case LocalizationService::Error::EMPTY_KEY:

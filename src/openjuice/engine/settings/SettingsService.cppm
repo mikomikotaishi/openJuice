@@ -30,7 +30,6 @@ using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::localization::Language;
 using openjuice::engine::save::ProfileManager;
@@ -67,36 +66,6 @@ public:
         SETTINGS_SAVE_WRITE_FAILED, ///< Writing settings data to file failed
         SETTINGS_SAVE_FAILED, ///< Saving settings data failed
     };
-
-    /**
-     * @brief Converts a language to its persisted, human-readable code.
-     * @param lang The language to convert.
-     * @return The language code (e.g. "en").
-     */
-    [[nodiscard]]
-    static String languageToCode(Language lang) noexcept {
-        switch (lang) {
-            case Language::ENGLISH:
-                return "en";
-            case Language::SPANISH:
-                return "sp";
-            case Language::FRENCH:
-                return "fr";
-            case Language::PORTUGUESE_BR:
-                return "ptbr";
-            case Language::RUSSIAN:
-                return "ru";
-            case Language::JAPANESE:
-                return "jp";
-            case Language::CHINESE_SIMPLIFIED:
-                return "chs";
-            case Language::CHINESE_TRADITIONAL:
-                return "cht";
-            case Language::KOREAN:
-                return "ko";
-        }
-        Ops::unreachable();
-    }
 
     /**
      * @brief Converts a persisted language code back into a language.
@@ -195,17 +164,17 @@ private:
 public:
     /**
      * @brief Constructs a new SettingsService object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      */
-    explicit SettingsService(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("SettingsService")} {
+    explicit SettingsService(SharedPointer<Logger> logger):
+        logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(ProfileManager::USERDATA_DIR);
             if (Expected<void, Error> result = load(); !result.has_value()) {
-                logger->warn("Failed to load settings during initialization!");
+                this->logger->warn("Failed to load settings during initialization!");
             }
         } catch (const FileSystemException& e) {
-            logger->warn("Failed to create directory {}: {}!", ProfileManager::USERDATA_DIR, e.what());
+            this->logger->warn("Failed to create directory {}: {}!", ProfileManager::USERDATA_DIR, e.what());
         }
     }
 
@@ -238,7 +207,7 @@ public:
      */
     [[nodiscard]]
     Milliseconds getDeltaTime() const noexcept {
-        return (frameRate == 0) ? Milliseconds{0} : Milliseconds{1000 / frameRate};
+        return (frameRate == 0) ? 0ms : Milliseconds(1000 / frameRate);
     }
 
     /**
@@ -295,7 +264,7 @@ public:
     Expected<void, Error> save() noexcept {
         try {
             TomlTable data;
-            data.insert("language", languageToCode(language));
+            data.insert("language", Ops::fmt("{:s}", language));
             data.insert("frameRate", static_cast<i64>(frameRate));
 
             OutputFileStream file{Path(PATH_SETTINGS_FILE)};
@@ -328,11 +297,11 @@ using openjuice::engine::settings::SettingsService;
 namespace stdx::fmt {
     template <>
     struct Formatter<SettingsService::Error> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(SettingsService::Error err, FormatContext& ctx) {
+        FormatContext::iterator format(SettingsService::Error err, FormatContext& ctx) const {
             StringView name;
             switch (err) {
                 case SettingsService::Error::DESERIALIZATION_FAILED:

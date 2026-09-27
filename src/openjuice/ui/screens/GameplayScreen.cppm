@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:GameplayScreen
  * @brief Definition of the GameplayScreen class.
  *
- * This file contains the definition of the GameplayScreen class.
+ * This is the screen for the actual gameplay.
  */
 
 module;

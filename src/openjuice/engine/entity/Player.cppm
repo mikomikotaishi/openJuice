@@ -149,12 +149,7 @@ public:
         if (index >= MushroomCard::NUM_MUSHROOMS) {
             return false;
         }
-
-        #ifndef NDEBUG
-        return usedMushrooms.test(index);
-        #else
         return usedMushrooms[index];
-        #endif
     }
 
     /**
@@ -167,12 +162,7 @@ public:
         if (index >= MushroomCard::NUM_LEGENDARY_MUSHROOMS) {
             return false;
         }
-
-        #ifndef NDEBUG
-        return usedLegendaryMushrooms.test(index);
-        #else
         return usedLegendaryMushrooms[index];
-        #endif
     }
 
     /**
@@ -183,12 +173,7 @@ public:
         if (index >= MushroomCard::NUM_MUSHROOMS) {
             return;
         }
-
-        #ifndef NDEBUG
-        usedMushrooms.set(index);
-        #else
         usedMushrooms[index] = true;
-        #endif
     }
 
     /**
@@ -199,12 +184,7 @@ public:
         if (index >= MushroomCard::NUM_LEGENDARY_MUSHROOMS) {
             return;
         }
-
-        #ifndef NDEBUG
-        usedLegendaryMushrooms.set(index);
-        #else
         usedLegendaryMushrooms[index] = true;
-        #endif
     }
 
     /**

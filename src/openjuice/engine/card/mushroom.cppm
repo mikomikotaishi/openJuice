@@ -435,11 +435,11 @@ using openjuice::engine::card::mushroom::LegendaryMushroomCard;
 namespace stdx::fmt {
     template <>
     struct Formatter<BattleMushroomCard::Effect> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(BattleMushroomCard::Effect type, FormatContext& ctx) {
+        FormatContext::iterator format(BattleMushroomCard::Effect type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case BattleMushroomCard::Effect::NULL_BATTLE:
@@ -482,11 +482,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<BoostMushroomCard::Effect> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(BoostMushroomCard::Effect type, FormatContext& ctx) {
+        FormatContext::iterator format(BoostMushroomCard::Effect type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case BoostMushroomCard::Effect::NULL_BOOST:
@@ -535,11 +535,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<LegendaryMushroomCard::Color> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(LegendaryMushroomCard::Color type, FormatContext& ctx) {
+        FormatContext::iterator format(LegendaryMushroomCard::Color type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case LegendaryMushroomCard::Color::LEGENDARY_RED:
@@ -555,11 +555,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<LegendaryMushroomCard::Effect> {
-        static constexpr const char* parse(FormatParseContext& ctx) {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(LegendaryMushroomCard::Effect type, FormatContext& ctx) {
+        FormatContext::iterator format(LegendaryMushroomCard::Effect type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case LegendaryMushroomCard::Effect::STARS:

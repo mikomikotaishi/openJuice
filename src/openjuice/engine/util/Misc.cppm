@@ -100,21 +100,6 @@ export {
     }
 
     /**
-     * @brief Trims leading and trailing whitespace from a string.
-     * @param str The string to trim.
-     * @return The trimmed string.
-     */
-    [[nodiscard]]
-    String trimString(StringView s) {
-        const usize start = s.find_first_not_of(" \t\r\n");
-        if (start == String::npos) {
-            return "";
-        }
-        const usize end = s.find_last_not_of(" \t\r\n");
-        return String(s.substr(start, end - start + 1));
-    }
-
-    /**
      * @brief Turns the escape sequences used by the game's text data into real characters.
      * @param str The string to unescape.
      * @return The string with escape sequences resolved.

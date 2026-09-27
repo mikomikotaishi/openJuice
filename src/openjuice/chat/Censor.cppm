@@ -52,8 +52,8 @@ private:
      * @param language The language for which to load the blacklist.
      */
     void loadBlacklist() {
-        logger->info("Loading blacklist for language {}...", language);
-        String filename = Ops::fmt(PATH_BLACKLIST_FILE, SettingsService::languageToCode(language));
+        logger->info("Loading blacklist for language {:s}...", language);
+        String filename = Ops::fmt(PATH_BLACKLIST_FILE, language);
         blacklist.clear();
         Scanner file(filename);
         

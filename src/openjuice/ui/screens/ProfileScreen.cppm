@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:ProfileScreen
  * @brief Definition of the ProfileScreen class.
  *
- * This file contains the definition of the ProfileScreen class.
+ * This is the profile screen, with profile customization and display.
  */
 
 module;

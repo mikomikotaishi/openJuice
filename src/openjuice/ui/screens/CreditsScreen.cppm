@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:CreditsScreen
  * @brief Definition of the CreditsScreen class.
  *
- * This file contains the definition of the CreditsScreen class.
+ * This is the credits screen.
  */
 
 module;

@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:CardSelectScreen
  * @brief Definition of the CardSelectScreen class.
  *
- * This file contains the definition of the CardSelectScreen class.
+ * This is the card selection screen, in singleplayer and multiplayer.
  */
 
 module;

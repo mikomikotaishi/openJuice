@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:GuideScreen
  * @brief Definition of the GuideScreen class.
  *
- * This file contains the definition of the GuideScreen class.
+ * This is the guide screen, which is a slideshow of a tutorial.
  */
 
 module;

@@ -219,11 +219,11 @@ using openjuice::engine::card::spawn::MushroomCard;
 namespace stdx::fmt {
     template <>
     struct Formatter<MushroomCard::Color> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(MushroomCard::Color type, FormatContext& ctx) {
+        FormatContext::iterator format(MushroomCard::Color type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case MushroomCard::Color::BLUE:
