@@ -485,6 +485,16 @@ enum class AdditionalContentType {
     Sticker = 6,
 };
 
+/// \brief Describes how the Discord client decides when to transmit the user's microphone audio.
+enum class VoiceInputModeType {
+
+    /// \brief Transmit when voice activity is detected.
+    VoiceActivity = 0,
+
+    /// \brief Transmit while the push-to-talk shortcut is held.
+    PushToTalk = 1,
+};
+
 /// \brief The Discord Voice audio system to use.
 enum class AudioSystem {
 
@@ -707,6 +717,7 @@ class LobbyHandle;
 class AdditionalContent;
 class MessageHandle;
 class AudioDevice;
+class VoiceSettings;
 class UserMessageSummary;
 class ClientCreateOptions;
 class Client;
@@ -2036,7 +2047,7 @@ public:
     /// call.
     ///
     /// If using push to talk you should call SetPTTActive() whenever the user presses their
-    /// confused push to talk key.
+    /// configured push to talk key.
     void SetAudioMode(discordpp::AudioModeType audioMode);
 
     /// \brief Locally mutes the given userId, so that the current user cannot hear them anymore.
@@ -3181,6 +3192,94 @@ public:
     void SetIsDefault(bool IsDefault);
 };
 
+/// \brief A read-only snapshot of the user's voice settings in the connected Discord desktop
+/// client.
+///
+/// These belong to the Discord client, not to any individual Call.
+class VoiceSettings {
+    /// \cond
+    mutable Discord_VoiceSettings instance_{};
+    DiscordObjectState state_ = DiscordObjectState::Invalid;
+    /// \endcond
+
+public:
+    /// \cond
+    Discord_VoiceSettings* instance() const { return &instance_; }
+    /// \endcond
+    /// \cond
+    explicit VoiceSettings(Discord_VoiceSettings instance, DiscordObjectState state);
+    ~VoiceSettings();
+    /// \endcond
+    /// Move constructor for VoiceSettings
+    VoiceSettings(VoiceSettings&& other) noexcept;
+    /// Move assignment operator for VoiceSettings
+    VoiceSettings& operator=(VoiceSettings&& other) noexcept;
+    /// Uninitialized instance of VoiceSettings
+    static const VoiceSettings nullobj;
+    /// Returns true if the instance contains a valid object
+    operator bool() const { return state_ != DiscordObjectState::Invalid; }
+
+    /// Copy constructor for VoiceSettings
+    VoiceSettings(const VoiceSettings& arg0);
+    /// Copy assignment operator for VoiceSettings
+    VoiceSettings& operator=(const VoiceSettings& arg0);
+
+    /// \cond
+    void Drop();
+    /// \endcond
+
+    /// \brief Self-mute state.
+    bool SelfMute() const;
+    /// Setter for VoiceSettings::SelfMute.
+    void SetSelfMute(bool SelfMute);
+
+    /// \brief Self-deafen state.
+    bool SelfDeaf() const;
+    /// Setter for VoiceSettings::SelfDeaf.
+    void SetSelfDeaf(bool SelfDeaf);
+
+    /// \brief When the client transmits microphone audio.
+    discordpp::VoiceInputModeType InputMode() const;
+    /// Setter for VoiceSettings::InputMode.
+    void SetInputMode(discordpp::VoiceInputModeType InputMode);
+
+    /// \brief Display string for the push-to-talk key, such as "SHIFT + F". Empty when nothing is
+    /// bound.
+    std::string PttKey() const;
+    /// Setter for VoiceSettings::PttKey.
+    void SetPttKey(std::string PttKey);
+
+    /// \brief Microphone volume, ranging from 0 to 100.
+    float InputVolume() const;
+    /// Setter for VoiceSettings::InputVolume.
+    void SetInputVolume(float InputVolume);
+
+    /// \brief Speaker volume, ranging from 0 to 200.
+    float OutputVolume() const;
+    /// Setter for VoiceSettings::OutputVolume.
+    void SetOutputVolume(float OutputVolume);
+
+    /// \brief Automatic gain control state.
+    bool AutomaticGainControl() const;
+    /// Setter for VoiceSettings::AutomaticGainControl.
+    void SetAutomaticGainControl(bool AutomaticGainControl);
+
+    /// \brief Echo cancellation state.
+    bool EchoCancellation() const;
+    /// Setter for VoiceSettings::EchoCancellation.
+    void SetEchoCancellation(bool EchoCancellation);
+
+    /// \brief Noise suppression state.
+    bool NoiseSuppression() const;
+    /// Setter for VoiceSettings::NoiseSuppression.
+    void SetNoiseSuppression(bool NoiseSuppression);
+
+    /// \brief Noise cancellation state.
+    bool NoiseCancellation() const;
+    /// Setter for VoiceSettings::NoiseCancellation.
+    void SetNoiseCancellation(bool NoiseCancellation);
+};
+
 /// \brief Represents a summary of a DM conversation with a user.
 class UserMessageSummary {
     /// \cond
@@ -3404,6 +3503,10 @@ public:
     using GetOutputDevicesCallback =
       std::function<void(std::vector<discordpp::AudioDevice> devices)>;
 
+    /// \brief Callback function for Client::GetVoiceSettings.
+    using GetVoiceSettingsCallback =
+      std::function<void(discordpp::ClientResult result, discordpp::VoiceSettings settings)>;
+
     /// \brief Callback function for Client::SetDeviceChangeCallback.
     using DeviceChangeCallback =
       std::function<void(std::vector<discordpp::AudioDevice> inputDevices,
@@ -3421,6 +3524,9 @@ public:
     /// \brief Callback function for Client::SetVoiceParticipantChangedCallback.
     using VoiceParticipantChangedCallback =
       std::function<void(uint64_t lobbyId, uint64_t memberId, bool added)>;
+
+    /// \brief Callback function for Client::SetVoiceSettingsUpdatedCallback.
+    using VoiceSettingsUpdatedCallback = std::function<void(discordpp::VoiceSettings settings)>;
 
     /// \brief Callback function for Client::StartCallWithAudioCallbacks.
     ///
@@ -3800,6 +3906,12 @@ public:
     /// \brief Returns whether the current user's microphone is muted in all calls.
     bool GetSelfMuteAll() const;
 
+    /// \brief Asynchronously fetches the user's current voice settings from the connected Discord
+    /// client.
+    ///
+    /// Requires a running Discord desktop client and an approved Social SDK integration.
+    void GetVoiceSettings(discordpp::Client::GetVoiceSettingsCallback cb);
+
     /// \brief Enables or disables AEC diagnostic recording.
     ///
     /// Used to diagnose issues with acoustic echo cancellation. The input and output waveform data
@@ -3926,6 +4038,13 @@ public:
     /// even if the current user is not in voice yet, and thus does not have a Call object to bind
     /// to.
     void SetVoiceParticipantChangedCallback(discordpp::Client::VoiceParticipantChangedCallback cb);
+
+    /// \brief Sets a callback to be invoked whenever the user's voice settings change in the
+    /// connected Discord client. Pass an empty std::function to stop receiving updates.
+    ///
+    /// Requires the same access as Client::GetVoiceSettings. The callback never fires if the
+    /// client refuses the subscription.
+    void SetVoiceSettingsUpdatedCallback(discordpp::Client::VoiceSettingsUpdatedCallback callback);
 
     /// \brief On iOS devices, show the system audio route picker.
     bool ShowAudioRoutePicker();
@@ -5588,6 +5707,18 @@ inline const char* EnumToString(discordpp::AdditionalContentType value)
         return "Embed";
     case discordpp::AdditionalContentType::Sticker:
         return "Sticker";
+    default:
+        return "unknown";
+    }
+}
+/// Converts a discordpp::VoiceInputModeType to a string.
+inline const char* EnumToString(discordpp::VoiceInputModeType value)
+{
+    switch (value) {
+    case discordpp::VoiceInputModeType::VoiceActivity:
+        return "VoiceActivity";
+    case discordpp::VoiceInputModeType::PushToTalk:
+        return "PushToTalk";
     default:
         return "unknown";
     }
@@ -10000,6 +10131,195 @@ void AudioDevice::SetIsDefault(bool IsDefault)
     assert(state_ == DiscordObjectState::Owned);
     Discord_AudioDevice_SetIsDefault(&instance_, IsDefault);
 }
+const VoiceSettings VoiceSettings::nullobj{{}, DiscordObjectState::Invalid};
+VoiceSettings::~VoiceSettings()
+{
+    if (state_ == DiscordObjectState::Owned) {
+        Drop();
+        state_ = DiscordObjectState::Invalid;
+    }
+}
+VoiceSettings::VoiceSettings(VoiceSettings&& other) noexcept
+  : instance_(other.instance_)
+  , state_(other.state_)
+{
+    other.state_ = DiscordObjectState::Invalid;
+}
+VoiceSettings& VoiceSettings::operator=(VoiceSettings&& other) noexcept
+{
+    if (this != &other) {
+        if (state_ == DiscordObjectState::Owned) {
+            Drop();
+        }
+        instance_ = other.instance_;
+        state_ = other.state_;
+        other.state_ = DiscordObjectState::Invalid;
+    }
+    return *this;
+}
+VoiceSettings::VoiceSettings(const VoiceSettings& arg0)
+  : instance_{}
+  , state_(DiscordObjectState::Invalid)
+{
+    if (arg0.state_ == DiscordObjectState::Owned) {
+        Discord_VoiceSettings_Clone(&instance_, arg0.instance());
+
+        state_ = DiscordObjectState::Owned;
+    }
+}
+VoiceSettings& VoiceSettings::operator=(const VoiceSettings& arg0)
+{
+    if (this != &arg0) {
+        if (state_ == DiscordObjectState::Owned) {
+            Drop();
+            state_ = DiscordObjectState::Invalid;
+        }
+        if (arg0.state_ == DiscordObjectState::Owned) {
+            Discord_VoiceSettings_Clone(&instance_, arg0.instance());
+
+            state_ = DiscordObjectState::Owned;
+        }
+    }
+    return *this;
+}
+VoiceSettings::VoiceSettings(Discord_VoiceSettings instance, DiscordObjectState state)
+  : instance_(instance)
+  , state_(state)
+{
+}
+void VoiceSettings::Drop()
+{
+    if (state_ != DiscordObjectState::Owned) {
+        return;
+    }
+    Discord_VoiceSettings_Drop(&instance_);
+    state_ = DiscordObjectState::Invalid;
+}
+bool VoiceSettings::SelfMute() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnValue__;
+    returnValue__ = Discord_VoiceSettings_SelfMute(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetSelfMute(bool SelfMute)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetSelfMute(&instance_, SelfMute);
+}
+bool VoiceSettings::SelfDeaf() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnValue__;
+    returnValue__ = Discord_VoiceSettings_SelfDeaf(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetSelfDeaf(bool SelfDeaf)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetSelfDeaf(&instance_, SelfDeaf);
+}
+discordpp::VoiceInputModeType VoiceSettings::InputMode() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceInputModeType returnValue__;
+    returnValue__ = Discord_VoiceSettings_InputMode(&instance_);
+    return static_cast<discordpp::VoiceInputModeType>(returnValue__);
+}
+void VoiceSettings::SetInputMode(discordpp::VoiceInputModeType InputMode)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetInputMode(&instance_,
+                                       static_cast<Discord_VoiceInputModeType>(InputMode));
+}
+std::string VoiceSettings::PttKey() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_String returnValueNative__;
+    Discord_VoiceSettings_PttKey(&instance_, &returnValueNative__);
+    std::string returnValue__(reinterpret_cast<char*>(returnValueNative__.ptr),
+                              returnValueNative__.size);
+    Discord_Free(returnValueNative__.ptr);
+    return returnValue__;
+}
+void VoiceSettings::SetPttKey(std::string PttKey)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_String PttKey__str{(uint8_t*)(PttKey.data()), PttKey.size()};
+    Discord_VoiceSettings_SetPttKey(&instance_, PttKey__str);
+}
+float VoiceSettings::InputVolume() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    float returnValue__;
+    returnValue__ = Discord_VoiceSettings_InputVolume(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetInputVolume(float InputVolume)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetInputVolume(&instance_, InputVolume);
+}
+float VoiceSettings::OutputVolume() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    float returnValue__;
+    returnValue__ = Discord_VoiceSettings_OutputVolume(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetOutputVolume(float OutputVolume)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetOutputVolume(&instance_, OutputVolume);
+}
+bool VoiceSettings::AutomaticGainControl() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnValue__;
+    returnValue__ = Discord_VoiceSettings_AutomaticGainControl(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetAutomaticGainControl(bool AutomaticGainControl)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetAutomaticGainControl(&instance_, AutomaticGainControl);
+}
+bool VoiceSettings::EchoCancellation() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnValue__;
+    returnValue__ = Discord_VoiceSettings_EchoCancellation(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetEchoCancellation(bool EchoCancellation)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetEchoCancellation(&instance_, EchoCancellation);
+}
+bool VoiceSettings::NoiseSuppression() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnValue__;
+    returnValue__ = Discord_VoiceSettings_NoiseSuppression(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetNoiseSuppression(bool NoiseSuppression)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetNoiseSuppression(&instance_, NoiseSuppression);
+}
+bool VoiceSettings::NoiseCancellation() const
+{
+    assert(state_ == DiscordObjectState::Owned);
+    bool returnValue__;
+    returnValue__ = Discord_VoiceSettings_NoiseCancellation(&instance_);
+    return returnValue__;
+}
+void VoiceSettings::SetNoiseCancellation(bool NoiseCancellation)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    Discord_VoiceSettings_SetNoiseCancellation(&instance_, NoiseCancellation);
+}
 const UserMessageSummary UserMessageSummary::nullobj{{}, DiscordObjectState::Invalid};
 UserMessageSummary::~UserMessageSummary()
 {
@@ -10522,6 +10842,20 @@ bool Client::GetSelfMuteAll() const
     returnValue__ = Discord_Client_GetSelfMuteAll(&instance_);
     return returnValue__;
 }
+void Client::GetVoiceSettings(discordpp::Client::GetVoiceSettingsCallback cb)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    using Tcb__UserData = TDelegateUserData<std::remove_reference_t<decltype(cb)>>;
+    auto cb__userData = new Tcb__UserData(cb);
+    Discord_Client_GetVoiceSettingsCallback cb__native =
+      [](auto result, auto settings, void* userData__) {
+          auto userData__typed = static_cast<Tcb__UserData*>(userData__);
+          discordpp::ClientResult result__obj(*result, DiscordObjectState::Owned);
+          discordpp::VoiceSettings settings__obj(*settings, DiscordObjectState::Owned);
+          userData__typed->delegate(std::move(result__obj), std::move(settings__obj));
+      };
+    Discord_Client_GetVoiceSettings(&instance_, cb__native, Tcb__UserData::Free, cb__userData);
+}
 void Client::SetAecDump(bool on)
 {
     assert(state_ == DiscordObjectState::Owned);
@@ -10674,6 +11008,21 @@ void Client::SetVoiceParticipantChangedCallback(
       };
     Discord_Client_SetVoiceParticipantChangedCallback(
       &instance_, cb__native, Tcb__UserData::Free, cb__userData);
+}
+void Client::SetVoiceSettingsUpdatedCallback(
+  discordpp::Client::VoiceSettingsUpdatedCallback callback)
+{
+    assert(state_ == DiscordObjectState::Owned);
+    using Tcallback__UserData = TDelegateUserData<std::remove_reference_t<decltype(callback)>>;
+    auto callback__userData = new Tcallback__UserData(callback);
+    Discord_Client_VoiceSettingsUpdatedCallback callback__native = [](auto settings,
+                                                                      void* userData__) {
+        auto userData__typed = static_cast<Tcallback__UserData*>(userData__);
+        discordpp::VoiceSettings settings__obj(*settings, DiscordObjectState::Owned);
+        userData__typed->delegate(std::move(settings__obj));
+    };
+    Discord_Client_SetVoiceSettingsUpdatedCallback(
+      &instance_, callback__native, Tcallback__UserData::Free, callback__userData);
 }
 bool Client::ShowAudioRoutePicker()
 {

@@ -29,7 +29,6 @@ using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::board::Board;
 using openjuice::engine::entity::Combatant;
@@ -53,8 +52,19 @@ public:
     static constexpr u8 MAX_PLAYERS = Board::Info::MAX_PLAYERS; ///< Maximum number of players.
 
     /**
+     * @enum Mode
+     * @brief Game modes
+     */
+    enum class Mode {
+        NORMAL, ///< The Normal game mode
+        CO_OP, ///< The Co-op game mode
+        BOUNTY_HUNT, ///< The Bounty Hunt game mode
+    };
+
+
+    /**
      * @enum Phase
-     * @brief Enumeration of game phases
+     * @brief Game phases
      */
     enum class Phase: u8 {
         SETUP, ///< Initial game setup
@@ -76,6 +86,7 @@ private:
     Milliseconds deltaTime; ///< Delta time
     SharedPointer<Combatant> activeBattleAttacker; ///< Battle attacker
     SharedPointer<Combatant> activeBattleDefender; ///< Battle defender
+    Mode mode = Mode::NORMAL; ///< The game mode
     Phase currentPhase = Phase::SETUP; ///< Current phase
     u8 currentPlayerIndex = 0; ///< Current player index
     u8 chapterNumber = 1; ///< Chapter number
@@ -122,16 +133,16 @@ private:
 public:
     /**
      * @brief Constructor for the Game class.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      * @param settings The injected settings service, used to determine the frame delta-time.
      */
-    Game(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<SettingsService> settings):
-        logger{loggerFactory->of("Game")},
+    Game(SharedPointer<Logger> logger, SharedPointer<SettingsService> settings):
+        logger{Ops::move(logger)},
         deltaTime{settings->getDeltaTime()} {
         resetPlayers();
 
         #ifndef NDEBUG
-        logger->debug("Created Game!");
+        this->logger->debug("Created Game!");
         #endif
     }
 

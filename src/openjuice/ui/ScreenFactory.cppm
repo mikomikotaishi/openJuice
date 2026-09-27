@@ -16,6 +16,7 @@ import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.localization;
+import openjuice.engine.net;
 import openjuice.engine.save;
 import openjuice.ui.Screen;
 import openjuice.ui.screens;
@@ -23,10 +24,10 @@ import openjuice.ui.screens;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
+using openjuice::engine::net::NetworkingService;
 using openjuice::engine::save::ProfileManager;
 
 using namespace openjuice::ui::screens;
@@ -42,23 +43,23 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui);
  */
 export class ScreenFactory final {
 private:
-    SharedPointer<LoggerFactory> loggerFactory; ///< The injected logger factory.
     SharedPointer<Logger> logger; ///< The logger instance.
     SharedPointer<LocalizationService> localization; ///< The injected localization service.
     SharedPointer<ProfileManager> profile; ///< The injected profile manager.
+    SharedPointer<NetworkingService> networking; ///< The injected networking service, forwarded into the online screens.
 public:
     /**
      * @brief Construct the factory with its injected dependencies.
-     * @param loggerFactory The shared logger factory used to create this factory's logger
-     * and each screen's logger.
+     * @param logger The logger for this factory, also forwarded into screens that need one.
      * @param localization The shared localization service forwarded into every screen.
      * @param profile The shared profile manager forwarded into screens that need it.
+     * @param networking The shared networking service forwarded into the online screens.
      */
-    ScreenFactory(SharedPointer<LoggerFactory> loggerFactory, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
-        loggerFactory{loggerFactory},
-        logger{loggerFactory->of("ScreenFactory")},
+    ScreenFactory(SharedPointer<Logger> logger, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile, SharedPointer<NetworkingService> networking):
+        logger{Ops::move(logger)},
         localization{localization},
-        profile{profile} {}
+        profile{profile},
+        networking{networking} {}
 
     /**
      * @brief Create a Screen object with the given type, game pointer and host.
@@ -79,25 +80,23 @@ public:
             case Screen::Of::TITLE:
                 return Pointers::shared<TitleScreen>(game, host, localization, profile);
             case Screen::Of::MAIN_MENU:
-                return Pointers::shared<MainMenuScreen>(game, host, localization, loggerFactory);
-            case Screen::Of::SINGLEPLAYER_LOBBY_SELECT:
-                return Pointers::shared<SingleplayerLobbySelectScreen>(game, host, localization);
-            case Screen::Of::SINGLEPLAYER_CUSTOM:
-                return Pointers::shared<SingleplayerCustomScreen>(game, host, localization);
-            case Screen::Of::SINGLEPLAYER_CAMPAIGN_SELECT:
-                return Pointers::shared<SingleplayerCampaignSelectScreen>(game, host, localization);
-            case Screen::Of::MULTIPLAYER_LOBBY_SELECT:
-                return Pointers::shared<MultiplayerLobbySelectScreen>(game, host, localization);
-            case Screen::Of::MULTIPLAYER_CUSTOM:
-                return Pointers::shared<MultiplayerCustomScreen>(game, host, localization);
-            case Screen::Of::SINGLEPLAYER_GAME_LOBBY:
-                return Pointers::shared<SingleplayerGameLobbyScreen>(game, host, localization);
-            case Screen::Of::MULTIPLAYER_GAME_LOBBY:
-                return Pointers::shared<MultiplayerGameLobbyScreen>(game, host, localization);
+                return Pointers::shared<MainMenuScreen>(game, host, localization, logger);
+            case Screen::Of::SINGLEPLAYER_LOBBY_CREATION:
+                return Pointers::shared<SingleplayerLobbyCreationScreen>(game, host, localization);
+            case Screen::Of::CAMPAIGN_SELECT:
+                return Pointers::shared<CampaignSelectScreen>(game, host, localization);
+            case Screen::Of::ONLINE_LOBBY_SELECT:
+                return Pointers::shared<OnlineLobbySelectScreen>(game, host, localization, networking);
+            case Screen::Of::ONLINE_LOBBY_CREATE:
+                return Pointers::shared<OnlineLobbyCreationScreen>(game, host, localization, networking);
+            case Screen::Of::GAME_LOBBY:
+                return Pointers::shared<GameLobbyScreen>(game, host, localization, networking);
             case Screen::Of::CHARACTER_SELECT:
                 return Pointers::shared<CharacterSelectScreen>(game, host, localization);
             case Screen::Of::CARD_SELECT:
                 return Pointers::shared<CardSelectScreen>(game, host, localization);
+            case Screen::Of::GAME_STARTING:
+                return Pointers::shared<GameStartingScreen>(game, host, localization);
             case Screen::Of::GAMEPLAY:
                 return Pointers::shared<GameplayScreen>(game, host, localization);
             case Screen::Of::GAME_RESULTS:
@@ -114,8 +113,6 @@ public:
                 return Pointers::shared<ConfigScreen>(game, host, localization);
             case Screen::Of::CREDITS:
                 return Pointers::shared<CreditsScreen>(game, host, localization);
-            case Screen::Of::PAUSE:
-                return Pointers::shared<PauseScreen>(game, host, localization);
             case Screen::Of::EXIT:
             case Screen::Of::WIKI:
                 logger->error("Attempted to create a Screen of type {} which is not a valid screen type.", type);

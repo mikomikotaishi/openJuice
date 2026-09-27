@@ -16,6 +16,7 @@ import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.localization;
+import openjuice.engine.net;
 import openjuice.engine.save;
 import openjuice.ui.Screen;
 import openjuice.ui.screens;
@@ -23,13 +24,16 @@ import openjuice.ui.screens;
 import ftxui;
 
 using stdx::collections::TreeMap;
+using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 using stdx::sync::Atomic;
+using stdx::sync::Mutex;
+using stdx::sync::ScopedLock;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
+using openjuice::engine::net::NetworkingService;
 using openjuice::engine::save::ProfileManager;
 
 using namespace openjuice::ui::screens;
@@ -46,16 +50,35 @@ BEGIN_MODULE_NAMESPACE(openjuice::ui);
 export class UserInterface: public Screen::Host {
 private:
     /**
+     * @struct PendingError
+     * @brief A failure captured off the UI thread, waiting to be shown as a dialog.
+     */
+    struct PendingError {
+        String message; ///< The user-facing message.
+        String detail; ///< Technical detail such as a stack trace. May be empty.
+    };
+
+    /**
      * @struct Dialog
      * @brief An overlay shown above the active screen, which swallows input until dismissed.
      */
     struct Dialog {
         String title; ///< Heading shown at the top of the dialog.
         String message; ///< Body text.
+        String detail = ""; ///< Technical detail (e.g. a stack trace), shown in a scrollable region. Empty when absent.
         String acceptLabel; ///< Label of the accepting button.
         String dismissLabel = ""; ///< Label of the dismissing button, empty when there is only one button.
         Function<void()> onAccept = nullptr; ///< Runs when the dialog is accepted. May be empty.
         bool accepting = false; ///< True while the accepting button is highlighted.
+
+        /**
+         * @brief Whether the dialog carries technical detail to display.
+         * @return True if there is a detail body
+         */
+        [[nodiscard]]
+        bool hasDetail() const noexcept {
+            return !detail.empty();
+        }
 
         /**
          * @brief Whether the dialog offers a choice rather than a single acknowledgement.
@@ -70,6 +93,7 @@ private:
     SharedPointer<Logger> logger; ///< The logger instance.
     SharedPointer<LocalizationService> localization; ///< The injected localization service.
     SharedPointer<ProfileManager> profile; ///< The injected profile manager.
+    SharedPointer<NetworkingService> networking; ///< The injected networking service.
     ScreenFactory screenFactory; ///< Factory that constructs screens with injected dependencies.
 
     TreeMap<Screen::Of, SharedPointer<Screen>> screens; ///< Map storing all initialized screens
@@ -83,6 +107,27 @@ private:
     Optional<Dialog> dialog; ///< The dialog currently overlaying the active screen, if any.
     bool isLoopRunning = false; ///< Flag to track if screen.Loop() is running
 
+    Mutex errorMutex; ///< Guards pendingError, which is written from other threads.
+    Optional<PendingError> pendingError; ///< A failure awaiting display on the UI thread.
+
+    /**
+     * @brief Move the most recent cross-thread failure into a dialog, on the UI thread.
+     *
+     * Called from the UI thread only. Building the Dialog here (rather than in reportError) keeps
+     * all mutation of `dialog` on the thread that renders it, so no lock is needed around it.
+     */
+    void drainPendingError() noexcept {
+        Optional<PendingError> error;
+        {
+            ScopedLock<Mutex> lock(errorMutex);
+            error.swap(pendingError);
+        }
+
+        if (error.has_value()) {
+            showError(error->message, error->detail);
+        }
+    }
+
     /**
      * @brief Get or create screen if it doesn't exist
      * @param type Screen type to get
@@ -95,6 +140,32 @@ private:
         }
 
         return screens[type];
+    }
+
+    /**
+     * @brief Break a block of text into individual lines.
+     * @param text The text to split, using '\n' as the separator
+     * @return One entry per line, with newline characters removed
+     *
+     * FTXUI's text() renders a single line, so a multi-line stack trace must be split into
+     * separate elements before it can be laid out (and scrolled) in a vbox.
+     */
+    [[nodiscard]]
+    static Vector<String> splitLines(const String& text) noexcept {
+        Vector<String> lines;
+        String current;
+
+        for (char ch: text) {
+            if (ch == '\n') {
+                lines.push_back(Ops::move(current));
+                current.clear();
+            } else if (ch != '\r') {
+                current.push_back(ch);
+            }
+        }
+
+        lines.push_back(Ops::move(current));
+        return lines;
     }
 
     /**
@@ -118,13 +189,30 @@ private:
             );
         }
 
-        return vbox({
-            text(active.title) | bold | center,
-            separator(),
-            paragraphAlignCenter(active.message),
-            separator(),
-            hbox(buttons) | center,
-        }) | border | center | bgcolor(Color::White);
+        Elements body;
+        body.push_back(text(active.title) | bold | center);
+        body.push_back(separator());
+        body.push_back(paragraphAlignCenter(active.message));
+
+        if (active.hasDetail()) {
+            Elements traceLines;
+            for (String& line: splitLines(active.detail)) {
+                traceLines.push_back(text(Ops::move(line)));
+            }
+
+            body.push_back(separator());
+            body.push_back(
+                vbox(Ops::move(traceLines))
+                    | vscroll_indicator | yframe
+                    | size(HEIGHT, LESS_THAN, 12)
+                    | size(WIDTH, LESS_THAN, 100)
+            );
+        }
+
+        body.push_back(separator());
+        body.push_back(hbox(buttons) | center);
+
+        return vbox(Ops::move(body)) | border | center | bgcolor(Color::White);
     }
 
     /**
@@ -264,11 +352,23 @@ public:
      * logged here.
      */
     void showError(StringView message) noexcept override final {
+        showError(message, "");
+    }
+
+    /**
+     * @brief Report a failure to the user, along with technical detail they can scroll through.
+     * @param message The message to show
+     * @param detail Technical detail such as a stack trace, shown in a scrollable region
+     *
+     * Must be called on the UI thread, since it touches the dialog the renderer reads. Code on
+     * another thread must use reportError() instead.
+     */
+    void showError(StringView message, StringView detail) noexcept {
         dialog = Dialog {
-            // The game ships this string as ERROR_CAPTION in error.txt, which LocalizationService
-            // has no getter for yet.
-            .title = "Error",
+            .title = localization->getErrorText("ERROR_CAPTION")
+                .value_or("Error"),
             .message = String(message),
+            .detail = String(detail),
             .acceptLabel = localization->getMenuScreenText("MENU_BUTTON_OK")
                 .value_or("OK"),
             .accepting = true,
@@ -280,17 +380,42 @@ public:
     }
 
     /**
+     * @brief Surface a failure raised on another thread, safely.
+     * @param message The message to show
+     * @param detail Technical detail such as a stack trace
+     *
+     * Safe to call from any thread. The failure is stashed under a lock and the UI loop is woken;
+     * the dialog itself is built on the UI thread the next time it drains the mailbox. Only the
+     * most recent failure is kept, since the user acknowledges one dialog at a time.
+     */
+    void reportError(StringView message, StringView detail) noexcept {
+        {
+            ScopedLock<Mutex> lock(errorMutex);
+            pendingError = PendingError {
+                .message = String(message),
+                .detail = String(detail),
+            };
+        }
+
+        if (isLoopRunning) {
+            screen.PostEvent(Event::Custom);
+        }
+    }
+
+    /**
      * @brief Constructor that initializes the base UserInterface
      * @param game Shared pointer to game instance
-     * @param loggerFactory Shared logger factory for creating loggers and screens
+     * @param logger The logger for the user interface.
      * @param localization Shared localization service forwarded into screens
      * @param profile Shared profile manager forwarded into screens
+     * @param networking Shared networking service forwarded into the online screens
      */
-    UserInterface(SharedPointer<Game> game, SharedPointer<LoggerFactory> loggerFactory, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile):
-        logger{loggerFactory->of("UserInterface")},
+    UserInterface(SharedPointer<Game> game, SharedPointer<Logger> logger, SharedPointer<LocalizationService> localization, SharedPointer<ProfileManager> profile, SharedPointer<NetworkingService> networking):
+        logger{Ops::move(logger)},
         localization{localization},
         profile{profile},
-        screenFactory{loggerFactory, localization, profile},
+        networking{networking},
+        screenFactory{this->logger, localization, profile, networking},
         game{Ops::move(game)} {
         screen.ForceHandleCtrlC(false);
     }
@@ -300,7 +425,11 @@ public:
      */
     void init() {
         containerComponent = Renderer([this](bool _) -> Element {
-            Element mainContent = activeComponent ? activeComponent->Render() : text("Loading...");
+            drainPendingError();
+
+            Element mainContent = activeComponent 
+                ? activeComponent->Render()
+                : text(localization->getMenuScreenText("PLAYMENU_LOADING_TEXT").value_or("Loading..."));
 
             if (!dialog.has_value()) {
                 return mainContent;

@@ -15,7 +15,7 @@ else()
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "f35a9ac6-8463-4d38-8eec-5d6008153e7d")
 endif()
 
-option(BUILD_STATIC_LIBS "Build static libraries instead of shared" OFF)
+option(OPENJUICE_BUILD_STATIC_LIBS "Build static libraries instead of shared" OFF)
 
 set(STDLIB "default" CACHE STRING "C++ standard library to use (default, libstdc++, libc++)")
 set_property(CACHE STDLIB PROPERTY STRINGS "default" "libstdc++" "libc++")
@@ -31,7 +31,7 @@ if(NOT CMAKE_BINARY_DIR)
     set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
 endif()
 
-if(BUILD_STATIC_LIBS)
+if(OPENJUICE_BUILD_STATIC_LIBS)
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
 
     if(WIN32)
@@ -78,14 +78,14 @@ function(configure_cpp_module_target target)
     )
 endfunction()
 
-option(ENABLE_SANITIZERS "Enable sanitizers in debug builds" OFF)
-option(USE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
-option(USE_SANITIZER_KERNEL "Enable kernel address sanitizer" OFF)
-option(USE_SANITIZER_HW "Enable hardware address sanitizer" OFF)
-option(USE_SANITIZER_UNDEFINED "Enable undefined behavior sanitizer" OFF)
-option(USE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-option(USE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-option(USE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+option(OPENJUICE_ENABLE_SANITIZERS "Enable sanitizers in debug builds" OFF)
+option(OPENJUICE_USE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
+option(OPENJUICE_USE_SANITIZER_KERNEL "Enable kernel address sanitizer" OFF)
+option(OPENJUICE_USE_SANITIZER_HW "Enable hardware address sanitizer" OFF)
+option(OPENJUICE_USE_SANITIZER_UNDEFINED "Enable undefined behavior sanitizer" OFF)
+option(OPENJUICE_USE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+option(OPENJUICE_USE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+option(OPENJUICE_USE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
 
 set(COMPILER_APPLE_CLANG OFF)
 set(COMPILER_CLANG OFF)
@@ -118,38 +118,38 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm|armv7l")
 endif()
 
 function(add_sanitizers target)
-    if(NOT ENABLE_SANITIZERS)
+    if(NOT OPENJUICE_ENABLE_SANITIZERS)
         return()
     endif()
 
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
         set(SANITIZER_FLAGS "")
         
-        if(USE_SANITIZER_ADDRESS)
+        if(OPENJUICE_USE_SANITIZER_ADDRESS)
             list(APPEND SANITIZER_FLAGS "-fsanitize=address")
         endif()
 
-        if(USE_SANITIZER_KERNEL)
+        if(OPENJUICE_USE_SANITIZER_KERNEL)
             list(APPEND SANITIZER_FLAGS "-fsanitize=kernel-address")
         endif()
 
-        if(USE_SANITIZER_HW)
+        if(OPENJUICE_USE_SANITIZER_HW)
             list(APPEND SANITIZER_FLAGS "-fsanitize=hwaddress")
         endif()
 
-        if(USE_SANITIZER_UNDEFINED)
+        if(OPENJUICE_USE_SANITIZER_UNDEFINED)
             list(APPEND SANITIZER_FLAGS "-fsanitize=undefined")
         endif()
 
-        if(USE_SANITIZER_THREAD)
+        if(OPENJUICE_USE_SANITIZER_THREAD)
             list(APPEND SANITIZER_FLAGS "-fsanitize=thread")
         endif()
 
-        if(USE_SANITIZER_MEMORY)
+        if(OPENJUICE_USE_SANITIZER_MEMORY)
             list(APPEND SANITIZER_FLAGS "-fsanitize=memory")
         endif()
         
-        if(USE_SANITIZER_LEAK)
+        if(OPENJUICE_USE_SANITIZER_LEAK)
             list(APPEND SANITIZER_FLAGS "-fsanitize=leak")
         endif()
         
@@ -208,7 +208,7 @@ else()
     endif()
 endif()
 
-option(STDLIBX_USE_HARDENED_LIBRARY "Enable C++ standard library hardening (bounds/precondition checks, active even in release builds)" ON)
+set(STDLIBX_USE_HARDENED_LIBRARY ON CACHE BOOL "Enable C++ standard library hardening (bounds/precondition checks, active even in release builds" FORCE)
 
 # libc++ offers graduated levels; libstdc++ and MSVC STL are on/off (the mode
 # only selects the extra debug tier there). Default matches stdlibx's own.
@@ -324,7 +324,7 @@ add_subdirectory(src)
 if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
     target_link_libraries(openJuice PRIVATE 
         stdlibx
-        modules
+        ojmodules
         ftxui-modules
         nlohmann_json
         re2_module
@@ -333,7 +333,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR BUILD_SHARED_LIBS STREQUAL "OFF")
 else()
     target_link_libraries(openJuice PRIVATE 
         stdlibx
-        modules
+        ojmodules
         ftxui-modules
         re2_module
     )

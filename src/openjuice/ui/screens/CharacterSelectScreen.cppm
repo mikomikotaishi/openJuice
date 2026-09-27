@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:CharacterSelectScreen
  * @brief Definition of the CharacterSelectScreen class.
  *
- * This file contains the definition of the CharacterSelectScreen class.
+ * This is the character selection screen, in singleplayer and multiplayer.
  */
 
 module;

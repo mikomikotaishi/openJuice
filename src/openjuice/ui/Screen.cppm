@@ -41,15 +41,14 @@ public:
         LOADING, ///< Loading screen
         TITLE, ///< Title screen
         MAIN_MENU, ///< Game main menu screen
-        SINGLEPLAYER_LOBBY_SELECT, ///< Game lobby selection screen (singleplayer)
-        SINGLEPLAYER_CUSTOM, ///< Singleplayer custom mode screen
-        SINGLEPLAYER_CAMPAIGN_SELECT, ///< Singleplayer campaign selection screen
-        MULTIPLAYER_LOBBY_SELECT, ///< Game lobby selection screen (multiplayer)
-        MULTIPLAYER_CUSTOM, ///< Multiplayer customisation screen
-        SINGLEPLAYER_GAME_LOBBY, ///< Game lobby screen (singleplayer)
-        MULTIPLAYER_GAME_LOBBY, ///< Game lobby screen (multiplayer)
+        SINGLEPLAYER_LOBBY_CREATION, ///< Singleplayer custom mode screen
+        CAMPAIGN_SELECT, ///< Singleplayer campaign selection screen
+        ONLINE_LOBBY_SELECT, ///< Game lobby selection screen (multiplayer)
+        ONLINE_LOBBY_CREATE, ///< Multiplayer customisation screen
+        GAME_LOBBY, ///< Game lobby screen
         CHARACTER_SELECT, ///< Character selection screen
         CARD_SELECT, ///< Card selection screen
+        GAME_STARTING, ///< Game starting screen
         GAMEPLAY, ///< Actual game
         GAME_RESULTS, ///< Game results screen
         SHOP, ///< Shop screen
@@ -59,7 +58,6 @@ public:
         WIKI, ///< Wiki (not a screen)
         CONFIG, ///< Config/settings menu screen
         CREDITS, ///< Credits menu screen
-        PAUSE, ///< Game paused screen
     };
 
     /**
@@ -225,32 +223,29 @@ namespace stdx::fmt {
                 case Screen::Of::MAIN_MENU:
                     name = "Main Menu";
                     break;
-                case Screen::Of::SINGLEPLAYER_LOBBY_SELECT:
-                    name = "Singleplayer Lobby Selection";
+                case Screen::Of::SINGLEPLAYER_LOBBY_CREATION:
+                    name = "Singleplayer Lobby Creation";
                     break;
-                case Screen::Of::SINGLEPLAYER_CUSTOM:
-                    name = "Singleplayer Custom";
+                case Screen::Of::CAMPAIGN_SELECT:
+                    name = "Campaign Select";
                     break;
-                case Screen::Of::SINGLEPLAYER_CAMPAIGN_SELECT:
-                    name = "Singleplayer Campaign Selection";
+                case Screen::Of::ONLINE_LOBBY_SELECT:
+                    name = "Online Lobby Select";
                     break;
-                case Screen::Of::MULTIPLAYER_LOBBY_SELECT:
-                    name = "Multiplayer Lobby Selection";
+                case Screen::Of::ONLINE_LOBBY_CREATE:
+                    name = "Online Lobby Create";
                     break;
-                case Screen::Of::MULTIPLAYER_CUSTOM:
-                    name = "Multiplayer Custom";
-                    break;
-                case Screen::Of::SINGLEPLAYER_GAME_LOBBY:
-                    name = "Singleplayer Game Lobby";
-                    break;
-                case Screen::Of::MULTIPLAYER_GAME_LOBBY:
-                    name = "Multiplayer Game Lobby";
+                case Screen::Of::GAME_LOBBY:
+                    name = "Game Lobby";
                     break;
                 case Screen::Of::CHARACTER_SELECT:
-                    name = "Character Selection";
+                    name = "Character Select";
                     break;
                 case Screen::Of::CARD_SELECT:
-                    name = "Card Selection";
+                    name = "Card Select";
+                    break;
+                case Screen::Of::GAME_STARTING:
+                    name = "Game Starting";
                     break;
                 case Screen::Of::GAMEPLAY:
                     name = "Gameplay";
@@ -278,9 +273,6 @@ namespace stdx::fmt {
                     break;
                 case Screen::Of::CREDITS:
                     name = "Credits";
-                    break;
-                case Screen::Of::PAUSE:
-                    name = "Pause";
                     break;
             }
             return format_to(ctx.out(), "{}", name);

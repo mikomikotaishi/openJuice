@@ -376,26 +376,26 @@ class QuickCMakeBuild {
             }            
             
             if (addressSan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_ADDRESS=ON";
-                cmakeCommand ~= "-DUSE_SANITIZER_LEAK=ON"; 
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_ADDRESS=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_LEAK=ON"; 
             }
             if (kernelSan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_KERNEL=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_KERNEL=ON";
             }
             if (hardwareSan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_HW=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_HW=ON";
             }
             if (undefinedSan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_UNDEFINED=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_UNDEFINED=ON";
             }
             if (threadSan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_THREAD=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_THREAD=ON";
             }
             if (memorySan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_MEMORY=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_MEMORY=ON";
             }
             if (leakSan && !addressSan) {
-                cmakeCommand ~= "-DUSE_SANITIZER_LEAK=ON";
+                cmakeCommand ~= "-DOPENJUICE_USE_SANITIZER_LEAK=ON";
             }
         }
         

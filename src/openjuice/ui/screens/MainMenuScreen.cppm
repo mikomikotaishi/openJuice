@@ -3,7 +3,8 @@
  * @module openjuice.ui.screens:MainMenuScreen
  * @brief Definition of the MainMenuScreen class.
  *
- * This file contains the definition of the MainMenuScreen class.
+ * This is the main menu screen, after selecting 'Continue' or 'New Game'.
+ * All paths towards the game begin here.
  */
 
 module;
@@ -24,7 +25,6 @@ import ftxui;
 using stdx::collections::Vector;
 using stdx::mem::SharedPointer;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
@@ -99,10 +99,10 @@ private:
             if (event.is_mouse() && event.mouse().button == Mouse::Left && event.mouse().motion == Mouse::Pressed) {
                 switch (selectedOption) {
                     case 0: // Multiplayer
-                        switchScreen(Screen::Of::MULTIPLAYER_LOBBY_SELECT);
+                        switchScreen(Screen::Of::ONLINE_LOBBY_SELECT);
                         return true;
                     case 1: // Singleplayer
-                        switchScreen(Screen::Of::SINGLEPLAYER_LOBBY_SELECT);
+                        switchScreen(Screen::Of::CAMPAIGN_SELECT);
                         return true;
                     case 2: // Shop
                         switchScreen(Screen::Of::SHOP);
@@ -134,10 +134,10 @@ private:
             } else if (event == Event::Return) {
                 switch (selectedOption) {
                     case 0: // Multiplayer
-                        switchScreen(Screen::Of::MULTIPLAYER_LOBBY_SELECT);
+                        switchScreen(Screen::Of::ONLINE_LOBBY_SELECT);
                         return true;
                     case 1: // Singleplayer
-                        switchScreen(Screen::Of::SINGLEPLAYER_LOBBY_SELECT);
+                        switchScreen(Screen::Of::CAMPAIGN_SELECT);
                         return true;
                     case 2: // Shop
                         switchScreen(Screen::Of::SHOP);
@@ -190,11 +190,11 @@ public:
      * @param game Shared pointer to the game
      * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
-     * @param loggerFactory Shared logger factory used to create this screen's logger
+     * @param logger The injected logger.
      */
-    MainMenuScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization, SharedPointer<LoggerFactory> loggerFactory):
+    MainMenuScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization, SharedPointer<Logger> logger):
         Screen(game, host, localization),
-        logger{loggerFactory->of("MainMenuScreen")} {
+        logger{Ops::move(logger)} {
         createComponent();
     }
 

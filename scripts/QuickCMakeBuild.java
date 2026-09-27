@@ -434,26 +434,26 @@ public class QuickCMakeBuild implements Callable<Integer> {
             }            
             
             if (addressSan) {
-                cmakeCommand.add("-DUSE_SANITIZER_ADDRESS=ON");
-                cmakeCommand.add("-DUSE_SANITIZER_LEAK=ON"); 
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_ADDRESS=ON");
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_LEAK=ON"); 
             }
             if (kernelSan) {
-                cmakeCommand.add("-DUSE_SANITIZER_KERNEL=ON");
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_KERNEL=ON");
             }
             if (hardwareSan) {
-                cmakeCommand.add("-DUSE_SANITIZER_HW=ON");
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_HW=ON");
             }
             if (undefinedSan) {
-                cmakeCommand.add("-DUSE_SANITIZER_UNDEFINED=ON");
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_UNDEFINED=ON");
             }
             if (threadSan) {
-                cmakeCommand.add("-DUSE_SANITIZER_THREAD=ON");
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_THREAD=ON");
             }
             if (memorySan) {
-                cmakeCommand.add("-DUSE_SANITIZER_MEMORY=ON");
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_MEMORY=ON");
             }
             if (leakSan && !addressSan) {
-                cmakeCommand.add("-DUSE_SANITIZER_LEAK=ON"); 
+                cmakeCommand.add("-DOPENJUICE_USE_SANITIZER_LEAK=ON"); 
             }
         }
         

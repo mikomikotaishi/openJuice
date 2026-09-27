@@ -30,7 +30,6 @@ using stdx::io::OutputFileStream;
 using stdx::mem::SharedPointer;
 using stdx::time::Milliseconds;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using openjuice::engine::localization::Language;
 using openjuice::engine::save::ProfileManager;
@@ -195,17 +194,17 @@ private:
 public:
     /**
      * @brief Constructs a new SettingsService object.
-     * @param loggerFactory The injected logger factory.
+     * @param logger The injected logger.
      */
-    explicit SettingsService(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("SettingsService")} {
+    explicit SettingsService(SharedPointer<Logger> logger):
+        logger{Ops::move(logger)} {
         try {
             stdx::fs::create_directories(ProfileManager::USERDATA_DIR);
             if (Expected<void, Error> result = load(); !result.has_value()) {
-                logger->warn("Failed to load settings during initialization!");
+                this->logger->warn("Failed to load settings during initialization!");
             }
         } catch (const FileSystemException& e) {
-            logger->warn("Failed to create directory {}: {}!", ProfileManager::USERDATA_DIR, e.what());
+            this->logger->warn("Failed to create directory {}: {}!", ProfileManager::USERDATA_DIR, e.what());
         }
     }
 
