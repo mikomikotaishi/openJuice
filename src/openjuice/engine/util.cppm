@@ -8,6 +8,5 @@
 
 export module openjuice.engine.util;
 
-export import :Color;
 export import :Misc;
 export import :ThreadPool;

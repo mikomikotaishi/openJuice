@@ -23,7 +23,6 @@ using stdx::sync::Atomic;
 using stdx::sync::Mutex;
 using stdx::sync::ScopedLock;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 using discordpp::Activity;
 using discordpp::ActivityAssets;
@@ -147,9 +146,10 @@ private:
 public:
     /**
      * @brief Constructor of the DiscordService
+     * @param logger The injected logger.
      */
-    explicit DiscordService(SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("DiscordService")},
+    explicit DiscordService(SharedPointer<Logger> logger):
+        logger{Ops::move(logger)},
         sessionStartTime{static_cast<u64>(System::current_time_millis())},
         currentActivityType{ActivityType::IN_MENU} {}
 
@@ -312,11 +312,11 @@ using openjuice::engine::net::DiscordService;
 namespace stdx::fmt {
     template <>
     struct Formatter<DiscordService::ActivityType> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(DiscordService::ActivityType type, FormatContext& ctx) {
+        FormatContext::iterator format(DiscordService::ActivityType type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case DiscordService::ActivityType::IN_MENU:

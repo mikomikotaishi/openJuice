@@ -1,21 +1,23 @@
 /**
- * @file SingleplayerCampaignSelectScreen.cppm
- * @module openjuice.ui.screens:SingleplayerCampaignSelectScreen
- * @brief Definition of the SingleplayerCampaignSelectScreen class.
+ * @file GameLobbyScreen.cppm
+ * @module openjuice.ui.screens:GameLobbyScreen
+ * @brief Definition of the GameLobbyScreen class.
  *
- * This file contains the definition of the SingleplayerCampaignSelectScreen class.
+ * This is the game lobby screen, in singleplayer and multiplayer, which displays
+ * the four players and their profiles.
  */
 
 module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.screens:SingleplayerCampaignSelectScreen;
+export module openjuice.ui.screens:GameLobbyScreen;
 
 import stdx;
 
 import openjuice.engine.game;
 import openjuice.engine.localization;
+import openjuice.engine.net;
 import openjuice.ui.Screen;
 
 import ftxui;
@@ -25,6 +27,7 @@ using stdx::mem::SharedPointer;
 
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
+using openjuice::engine::net::NetworkingService;
 using openjuice::ui::Screen;
 
 using namespace ftxui;
@@ -32,12 +35,14 @@ using namespace ftxui;
 BEGIN_MODULE_NAMESPACE(openjuice::ui::screens);
 
 /**
- * @class SingleplayerCampaignSelectScreen
- * @brief Singleplayer campaign select screen implementation
+ * @class GameLobbyScreen
+ * @brief Multiplayer game lobby screen implementation
  * @extends Screen
  */
-export class SingleplayerCampaignSelectScreen final: public Screen {
+export class GameLobbyScreen final: public Screen {
 private:
+    SharedPointer<NetworkingService> networking; ///< The injected networking service.
+
     [[maybe_unused]]
     bool initialized = false; ///< Whether the screen has been initialized
 
@@ -49,13 +54,14 @@ private:
     }
 public:
     /**
-     * @brief Constructor for the SingleplayerCampaignSelectScreen class
+     * @brief Constructor for the GameLobbyScreen class
      * @param game Shared pointer to the game
      * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
+     * @param networking Shared pointer to the networking service
      */
-    SingleplayerCampaignSelectScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization):
-        Screen(game, host, localization) {
+    GameLobbyScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization, SharedPointer<NetworkingService> networking):
+        Screen(game, host, localization), networking{networking} {
         createComponent();
     }
 

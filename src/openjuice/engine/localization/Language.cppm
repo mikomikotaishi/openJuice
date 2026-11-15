@@ -39,39 +39,70 @@ using openjuice::engine::localization::Language;
 namespace stdx::fmt {
     template <>
     struct Formatter<Language> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
-            return ctx.begin();
+        enum class Mode: u8 {
+            SHORT,
+            FULL,
+            DEBUG,
+        };
+
+        Mode mode = Mode::FULL;
+
+        THROWS(FormatException)
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) {
+            auto it = ctx.begin();
+            auto end = ctx.end();
+
+            if (it != end && (*it == 's' || *it == 'f' || *it == '?')) {
+                switch (*it) {
+                    case 's':
+                        mode = Mode::SHORT;
+                        break;
+                    case 'f':
+                        mode = Mode::FULL;
+                        break;
+                    case '?':
+                        mode = Mode::DEBUG;
+                        break;
+                }
+                ++it;
+            }
+
+            if (it != end && *it != '}') {
+                throw FormatException("Invalid specifier"); 
+            }
+            return it;
         }
 
-        static FormatContext::iterator format(Language lang, FormatContext& ctx) {
+        FormatContext::iterator format(Language lang, FormatContext& ctx) const {
             StringView name;
+            bool useShortName = (mode == Mode::SHORT);
             switch (lang) {
                 case Language::ENGLISH:
-                    name = "English";
+                    name = useShortName ? "en" : "English";
                     break;
                 case Language::SPANISH:
-                    name = "Spanish";
+                    name = useShortName ? "sp" : "Spanish";
                     break;
                 case Language::FRENCH:
-                    name = "French";
+                    name = useShortName ? "fr" : "French";
                     break;
                 case Language::PORTUGUESE_BR:
-                    name = "Brazilian Portuguese";
+                    name = useShortName ? "ptbr" : "Brazilian Portuguese";
                     break;
                 case Language::RUSSIAN:
-                    name = "Russian";
+                    name = useShortName ? "ru" : "Russian";
                     break;
                 case Language::JAPANESE:
-                    name = "Japanese";
+                    name = useShortName ? "jp" : "Japanese";
                     break;
                 case Language::CHINESE_SIMPLIFIED:
-                    name = "Simplified Chinese";
+                    name = useShortName ? "chs" : "Simplified Chinese";
                     break;
                 case Language::CHINESE_TRADITIONAL:
-                    name = "Traditional Chinese";
+                    name = useShortName ? "cht" : "Traditional Chinese";
                     break;
                 case Language::KOREAN:
-                    name = "Korean";
+                    name = useShortName ? "ko" : "Korean";
                     break;
             }
             return format_to(ctx.out(), "{}", name);

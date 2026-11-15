@@ -163,11 +163,11 @@ using openjuice::engine::board::Panel;
 namespace stdx::fmt {
     template <>
     struct Formatter<Panel::Direction> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(Panel::Direction dir, FormatContext& ctx) {
+        FormatContext::iterator format(Panel::Direction dir, FormatContext& ctx) const {
             StringView name;
             switch (dir) {
                 case Panel::Direction::UP:
@@ -189,11 +189,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<Panel::Of> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(Panel::Of type, FormatContext& ctx) {
+        FormatContext::iterator format(Panel::Of type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case Panel::Of::HOME:

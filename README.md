@@ -133,6 +133,5 @@ This project uses the following external libraries:
 * [stdlibx](https://github.com/mikomikotaishi/stdlibx) (`stdx`)
 * [Discord Social SDK](https://discord.com/developers/social-sdk) (`discordpp`)
 * [FTXUI](https://github.com/ArthurSonzogni/FTXUI) (`ftxui`)
-* [nlohmann-json](https://github.com/nlohmann/json) (`nlohmann::json`)
 * [re2](https://github.com/google/re2) (`re2`)
 * [tomlplusplus](https://github.com/marzer/tomlplusplus) (`tomlplusplus`)

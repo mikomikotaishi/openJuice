@@ -16,6 +16,7 @@ export module openjuice.engine:Engine;
 
 import stdx;
 
+import openjuice.chat;
 import openjuice.engine.board;
 import openjuice.engine.game;
 import openjuice.engine.localization;
@@ -24,6 +25,7 @@ import openjuice.engine.save;
 import openjuice.engine.settings;
 import openjuice.ui;
 
+using stdx::debug::StackTrace;
 using stdx::mem::Pointers;
 using stdx::mem::SharedPointer;
 using stdx::mem::UniquePointer;
@@ -37,10 +39,12 @@ using stdx::thread::StopToken;
 using stdx::util::logging::Logger;
 using stdx::util::logging::LoggerFactory;
 
+using openjuice::chat::ChatConnectionFactory;
 using openjuice::engine::board::BoardLibrary;
 using openjuice::engine::game::Game;
 using openjuice::engine::localization::LocalizationService;
 using openjuice::engine::net::DiscordService;
+using openjuice::engine::net::NetworkingService;
 using openjuice::engine::save::ProfileManager;
 using openjuice::engine::settings::SettingsService;
 using openjuice::ui::UserInterface;
@@ -63,6 +67,7 @@ private:
     SharedPointer<LocalizationService> localization; ///< The localization service.
     SharedPointer<ProfileManager> profile; ///< The profile manager.
     SharedPointer<DiscordService> discord; ///< The manager for Discord integration.
+    SharedPointer<NetworkingService> networking; ///< The central online connectivity service.
     SharedPointer<BoardLibrary> boardLibrary; ///< The board library.
 
     ConditionVariable gameUpdate; ///< Condition variable for signaling game thread
@@ -71,6 +76,7 @@ private:
     Thread uiThread; ///< Thread for running UI logic
     SharedPointer<Game> game; ///< The main game instance containing game state
     Atomic<bool> gamePaused = false; ///< Flag indicating if the game is paused
+    Atomic<UserInterface*> activeUi = nullptr; ///< The running UI, observed by the game thread to surface failures. Owned by runUiLoop.
     
     /**
      * @brief Runs the actual game loop (all computational parts of the game)
@@ -93,14 +99,39 @@ private:
                 }
             }
 
-            {
-                ScopedLock<Mutex> lock(stateMutex);
-                game->update(); 
+            try {
+                {
+                    ScopedLock<Mutex> lock(stateMutex);
+                    game->update();
+                }
+
+                discord->runCallbacks();
+            } catch (const Exception& e) {
+                reportGameFailure(e.what(), Ops::fmt("{}", StackTrace::current()));
+                break;
+            } catch (...) {
+                reportGameFailure("An unknown error occurred.", Ops::fmt("{}", StackTrace::current()));
+                break;
             }
 
-            discord->runCallbacks();
-
             Thread::sleep_for(settings->getDeltaTime());
+        }
+    }
+
+    /**
+     * @brief Forward a game-thread failure to the running UI, if there is one.
+     * @param message The user-facing message
+     * @param trace A formatted stack trace captured at the failure site
+     *
+     * The UI is owned by runUiLoop and may not exist yet (or may be tearing down), so the pointer
+     * is read atomically and only used when present. reportError is itself thread-safe. When there
+     * is no UI, the failure is at least logged so it is not lost.
+     */
+    void reportGameFailure(StringView message, StringView trace) noexcept {
+        logger->error("Game thread failure: {}!\nStack trace:\n{}", message, trace);
+
+        if (UserInterface* ui = activeUi.load(); ui != nullptr) {
+            ui->reportError(message, trace);
         }
     }
 
@@ -113,10 +144,12 @@ private:
      * launch mode and synchronizes with the game thread for state access.
      */
     void runUiLoop(StopToken token) {
-        UniquePointer<UserInterface> ui = Pointers::unique<UserInterface>(game, loggerFactory, localization, profile);
+        UniquePointer<UserInterface> ui = Pointers::unique<UserInterface>(game, loggerFactory->of("UserInterface"), localization, profile, networking);
 
         ui->init();
+        activeUi.store(ui.get());
         ui->render();
+        activeUi.store(nullptr);
 
         gameThread.request_stop();
         gameUpdate.notify_all();
@@ -130,12 +163,13 @@ public:
     explicit Engine(SharedPointer<LoggerFactory> loggerFactory):
         loggerFactory{loggerFactory},
         logger{loggerFactory->of("Engine")},
-        settings{Pointers::shared<SettingsService>(loggerFactory)},
-        localization{Pointers::shared<LocalizationService>(loggerFactory, settings)},
-        profile{Pointers::shared<ProfileManager>(loggerFactory)},
-        discord{Pointers::shared<DiscordService>(loggerFactory)},
-        boardLibrary{Pointers::shared<BoardLibrary>(loggerFactory)},
-        game{Pointers::shared<Game>(loggerFactory, settings)} {
+        settings{Pointers::shared<SettingsService>(loggerFactory->of("SettingsService"))},
+        localization{Pointers::shared<LocalizationService>(loggerFactory->of("LocalizationService"), settings)},
+        profile{Pointers::shared<ProfileManager>(loggerFactory->of("ProfileManager"))},
+        discord{Pointers::shared<DiscordService>(loggerFactory->of("DiscordService"))},
+        networking{Pointers::shared<NetworkingService>(loggerFactory->of("NetworkingService"), Pointers::shared<ChatConnectionFactory>(loggerFactory))},
+        boardLibrary{Pointers::shared<BoardLibrary>(loggerFactory->of("BoardLibrary"))},
+        game{Pointers::shared<Game>(loggerFactory->of("Game"), settings)} {
         #ifndef NDEBUG
         logger->debug("Created Engine!");
         #endif
@@ -185,6 +219,13 @@ public:
         } else {
             logger->warn("Discord integration unsuccessful!");
         }
+
+        if (networking->init()) {
+            logger->info("Networking service successfully initialized!");
+        } else {
+            logger->warn("Networking service initialization unsuccessful!");
+        }
+
         game->init();
         gameThread = Thread([this](StopToken token) -> void {
             runGameLoop(token);
@@ -192,7 +233,6 @@ public:
         uiThread = Thread([this](StopToken token) -> void {
             runUiLoop(token);
         });
-        // Wait for UI thread to complete, which drives the application lifecycle
         uiThread.join();
         gameThread.request_stop();
         gameUpdate.notify_all();

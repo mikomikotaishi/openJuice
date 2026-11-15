@@ -2,7 +2,7 @@ add_subdirectory(openjuice)
 
 add_executable(openJuice Main.cpp)
 
-target_link_libraries(openJuice PUBLIC modules)
+target_link_libraries(openJuice PUBLIC ojmodules)
 
 target_include_directories(openJuice
     PRIVATE

@@ -122,11 +122,11 @@ using openjuice::card::CoopCardFactory;
 namespace stdx::fmt {
     template <>
     struct Formatter<CoopCardFactory::SecondaryType> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(CoopCardFactory::SecondaryType type, FormatContext& ctx) {
+        FormatContext::iterator format(CoopCardFactory::SecondaryType type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case CoopCardFactory::SecondaryType::STANDARD:

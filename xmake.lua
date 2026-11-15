@@ -38,7 +38,6 @@ add_files(
 )
 add_packages(
     "ftxui", 
-    "nlohmann-json",
     "tomlpp", 
     { public = true }
 )

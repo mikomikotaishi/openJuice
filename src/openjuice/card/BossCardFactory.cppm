@@ -387,11 +387,11 @@ using openjuice::card::BossCardFactory;
 namespace stdx::fmt {
     template <>
     struct Formatter<BossCardFactory::SecondaryType> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(BossCardFactory::SecondaryType type, FormatContext& ctx) {
+        FormatContext::iterator format(BossCardFactory::SecondaryType type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case BossCardFactory::SecondaryType::STANDARD:

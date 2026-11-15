@@ -1,16 +1,16 @@
 /**
- * @file PauseScreen.cppm
- * @module openjuice.ui.screens:PauseScreen
- * @brief Definition of the PauseScreen class.
+ * @file CampaignSelectScreen.cppm
+ * @module openjuice.ui.screens:CampaignSelectScreen
+ * @brief Definition of the CampaignSelectScreen class.
  *
- * This file contains the definition of the PauseScreen class.
+ * This is the campaign selection screen (singleplayer).
  */
 
 module;
 
 #include "Macros.hpp"
 
-export module openjuice.ui.screens:PauseScreen;
+export module openjuice.ui.screens:CampaignSelectScreen;
 
 import stdx;
 
@@ -32,11 +32,11 @@ using namespace ftxui;
 BEGIN_MODULE_NAMESPACE(openjuice::ui::screens);
 
 /**
- * @class PauseScreen
- * @brief Pause screen implementation
+ * @class CampaignSelectScreen
+ * @brief Singleplayer campaign select screen implementation
  * @extends Screen
  */
-export class PauseScreen final: public Screen {
+export class CampaignSelectScreen final: public Screen {
 private:
     [[maybe_unused]]
     bool initialized = false; ///< Whether the screen has been initialized
@@ -49,12 +49,12 @@ private:
     }
 public:
     /**
-     * @brief Constructor for the PauseScreen class
+     * @brief Constructor for the CampaignSelectScreen class
      * @param game Shared pointer to the game
      * @param host The interface running this screen
      * @param localization Shared pointer to the localization service
      */
-    PauseScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization):
+    CampaignSelectScreen(SharedPointer<Game> game, Host& host, SharedPointer<LocalizationService> localization):
         Screen(game, host, localization) {
         createComponent();
     }

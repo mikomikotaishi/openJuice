@@ -285,11 +285,11 @@ using openjuice::engine::board::FieldEvent;
 namespace stdx::fmt {
     template <>
     struct Formatter<FieldEvent::Of> {
-        static constexpr const char* parse(FormatParseContext& ctx) {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(FieldEvent::Of type, FormatContext& ctx) {
+        FormatContext::iterator format(FieldEvent::Of type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 // Standard

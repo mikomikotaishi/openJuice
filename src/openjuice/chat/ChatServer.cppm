@@ -32,7 +32,6 @@ using stdx::net::TcpListener;
 using stdx::net::TcpStream;
 using stdx::thread::Thread;
 using stdx::util::logging::Logger;
-using stdx::util::logging::LoggerFactory;
 
 BEGIN_MODULE_NAMESPACE(openjuice::chat);
 
@@ -199,24 +198,24 @@ private:
 public:
     /**
      * @brief Constructor to initialize a ChatServer object.
+     * @param logger The injected logger.
      * @param port The port to listen on.
-     * @param loggerFactory Shared logger factory used to create this server's logger.
      * @throws BindException if the server fails to start
      */
     THROWS(BindException)
-    ChatServer(u16 port, SharedPointer<LoggerFactory> loggerFactory):
-        logger{loggerFactory->of("ChatServer")} {
+    ChatServer(SharedPointer<Logger> logger, u16 port):
+        logger{Ops::move(logger)} {
         try {
             listener.emplace(TcpListener::bind_dual_stack(port));
             listener->socket().set_blocking(false);
         } catch (const SocketException& e) {
-            logger->error("Failed to bind server to port {}: {}!", port, e.what());
+            this->logger->error("Failed to bind server to port {}: {}!", port, e.what());
             throw BindException("Failed to start chat server");
         }
 
         reactor.add(listener->native_handle(), Interest::READ, [this](const Event& event) -> void {
             if (event.error || event.hangup) {
-                logger->error("Listening socket failed; the server is no longer accepting clients!");
+                this->logger->error("Listening socket failed; the server is no longer accepting clients!");
                 reactor.stop();
                 return;
             }
@@ -224,13 +223,13 @@ public:
             acceptPending();
         });
 
-        logger->info("Chat server listening on port {}.", port);
+        this->logger->info("Chat server listening on port {}.", port);
 
         reactorThread = Thread([this] -> void {
             try {
                 reactor.run();
             } catch (const Exception& e) {
-                logger->error("Reactor loop ended: {}!", e.what());
+                this->logger->error("Reactor loop ended: {}!", e.what());
             }
         });
     }

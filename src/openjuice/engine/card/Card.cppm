@@ -226,11 +226,11 @@ using openjuice::engine::card::Card;
 namespace stdx::fmt {
     template <>
     struct Formatter<Card::Of> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(Card::Of type, FormatContext& ctx) {
+        FormatContext::iterator format(Card::Of type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case Card::Of::BATTLE:
@@ -258,11 +258,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<Card::Spawn> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(Card::Spawn type, FormatContext& ctx) {
+        FormatContext::iterator format(Card::Spawn type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case Card::Spawn::STANDARD:
@@ -299,11 +299,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<Card::Rarity> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(Card::Rarity type, FormatContext& ctx) {
+        FormatContext::iterator format(Card::Rarity type, FormatContext& ctx) const {
             StringView name;
             switch (type) {
                 case Card::Rarity::NONE:
@@ -325,11 +325,11 @@ namespace stdx::fmt {
 
     template <>
     struct Formatter<Card::DeckPointError> {
-        static constexpr const char* parse(FormatParseContext& ctx) noexcept {
+        constexpr FormatParseContext::iterator parse(FormatParseContext& ctx) noexcept {
             return ctx.begin();
         }
 
-        static FormatContext::iterator format(Card::DeckPointError err, FormatContext& ctx) {
+        FormatContext::iterator format(Card::DeckPointError err, FormatContext& ctx) const {
             StringView name;
             switch (err) {
                 case Card::DeckPointError::NOT_PLAYABLE_IN_COOP:

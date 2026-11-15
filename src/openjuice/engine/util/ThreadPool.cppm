@@ -68,7 +68,6 @@ public:
         barrier{threadCount + 1},
         ranges{threadCount + 1},
         taskCount{threadCount + 1} {
-        // Reserved up front so that no emplace_back below reallocates.
         threads.reserve(threadCount);
 
         for (u32 i: IotaView(0u, threadCount)) {
@@ -142,9 +141,6 @@ public:
             const usize start = i * chunk;
             const usize end = start + chunk + (i == taskCount - 1 ? tail : 0);
 
-            // Assigned even when the slice is empty. The workers read these unconditionally, so
-            // skipping an index would leave it holding the previous call's slice and run that
-            // slice a second time.
             ranges[i] = Range {
                 .start = start,
                 .end = end,

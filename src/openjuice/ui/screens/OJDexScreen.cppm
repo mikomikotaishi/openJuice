@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:OJDexScreen
  * @brief Definition of the OJDexScreen class.
  *
- * This file contains the definition of the OJDexScreen class.
+ * This is the OJDex screen, containing character information.
  */
 
 module;

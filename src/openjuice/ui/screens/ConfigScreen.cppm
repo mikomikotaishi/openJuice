@@ -3,7 +3,7 @@
  * @module openjuice.ui.screens:ConfigScreen
  * @brief Definition of the ConfigScreen class.
  *
- * This file contains the definition of the ConfigScreen class.
+ * This is the settings screen.
  */
 
 module;
